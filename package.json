@@ -1,0 +1,82 @@
+{
+  "name": "iris.crm.bitrix",
+  "version": "1.0.0",
+  "description": "Fetch interface to get data from Bitrix REST API",
+  "homepage": "https://github.com/2BAD/iris.crm.bitrix#readme",
+  "twitter": "@2BAD",
+  "author": "2BAD (https://github.com/2BAD)",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/2BAD/iris.crm.bitrix.git"
+  },
+  "bugs": {
+    "url": "https://github.com/2BAD/iris.crm.bitrix/issues"
+  },
+  "license": "2BAD © 2018",
+  "keywords": [
+    "aws",
+    "babel",
+    "es6",
+    "jest",
+    "lambda",
+    "rollup",
+    "serverless"
+  ],
+  "dependencies": {
+    "got": "9.2.2",
+    "lodash": "4.17.11"
+  },
+  "devDependencies": {
+    "@babel/core": "7.1.2",
+    "@babel/plugin-transform-runtime": "7.1.0",
+    "@babel/preset-env": "7.1.0",
+    "babel-eslint": "10.0.1",
+    "babel-jest": "23.6.0",
+    "babel-loader": "8.0.4",
+    "debug": "4.1.0",
+    "esm": "3.0.84",
+    "jest": "23.6.0",
+    "rollup": "0.66.6",
+    "rollup-plugin-babel": "4.0.3",
+    "rollup-plugin-commonjs": "9.2.0",
+    "rollup-plugin-json": "3.1.0",
+    "rollup-plugin-node-resolve": "3.4.0",
+    "snazzy": "8.0.0",
+    "standard": "12.0.1"
+  },
+  "engines": {
+    "node": ">=8.1.0"
+  },
+  "main": "dist/iris.crm.bitrix.cjs.js",
+  "module": "dist/iris.crm.bitrix.esm.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "lint": "standard | snazzy",
+    "prestart": "npm run test",
+    "pretest": "npm run lint && npm run build",
+    "start": "node dist/iris.crm.bitrix.cjs.js",
+    "test": ""
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "8.10"
+          }
+        }
+      ]
+    ]
+  },
+  "standard": {
+    "parser": "babel-eslint",
+    "ignore": [
+      "dist"
+    ]
+  }
+}
