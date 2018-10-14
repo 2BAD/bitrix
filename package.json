@@ -1,11 +1,10 @@
 {
-  "name": "iris.crm.bitrix",
+  "name": "@2bad/iris.crm.bitrix",
   "version": "1.0.0",
   "description": "Fetch interface to get data from Bitrix REST API",
   "homepage": "https://github.com/2BAD/iris.crm.bitrix#readme",
   "twitter": "@2BAD",
   "author": "2BAD (https://github.com/2BAD)",
-  "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/2BAD/iris.crm.bitrix.git"
@@ -15,13 +14,9 @@
   },
   "license": "2BAD © 2018",
   "keywords": [
-    "aws",
-    "babel",
-    "es6",
-    "jest",
-    "lambda",
-    "rollup",
-    "serverless"
+    "api",
+    "bitrix",
+    "rest"
   ],
   "dependencies": {
     "got": "9.2.2",
