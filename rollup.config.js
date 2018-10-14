@@ -17,7 +17,7 @@ export default [
     external: [
       'util', 'tty', 'os', 'fs', 'got'
     ],
-    input: 'source/main.js',
+    input: 'source/bitrix/index.js',
     output: [
       {
         file: pkg.main,
