@@ -1,6 +1,6 @@
 {
   "name": "@2bad/iris.crm.bitrix",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Fetch interface to get data from Bitrix REST API",
   "homepage": "https://github.com/2BAD/iris.crm.bitrix#readme",
   "twitter": "@2BAD",
