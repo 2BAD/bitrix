@@ -29,6 +29,3 @@ logs
 results
 node_modules
 npm-debug.log
-
-# Serverless directories
-.serverless
