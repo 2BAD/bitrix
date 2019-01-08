@@ -23,12 +23,7 @@
     "lodash": "4.17.11"
   },
   "devDependencies": {
-    "@babel/core": "7.1.2",
-    "@babel/plugin-transform-runtime": "7.1.0",
-    "@babel/preset-env": "7.1.0",
-    "babel-eslint": "10.0.1",
-    "babel-jest": "23.6.0",
-    "babel-loader": "8.0.4",
+    "jest": "^23.6.0",
     "debug": "4.1.0",
     "esm": "3.0.84",
     "jest": "23.6.0",
@@ -55,18 +50,6 @@
     "pretest": "npm run lint && npm run build",
     "start": "node dist/iris.crm.bitrix.cjs.js",
     "test": ""
-  },
-  "babel": {
-    "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "targets": {
-            "node": "8.10"
-          }
-        }
-      ]
-    ]
   },
   "standard": {
     "parser": "babel-eslint",
