@@ -27,11 +27,6 @@
     "debug": "4.1.0",
     "esm": "3.0.84",
     "jest": "23.6.0",
-    "rollup": "0.66.6",
-    "rollup-plugin-babel": "4.0.3",
-    "rollup-plugin-commonjs": "9.2.0",
-    "rollup-plugin-json": "3.1.0",
-    "rollup-plugin-node-resolve": "3.4.0",
     "snazzy": "8.0.0",
     "standard": "12.0.1"
   },
