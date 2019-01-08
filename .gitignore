@@ -24,8 +24,19 @@ lib-cov
 *.out
 *.pid
 *.gz
+*.swp
 pids
 logs
 results
+tmp
 node_modules
 npm-debug.log
+
+## Build
+build
+
+## Coverage reports
+coverage
+
+## API keys and secrets
+.env
