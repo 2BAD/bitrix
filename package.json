@@ -43,10 +43,10 @@
   "engines": {
     "node": ">=8.1.0"
   },
-  "main": "dist/iris.crm.bitrix.cjs.js",
-  "module": "dist/iris.crm.bitrix.esm.js",
+  "main": "build/cjs/iris.crm.bitrix.js",
+  "module": "build/esm/iris.crm.bitrix.js",
   "files": [
-    "dist"
+    "build"
   ],
   "scripts": {
     "build": "rollup -c",
