@@ -41,13 +41,6 @@
     "lint": "standard | snazzy",
     "prestart": "npm run test",
     "pretest": "npm run lint && npm run build",
-    "start": "node dist/iris.crm.bitrix.cjs.js",
     "test": ""
-  },
-  "standard": {
-    "parser": "babel-eslint",
-    "ignore": [
-      "dist"
-    ]
   }
 }
