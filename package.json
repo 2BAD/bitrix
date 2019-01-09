@@ -49,8 +49,6 @@
     "clean": "rimraf build",
     "lint": "tslint -p .",
     "lint:fix": "tslint -f -p .",
-    "prestart": "npm run test",
-    "pretest": "npm run lint && npm run build",
-    "test": ""
+    "watch": "run-s clean build:main && run-p \"build:main -- -w\""
   }
 }
