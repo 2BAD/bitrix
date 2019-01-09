@@ -25,6 +25,7 @@
   "devDependencies": {
     "@types/jest": "23.3.12",
     "jest": "23.6.0",
+    "rimraf": "2.6.3",
     "ts-jest": "23.10.5",
     "tslint": "^5.12.0",
     "tslint-config-standard": "8.0.1",
@@ -42,6 +43,7 @@
   ],
   "scripts": {
     "build": "tsc",
+    "clean": "rimraf build",
     "lint": "tslint --project .",
     "lint:fix": "tslint --fix --project .",
     "prestart": "npm run test",
