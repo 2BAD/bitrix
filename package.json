@@ -34,9 +34,9 @@
   "engines": {
     "node": ">=8.1.0"
   },
-  "main": "build/cjs/iris.crm.bitrix.js",
-  "module": "build/esm/iris.crm.bitrix.js",
-  "typings": "build/cjs/iris.crm.bitrix.d.ts",
+  "main": "build/main/iris.crm.bitrix.js",
+  "module": "build/module/iris.crm.bitrix.js",
+  "typings": "build/main/iris.crm.bitrix.d.ts",
   "files": [
     "build"
   ],
