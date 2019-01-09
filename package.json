@@ -36,6 +36,7 @@
   },
   "main": "build/cjs/iris.crm.bitrix.js",
   "module": "build/esm/iris.crm.bitrix.js",
+  "typings": "build/cjs/iris.crm.bitrix.d.ts",
   "files": [
     "build"
   ],
