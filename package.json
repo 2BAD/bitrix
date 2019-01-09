@@ -47,8 +47,8 @@
     "build:main": "tsc -p tsconfig.json",
     "build:module": "tsc -p tsconfig.module.json",
     "clean": "rimraf build",
-    "lint": "tslint --project .",
-    "lint:fix": "tslint --fix --project .",
+    "lint": "tslint -p .",
+    "lint:fix": "tslint -f -p .",
     "prestart": "npm run test",
     "pretest": "npm run lint && npm run build",
     "test": ""
