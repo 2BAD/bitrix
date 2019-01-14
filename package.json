@@ -49,6 +49,11 @@
     "clean": "rimraf build",
     "lint": "tslint -p .",
     "lint:fix": "tslint -f -p .",
+    "test": "jest",
     "watch": "run-s clean build:main && run-p \"build:main -- -w\""
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node"
   }
 }
