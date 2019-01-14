@@ -12,8 +12,9 @@ Icon
 .Spotlight-V100
 .Trashes
 
-## Sublime Text
+## Editors and IDE
 *.sublime*
+*.code-workspace
 
 ## Node.js
 lib-cov
