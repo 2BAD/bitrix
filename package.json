@@ -19,22 +19,24 @@
     "rest"
   ],
   "dependencies": {
-    "got": "9.5.1",
+    "got": "9.6.0",
     "lodash-es": "4.17.11"
   },
   "devDependencies": {
-    "@types/got": "9.3.0",
-    "@types/jest": "23.3.12",
+    "@types/got": "9.4.1",
+    "@types/jest": "24.0.9",
     "@types/node": "10.12.18",
-    "codecov": "3.1.0",
-    "jest": "23.6.0",
+    "@types/node": "11.9.5",
+    "codecov": "3.2.0",
+    "dotenv": "6.2.0",
+    "jest": "24.1.0",
     "npm-run-all": "4.1.5",
     "rimraf": "2.6.3",
-    "ts-jest": "23.10.5",
-    "tslint": "5.12.1",
+    "ts-jest": "24.0.0",
+    "tslint": "5.13.0",
     "tslint-config-standard": "8.0.1",
-    "tslint-immutable": "5.0.1",
-    "typescript": "3.2.2"
+    "tslint-immutable": "5.3.0",
+    "typescript": "3.3.3333"
   },
   "engines": {
     "node": ">=8.1.0"
@@ -47,16 +49,23 @@
   ],
   "scripts": {
     "build": "run-s clean && run-p build:*",
-    "build:main": "tsc -p tsconfig.json",
-    "build:module": "tsc -p tsconfig.module.json",
+    "build:main": "tsc --project tsconfig.json",
+    "build:main:watch": "tsc --watch --project tsconfig.json",
+    "build:module": "tsc --project tsconfig.module.json",
     "clean": "rimraf build",
-    "lint": "tslint -p .",
-    "lint:fix": "tslint -f -p .",
-    "test": "jest",
-    "watch": "run-s clean build:main && run-p \"build:main -- -w\""
+    "lint": "tslint --project .",
+    "lint:fix": "tslint --fix --project .",
+    "test": "jest --setupFiles dotenv/config",
+    "test:unit": "jest --setupFiles dotenv/config --testPathIgnorePatterns __tests__/integration",
+    "test:integration": "jest --setupFiles dotenv/config --testPathPattern __tests__/integration",
+    "test:watch": "jest --watch --setupFiles dotenv/config --testPathIgnorePatterns __tests__/integration",
+    "watch": "run-s clean build:main && run-p build:main:watch"
   },
   "jest": {
     "preset": "ts-jest",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/__tests__/**/?(*.)+(spec|test).[jt]s?(x)"
+    ]
   }
 }
