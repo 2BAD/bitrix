@@ -18,5 +18,5 @@ trim_trailing_whitespace = false
 [*.snap]
 trim_trailing_whitespace = false
 
-[*.js]
+[*.{js,ts}]
 insert_final_newline = true
