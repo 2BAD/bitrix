@@ -1,24 +1,8 @@
 {
-  "extends": ["tslint:latest", "tslint-config-standard", "tslint-immutable"],
+  "extends": ["tslint:latest", "tslint-config-standard", "tslint-immutable/all"],
   "rules": {
-    // Recommended built-in rules
-    "no-var-keyword": true,
-    "no-parameter-reassignment": true,
-    "typedef": [true, "call-signature"],
-
-    // Immutability rules
-    "readonly-keyword": true,
-    "readonly-array": true,
-    "no-let": true,
-    "no-object-mutation": true,
-    "no-delete": true,
-    "no-method-signature": true,
-
-    // Functional style rules
-    "no-this": true,
-    "no-class": true,
-    "no-mixed-interface": true,
-    "no-expression-statement": true,
-    "no-if-statement": true
+    "no-implicit-dependencies": [true, "dev"],
+    "interface-name": [true, "never-prefix"],
+    "no-magic-numbers": true
   }
 }
