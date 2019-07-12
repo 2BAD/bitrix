@@ -1,8 +1,9 @@
 {
   "extends": ["tslint:latest", "tslint-config-standard", "tslint-immutable/all"],
   "rules": {
-    "no-implicit-dependencies": [true,  ["~"]],
     "interface-name": [true, "never-prefix"],
-    "no-magic-numbers": true
+    "no-implicit-dependencies": [true, ["~"]],
+    "no-magic-numbers": true,
+    "no-submodule-imports": false
   }
 }
