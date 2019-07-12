@@ -1,7 +1,7 @@
 {
   "extends": ["tslint:latest", "tslint-config-standard", "tslint-immutable/all"],
   "rules": {
-    "no-implicit-dependencies": [true, "dev"],
+    "no-implicit-dependencies": [true,  ["~"]],
     "interface-name": [true, "never-prefix"],
     "no-magic-numbers": true
   }
