@@ -28,6 +28,11 @@ export const client = (restUri: string, token: string) => {
   })
 
   return {
-    get: (resource: string, query: string) => get(resource, { query }).then((response) => response.body)
+    get: (resource: string, query: object) => get(resource, { query })
+      .then((response) => response.body)
+      .catch((message) => {
+        // tslint:disable-next-line:no-throw
+        throw Error(message)
+      })
   }
 }
