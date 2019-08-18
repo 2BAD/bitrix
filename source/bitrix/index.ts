@@ -1,4 +1,4 @@
-import client from './client'
+import bitrixClient from './client'
 import { BitrixListOptions, BitrixMethod } from './types'
 
 // @todo Make it
@@ -9,20 +9,22 @@ interface BitrixLead { readonly leadData1: string, readonly leadData2: number }
 // interface BitrixInvoice { readonly [key: string]: any }
 
 export default (restUri: string, token: string) => {
-  const api = client(restUri, token)
+  const { get, batch, list } = bitrixClient(restUri, token)
 
   return {
+    get,
+    batch,
     deals: {
-      get: () => api.get<BitrixDeal>(BitrixMethod.GET_DEAL, {}),
-      list: (options?: BitrixListOptions) => api.list<BitrixDeal>(BitrixMethod.LIST_DEALS, options)
+      get: () => get<BitrixDeal>(BitrixMethod.GET_DEAL, {}),
+      list: (options?: BitrixListOptions) => list<BitrixDeal>(BitrixMethod.LIST_DEALS, options)
     },
     leads: {
       // create: () => 'hello',
-      get: () => api.get<BitrixLead>(BitrixMethod.GET_DEAL, {}),
-      list: (options?: BitrixListOptions) => api.list<BitrixLead>(BitrixMethod.LIST_LEADS, options)
+      get: () => get<BitrixLead>(BitrixMethod.GET_DEAL, {}),
+      list: (options?: BitrixListOptions) => list<BitrixLead>(BitrixMethod.LIST_LEADS, options)
     }
     // invoice: {
-    //   get: () => api.get<BitrixInvoice>('crm.invoice.list', {})
+    //   get: () => get<BitrixInvoice>('crm.invoice.list', {})
     // }
   }
 }
