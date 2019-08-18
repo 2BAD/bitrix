@@ -45,9 +45,6 @@ interface Dependencies {
 export default ({ get, batch }: Dependencies) =>
   async <P>(method: BitrixMethod, options?: BitrixListOptions): Promise<BitrixGetPayload<readonly P[]>> => {
     const start = options && options.start || 0
-    // @todo It doesn't do anything right now
-    // const limit = options && options.limit || MAX_ENTRIES_PER_COMMAND
-
     const firstCall = await get<readonly P[]>(method, { query: { start } })
 
     // tslint:disable-next-line no-if-statement

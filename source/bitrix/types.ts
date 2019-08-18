@@ -41,6 +41,5 @@ export interface BitrixCommands {
 }
 
 export interface BitrixListOptions {
-  readonly start?: number,
-  readonly limit?: number | boolean
+  readonly start?: number
 }
