@@ -3,8 +3,8 @@ import {
   BitrixBatchPayload,
   BitrixCommand,
   BitrixCommands,
-  BitrixGetPayload,
   BitrixListOptions,
+  BitrixListPayload,
   BitrixMethod
 } from '../types'
 import { MAX_COMMANDS_PER_BATCH } from './batch'
@@ -36,16 +36,16 @@ const fillBatchesCommands = (method: BitrixMethod, start: number, toProcess: num
 }
 
 interface Dependencies {
-  readonly get: <P>(method: BitrixMethod, options: object) => Promise<BitrixGetPayload<P>>
+  readonly getList: <P>(method: BitrixMethod, options: object) => Promise<BitrixListPayload<P>>
   // tslint:disable-next-line no-mixed-interface
   readonly batch: <C extends Record<string, any>>(commands: Record<keyof C, BitrixCommand>) =>
     Promise<BitrixBatchPayload<C>>
 }
 
-export default ({ get, batch }: Dependencies) =>
-  async <P>(method: BitrixMethod, options?: BitrixListOptions): Promise<BitrixGetPayload<readonly P[]>> => {
+export default ({ getList, batch }: Dependencies) =>
+  async <P>(method: BitrixMethod, options?: BitrixListOptions): Promise<BitrixListPayload<P>> => {
     const start = options && options.start || 0
-    const firstCall = await get<readonly P[]>(method, { query: { start } })
+    const firstCall = await getList<P>(method, { query: { start } })
 
     // tslint:disable-next-line no-if-statement
     if (!firstCall.next) return firstCall
@@ -81,6 +81,8 @@ export default ({ get, batch }: Dependencies) =>
           // @todo
           next: undefined,
           result: commandsResults,
+          // @todo Not accurate, we do not care
+          time: firstCall.time,
           total: firstCall.total
         }
       })
