@@ -1,10 +1,13 @@
 // tslint:disable:object-literal-sort-keys
 
 import got from 'got'
-import { name, version } from '~/../package.json'
+import { name, version } from '../../package.json'
+import makeBatch from './methods/batch'
+import makeGet from './methods/get'
+import makeList from './methods/list'
 
-export const client = (restUri: string, token: string) => {
-  const { get } = got.extend({
+export default (restUri: string, token: string) => {
+  const instance = got.extend({
     baseUrl: restUri,
     headers: {
       'user-agent': `${name}/${version}`
@@ -27,12 +30,13 @@ export const client = (restUri: string, token: string) => {
     }
   })
 
+  const get = makeGet(instance)
+  const batch = makeBatch(instance)
+  const list = makeList({ get, batch })
+
   return {
-    get: (resource: string, query: object) => get(resource, { query })
-      .then((response) => response.body)
-      .catch((message) => {
-        // tslint:disable-next-line:no-throw
-        throw Error(message)
-      })
+    get,
+    batch,
+    list
   }
 }
