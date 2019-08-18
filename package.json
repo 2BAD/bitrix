@@ -19,9 +19,9 @@
     "rest"
   ],
   "dependencies": {
-    "@types/lodash-es": "^4.17.3",
+    "@types/lodash.range": "3.2.6",
     "got": "9.6.0",
-    "lodash-es": "4.17.14"
+    "lodash.range": "3.2.0"
   },
   "devDependencies": {
     "@types/got": "9.6.0",
