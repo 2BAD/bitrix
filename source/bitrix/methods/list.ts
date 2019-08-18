@@ -7,6 +7,7 @@ import {
   BitrixListPayload,
   BitrixMethod
 } from '../types'
+import isArray from '../utils/isArray'
 import { MAX_COMMANDS_PER_BATCH } from './batch'
 
 const MAX_ENTRIES_PER_COMMAND = 50
@@ -55,32 +56,34 @@ export default ({ getList, batch }: Dependencies) =>
       .map((commands) => batch<Record<keyof typeof commands, readonly P[]>>(commands))
 
     return Promise.all(batches)
-      .then((results) => {
-        const commandsResults = results.reduce((result, batch) => {
-          const commands = batch.result
-          const res = Object.keys(commands).map((cmd) => commands[cmd])
+      .then((batchesResults) => {
+        const flattenBatches = batchesResults.reduce((collectedFlattenBatches, batchesResult) => {
+          const { result } = batchesResult.result
+          const flattenCommands = isArray(result)
+            ? result.reduce((res, r) => [...res, ...r], [] as readonly P[])
+            : Object.values(result)
+                .reduce((res, r) => {
+                  // tslint:disable-next-line no-if-statement
+                  if (!res || !r) return []
+                  return [...res, ...r]
+                }, [] as readonly P[])
 
-          // @todo `flat: readonly P[]` is hacky since something goes wrong with types here
-          const flatten = res.reduce((flat: readonly P[], payload) => {
-            return Array.isArray(payload) ? [...flat, ...payload] : [...flat, payload]
-          }, [] as readonly P[])
-
-          return [...result, ...flatten]
+          return [...collectedFlattenBatches, ...(flattenCommands ? flattenCommands : [])]
         }, [] as ReadonlyArray<P>)
 
-        // tslint:disable-next-line no-if-statement
-        if (Object.keys(results.error).length > 0) {
-          // tslint:disable-next-line no-throw
-          throw new Error(
-            `[batch] failed to process the batch. Received ${results.errors.length} errors.`
-          )
-        }
+        // // tslint:disable-next-line no-if-statement
+        // if (Object.keys(results.error).length > 0) {
+        //   // tslint:disable-next-line no-throw
+        //   throw new Error(
+        //     `[batch] failed to process the batch. Received ${results.errors.length} errors.`
+        //   )
+        // }
 
         return {
           error: undefined,
           // @todo
           next: undefined,
-          result: commandsResults,
+          result: flattenBatches,
           // @todo Not accurate, we do not care
           time: firstCall.time,
           total: firstCall.total
