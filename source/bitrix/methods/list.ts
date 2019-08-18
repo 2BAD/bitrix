@@ -56,9 +56,10 @@ export default ({ getList, batch }: Dependencies) =>
       .map((commands) => batch<Record<keyof typeof commands, readonly P[]>>(commands))
 
     return Promise.all(batches)
+      // @todo Messy, made in hurry. Refactor this. Had some issues with types
       .then((batchesResults) => {
         const flattenBatches = batchesResults.reduce((collectedFlattenBatches, batchesResult) => {
-          const { result } = batchesResult.result
+          const { result, result_error } = batchesResult.result
           const flattenCommands = isArray(result)
             ? result.reduce((res, r) => [...res, ...r], [] as readonly P[])
             : Object.values(result)
@@ -68,22 +69,37 @@ export default ({ getList, batch }: Dependencies) =>
                   return [...res, ...r]
                 }, [] as readonly P[])
 
-          return [...collectedFlattenBatches, ...(flattenCommands ? flattenCommands : [])]
-        }, [] as ReadonlyArray<P>)
+          const flattenErrors = isArray(result_error) ? result_error : Object.keys(result_error)
+            // @todo Object.values doesn't work here as it produces strange type
+            .reduce((res, errorName) => {
+              const error = result_error[errorName]
+              return error ? [...res, error] : res
+            }, [] as readonly string[])
 
-        // // tslint:disable-next-line no-if-statement
-        // if (Object.keys(results.error).length > 0) {
-        //   // tslint:disable-next-line no-throw
-        //   throw new Error(
-        //     `[batch] failed to process the batch. Received ${results.errors.length} errors.`
-        //   )
-        // }
+          return {
+            ...collectedFlattenBatches,
+            result: [...collectedFlattenBatches.result, ...(flattenCommands ? flattenCommands : [])],
+            result_error: [...(collectedFlattenBatches.result_error || []), ...flattenErrors]
+          }
+        // @todo This is to make it work quick, should be fixed
+        // tslint:disable-next-line: no-object-literal-type-assertion
+        }, { result: [], result_error: [] } as {
+          readonly result: readonly P[], readonly result_error: readonly string[]
+        })
+
+        // tslint:disable-next-line no-if-statement
+        if (flattenBatches.result_error.length > 0) {
+          // tslint:disable-next-line no-throw
+          throw new Error(
+            `[batch] failed to process the batch. Received ${flattenBatches.result_error.length} errors.`
+          )
+        }
 
         return {
           error: undefined,
           // @todo
           next: undefined,
-          result: flattenBatches,
+          result: flattenBatches.result,
           // @todo Not accurate, we do not care
           time: firstCall.time,
           total: firstCall.total
