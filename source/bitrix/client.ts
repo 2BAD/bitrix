@@ -4,6 +4,7 @@ import got from 'got'
 import { name, version } from '../../package.json'
 import makeBatch from './methods/batch'
 import makeGet from './methods/get'
+import makeGetList from './methods/getList'
 import makeList from './methods/list'
 
 export default (restUri: string, token: string) => {
@@ -31,8 +32,9 @@ export default (restUri: string, token: string) => {
   })
 
   const get = makeGet(instance)
+  const getList = makeGetList(instance)
   const batch = makeBatch(instance)
-  const list = makeList({ get, batch })
+  const list = makeList({ getList, batch })
 
   return {
     get,
