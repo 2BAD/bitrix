@@ -19,6 +19,7 @@
     "rest"
   ],
   "dependencies": {
+    "@types/lodash-es": "^4.17.3",
     "got": "9.6.0",
     "lodash-es": "4.17.14"
   },
