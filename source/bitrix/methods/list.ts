@@ -18,7 +18,7 @@ const fillBatchCommands = (method: BitrixMethod, current: number, remained: numb
     ? MAX_COMMANDS_PER_BATCH
     : requiresCommands
 
-  return range(0, commandsToDo - 1).reduce((commands, i) => ({
+  return range(0, commandsToDo).reduce((commands, i) => ({
     ...commands,
     [i]: { method, params: { start: current + (MAX_ENTRIES_PER_COMMAND * i) } }
   }), {})
@@ -27,7 +27,7 @@ const fillBatchCommands = (method: BitrixMethod, current: number, remained: numb
 const fillBatchesCommands = (method: BitrixMethod, start: number, toProcess: number): readonly BitrixCommands[] => {
   const requiresBatches = Math.ceil(toProcess / MAX_ENTRIES_PER_BATCH)
 
-  return range(0, requiresBatches - 1).reduce((batchesCommands, i) => {
+  return range(0, requiresBatches).reduce((batchesCommands, i) => {
     const processed = start + (MAX_ENTRIES_PER_BATCH * i)
     const remained = toProcess - processed
 
