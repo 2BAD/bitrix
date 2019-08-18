@@ -12,19 +12,39 @@ export enum BitrixMethod {
   LIST_LEADS = 'crm.lead.list'
 }
 
+export interface BitrixPayloadTime {
+  readonly start: number
+  readonly finish: number
+  readonly duration: number
+  readonly processing: number
+  readonly date_start: string
+  readonly date_finish: string
+}
+
 export interface BitrixGetPayload<P> {
   readonly result: P,
+  readonly time: BitrixPayloadTime
+}
+
+export interface BitrixListPayload<P> {
+  readonly result: readonly P[],
   readonly error?: string,
   readonly total: number,
   readonly next?: number
+  readonly time: BitrixPayloadTime
 }
 
 // `C` stands for a map of names to structural types they will uphold in result
+// `[]` in language of ill Bitrix means `undefined`. Just deal with it.
 export interface BitrixBatchPayload<C> {
-  readonly result: { readonly [P in keyof C]: C[P] },
-  readonly error?: { readonly [P in keyof C]: string },
-  readonly total: { readonly [P in keyof C]: number },
-  readonly next?: { readonly [P in keyof C]: number }
+  readonly result: {
+    readonly result: { readonly [P in keyof C]?: C[P] } | readonly []
+    readonly result_error: { readonly [P in keyof C]?: string } | readonly []
+    readonly result_total: { readonly [P in keyof C]?: number } | readonly []
+    readonly result_next: { readonly [P in keyof C]?: number } | readonly []
+    readonly result_time: { readonly [P in keyof C]?: BitrixPayloadTime } | readonly []
+  }
+  readonly time: BitrixPayloadTime
 }
 
 export interface BitrixCommandParams {
