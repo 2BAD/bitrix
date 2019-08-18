@@ -64,3 +64,104 @@ export interface BitrixCommands {
 export interface BitrixListOptions {
   readonly start?: number
 }
+
+// =====================================================
+// Bitrix Payloads
+// =====================================================
+
+// String which is actually a number, like `'20.23'`
+export type NumberString = string
+// Like `'2018-06-07T03:00:00+03:00'`
+export type ISODate = string
+export type BitrixBoolString = 'Y' | 'N'
+
+// @todo This is approximate structure. Might not be accurate
+export interface BitrixDeal {
+  readonly ID: NumberString
+  readonly TITLE: string
+  readonly TYPE_ID: string
+  readonly STAGE_ID: string
+  readonly PROBABILITY: unknown // @todo Check is it right
+  readonly CURRENCY_ID: string
+  readonly OPPORTUNITY: NumberString
+  readonly TAX_VALUE: NumberString
+  readonly LEAD_ID: NumberString
+  readonly COMPANY_ID: NumberString
+  readonly CONTACT_ID: NumberString | null
+  readonly QUOTE_ID: NumberString | null
+  readonly BEGINDATE: ISODate
+  readonly CLOSEDATE: ISODate
+  readonly ASSIGNED_BY_ID: NumberString
+  readonly CREATED_BY_ID: NumberString
+  readonly MODIFY_BY_ID: NumberString
+  readonly DATE_CREATE: ISODate
+  readonly DATE_MODIFY: ISODate
+  readonly OPENED: BitrixBoolString
+  readonly CLOSED: BitrixBoolString
+  readonly COMMENTS: string
+  readonly ADDITIONAL_INFO: unknown // @todo Check is it right
+  readonly LOCATION_ID: NumberString | null
+  readonly CATEGORY_ID: NumberString
+  readonly STAGE_SEMANTIC_ID: NumberString
+  readonly IS_NEW: BitrixBoolString
+  readonly IS_RECURRING: BitrixBoolString
+  readonly IS_RETURN_CUSTOMER: BitrixBoolString
+  readonly IS_REPEATED_APPROACH: BitrixBoolString
+  readonly SOURCE_ID: NumberString | null
+  readonly SOURCE_DESCRIPTION: string | null
+  readonly ORIGINATOR_ID: string
+  readonly ORIGIN_ID: NumberString
+  readonly UTM_SOURCE: string | null
+  readonly UTM_MEDIUM: string | null
+  readonly UTM_CAMPAIGN: string | null
+  readonly UTM_CONTENT: string | null
+  readonly UTM_TERM: string | null
+}
+// @todo This is approximate structure. Might not be accurate
+export interface BitrixLead {
+  readonly ID: NumberString
+  readonly TITLE: string
+  readonly HONORIFIC: unknown | null // @todo
+  readonly NAME: string | null
+  readonly SECOND_NAME: string | null
+  readonly LAST_NAME: string | null
+  readonly COMPANY_TITLE: string | null
+  readonly COMPANY_ID: unknown | null // @todo
+  readonly CONTACT_ID: unknown | null // @todo
+  readonly IS_RETURN_CUSTOMER: BitrixBoolString
+  readonly BIRTHDATE: unknown | null // @todo
+  readonly SOURCE_ID: NumberString
+  readonly SOURCE_DESCRIPTION: null
+  readonly STATUS_ID: unknown | null // @todo
+  readonly STATUS_DESCRIPTION: string | null
+  readonly POST: unknown | null // @todo
+  readonly COMMENTS: string | null
+  readonly CURRENCY_ID: string
+  readonly OPPORTUNITY: NumberString
+  readonly HAS_PHONE: BitrixBoolString
+  readonly HAS_EMAIL: BitrixBoolString
+  readonly HAS_IMOL: BitrixBoolString
+  readonly ASSIGNED_BY_ID: NumberString
+  readonly CREATED_BY_ID: NumberString
+  readonly MODIFY_BY_ID: NumberString
+  readonly DATE_CREATE: ISODate
+  readonly DATE_MODIFY: ISODate
+  readonly DATE_CLOSED: ISODate
+  readonly STATUS_SEMANTIC_ID: string
+  readonly OPENED: BitrixBoolString
+  readonly ORIGINATOR_ID: unknown | null // @todo
+  readonly ORIGIN_ID: unknown | null // @todo
+  readonly ADDRESS: string | null
+  readonly ADDRESS_2: string | null
+  readonly ADDRESS_CITY: string | null
+  readonly ADDRESS_POSTAL_CODE: string | null
+  readonly ADDRESS_REGION: string | null
+  readonly ADDRESS_PROVINCE: string | null
+  readonly ADDRESS_COUNTRY: string | null
+  readonly ADDRESS_COUNTRY_CODE: string | null
+  readonly UTM_SOURCE: string | null
+  readonly UTM_MEDIUM: string | null
+  readonly UTM_CAMPAIGN: string | null
+  readonly UTM_CONTENT: string | null
+  readonly UTM_TERM: string | null
+}

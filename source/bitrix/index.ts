@@ -1,12 +1,7 @@
-import bitrixClient from './client'
-import { BitrixListOptions, BitrixMethod } from './types'
+// tslint:disable:object-literal-sort-keys
 
-// @todo Make it
-interface BitrixDeal { readonly dealData1: string, readonly dealData2: number }
-// @todo Make it
-interface BitrixLead { readonly leadData1: string, readonly leadData2: number }
-// @todo Make it
-// interface BitrixInvoice { readonly [key: string]: any }
+import bitrixClient from './client'
+import { BitrixDeal, BitrixLead, BitrixListOptions, BitrixMethod } from './types'
 
 export default (restUri: string, token: string) => {
   const { get, batch, list } = bitrixClient(restUri, token)
