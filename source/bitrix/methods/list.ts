@@ -12,7 +12,7 @@ import { MAX_COMMANDS_PER_BATCH } from './batch'
 const MAX_ENTRIES_PER_COMMAND = 50
 const MAX_ENTRIES_PER_BATCH = MAX_ENTRIES_PER_COMMAND * MAX_COMMANDS_PER_BATCH
 
-const prepareBatchCommands = (method: BitrixMethod, current: number, remained: number): BitrixCommands => {
+const fillBatchCommands = (method: BitrixMethod, current: number, remained: number): BitrixCommands => {
   const requiresCommands = Math.ceil(remained / MAX_ENTRIES_PER_COMMAND)
   const commandsToDo = requiresCommands > MAX_COMMANDS_PER_BATCH
     ? MAX_COMMANDS_PER_BATCH
@@ -24,14 +24,14 @@ const prepareBatchCommands = (method: BitrixMethod, current: number, remained: n
   }), {})
 }
 
-const prepareBatchesCommands = (method: BitrixMethod, start: number, toProcess: number): readonly BitrixCommands[] => {
+const fillBatchesCommands = (method: BitrixMethod, start: number, toProcess: number): readonly BitrixCommands[] => {
   const requiresBatches = Math.ceil(toProcess / MAX_ENTRIES_PER_BATCH)
 
   return range(0, requiresBatches - 1).reduce((batchesCommands, i) => {
     const processed = start + (MAX_ENTRIES_PER_BATCH * i)
     const remained = toProcess - processed
 
-    return [ ...batchesCommands, prepareBatchCommands(method, processed, remained)]
+    return [ ...batchesCommands, fillBatchCommands(method, processed, remained)]
   }, [] as readonly BitrixCommands[])
 }
 
@@ -51,7 +51,7 @@ export default ({ get, batch }: Dependencies) =>
     if (!firstCall.next) return firstCall
 
     const toProcess = firstCall.total - start
-    const batches = prepareBatchesCommands(method, start, toProcess)
+    const batches = fillBatchesCommands(method, start, toProcess)
       .map((commands) => batch<Record<keyof typeof commands, readonly P[]>>(commands))
 
     return Promise.all(batches)
