@@ -36,13 +36,14 @@ export interface BitrixListPayload<P> {
 
 // `C` stands for a map of names to structural types they will uphold in result
 // `[]` in language of ill Bitrix means `undefined`. Just deal with it.
+// Also, it will return object if command names specified and array if names are numbers. Deal with it.
 export interface BitrixBatchPayload<C> {
   readonly result: {
-    readonly result: { readonly [P in keyof C]?: C[P] } | readonly []
-    readonly result_error: { readonly [P in keyof C]?: string } | readonly []
-    readonly result_total: { readonly [P in keyof C]?: number } | readonly []
-    readonly result_next: { readonly [P in keyof C]?: number } | readonly []
-    readonly result_time: { readonly [P in keyof C]?: BitrixPayloadTime } | readonly []
+    readonly result: { readonly [P in keyof C]?: C[P] } | ReadonlyArray<C[keyof C]>
+    readonly result_error: { readonly [P in keyof C]?: string } | readonly string[]
+    readonly result_total: { readonly [P in keyof C]?: number } | readonly number[]
+    readonly result_next: { readonly [P in keyof C]?: number } | readonly number[]
+    readonly result_time: { readonly [P in keyof C]?: BitrixPayloadTime } | readonly BitrixPayloadTime[]
   }
   readonly time: BitrixPayloadTime
 }
