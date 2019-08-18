@@ -1,5 +1,5 @@
 import { GotInstance, GotJSONFn } from 'got'
-import { BitrixBatchPayload, BitrixCommands, BitrixMethod } from '../types'
+import { BitrixBatchPayload, BitrixCommand, BitrixCommands, BitrixMethod } from '../types'
 import makeBitrixURIParams from '../utils/makeBitrixURIParams'
 
 export const MAX_COMMANDS_PER_BATCH = 50
@@ -15,18 +15,37 @@ const commandsToBatchQuery = (commands: BitrixCommands): Record<string, string> 
     }
   }, {})
 
-const handleBatchPayload = <P>(payload: BitrixBatchPayload<P>) => {
+const handleBatchPayload = <C>(payload: BitrixBatchPayload<C>) => {
+  const commandsErrored = payload.error && Object.keys(payload.error)
+
   // tslint:disable-next-line no-if-statement
-  if (payload.error && Object.keys(payload.error).length > 0) {
+  if (commandsErrored && commandsErrored.length > 0) {
   // tslint:disable-next-line no-throw
-    throw new Error(`[batch] failed to process. Received ${payload.error.length} errors.`)
+    throw new Error(`[batch] failed to process. Received errors in ${commandsErrored.length} commands.`)
   }
 
   return payload
 }
 
+// `C` generic expected to be interface of the commands names mapped to their structural types:
+//
+//  ```
+//  interface Commands {
+//    dealsList: readonly Deal[]
+//    someLead: Lead
+//  }
+//  ```
+//
+// Or a generic Record can be passed in keys are unknown:
+//
+// ```
+// Record<string, readonly Deal[]>
+// ```
+//
+// @todo `any` in `Record<string, any>` better to be another generic, but TS so far does not allow
+//       partial generic application without loosing the type inference
 export default ({ get }: GotInstance<GotJSONFn>) =>
-  <P>(commands: BitrixCommands): Promise<BitrixBatchPayload<P>> => {
+  <C extends Record<string, any>>(commands: Record<keyof C, BitrixCommand>): Promise<BitrixBatchPayload<C>> => {
     const commandsAmount = Object.keys(commands).length
 
     // tslint:disable-next-line no-if-statement
@@ -38,5 +57,5 @@ export default ({ get }: GotInstance<GotJSONFn>) =>
     }
 
     return get(BitrixMethod.BATCH, { query: commandsToBatchQuery(commands) })
-      .then(({ body }) => handleBatchPayload(body as BitrixBatchPayload<P>))
+      .then(({ body }) => handleBatchPayload(body as BitrixBatchPayload<C>))
   }

@@ -19,20 +19,19 @@ export interface BitrixGetPayload<P> {
   readonly next?: number
 }
 
-export interface BitrixBatchPayload<P extends { readonly [key: string]: any }> {
-  // @todo Reading result will be hard, since we do not know did method return
-  //       single item (for getters) or multiple items (for listers)
-  readonly result: { readonly [key: string]: P | readonly P[] },
-  readonly error?: { readonly [key: string]: string },
-  readonly total: { readonly [key: string]: number },
-  readonly next?: { readonly [key: string]: number }
+// `C` stands for a map of names to structural types they will uphold in result
+export interface BitrixBatchPayload<C> {
+  readonly result: { readonly [P in keyof C]: C[P] },
+  readonly error?: { readonly [P in keyof C]: string },
+  readonly total: { readonly [P in keyof C]: number },
+  readonly next?: { readonly [P in keyof C]: number }
 }
 
 export interface BitrixCommandParams {
   readonly [key: string]: string | number
 }
 
-interface BitrixCommand {
+export interface BitrixCommand {
   readonly method: BitrixMethod
   readonly params?: BitrixCommandParams
 }

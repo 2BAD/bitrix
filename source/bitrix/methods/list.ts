@@ -1,5 +1,12 @@
 import range from 'lodash-es/range'
-import { BitrixBatchPayload, BitrixCommands, BitrixGetPayload, BitrixListOptions, BitrixMethod } from '../types'
+import {
+  BitrixBatchPayload,
+  BitrixCommand,
+  BitrixCommands,
+  BitrixGetPayload,
+  BitrixListOptions,
+  BitrixMethod
+} from '../types'
 import { MAX_COMMANDS_PER_BATCH } from './batch'
 
 const MAX_ENTRIES_PER_COMMAND = 50
@@ -31,7 +38,8 @@ const prepareBatchesCommands = (method: BitrixMethod, start: number, toProcess: 
 interface Dependencies {
   readonly get: <P>(method: BitrixMethod, options: object) => Promise<BitrixGetPayload<P>>
   // tslint:disable-next-line no-mixed-interface
-  readonly batch: <P>(commands: BitrixCommands) => Promise<BitrixBatchPayload<P>>
+  readonly batch: <C extends Record<string, any>>(commands: Record<keyof C, BitrixCommand>) =>
+    Promise<BitrixBatchPayload<C>>
 }
 
 export default ({ get, batch }: Dependencies) =>
@@ -47,7 +55,7 @@ export default ({ get, batch }: Dependencies) =>
 
     const toProcess = firstCall.total - start
     const batches = prepareBatchesCommands(method, start, toProcess)
-      .map((commands) => batch<P>(commands))
+      .map((commands) => batch<Record<keyof typeof commands, readonly P[]>>(commands))
 
     return Promise.all(batches)
       .then((results) => {
