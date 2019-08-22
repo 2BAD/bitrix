@@ -15,7 +15,7 @@ const commandsToBatchQuery = (commands: BitrixCommands): Record<string, string> 
     }
   }, {})
 
-const handleBatchPayload = <C>(payload: BitrixBatchPayload<C>) => {
+const handleBatchPayload = <C>(payload: BitrixBatchPayload<C>): BitrixBatchPayload<C> => {
   const commandsErrored = payload.result.result_error && Object.keys(payload.result.result_error)
 
   // tslint:disable-next-line no-if-statement
