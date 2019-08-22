@@ -13,15 +13,15 @@ import { MAX_COMMANDS_PER_BATCH } from './batch'
 const MAX_ENTRIES_PER_COMMAND = 50
 const MAX_ENTRIES_PER_BATCH = MAX_ENTRIES_PER_COMMAND * MAX_COMMANDS_PER_BATCH
 
-const fillBatchCommands = (method: BitrixMethod, current: number, remained: number): BitrixCommands => {
-  const requiresCommands = Math.ceil(remained / MAX_ENTRIES_PER_COMMAND)
+const fillBatchCommands = (method: BitrixMethod, start: number, toProcess: number): BitrixCommands => {
+  const requiresCommands = Math.ceil(toProcess / MAX_ENTRIES_PER_COMMAND)
   const commandsToDo = requiresCommands > MAX_COMMANDS_PER_BATCH
     ? MAX_COMMANDS_PER_BATCH
     : requiresCommands
 
   return range(0, commandsToDo).reduce((commands, i) => ({
     ...commands,
-    [i]: { method, params: { start: current + (MAX_ENTRIES_PER_COMMAND * i) } }
+    [i]: { method, params: { start: start + (MAX_ENTRIES_PER_COMMAND * i) } }
   }), {})
 }
 

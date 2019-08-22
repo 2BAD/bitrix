@@ -1,7 +1,7 @@
 import { GotInstance, GotJSONFn } from 'got'
 import { BitrixListPayload, BitrixMethod } from '../types'
 
-const handleGetPayload = <P>(payload: BitrixListPayload<P>) => {
+const handleGetListPayload = <P>(payload: BitrixListPayload<P>) => {
   // tslint:disable-next-line no-if-statement
   if (payload.error) {
   // tslint:disable-next-line no-throw
@@ -19,4 +19,4 @@ const handleGetPayload = <P>(payload: BitrixListPayload<P>) => {
 export default ({ get }: GotInstance<GotJSONFn>) =>
   <P>(method: BitrixMethod, options: object): Promise<BitrixListPayload<P>> =>
     get(method, options)
-      .then(({ body }) => handleGetPayload(body as BitrixListPayload<P>))
+      .then(({ body }) => handleGetListPayload(body as BitrixListPayload<P>))

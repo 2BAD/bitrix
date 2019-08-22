@@ -5,12 +5,12 @@ import makeBitrixURIParams from '../utils/makeBitrixURIParams'
 export const MAX_COMMANDS_PER_BATCH = 50
 
 const commandsToBatchQuery = (commands: BitrixCommands): Record<string, string> =>
-  Object.keys(commands).reduce((result, cmdName) => {
+  Object.keys(commands).reduce((queries, cmdName) => {
     const { method, params } = commands[cmdName]
     const paramsString = params ? `?${makeBitrixURIParams(params)}` : ''
 
     return {
-      ...result,
+      ...queries,
       [`cmd[${cmdName}]`]: `${method}${paramsString}`
     }
   }, {})
