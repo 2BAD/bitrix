@@ -7,7 +7,7 @@ import { BitrixMethod } from '../types'
 import prepareGet from './get'
 
 const TEST_URI = 'https://test.com/rest'
-const get = prepareGet(got.extend({ baseUrl: TEST_URI }))
+const get = prepareGet(got.extend({ baseUrl: TEST_URI, json: true }))
 const RESPONSE_200 = 200
 
 describe('Bitrix `get` method', () => {
@@ -31,10 +31,7 @@ describe('Bitrix `get` method', () => {
       .get(`/${BitrixMethod.GET_DEAL}`)
       .reply(RESPONSE_200, payload)
 
-    // @todo For some reason nock returns payload as a stringified object. Need to check
-    const result: any = await get(BitrixMethod.GET_DEAL)
-
-    expect(JSON.parse(result)).toEqual(payload)
+    expect(await get(BitrixMethod.GET_DEAL)).toEqual(payload)
   })
 
   it.todo('should cast payload to the <P>')
