@@ -1,7 +1,7 @@
 // tslint:disable:object-literal-sort-keys
 
 import got from 'got'
-import { name, version } from '../../package.json'
+import { name, version } from '../../../package.json'
 import makeBatch from './methods/batch'
 import makeGet from './methods/get'
 import makeGetList from './methods/getList'

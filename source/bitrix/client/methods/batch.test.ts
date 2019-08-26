@@ -4,7 +4,7 @@
 import got from 'got'
 import range from 'lodash.range'
 import nock from 'nock'
-import { BitrixMethod } from '../types'
+import { BitrixMethod } from '../../types'
 import prepareBatch, { commandsToBatchQuery, handleBatchPayload, MAX_COMMANDS_PER_BATCH } from './batch'
 
 describe('Bitrix `commandsToBatchQuery` method', () => {

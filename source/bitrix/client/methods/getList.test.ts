@@ -3,7 +3,7 @@
 
 import got from 'got'
 import nock from 'nock'
-import { BitrixMethod } from '../types'
+import { BitrixMethod } from '../../types'
 import prepareGetList, { handleGetListPayload } from './getList'
 
 const TEST_URI = 'https://test.com/rest'

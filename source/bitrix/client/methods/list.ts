@@ -7,8 +7,8 @@ import {
   BitrixListOptions,
   BitrixListPayload,
   BitrixMethod
-} from '../types'
-import isArray from '../utils/isArray'
+} from '../../types'
+import isArray from '../../utils/isArray'
 import { MAX_COMMANDS_PER_BATCH } from './batch'
 
 const MAX_ENTRIES_PER_COMMAND = 50

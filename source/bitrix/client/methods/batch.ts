@@ -1,7 +1,7 @@
 import { GotInstance, GotJSONFn } from 'got'
-import { BitrixBatchPayload, BitrixCommand, BitrixCommands, BitrixMethod } from '../types'
-import isArray from '../utils/isArray'
-import makeBitrixURIParams from '../utils/makeBitrixURIParams'
+import { BitrixBatchPayload, BitrixCommand, BitrixCommands, BitrixMethod } from '../../types'
+import isArray from '../../utils/isArray'
+import makeBitrixURIParams from '../../utils/makeBitrixURIParams'
 
 export const MAX_COMMANDS_PER_BATCH = 50
 

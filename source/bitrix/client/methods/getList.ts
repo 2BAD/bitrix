@@ -1,5 +1,5 @@
 import { GotInstance, GotJSONFn } from 'got'
-import { BitrixListPayload, BitrixListableMethod } from '../types'
+import { BitrixListableMethod, BitrixListPayload } from '../../types'
 
 export const handleGetListPayload = <P>(payload: BitrixListPayload<P>) => {
   // tslint:disable-next-line no-if-statement
