@@ -17,6 +17,6 @@ const handleGetListPayload = <P>(payload: BitrixListPayload<P>) => {
 //       depending on `get` and `list` methods. Until we can automatically
 //       map those types based on methods and thus infer output types, we need this helper
 export default ({ get }: GotInstance<GotJSONFn>) =>
-  <P>(method: BitrixMethod, options: object): Promise<BitrixListPayload<P>> =>
-    get(method, options)
+  <P>(method: BitrixMethod, query?: object | string): Promise<BitrixListPayload<P>> =>
+    get(method, { query })
       .then(({ body }) => handleGetListPayload(body as BitrixListPayload<P>))
