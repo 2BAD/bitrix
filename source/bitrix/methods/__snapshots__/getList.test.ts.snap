@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Bitrix \`getList\` method should throw when getting errors in payload 1`] = `[Error: [get] failed to get the resource: Expected error for \`getList\`.]`;
+
+exports[`Bitrix \`handleGetListPayload\` method should throw when getting errors in payload 1`] = `"[get] failed to get the resource: Expected error for \`handleGetListPayload\`."`;
