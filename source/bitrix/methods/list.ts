@@ -44,8 +44,8 @@ interface Dependencies {
 }
 
 export default ({ getList, batch }: Dependencies) =>
-  async <P>(method: BitrixMethod, options?: BitrixListOptions): Promise<BitrixListPayload<P>> => {
-    const start = options && options.start || 0
+  async <P>(method: BitrixMethod, options: BitrixListOptions = {}): Promise<BitrixListPayload<P>> => {
+    const start = options.start || 0
     const firstCall = await getList<P>(method, { query: { start } })
 
     // tslint:disable-next-line no-if-statement
