@@ -12,7 +12,7 @@ export const commandsToBatchQuery = (commands: BitrixCommands): Record<string, s
 
     return {
       ...queries,
-      [`cmd[${cmdName}]`]: `${method}${paramsString}`
+      [cmdName]: `${method}${paramsString}`
     }
   }, {})
 
