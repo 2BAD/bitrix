@@ -14,12 +14,10 @@ export enum BitrixMethod {
   LIST_LEADS = 'crm.lead.list'
 }
 
-const BITRIX_GENERIC_METHODS = [BitrixMethod.BATCH] as const
 const BITRIX_LISTABLE_METHODS = [BitrixMethod.LIST_DEALS, BitrixMethod.LIST_LEADS] as const
 
-export type BitrixGenericMethod = typeof BITRIX_GENERIC_METHODS[number]
 export type BitrixListableMethod = typeof BITRIX_LISTABLE_METHODS[number]
-export type BitrixGettableMethod = Diff<Diff<BitrixMethod, BitrixGenericMethod>, BitrixListableMethod>
+export type BitrixGettableMethod = Diff<BitrixMethod, BitrixListableMethod>
 
 export interface BitrixPayloadTime {
   readonly start: number
