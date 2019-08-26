@@ -1,10 +1,11 @@
 import { GotInstance, GotJSONFn } from 'got'
 import { BitrixBatchPayload, BitrixCommand, BitrixCommands, BitrixMethod } from '../types'
+import isArray from '../utils/isArray'
 import makeBitrixURIParams from '../utils/makeBitrixURIParams'
 
 export const MAX_COMMANDS_PER_BATCH = 50
 
-const commandsToBatchQuery = (commands: BitrixCommands): Record<string, string> =>
+export const commandsToBatchQuery = (commands: BitrixCommands): Record<string, string> =>
   Object.keys(commands).reduce((queries, cmdName) => {
     const { method, params } = commands[cmdName]
     const paramsString = params ? `?${makeBitrixURIParams(params)}` : ''
@@ -15,13 +16,15 @@ const commandsToBatchQuery = (commands: BitrixCommands): Record<string, string> 
     }
   }, {})
 
-const handleBatchPayload = <C>(payload: BitrixBatchPayload<C>): BitrixBatchPayload<C> => {
-  const commandsErrored = payload.result.result_error && Object.keys(payload.result.result_error)
+export const handleBatchPayload = <C>(payload: BitrixBatchPayload<C>): BitrixBatchPayload<C> => {
+  const resultErrors = payload.result.result_error
+  const errors = isArray(resultErrors) ? resultErrors : Object.values(resultErrors)
 
   // tslint:disable-next-line no-if-statement
-  if (commandsErrored && commandsErrored.length > 0) {
-  // tslint:disable-next-line no-throw
-    throw new Error(`[batch] failed to process. Received errors in ${commandsErrored.length} commands.`)
+  if (errors.length > 0) {
+    // @todo We can give better formatting to display errored commands. But it's not important for now
+    // tslint:disable-next-line no-throw
+    throw new Error(`[batch] failed to process. Received errors in ${errors.length} commands:\n${errors.join('\n')}`)
   }
 
   return payload
