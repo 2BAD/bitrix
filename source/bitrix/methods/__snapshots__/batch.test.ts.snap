@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Bitrix \`batch\` method should throw when getting errors in numbered commands payload 1`] = `
+[Error: [batch] failed to process. Received errors in 2 commands:
+Exptected error from numbered \`batch\` 0
+Exptected error from numbered \`batch\` 1]
+`;
+
+exports[`Bitrix \`batch\` method should throw when getting errors in payload 1`] = `
+[Error: [batch] failed to process. Received errors in 2 commands:
+Exptected error from numbered \`batch\` one
+Exptected error from numbered \`batch\` two]
+`;
+
+exports[`Bitrix \`batch\` method should throw when passing more then max allowed per batch commands 1`] = `[Error: [batch] failed to process. Received 51 commands, but maximum 50 allowed]`;
+
+exports[`Bitrix \`commandsToBatchQuery\` method should return empty query object when no commands provided 1`] = `Object {}`;
+
+exports[`Bitrix \`commandsToBatchQuery\` method should transform dict of the commands into the query object 1`] = `
+Object {
+  "one": "crm.deal.get?ID=11111",
+  "two": "crm.deal.list",
+}
+`;
+
+exports[`Bitrix \`commandsToBatchQuery\` method should work with numbered commands 1`] = `
+Object {
+  "0": "crm.deal.get",
+  "1": "crm.deal.list",
+}
+`;
+
+exports[`Bitrix \`handleBatchPayload\` method should throw when getting errors in numbered commands payload 1`] = `
+"[batch] failed to process. Received errors in 1 commands:
+Expected error for \`handleBatchPayload\`"
+`;
+
+exports[`Bitrix \`handleBatchPayload\` method should throw when getting errors in payload 1`] = `
+"[batch] failed to process. Received errors in 1 commands:
+Expected error for \`handleBatchPayload\`"
+`;
