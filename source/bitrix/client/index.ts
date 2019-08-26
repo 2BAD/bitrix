@@ -38,6 +38,7 @@ export default (restUri: string, token: string) => {
 
   return {
     get,
+    getList,
     batch,
     list
   }
