@@ -18,15 +18,15 @@ exports[`Bitrix \`commandsToBatchQuery\` method should return empty query object
 
 exports[`Bitrix \`commandsToBatchQuery\` method should transform dict of the commands into the query object 1`] = `
 Object {
-  "one": "crm.deal.get?ID=11111",
-  "two": "crm.deal.list",
+  "cmd[one]": "crm.deal.get?ID=11111",
+  "cmd[two]": "crm.deal.list",
 }
 `;
 
 exports[`Bitrix \`commandsToBatchQuery\` method should work with numbered commands 1`] = `
 Object {
-  "0": "crm.deal.get",
-  "1": "crm.deal.list",
+  "cmd[0]": "crm.deal.get",
+  "cmd[1]": "crm.deal.list",
 }
 `;
 

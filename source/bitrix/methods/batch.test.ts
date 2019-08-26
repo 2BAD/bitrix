@@ -115,8 +115,12 @@ describe('Bitrix `batch` method', () => {
     }
 
     const scope = nock(TEST_URI)
-      .get(`/${BitrixMethod.BATCH}`)
-      .query({ one: `${commands.one.method}?ID=${dealId}`, two: commands.two.method })
+      // @todo We'd want to use `query` object here as it is much more readable, but nock for some reason
+      //       fails to match request when it contains `cmd[someName]`. The issue definately connected to the `[]`, since
+      //       it does not appear when only one bracket present
+      .get(
+        `/${BitrixMethod.BATCH}?cmd%5Bone%5D=${commands.one.method}%3FID%3D${dealId}&cmd%5Btwo%5D=${commands.two.method}`
+      )
       .reply(RESPONSE_200, payload)
 
     await batch(commands)
@@ -134,8 +138,10 @@ describe('Bitrix `batch` method', () => {
     }
 
     const scope = nock(TEST_URI)
-      .get(`/${BitrixMethod.BATCH}`)
-      .query({ 0: `${commands[0].method}?ID=${dealId}`, 1: commands[1].method })
+      // @todo We'd want to use `query` object here as it is much more readable, but nock for some reason
+      //       fails to match request when it contains `cmd[someName]`. The issue definitely
+      //       connected to the `[]` since it does not appear when only one bracket present
+      .get(`/${BitrixMethod.BATCH}?cmd%5B0%5D=${commands[0].method}%3FID%3D${dealId}&cmd%5B1%5D=${commands[1].method}`)
       .reply(RESPONSE_200, payload)
 
     await batch(commands)
@@ -159,8 +165,10 @@ describe('Bitrix `batch` method', () => {
     const payload = { result: { result: ['done'], result_error: [] } }
 
     nock(TEST_URI)
-      .get(`/${BitrixMethod.BATCH}`)
-      .query({ 0: commands[0].method, 1: commands[1].method })
+      // @todo We'd want to use `query` object here as it is much more readable, but nock for some reason
+      //       fails to match request when it contains `cmd[someName]`. The issue definately connected to the `[]`, since
+      //       it does not appear when only one bracket present
+      .get(`/${BitrixMethod.BATCH}?cmd%5B0%5D=${commands[0].method}&cmd%5B1%5D=${commands[1].method}`)
       .reply(RESPONSE_200, payload)
 
     expect(await batch(commands)).toEqual(payload)
@@ -172,7 +180,10 @@ describe('Bitrix `batch` method', () => {
     const payload = {
       result: {
         result: { one: 'done', two: 'done' },
-        result_error: { one: 'Exptected error from numbered `batch` one', two: 'Exptected error from numbered `batch` two' }
+        result_error: {
+          one: 'Exptected error from numbered `batch` one',
+          two: 'Exptected error from numbered `batch` two'
+        }
       }
     }
 
@@ -182,8 +193,10 @@ describe('Bitrix `batch` method', () => {
     }
 
     nock(TEST_URI)
-      .get(`/${BitrixMethod.BATCH}`)
-      .query({ one: commands.one.method, two: commands.two.method })
+      // @todo We'd want to use `query` object here as it is much more readable, but nock for some reason
+      //       fails to match request when it contains `cmd[someName]`. The issue definately connected to the `[]`, since
+      //       it does not appear when only one bracket present
+      .get(`/${BitrixMethod.BATCH}?cmd%5Bone%5D=${commands.one.method}&cmd%5Btwo%5D=${commands.two.method}`)
       .reply(RESPONSE_200, payload)
 
     return expect(batch(commands)).rejects.toMatchSnapshot()
@@ -203,8 +216,10 @@ describe('Bitrix `batch` method', () => {
     }
 
     nock(TEST_URI)
-      .get(`/${BitrixMethod.BATCH}`)
-      .query({ 0: commands[0].method, 1: commands[1].method })
+      // @todo We'd want to use `query` object here as it is much more readable, but nock for some reason
+      //       fails to match request when it contains `cmd[someName]`. The issue definately connected to the `[]`, since
+      //       it does not appear when only one bracket present
+      .get(`/${BitrixMethod.BATCH}?cmd%5B0%5D=${commands[0].method}&cmd%5B1%5D=${commands[1].method}`)
       .reply(RESPONSE_200, payload)
 
     return expect(batch(commands)).rejects.toMatchSnapshot()
