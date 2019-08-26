@@ -48,7 +48,7 @@ export const handleBatchPayload = <C>(payload: BitrixBatchPayload<C>): BitrixBat
 // @todo `any` in `Record<string, any>` better to be another generic, but TS so far does not allow
 //       partial generic application without loosing the type inference
 export default ({ get }: GotInstance<GotJSONFn>) =>
-  <C extends Record<string, any>>(commands: Record<keyof C, BitrixCommand>): Promise<BitrixBatchPayload<C>> => {
+  async <C extends Record<string, any>>(commands: Record<keyof C, BitrixCommand>): Promise<BitrixBatchPayload<C>> => {
     const commandsAmount = Object.keys(commands).length
 
     // tslint:disable-next-line no-if-statement
