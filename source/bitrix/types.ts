@@ -1,4 +1,4 @@
-type Diff<T, U> = T extends U ? never : T
+import { Diff } from './utils/Diff'
 
 // @todo We'd want to have gettable and listable as separate enums,
 //       since some used only inside `get` while other in `list`,
