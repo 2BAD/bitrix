@@ -3,6 +3,7 @@ import {
   BitrixBatchPayload,
   BitrixCommand,
   BitrixCommands,
+  BitrixListableMethod,
   BitrixListOptions,
   BitrixListPayload,
   BitrixMethod
@@ -37,14 +38,14 @@ const fillBatchesCommands = (method: BitrixMethod, start: number, toProcess: num
 }
 
 interface Dependencies {
-  readonly getList: <P>(method: BitrixMethod, options: object) => Promise<BitrixListPayload<P>>
+  readonly getList: <P>(method: BitrixListableMethod, query?: object | string) => Promise<BitrixListPayload<P>>
   // tslint:disable-next-line no-mixed-interface
   readonly batch: <C extends Record<string, any>>(commands: Record<keyof C, BitrixCommand>) =>
     Promise<BitrixBatchPayload<C>>
 }
 
 export default ({ getList, batch }: Dependencies) =>
-  async <P>(method: BitrixMethod, options: BitrixListOptions = {}): Promise<BitrixListPayload<P>> => {
+  async <P>(method: BitrixListableMethod, options: BitrixListOptions = {}): Promise<BitrixListPayload<P>> => {
     const start = options.start || 0
     const firstCall = await getList<P>(method, { query: { start } })
 
