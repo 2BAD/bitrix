@@ -14,14 +14,10 @@ export default (restUri: string, token: string) => {
       'user-agent': `${name}/${version}`
     },
     json: true,
+    query: {
+      access_token: token
+    },
     hooks: {
-      beforeRequest: [
-        (options) => {
-          const path = (options && options.path) ? options.path : ''
-          // tslint:disable-next-line:no-object-mutation no-expression-statement
-          options.path += (path.indexOf('?') === -1) ? `?access_token=${token}` : `&access_token=${token}`
-        }
-      ]
       // should be used with rate limiter to handle throttling cases
       // afterResponse: [
       //   (response) => {
