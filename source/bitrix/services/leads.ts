@@ -16,6 +16,6 @@ interface Dependencies {
 }
 
 export default ({ get, list }: Dependencies) => ({
-  get: () => get<Lead>(Method.GET_DEAL, {}),
+  get: () => get<Lead>(Method.GET_LEAD, {}),
   list: (options?: ListOptions) => list<Lead>(Method.LIST_LEADS, options)
 })
