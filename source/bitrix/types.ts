@@ -61,10 +61,13 @@ export interface BitrixCommand {
   readonly params?: BitrixCommandParams
 }
 
-// Note that Array can be used as `BitrixCommands` too. It should work
-export interface BitrixCommands {
+export interface BitrixNamedCommands {
   readonly [key: string]: BitrixCommand
 }
+
+export type BitrixCommands =
+  BitrixNamedCommands |
+  readonly BitrixCommand[]
 
 export interface BitrixListOptions {
   readonly start?: number
