@@ -1,5 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`\`makeBitrixURIParams\` method should return empty string when there is no params 1`] = `""`;
-
-exports[`\`makeBitrixURIParams\` method should transform command params object into the query part of the Bitrix API URI 1`] = `"param1=1&param2=value"`;

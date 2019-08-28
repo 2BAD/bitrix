@@ -1,17 +1,17 @@
 import { GotInstance, GotJSONFn } from 'got'
+import { stringify as stringifyQuery } from 'querystring'
 import { BitrixBatchPayload, BitrixCommand, BitrixCommands, BitrixMethod } from '../../types'
 import isArray from '../../utils/isArray'
-import makeBitrixURIParams from '../../utils/makeBitrixURIParams'
 
 export const MAX_COMMANDS_PER_BATCH = 50
 
 export const commandsToBatchQuery = (commands: BitrixCommands): Record<string, string> =>
   Object.entries(commands).reduce((queries, [cmdName, command]) => {
-    const paramsString = command.params ? `?${makeBitrixURIParams(command.params)}` : ''
+    const stringifiedParams = command.params ? `?${stringifyQuery(command.params)}` : ''
 
     return {
       ...queries,
-      [`cmd[${cmdName}]`]: `${command.method}${paramsString}`
+      [`cmd[${cmdName}]`]: `${command.method}${stringifiedParams}`
     }
   }, {})
 
