@@ -23,6 +23,13 @@ Object {
 }
 `;
 
+exports[`Bitrix \`commandsToBatchQuery\` method should work with array of commands 1`] = `
+Object {
+  "cmd[0]": "crm.deal.get",
+  "cmd[1]": "crm.deal.list",
+}
+`;
+
 exports[`Bitrix \`commandsToBatchQuery\` method should work with numbered commands 1`] = `
 Object {
   "cmd[0]": "crm.deal.get",

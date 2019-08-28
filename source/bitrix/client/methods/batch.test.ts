@@ -33,6 +33,15 @@ describe('Bitrix `commandsToBatchQuery` method', () => {
     expect(commandsToBatchQuery(commands)).toMatchSnapshot()
   })
 
+  it('should work with array of commands', () => {
+    const commands = [
+      { method: BitrixMethod.GET_DEAL },
+      { method: BitrixMethod.LIST_DEALS }
+    ] as const
+
+    expect(commandsToBatchQuery(commands)).toMatchSnapshot()
+  })
+
   it('should return empty query object when no commands provided', () => {
     expect(commandsToBatchQuery({})).toMatchSnapshot()
   })
@@ -54,7 +63,7 @@ describe('Bitrix `handleBatchPayload` method', () => {
     expect(handleBatchPayload(payload)).toBe(payload)
   })
 
-  it('should return payload of numbered batch', () => {
+  it('should return payload of array batch', () => {
     const payload = {
       result: {
         result: ['done'],
@@ -136,6 +145,27 @@ describe('Bitrix `batch` method', () => {
       0: { method: BitrixMethod.GET_DEAL, params: { ID: dealId } },
       1: { method: BitrixMethod.LIST_DEALS }
     }
+
+    const scope = nock(TEST_URI)
+      // @todo We'd want to use `query` object here as it is much more readable, but nock for some reason
+      //       fails to match request when it contains `cmd[someName]`. The issue definitely
+      //       connected to the `[]` since it does not appear when only one bracket present
+      .get(`/${BitrixMethod.BATCH}?cmd%5B0%5D=${commands[0].method}%3FID%3D${dealId}&cmd%5B1%5D=${commands[1].method}`)
+      .reply(RESPONSE_200, payload)
+
+    await batch(commands)
+
+    expect(scope.done()).toBe(undefined)
+  })
+
+  it('should form a proper request with array of commands', async () => {
+    const payload = { result: { result: ['done1', 'done2'], result_error: [] } }
+    const dealId = 999
+
+    const commands = [
+      { method: BitrixMethod.GET_DEAL, params: { ID: dealId } },
+      { method: BitrixMethod.LIST_DEALS }
+    ] as const
 
     const scope = nock(TEST_URI)
       // @todo We'd want to use `query` object here as it is much more readable, but nock for some reason
