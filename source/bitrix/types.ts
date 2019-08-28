@@ -61,13 +61,11 @@ export interface BitrixCommand {
   readonly params?: BitrixCommandParams
 }
 
-export interface BitrixNamedCommands {
-  readonly [key: string]: BitrixCommand
-}
-
 export type BitrixCommands =
-  BitrixNamedCommands |
-  readonly BitrixCommand[]
+  { readonly [key: string]: BitrixCommand } |
+  // For arrays. It's signature, since `BitrixCommand[]` won't be
+  // accepted by types like `Record`
+  { readonly [index: number]: BitrixCommand }
 
 export interface BitrixListOptions {
   readonly start?: number
