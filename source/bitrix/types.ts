@@ -2,7 +2,7 @@ import { Diff } from './utils/Diff'
 
 // @todo We'd want to have gettable and listable as separate enums,
 //       but we can't due too types compatibility issues when `list` uses `get` internally
-export enum BitrixMethod {
+export enum APIMethod {
   // Gettable
   BATCH = 'batch',
   GET_DEAL = 'crm.deal.get',
@@ -13,10 +13,10 @@ export enum BitrixMethod {
   LIST_LEADS = 'crm.lead.list'
 }
 
-const BITRIX_LISTABLE_METHODS = [BitrixMethod.LIST_DEALS, BitrixMethod.LIST_LEADS] as const
+const BITRIX_LISTABLE_METHODS = [APIMethod.LIST_DEALS, APIMethod.LIST_LEADS] as const
 
 export type BitrixListableMethod = typeof BITRIX_LISTABLE_METHODS[number]
-export type BitrixGettableMethod = Diff<BitrixMethod, BitrixListableMethod>
+export type BitrixGettableMethod = Diff<APIMethod, BitrixListableMethod>
 
 export interface BitrixPayloadTime {
   readonly start: number
@@ -59,7 +59,7 @@ export interface BitrixCommandParams {
 }
 
 export interface BitrixCommand {
-  readonly method: BitrixMethod
+  readonly method: APIMethod
   readonly params?: BitrixCommandParams
 }
 

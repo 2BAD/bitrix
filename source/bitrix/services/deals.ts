@@ -1,13 +1,13 @@
 // tslint:disable:object-literal-sort-keys
 
 import {
+  APIMethod,
   BitrixDeal,
   BitrixGetPayload,
   BitrixGettableMethod,
   BitrixListableMethod,
   BitrixListOptions,
-  BitrixListPayload,
-  BitrixMethod
+  BitrixListPayload
 } from '../types'
 
 interface Dependencies {
@@ -16,6 +16,6 @@ interface Dependencies {
 }
 
 export default ({ get, list }: Dependencies) => ({
-  get: () => get<BitrixDeal>(BitrixMethod.GET_DEAL, {}),
-  list: (options?: BitrixListOptions) => list<BitrixDeal>(BitrixMethod.LIST_DEALS, options)
+  get: () => get<BitrixDeal>(APIMethod.GET_DEAL, {}),
+  list: (options?: BitrixListOptions) => list<BitrixDeal>(APIMethod.LIST_DEALS, options)
 })

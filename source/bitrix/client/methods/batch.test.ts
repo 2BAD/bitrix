@@ -4,7 +4,7 @@
 import got from 'got'
 import range from 'lodash.range'
 import nock from 'nock'
-import { BitrixMethod } from '../../types'
+import { APIMethod } from '../../types'
 import prepareBatch, { commandsToBatchQuery, handleBatchPayload, MAX_COMMANDS_PER_BATCH } from './batch'
 
 describe('Bitrix `commandsToBatchQuery` method', () => {
@@ -13,11 +13,11 @@ describe('Bitrix `commandsToBatchQuery` method', () => {
 
     const commands = {
       one: {
-        method: BitrixMethod.GET_DEAL,
+        method: APIMethod.GET_DEAL,
         params: { ID: testDealId }
       },
       two: {
-        method: BitrixMethod.LIST_DEALS
+        method: APIMethod.LIST_DEALS
       }
     }
 
@@ -26,8 +26,8 @@ describe('Bitrix `commandsToBatchQuery` method', () => {
 
   it('should work with numbered commands', () => {
     const commands = {
-      0: { method: BitrixMethod.GET_DEAL },
-      1: { method: BitrixMethod.LIST_DEALS }
+      0: { method: APIMethod.GET_DEAL },
+      1: { method: APIMethod.LIST_DEALS }
     }
 
     expect(commandsToBatchQuery(commands)).toMatchSnapshot()
@@ -110,8 +110,8 @@ describe('Bitrix `batch` method', () => {
     const dealId = 999
 
     const commands = {
-      one: { method: BitrixMethod.GET_DEAL, params: { ID: dealId } },
-      two: { method: BitrixMethod.LIST_DEALS }
+      one: { method: APIMethod.GET_DEAL, params: { ID: dealId } },
+      two: { method: APIMethod.LIST_DEALS }
     }
 
     const scope = nock(TEST_URI)
@@ -119,7 +119,7 @@ describe('Bitrix `batch` method', () => {
       //       fails to match request when it contains `cmd[someName]`. The issue definately connected to the `[]`, since
       //       it does not appear when only one bracket present
       .get(
-        `/${BitrixMethod.BATCH}?cmd%5Bone%5D=${commands.one.method}%3FID%3D${dealId}&cmd%5Btwo%5D=${commands.two.method}`
+        `/${APIMethod.BATCH}?cmd%5Bone%5D=${commands.one.method}%3FID%3D${dealId}&cmd%5Btwo%5D=${commands.two.method}`
       )
       .reply(RESPONSE_200, payload)
 
@@ -133,15 +133,15 @@ describe('Bitrix `batch` method', () => {
     const dealId = 999
 
     const commands = {
-      0: { method: BitrixMethod.GET_DEAL, params: { ID: dealId } },
-      1: { method: BitrixMethod.LIST_DEALS }
+      0: { method: APIMethod.GET_DEAL, params: { ID: dealId } },
+      1: { method: APIMethod.LIST_DEALS }
     }
 
     const scope = nock(TEST_URI)
       // @todo We'd want to use `query` object here as it is much more readable, but nock for some reason
       //       fails to match request when it contains `cmd[someName]`. The issue definitely
       //       connected to the `[]` since it does not appear when only one bracket present
-      .get(`/${BitrixMethod.BATCH}?cmd%5B0%5D=${commands[0].method}%3FID%3D${dealId}&cmd%5B1%5D=${commands[1].method}`)
+      .get(`/${APIMethod.BATCH}?cmd%5B0%5D=${commands[0].method}%3FID%3D${dealId}&cmd%5B1%5D=${commands[1].method}`)
       .reply(RESPONSE_200, payload)
 
     await batch(commands)
@@ -151,15 +151,15 @@ describe('Bitrix `batch` method', () => {
 
   it('should throw when passing more then max allowed per batch commands', () => {
     const commands = range(0, MAX_COMMANDS_PER_BATCH + 1)
-      .reduce((comms, i) => ({ ...comms, [i]: BitrixMethod.LIST_DEALS }), {})
+      .reduce((comms, i) => ({ ...comms, [i]: APIMethod.LIST_DEALS }), {})
 
     return expect(batch(commands)).rejects.toMatchSnapshot()
   })
 
   it('should return body as payload', async () => {
     const commands = {
-      0: { method: BitrixMethod.GET_DEAL },
-      1: { method: BitrixMethod.LIST_DEALS }
+      0: { method: APIMethod.GET_DEAL },
+      1: { method: APIMethod.LIST_DEALS }
     }
 
     const payload = { result: { result: ['done'], result_error: [] } }
@@ -168,7 +168,7 @@ describe('Bitrix `batch` method', () => {
       // @todo We'd want to use `query` object here as it is much more readable, but nock for some reason
       //       fails to match request when it contains `cmd[someName]`. The issue definately connected to the `[]`, since
       //       it does not appear when only one bracket present
-      .get(`/${BitrixMethod.BATCH}?cmd%5B0%5D=${commands[0].method}&cmd%5B1%5D=${commands[1].method}`)
+      .get(`/${APIMethod.BATCH}?cmd%5B0%5D=${commands[0].method}&cmd%5B1%5D=${commands[1].method}`)
       .reply(RESPONSE_200, payload)
 
     expect(await batch(commands)).toEqual(payload)
@@ -188,15 +188,15 @@ describe('Bitrix `batch` method', () => {
     }
 
     const commands = {
-      one: { method: BitrixMethod.GET_DEAL },
-      two: { method: BitrixMethod.LIST_DEALS }
+      one: { method: APIMethod.GET_DEAL },
+      two: { method: APIMethod.LIST_DEALS }
     }
 
     nock(TEST_URI)
       // @todo We'd want to use `query` object here as it is much more readable, but nock for some reason
       //       fails to match request when it contains `cmd[someName]`. The issue definately connected to the `[]`, since
       //       it does not appear when only one bracket present
-      .get(`/${BitrixMethod.BATCH}?cmd%5Bone%5D=${commands.one.method}&cmd%5Btwo%5D=${commands.two.method}`)
+      .get(`/${APIMethod.BATCH}?cmd%5Bone%5D=${commands.one.method}&cmd%5Btwo%5D=${commands.two.method}`)
       .reply(RESPONSE_200, payload)
 
     return expect(batch(commands)).rejects.toMatchSnapshot()
@@ -211,15 +211,15 @@ describe('Bitrix `batch` method', () => {
     }
 
     const commands = {
-      0: { method: BitrixMethod.GET_DEAL },
-      1: { method: BitrixMethod.LIST_DEALS }
+      0: { method: APIMethod.GET_DEAL },
+      1: { method: APIMethod.LIST_DEALS }
     }
 
     nock(TEST_URI)
       // @todo We'd want to use `query` object here as it is much more readable, but nock for some reason
       //       fails to match request when it contains `cmd[someName]`. The issue definately connected to the `[]`, since
       //       it does not appear when only one bracket present
-      .get(`/${BitrixMethod.BATCH}?cmd%5B0%5D=${commands[0].method}&cmd%5B1%5D=${commands[1].method}`)
+      .get(`/${APIMethod.BATCH}?cmd%5B0%5D=${commands[0].method}&cmd%5B1%5D=${commands[1].method}`)
       .reply(RESPONSE_200, payload)
 
     return expect(batch(commands)).rejects.toMatchSnapshot()
