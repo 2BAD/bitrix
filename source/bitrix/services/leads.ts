@@ -1,17 +1,17 @@
 // tslint:disable:object-literal-sort-keys
 
 import {
+  APIGettableMethod,
   APIListableMethod,
   APIMethod,
   BitrixGetPayload,
-  BitrixGettableMethod,
   BitrixLead,
   BitrixListOptions,
   BitrixListPayload
 } from '../types'
 
 interface Dependencies {
-  readonly get: <P>(method: BitrixGettableMethod, query?: object | string) => Promise<BitrixGetPayload<P>>
+  readonly get: <P>(method: APIGettableMethod, query?: object | string) => Promise<BitrixGetPayload<P>>
   readonly list: <P>(method: APIListableMethod, options?: BitrixListOptions) => Promise<BitrixListPayload<P>>
 }
 
