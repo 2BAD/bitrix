@@ -1,7 +1,5 @@
 import { Diff } from './utils/Diff'
 
-// @todo We'd want to have gettable and listable as separate enums,
-//       but we can't due too types compatibility issues when `list` uses `get` internally
 export enum BitrixMethod {
   // Gettable
   BATCH = 'batch',
