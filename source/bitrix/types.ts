@@ -13,9 +13,9 @@ export enum APIMethod {
   LIST_LEADS = 'crm.lead.list'
 }
 
-const BITRIX_LISTABLE_METHODS = [APIMethod.LIST_DEALS, APIMethod.LIST_LEADS] as const
+const API_LISTABLE_METHODS = [APIMethod.LIST_DEALS, APIMethod.LIST_LEADS] as const
 
-export type APIListableMethod = typeof BITRIX_LISTABLE_METHODS[number]
+export type APIListableMethod = typeof API_LISTABLE_METHODS[number]
 export type APIGettableMethod = Diff<APIMethod, APIListableMethod>
 
 export interface BitrixPayloadTime {
