@@ -1,6 +1,6 @@
 import { GotInstance, GotJSONFn } from 'got'
 import { stringify as stringifyQuery } from 'querystring'
-import { BitrixBatchPayload, BitrixCommand, BitrixCommands, APIMethod } from '../../types'
+import { BitrixBatchPayload, BitrixCommand, BitrixCommands, Method } from '../../types'
 import isArray from '../../utils/isArray'
 
 export const MAX_COMMANDS_PER_BATCH = 50
@@ -58,6 +58,6 @@ export default ({ get }: GotInstance<GotJSONFn>) =>
       )
     }
 
-    return get(APIMethod.BATCH, { query: commandsToBatchQuery(commands) })
+    return get(Method.BATCH, { query: commandsToBatchQuery(commands) })
       .then(({ body }) => handleBatchPayload(body as BitrixBatchPayload<C>))
   }

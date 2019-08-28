@@ -3,7 +3,7 @@
 
 import got from 'got'
 import nock from 'nock'
-import { APIMethod } from '../../types'
+import { Method } from '../../types'
 import prepareGetList, { handleGetListPayload } from './getList'
 
 const TEST_URI = 'https://test.com/rest'
@@ -41,11 +41,11 @@ describe('Bitrix `getList` method', () => {
     const query = { test: 1 }
 
     const scope = nock(TEST_URI)
-      .get(`/${APIMethod.LIST_DEALS}`)
+      .get(`/${Method.LIST_DEALS}`)
       .query(query)
       .reply(RESPONSE_200)
 
-    await get(APIMethod.LIST_DEALS, query)
+    await get(Method.LIST_DEALS, query)
 
     expect(scope.done()).toBe(undefined)
   })
@@ -54,10 +54,10 @@ describe('Bitrix `getList` method', () => {
     const payload = { result: ['done'] }
 
     nock(TEST_URI)
-      .get(`/${APIMethod.LIST_DEALS}`)
+      .get(`/${Method.LIST_DEALS}`)
       .reply(RESPONSE_200, payload)
 
-    expect(await get(APIMethod.LIST_DEALS)).toEqual(payload)
+    expect(await get(Method.LIST_DEALS)).toEqual(payload)
   })
 
   it.todo('should cast payload to the <P>')
@@ -66,9 +66,9 @@ describe('Bitrix `getList` method', () => {
     const payload = { result: ['done'], error: 'Expected error for `getList`' }
 
     nock(TEST_URI)
-      .get(`/${APIMethod.LIST_DEALS}`)
+      .get(`/${Method.LIST_DEALS}`)
       .reply(RESPONSE_200, payload)
 
-    return expect(get(APIMethod.LIST_DEALS)).rejects.toMatchSnapshot()
+    return expect(get(Method.LIST_DEALS)).rejects.toMatchSnapshot()
   })
 })

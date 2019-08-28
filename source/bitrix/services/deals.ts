@@ -3,11 +3,11 @@
 import {
   APIGettableMethod,
   APIListableMethod,
-  APIMethod,
   BitrixDeal,
   BitrixGetPayload,
   BitrixListOptions,
-  BitrixListPayload
+  BitrixListPayload,
+  Method
 } from '../types'
 
 interface Dependencies {
@@ -16,6 +16,6 @@ interface Dependencies {
 }
 
 export default ({ get, list }: Dependencies) => ({
-  get: () => get<BitrixDeal>(APIMethod.GET_DEAL, {}),
-  list: (options?: BitrixListOptions) => list<BitrixDeal>(APIMethod.LIST_DEALS, options)
+  get: () => get<BitrixDeal>(Method.GET_DEAL, {}),
+  list: (options?: BitrixListOptions) => list<BitrixDeal>(Method.LIST_DEALS, options)
 })

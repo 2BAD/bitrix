@@ -1,12 +1,12 @@
 import range from 'lodash.range'
 import {
   APIListableMethod,
-  APIMethod,
   BitrixBatchPayload,
   BitrixCommand,
   BitrixCommands,
   BitrixListOptions,
-  BitrixListPayload
+  BitrixListPayload,
+  Method
 } from '../../types'
 import isArray from '../../utils/isArray'
 import { MAX_COMMANDS_PER_BATCH } from './batch'
@@ -14,7 +14,7 @@ import { MAX_COMMANDS_PER_BATCH } from './batch'
 const MAX_ENTRIES_PER_COMMAND = 50
 const MAX_ENTRIES_PER_BATCH = MAX_ENTRIES_PER_COMMAND * MAX_COMMANDS_PER_BATCH
 
-const fillBatchCommands = (method: APIMethod, start: number, toProcess: number): BitrixCommands => {
+const fillBatchCommands = (method: Method, start: number, toProcess: number): BitrixCommands => {
   const requiresCommands = Math.ceil(toProcess / MAX_ENTRIES_PER_COMMAND)
   const commandsToDo = requiresCommands > MAX_COMMANDS_PER_BATCH
     ? MAX_COMMANDS_PER_BATCH
@@ -26,7 +26,7 @@ const fillBatchCommands = (method: APIMethod, start: number, toProcess: number):
   }), {})
 }
 
-const fillBatchesCommands = (method: APIMethod, start: number, toProcess: number): readonly BitrixCommands[] => {
+const fillBatchesCommands = (method: Method, start: number, toProcess: number): readonly BitrixCommands[] => {
   const requiresBatches = Math.ceil(toProcess / MAX_ENTRIES_PER_BATCH)
 
   return range(0, requiresBatches).reduce((batchesCommands, i) => {

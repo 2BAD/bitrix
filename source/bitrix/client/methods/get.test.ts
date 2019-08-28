@@ -3,7 +3,7 @@
 
 import got from 'got'
 import nock from 'nock'
-import { APIMethod } from '../../types'
+import { Method } from '../../types'
 import prepareGet from './get'
 
 const TEST_URI = 'https://test.com/rest'
@@ -15,11 +15,11 @@ describe('Bitrix `get` method', () => {
     const query = { test: 1 }
 
     const scope = nock(TEST_URI)
-      .get(`/${APIMethod.GET_DEAL}`)
+      .get(`/${Method.GET_DEAL}`)
       .query(query)
       .reply(RESPONSE_200)
 
-    await get(APIMethod.GET_DEAL, query)
+    await get(Method.GET_DEAL, query)
 
     expect(scope.done()).toBe(undefined)
   })
@@ -28,10 +28,10 @@ describe('Bitrix `get` method', () => {
     const payload = { test: 'value' }
 
     nock(TEST_URI)
-      .get(`/${APIMethod.GET_DEAL}`)
+      .get(`/${Method.GET_DEAL}`)
       .reply(RESPONSE_200, payload)
 
-    expect(await get(APIMethod.GET_DEAL)).toEqual(payload)
+    expect(await get(Method.GET_DEAL)).toEqual(payload)
   })
 
   it.todo('should cast payload to the <P>')
