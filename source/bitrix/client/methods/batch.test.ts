@@ -116,8 +116,8 @@ describe('Bitrix `batch` method', () => {
 
     const scope = nock(TEST_URI)
       // @todo We'd want to use `query` object here as it is much more readable, but nock for some reason
-      //       fails to match request when it contains `cmd[someName]`. The issue definately connected to the `[]`, since
-      //       it does not appear when only one bracket present
+      //       fails to match request when it contains `cmd[someName]`. The issue definately connected
+      //       to the `[]`, since it does not appear when only one bracket present
       .get(
         `/${BitrixMethod.BATCH}?cmd%5Bone%5D=${commands.one.method}%3FID%3D${dealId}&cmd%5Btwo%5D=${commands.two.method}`
       )
@@ -166,8 +166,8 @@ describe('Bitrix `batch` method', () => {
 
     nock(TEST_URI)
       // @todo We'd want to use `query` object here as it is much more readable, but nock for some reason
-      //       fails to match request when it contains `cmd[someName]`. The issue definately connected to the `[]`, since
-      //       it does not appear when only one bracket present
+      //       fails to match request when it contains `cmd[someName]`. The issue definately connected
+      //        to the `[]`, since it does not appear when only one bracket present
       .get(`/${BitrixMethod.BATCH}?cmd%5B0%5D=${commands[0].method}&cmd%5B1%5D=${commands[1].method}`)
       .reply(RESPONSE_200, payload)
 
@@ -194,8 +194,8 @@ describe('Bitrix `batch` method', () => {
 
     nock(TEST_URI)
       // @todo We'd want to use `query` object here as it is much more readable, but nock for some reason
-      //       fails to match request when it contains `cmd[someName]`. The issue definately connected to the `[]`, since
-      //       it does not appear when only one bracket present
+      //       fails to match request when it contains `cmd[someName]`. The issue definately connected
+      //       to the `[]`, since it does not appear when only one bracket present
       .get(`/${BitrixMethod.BATCH}?cmd%5Bone%5D=${commands.one.method}&cmd%5Btwo%5D=${commands.two.method}`)
       .reply(RESPONSE_200, payload)
 
@@ -217,8 +217,8 @@ describe('Bitrix `batch` method', () => {
 
     nock(TEST_URI)
       // @todo We'd want to use `query` object here as it is much more readable, but nock for some reason
-      //       fails to match request when it contains `cmd[someName]`. The issue definately connected to the `[]`, since
-      //       it does not appear when only one bracket present
+      //       fails to match request when it contains `cmd[someName]`. The issue definately connected
+      //        to the `[]`, since it does not appear when only one bracket present
       .get(`/${BitrixMethod.BATCH}?cmd%5B0%5D=${commands[0].method}&cmd%5B1%5D=${commands[1].method}`)
       .reply(RESPONSE_200, payload)
 
