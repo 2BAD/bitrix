@@ -54,7 +54,7 @@ export default ({ getList, batch }: Dependencies) =>
 
     const toProcess = firstCall.total - start
     const batches = fillBatchesCommands(method, start, toProcess)
-      .map((commands) => batch<Record<keyof typeof commands, readonly P[]>>(commands))
+      .map((commands) => batch<Record<string | number, readonly P[]>>(commands))
 
     return Promise.all(batches)
       // @todo Messy, made in hurry. Refactor this. Had some issues with types
