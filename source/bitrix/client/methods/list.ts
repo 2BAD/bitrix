@@ -1,11 +1,11 @@
 import range from 'lodash.range'
 import {
-  BitrixBatchPayload,
-  BitrixCommand,
-  BitrixCommands,
-  BitrixListOptions,
-  BitrixListPayload,
+  BatchPayload,
+  Command,
+  Commands,
   ListableMethod,
+  ListOptions,
+  ListPayload,
   Method
 } from '../../types'
 import isArray from '../../utils/isArray'
@@ -14,7 +14,7 @@ import { MAX_COMMANDS_PER_BATCH } from './batch'
 const MAX_ENTRIES_PER_COMMAND = 50
 const MAX_ENTRIES_PER_BATCH = MAX_ENTRIES_PER_COMMAND * MAX_COMMANDS_PER_BATCH
 
-const fillBatchCommands = (method: Method, start: number, toProcess: number): BitrixCommands => {
+const fillBatchCommands = (method: Method, start: number, toProcess: number): Commands => {
   const requiresCommands = Math.ceil(toProcess / MAX_ENTRIES_PER_COMMAND)
   const commandsToDo = requiresCommands > MAX_COMMANDS_PER_BATCH
     ? MAX_COMMANDS_PER_BATCH
@@ -26,7 +26,7 @@ const fillBatchCommands = (method: Method, start: number, toProcess: number): Bi
   }), {})
 }
 
-const fillBatchesCommands = (method: Method, start: number, toProcess: number): readonly BitrixCommands[] => {
+const fillBatchesCommands = (method: Method, start: number, toProcess: number): readonly Commands[] => {
   const requiresBatches = Math.ceil(toProcess / MAX_ENTRIES_PER_BATCH)
 
   return range(0, requiresBatches).reduce((batchesCommands, i) => {
@@ -34,18 +34,18 @@ const fillBatchesCommands = (method: Method, start: number, toProcess: number): 
     const remained = toProcess - processed
 
     return [ ...batchesCommands, fillBatchCommands(method, processed, remained)]
-  }, [] as readonly BitrixCommands[])
+  }, [] as readonly Commands[])
 }
 
 interface Dependencies {
-  readonly getList: <P>(method: ListableMethod, query?: object | string) => Promise<BitrixListPayload<P>>
+  readonly getList: <P>(method: ListableMethod, query?: object | string) => Promise<ListPayload<P>>
   // tslint:disable-next-line no-mixed-interface
-  readonly batch: <C extends Record<string, any>>(commands: Record<keyof C, BitrixCommand>) =>
-    Promise<BitrixBatchPayload<C>>
+  readonly batch: <C extends Record<string, any>>(commands: Record<keyof C, Command>) =>
+    Promise<BatchPayload<C>>
 }
 
 export default ({ getList, batch }: Dependencies) =>
-  async <P>(method: ListableMethod, options: BitrixListOptions = {}): Promise<BitrixListPayload<P>> => {
+  async <P>(method: ListableMethod, options: ListOptions = {}): Promise<ListPayload<P>> => {
     const start = options.start || 0
     const firstCall = await getList<P>(method, { query: { start } })
 

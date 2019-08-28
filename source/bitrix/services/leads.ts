@@ -1,21 +1,21 @@
 // tslint:disable:object-literal-sort-keys
 
 import {
-  BitrixGetPayload,
-  BitrixLead,
-  BitrixListOptions,
-  BitrixListPayload,
+  GetPayload,
   GettableMethod,
+  Lead,
   ListableMethod,
+  ListOptions,
+  ListPayload,
   Method
 } from '../types'
 
 interface Dependencies {
-  readonly get: <P>(method: GettableMethod, query?: object | string) => Promise<BitrixGetPayload<P>>
-  readonly list: <P>(method: ListableMethod, options?: BitrixListOptions) => Promise<BitrixListPayload<P>>
+  readonly get: <P>(method: GettableMethod, query?: object | string) => Promise<GetPayload<P>>
+  readonly list: <P>(method: ListableMethod, options?: ListOptions) => Promise<ListPayload<P>>
 }
 
 export default ({ get, list }: Dependencies) => ({
-  get: () => get<BitrixLead>(Method.GET_DEAL, {}),
-  list: (options?: BitrixListOptions) => list<BitrixLead>(Method.LIST_LEADS, options)
+  get: () => get<Lead>(Method.GET_DEAL, {}),
+  list: (options?: ListOptions) => list<Lead>(Method.LIST_LEADS, options)
 })

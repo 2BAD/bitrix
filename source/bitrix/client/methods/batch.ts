@@ -1,11 +1,11 @@
 import { GotInstance, GotJSONFn } from 'got'
 import { stringify as stringifyQuery } from 'querystring'
-import { BitrixBatchPayload, BitrixCommand, BitrixCommands, Method } from '../../types'
+import { BatchPayload, Command, Commands, Method } from '../../types'
 import isArray from '../../utils/isArray'
 
 export const MAX_COMMANDS_PER_BATCH = 50
 
-export const commandsToBatchQuery = (commands: BitrixCommands): Record<string, string> =>
+export const commandsToBatchQuery = (commands: Commands): Record<string, string> =>
   Object.entries(commands).reduce((queries, [cmdName, command]) => {
     const stringifiedParams = command.params ? `?${stringifyQuery(command.params)}` : ''
 
@@ -15,7 +15,7 @@ export const commandsToBatchQuery = (commands: BitrixCommands): Record<string, s
     }
   }, {})
 
-export const handleBatchPayload = <C>(payload: BitrixBatchPayload<C>): BitrixBatchPayload<C> => {
+export const handleBatchPayload = <C>(payload: BatchPayload<C>): BatchPayload<C> => {
   const resultErrors = payload.result.result_error
   const errors = isArray(resultErrors) ? resultErrors : Object.values(resultErrors)
 
@@ -47,7 +47,7 @@ export const handleBatchPayload = <C>(payload: BitrixBatchPayload<C>): BitrixBat
 // @todo `any` in `Record<string, any>` better to be another generic, but TS so far does not allow
 //       partial generic application without loosing the type inference
 export default ({ get }: GotInstance<GotJSONFn>) =>
-  async <C extends Record<string, any>>(commands: Record<keyof C, BitrixCommand>): Promise<BitrixBatchPayload<C>> => {
+  async <C extends Record<string, any>>(commands: Record<keyof C, Command>): Promise<BatchPayload<C>> => {
     const commandsAmount = Object.keys(commands).length
 
     // tslint:disable-next-line no-if-statement
@@ -59,5 +59,5 @@ export default ({ get }: GotInstance<GotJSONFn>) =>
     }
 
     return get(Method.BATCH, { query: commandsToBatchQuery(commands) })
-      .then(({ body }) => handleBatchPayload(body as BitrixBatchPayload<C>))
+      .then(({ body }) => handleBatchPayload(body as BatchPayload<C>))
   }

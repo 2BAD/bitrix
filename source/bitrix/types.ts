@@ -18,7 +18,7 @@ const LISTABLE_METHODS = [Method.LIST_DEALS, Method.LIST_LEADS] as const
 export type ListableMethod = typeof LISTABLE_METHODS[number]
 export type GettableMethod = Diff<Method, ListableMethod>
 
-export interface BitrixPayloadTime {
+export interface PayloadTime {
   readonly start: number
   readonly finish: number
   readonly duration: number
@@ -27,47 +27,47 @@ export interface BitrixPayloadTime {
   readonly date_finish: string
 }
 
-export interface BitrixGetPayload<P> {
+export interface GetPayload<P> {
   readonly result: P,
-  readonly time: BitrixPayloadTime
+  readonly time: PayloadTime
 }
 
-export interface BitrixListPayload<P> {
+export interface ListPayload<P> {
   readonly result: readonly P[],
   readonly error?: string,
   readonly total: number,
   readonly next?: number
-  readonly time: BitrixPayloadTime
+  readonly time: PayloadTime
 }
 
 // `C` stands for a map of names to structural types they will uphold in result
 // `[]` in language of ill Bitrix means `undefined`. Just deal with it.
 // Also, it will return object if command names specified and array if names are numbers. Deal with it.
-export interface BitrixBatchPayload<C> {
+export interface BatchPayload<C> {
   readonly result: {
     readonly result: { readonly [P in keyof C]?: C[P] } | ReadonlyArray<C[keyof C]>
     readonly result_error: { readonly [P in keyof C]?: string } | readonly string[]
     readonly result_total: { readonly [P in keyof C]?: number } | readonly number[]
     readonly result_next: { readonly [P in keyof C]?: number } | readonly number[]
-    readonly result_time: { readonly [P in keyof C]?: BitrixPayloadTime } | readonly BitrixPayloadTime[]
+    readonly result_time: { readonly [P in keyof C]?: PayloadTime } | readonly PayloadTime[]
   }
-  readonly time: BitrixPayloadTime
+  readonly time: PayloadTime
 }
 
-export interface BitrixCommandParams {
+export interface CommandParams {
   readonly [key: string]: string | number
 }
 
-export interface BitrixCommand {
+export interface Command {
   readonly method: Method
-  readonly params?: BitrixCommandParams
+  readonly params?: CommandParams
 }
 
-export interface BitrixCommands {
-  readonly [key: string]: BitrixCommand
+export interface Commands {
+  readonly [key: string]: Command
 }
 
-export interface BitrixListOptions {
+export interface ListOptions {
   readonly start?: number
 }
 
@@ -79,10 +79,10 @@ export interface BitrixListOptions {
 export type NumberString = string
 // Like `'2018-06-07T03:00:00+03:00'`
 export type ISODate = string
-export type BitrixBoolString = 'Y' | 'N'
+export type BoolString = 'Y' | 'N'
 
 // @todo This is approximate structure. Might not be accurate
-export interface BitrixDeal {
+export interface Deal {
   readonly ID: NumberString
   readonly TITLE: string
   readonly TYPE_ID: string
@@ -102,17 +102,17 @@ export interface BitrixDeal {
   readonly MODIFY_BY_ID: NumberString
   readonly DATE_CREATE: ISODate
   readonly DATE_MODIFY: ISODate
-  readonly OPENED: BitrixBoolString
-  readonly CLOSED: BitrixBoolString
+  readonly OPENED: BoolString
+  readonly CLOSED: BoolString
   readonly COMMENTS: string
   readonly ADDITIONAL_INFO: unknown // @todo Check is it right
   readonly LOCATION_ID: NumberString | null
   readonly CATEGORY_ID: NumberString
   readonly STAGE_SEMANTIC_ID: NumberString
-  readonly IS_NEW: BitrixBoolString
-  readonly IS_RECURRING: BitrixBoolString
-  readonly IS_RETURN_CUSTOMER: BitrixBoolString
-  readonly IS_REPEATED_APPROACH: BitrixBoolString
+  readonly IS_NEW: BoolString
+  readonly IS_RECURRING: BoolString
+  readonly IS_RETURN_CUSTOMER: BoolString
+  readonly IS_REPEATED_APPROACH: BoolString
   readonly SOURCE_ID: NumberString | null
   readonly SOURCE_DESCRIPTION: string | null
   readonly ORIGINATOR_ID: string
@@ -124,7 +124,7 @@ export interface BitrixDeal {
   readonly UTM_TERM: string | null
 }
 // @todo This is approximate structure. Might not be accurate
-export interface BitrixLead {
+export interface Lead {
   readonly ID: NumberString
   readonly TITLE: string
   readonly HONORIFIC: unknown | null // @todo
@@ -134,7 +134,7 @@ export interface BitrixLead {
   readonly COMPANY_TITLE: string | null
   readonly COMPANY_ID: unknown | null // @todo
   readonly CONTACT_ID: unknown | null // @todo
-  readonly IS_RETURN_CUSTOMER: BitrixBoolString
+  readonly IS_RETURN_CUSTOMER: BoolString
   readonly BIRTHDATE: unknown | null // @todo
   readonly SOURCE_ID: NumberString
   readonly SOURCE_DESCRIPTION: null
@@ -144,9 +144,9 @@ export interface BitrixLead {
   readonly COMMENTS: string | null
   readonly CURRENCY_ID: string
   readonly OPPORTUNITY: NumberString
-  readonly HAS_PHONE: BitrixBoolString
-  readonly HAS_EMAIL: BitrixBoolString
-  readonly HAS_IMOL: BitrixBoolString
+  readonly HAS_PHONE: BoolString
+  readonly HAS_EMAIL: BoolString
+  readonly HAS_IMOL: BoolString
   readonly ASSIGNED_BY_ID: NumberString
   readonly CREATED_BY_ID: NumberString
   readonly MODIFY_BY_ID: NumberString
@@ -154,7 +154,7 @@ export interface BitrixLead {
   readonly DATE_MODIFY: ISODate
   readonly DATE_CLOSED: ISODate
   readonly STATUS_SEMANTIC_ID: string
-  readonly OPENED: BitrixBoolString
+  readonly OPENED: BoolString
   readonly ORIGINATOR_ID: unknown | null // @todo
   readonly ORIGIN_ID: unknown | null // @todo
   readonly ADDRESS: string | null
