@@ -1,11 +1,11 @@
 import { GotInstance, GotJSONFn } from 'got'
 import { stringify as stringifyQuery } from 'querystring'
-import { BitrixBatchPayload, BitrixCommand, BitrixCommands, BitrixMethod } from '../../types'
+import { BatchPayload, Command, Commands, Method } from '../../types'
 import isArray from '../../utils/isArray'
 
 export const MAX_COMMANDS_PER_BATCH = 50
 
-export const commandsToBatchQuery = (commands: BitrixCommands): Record<string, string> =>
+export const commandsToBatchQuery = (commands: Commands): Record<string, string> =>
   Object.entries(commands).reduce((queries, [cmdName, command]) => {
     const stringifiedParams = command.params ? `?${stringifyQuery(command.params)}` : ''
 
@@ -15,7 +15,7 @@ export const commandsToBatchQuery = (commands: BitrixCommands): Record<string, s
     }
   }, {})
 
-export const handleBatchPayload = <C>(payload: BitrixBatchPayload<C>): BitrixBatchPayload<C> => {
+export const handleBatchPayload = <C>(payload: BatchPayload<C>): BatchPayload<C> => {
   const resultErrors = payload.result.result_error
   const errors = isArray(resultErrors) ? resultErrors : Object.values(resultErrors)
 
@@ -86,8 +86,8 @@ export default ({ get }: GotInstance<GotJSONFn>) => {
    */
   return async <
     CPM extends { [K in keyof C]: unknown },
-    C extends { [K in keyof CPM]: BitrixCommand } = { [K in keyof CPM]: BitrixCommand }
-  >(commands: C): Promise<BitrixBatchPayload<CPM>> => {
+    C extends { [K in keyof CPM]: Command} = { [K in keyof CPM]: Command}
+  >(commands: C): Promise<BatchPayload<CPM>> => {
     const commandsAmount = Object.keys(commands).length
 
     // tslint:disable-next-line no-if-statement
@@ -98,7 +98,7 @@ export default ({ get }: GotInstance<GotJSONFn>) => {
       )
     }
 
-    return get(BitrixMethod.BATCH, { query: commandsToBatchQuery(commands) })
-      .then(({ body }) => handleBatchPayload(body as BitrixBatchPayload<CPM>))
+    return get(Method.BATCH, { query: commandsToBatchQuery(commands) })
+      .then(({ body }) => handleBatchPayload(body as BatchPayload<CPM>))
   }
 }

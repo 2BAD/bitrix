@@ -1,7 +1,7 @@
 import { GotInstance, GotJSONFn } from 'got'
-import { BitrixGetPayload, BitrixGettableMethod } from '../../types'
+import { GetPayload, GettableMethod } from '../../types'
 
 export default ({ get }: GotInstance<GotJSONFn>) =>
-  <P>(method: BitrixGettableMethod, query?: object | string): Promise<BitrixGetPayload<P>> =>
+  <P>(method: GettableMethod, query?: object | string): Promise<GetPayload<P>> =>
     get(method, { query })
-      .then(({ body }) => body as BitrixGetPayload<P>)
+      .then(({ body }) => body as GetPayload<P>)
