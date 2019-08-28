@@ -2,17 +2,17 @@
 
 import {
   APIGettableMethod,
-  APIListableMethod,
   BitrixGetPayload,
   BitrixLead,
   BitrixListOptions,
   BitrixListPayload,
+  ListableMethod,
   Method
 } from '../types'
 
 interface Dependencies {
   readonly get: <P>(method: APIGettableMethod, query?: object | string) => Promise<BitrixGetPayload<P>>
-  readonly list: <P>(method: APIListableMethod, options?: BitrixListOptions) => Promise<BitrixListPayload<P>>
+  readonly list: <P>(method: ListableMethod, options?: BitrixListOptions) => Promise<BitrixListPayload<P>>
 }
 
 export default ({ get, list }: Dependencies) => ({
