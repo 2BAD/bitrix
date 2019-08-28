@@ -15,8 +15,8 @@ export enum APIMethod {
 
 const BITRIX_LISTABLE_METHODS = [APIMethod.LIST_DEALS, APIMethod.LIST_LEADS] as const
 
-export type BitrixListableMethod = typeof BITRIX_LISTABLE_METHODS[number]
-export type BitrixGettableMethod = Diff<APIMethod, BitrixListableMethod>
+export type APIListableMethod = typeof BITRIX_LISTABLE_METHODS[number]
+export type BitrixGettableMethod = Diff<APIMethod, APIListableMethod>
 
 export interface BitrixPayloadTime {
   readonly start: number

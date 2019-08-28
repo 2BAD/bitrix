@@ -1,10 +1,10 @@
 import range from 'lodash.range'
 import {
+  APIListableMethod,
   APIMethod,
   BitrixBatchPayload,
   BitrixCommand,
   BitrixCommands,
-  BitrixListableMethod,
   BitrixListOptions,
   BitrixListPayload
 } from '../../types'
@@ -38,14 +38,14 @@ const fillBatchesCommands = (method: APIMethod, start: number, toProcess: number
 }
 
 interface Dependencies {
-  readonly getList: <P>(method: BitrixListableMethod, query?: object | string) => Promise<BitrixListPayload<P>>
+  readonly getList: <P>(method: APIListableMethod, query?: object | string) => Promise<BitrixListPayload<P>>
   // tslint:disable-next-line no-mixed-interface
   readonly batch: <C extends Record<string, any>>(commands: Record<keyof C, BitrixCommand>) =>
     Promise<BitrixBatchPayload<C>>
 }
 
 export default ({ getList, batch }: Dependencies) =>
-  async <P>(method: BitrixListableMethod, options: BitrixListOptions = {}): Promise<BitrixListPayload<P>> => {
+  async <P>(method: APIListableMethod, options: BitrixListOptions = {}): Promise<BitrixListPayload<P>> => {
     const start = options.start || 0
     const firstCall = await getList<P>(method, { query: { start } })
 

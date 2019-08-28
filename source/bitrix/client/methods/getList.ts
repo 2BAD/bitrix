@@ -1,5 +1,5 @@
 import { GotInstance, GotJSONFn } from 'got'
-import { BitrixListableMethod, BitrixListPayload } from '../../types'
+import { APIListableMethod, BitrixListPayload } from '../../types'
 
 export const handleGetListPayload = <P>(payload: BitrixListPayload<P>) => {
   // tslint:disable-next-line no-if-statement
@@ -17,6 +17,6 @@ export const handleGetListPayload = <P>(payload: BitrixListPayload<P>) => {
 //       depending on `get` and `list` methods. Until we can automatically
 //       map those types based on methods and thus infer output types, we need this helper
 export default ({ get }: GotInstance<GotJSONFn>) =>
-  <P>(method: BitrixListableMethod, query?: object | string): Promise<BitrixListPayload<P>> =>
+  <P>(method: APIListableMethod, query?: object | string): Promise<BitrixListPayload<P>> =>
     get(method, { query })
       .then(({ body }) => handleGetListPayload(body as BitrixListPayload<P>))
