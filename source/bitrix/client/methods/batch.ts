@@ -86,7 +86,7 @@ export default ({ get }: GotInstance<GotJSONFn>) => {
    */
   return async <
     CPM extends { [K in keyof C]: unknown },
-    C extends { [K in keyof CPM]: BitrixCommand} = { [K in keyof CPM]: BitrixCommand}
+    C extends { [K in keyof CPM]: BitrixCommand } = { [K in keyof CPM]: BitrixCommand }
   >(commands: C): Promise<BitrixBatchPayload<CPM>> => {
     const commandsAmount = Object.keys(commands).length
 
