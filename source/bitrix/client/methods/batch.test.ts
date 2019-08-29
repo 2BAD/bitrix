@@ -5,9 +5,9 @@ import got from 'got'
 import range from 'lodash.range'
 import nock from 'nock'
 import { Method } from '../../types'
-import Batch, { commandsToBatchQuery, handleBatchPayload, MAX_COMMANDS_PER_BATCH } from './batch'
+import Batch, { handleBatchPayload, MAX_COMMANDS_PER_BATCH, prepareCommandsQueries } from './batch'
 
-describe('Bitrix `commandsToBatchQuery` method', () => {
+describe('Bitrix `prepareCommandsQueries` method', () => {
   it('should transform dict of the commands into the query object', () => {
     const testDealId = 11111
 
@@ -17,11 +17,17 @@ describe('Bitrix `commandsToBatchQuery` method', () => {
         params: { ID: testDealId }
       },
       two: {
-        method: Method.LIST_DEALS
+        method: Method.LIST_DEALS,
+        params: {
+          filter: { '>PROBABILITY': 50 },
+          order: { STAGE_ID: 'ASC' },
+          select: ['ID', 'TITLE'],
+          start: 200
+        }
       }
     }
 
-    expect(commandsToBatchQuery(commands)).toMatchSnapshot()
+    expect(prepareCommandsQueries(commands)).toMatchSnapshot()
   })
 
   it('should work with numbered commands', () => {
@@ -30,7 +36,7 @@ describe('Bitrix `commandsToBatchQuery` method', () => {
       1: { method: Method.LIST_DEALS }
     }
 
-    expect(commandsToBatchQuery(commands)).toMatchSnapshot()
+    expect(prepareCommandsQueries(commands)).toMatchSnapshot()
   })
 
   it('should work with array of commands', () => {
@@ -39,11 +45,11 @@ describe('Bitrix `commandsToBatchQuery` method', () => {
       { method: Method.LIST_DEALS }
     ] as const
 
-    expect(commandsToBatchQuery(commands)).toMatchSnapshot()
+    expect(prepareCommandsQueries(commands)).toMatchSnapshot()
   })
 
   it('should return empty query object when no commands provided', () => {
-    expect(commandsToBatchQuery({})).toMatchSnapshot()
+    expect(prepareCommandsQueries({})).toMatchSnapshot()
   })
 })
 

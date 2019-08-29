@@ -1,19 +1,24 @@
 import { GotInstance, GotJSONFn } from 'got'
-import { stringify as stringifyQuery } from 'querystring'
+import { stringify as toQuery } from 'qs'
 import { BatchPayload, Command, Commands, Method } from '../../types'
 import isArray from '../../utils/isArray'
 
 export const MAX_COMMANDS_PER_BATCH = 50
 
-export const commandsToBatchQuery = (commands: Commands): Record<string, string> =>
-  Object.entries(commands).reduce((queries, [cmdName, command]) => {
-    const stringifiedParams = command.params ? `?${stringifyQuery(command.params)}` : ''
+/**
+ * @note We could avoid that function... if only Bitrix API would support posting of the batch commands as
+ *       plain objects, like it does with other methods. Instead, it should be a dict or array of string queries
+ */
+export const prepareCommandsQueries = <C extends Commands, R = { [K in keyof C]: string }>(commands: C): R =>
+  Object.entries(commands).reduce((calls, [name, { method, params }]) => {
+    const stringifiedParams = params ? `?${toQuery(params)}` : ''
 
     return {
-      ...queries,
-      [`cmd[${cmdName}]`]: `${command.method}${stringifiedParams}`
+      ...calls,
+      [`cmd[${name}]`]: `${method}${stringifiedParams}`
     }
-  }, {})
+  // tslint:disable-next-line: no-object-literal-type-assertion
+  }, {} as R)
 
 export const handleBatchPayload = <C>(payload: BatchPayload<C>): BatchPayload<C> => {
   const resultErrors = payload.result.result_error
@@ -98,7 +103,7 @@ export default ({ get }: GotInstance<GotJSONFn>) => {
       )
     }
 
-    return get(Method.BATCH, { query: commandsToBatchQuery(commands) })
+    return get(Method.BATCH, { query: prepareCommandsQueries(commands) })
       .then(({ body }) => handleBatchPayload(body as BatchPayload<CPM>))
   }
 }
