@@ -1,17 +1,17 @@
-# @2bad/iris.crm.bitrix
+# @2bad/bitrix
 
-> Bitrix24 REST API client that isn't shit
+> Bitrix24 REST API client that doesn't suck
 
 Some testing examples:
 
 ```ts
-import prepareBitrix from './bitrix'
+import Bitrix from './bitrix'
 import { Method } from './bitrix/types'
 
 const BITRIX_ADDRESS = 'https://DOMAIN.bitrix24.ru'
 const AUTH_TOKEN = 'AUTH_TOKEN'
 
-const bitrix = prepareBitrix(`${BITRIX_ADDRESS}/rest`, AUTH_TOKEN)
+const bitrix = Bitrix(`${BITRIX_ADDRESS}/rest`, AUTH_TOKEN)
 
 // ----------------------
 // Common methods

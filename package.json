@@ -1,16 +1,16 @@
 {
-  "name": "@2bad/iris.crm.bitrix",
+  "name": "@2bad/bitrix",
   "version": "1.0.1",
-  "description": "Fetch interface to get data from Bitrix REST API",
-  "homepage": "https://github.com/2BAD/iris.crm.bitrix#readme",
+  "description": "Bitrix24 REST API client that doesn't suck",
+  "homepage": "https://github.com/2BAD/bitrix#readme",
   "twitter": "@2BAD",
   "author": "2BAD (https://github.com/2BAD)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/2BAD/iris.crm.bitrix.git"
+    "url": "https://github.com/2BAD/bitrix.git"
   },
   "bugs": {
-    "url": "https://github.com/2BAD/iris.crm.bitrix/issues"
+    "url": "https://github.com/2BAD/bitrix/issues"
   },
   "license": "2BAD © 2018",
   "keywords": [
@@ -45,9 +45,9 @@
   "engines": {
     "node": ">=8.1.0"
   },
-  "main": "build/main/iris.crm.bitrix.js",
-  "module": "build/module/iris.crm.bitrix.js",
-  "typings": "build/main/iris.crm.bitrix.d.ts",
+  "main": "build/main/bitrix.js",
+  "module": "build/module/bitrix.js",
+  "typings": "build/main/bitrix.d.ts",
   "files": [
     "build"
   ],
