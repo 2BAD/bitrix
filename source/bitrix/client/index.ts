@@ -1,7 +1,6 @@
 // tslint:disable:object-literal-sort-keys
 
 import got from 'got'
-import { name, version } from '../../../package.json'
 import Batch from './methods/batch'
 import Get from './methods/get'
 import GetList from './methods/getList'
@@ -23,7 +22,7 @@ export default (restUri: string, token: string) => {
   const instance = got.extend({
     baseUrl: restUri,
     headers: {
-      'user-agent': `${name}/${version}`
+      'user-agent': `@2bad/bitrix`
     },
     json: true,
     hooks: {
