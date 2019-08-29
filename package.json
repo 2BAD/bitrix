@@ -47,7 +47,7 @@
   },
   "main": "build/main/bitrix.js",
   "module": "build/module/bitrix.js",
-  "typings": "build/main/bitrix.d.ts",
+  "typings": "build/main/types.d.ts",
   "files": [
     "build"
   ],
