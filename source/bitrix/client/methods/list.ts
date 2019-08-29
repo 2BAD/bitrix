@@ -5,8 +5,7 @@ import {
   Commands,
   ListableMethod,
   ListParams,
-  ListPayload,
-  Method
+  ListPayload
 } from '../../types'
 import isArray from '../../utils/isArray'
 import { MAX_COMMANDS_PER_BATCH } from './batch'
@@ -14,7 +13,7 @@ import { MAX_COMMANDS_PER_BATCH } from './batch'
 const MAX_ENTRIES_PER_COMMAND = 50
 const MAX_ENTRIES_PER_BATCH = MAX_ENTRIES_PER_COMMAND * MAX_COMMANDS_PER_BATCH
 
-const fillWithBatchCommands = (method: Method, start: number, toProcess: number): Commands => {
+const fillWithBatchCommands = ({ method, params }: Command, start: number, toProcess: number): Commands => {
   const requiresCommands = Math.ceil(toProcess / MAX_ENTRIES_PER_COMMAND)
   const commandsToDo = requiresCommands > MAX_COMMANDS_PER_BATCH
     ? MAX_COMMANDS_PER_BATCH
@@ -22,18 +21,18 @@ const fillWithBatchCommands = (method: Method, start: number, toProcess: number)
 
   return range(0, commandsToDo).reduce((commands, i) => ({
     ...commands,
-    [i]: { method, params: { start: start + (MAX_ENTRIES_PER_COMMAND * i) } }
+    [i]: { method, params: { ...params, start: start + (MAX_ENTRIES_PER_COMMAND * i) } }
   }), {})
 }
 
-const fillWithBatchesCommands = (method: Method, start: number, toProcess: number): readonly Commands[] => {
+const fillWithBatchesCommands = (command: Command, start: number, toProcess: number): readonly Commands[] => {
   const requiresBatches = Math.ceil(toProcess / MAX_ENTRIES_PER_BATCH)
 
   return range(0, requiresBatches).reduce((batchesCommands, i) => {
     const processed = start + (MAX_ENTRIES_PER_BATCH * i)
     const remained = toProcess - processed
 
-    return [ ...batchesCommands, fillWithBatchCommands(method, processed, remained)]
+    return [ ...batchesCommands, fillWithBatchCommands(command, processed, remained)]
   }, [] as readonly Commands[])
 }
 
@@ -47,13 +46,13 @@ interface Dependencies {
 export default ({ getList, batch }: Dependencies) =>
   async <P>(method: ListableMethod, params: ListParams = {}): Promise<ListPayload<P>> => {
     const start = params.start || 0
-    const firstCall = await getList<P>(method, { query: { start } })
+    const firstCall = await getList<P>(method, { ...params, start })
 
     // tslint:disable-next-line no-if-statement
     if (!firstCall.next) return firstCall
 
     const toProcess = firstCall.total - start
-    const batches = fillWithBatchesCommands(method, start, toProcess)
+    const batches = fillWithBatchesCommands({ method, params }, start, toProcess)
       .map((commands) => batch<Record<string | number, readonly P[]>>(commands))
 
     return Promise.all(batches)
