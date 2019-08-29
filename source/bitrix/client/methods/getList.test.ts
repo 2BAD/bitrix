@@ -38,14 +38,14 @@ describe('Bitrix `handleGetListPayload` method', () => {
 
 describe('Bitrix `getList` method', () => {
   it('should form a proper request', async () => {
-    const query = { test: 1 }
+    const params = { start: 50 }
 
     const scope = nock(TEST_URI)
       .get(`/${Method.LIST_DEALS}`)
-      .query(query)
+      .query(params)
       .reply(RESPONSE_200)
 
-    await get(Method.LIST_DEALS, query)
+    await get(Method.LIST_DEALS, params)
 
     expect(scope.done()).toBe(undefined)
   })

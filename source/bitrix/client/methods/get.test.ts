@@ -12,14 +12,14 @@ const RESPONSE_200 = 200
 
 describe('Bitrix `get` method', () => {
   it('should form a proper request', async () => {
-    const query = { test: 1 }
+    const params = { ID: 1 }
 
     const scope = nock(TEST_URI)
       .get(`/${Method.GET_DEAL}`)
-      .query(query)
+      .query(params)
       .reply(RESPONSE_200)
 
-    await get(Method.GET_DEAL, query)
+    await get(Method.GET_DEAL, params)
 
     expect(scope.done()).toBe(undefined)
   })
