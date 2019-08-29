@@ -36,7 +36,7 @@ bitrix.get(Method.GET_DEAL, { query: { ID: 9999999999999 } })
   .catch(console.error)
 
 // Get first 50
-bitrix.get(Method.LIST_DEALS, {})
+bitrix.getList(Method.LIST_DEALS, {})
   .then(console.log)
   .catch(console.error)
 
