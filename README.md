@@ -11,7 +11,7 @@ import { Method } from './bitrix/types'
 const BITRIX_ADDRESS = 'https://DOMAIN.bitrix24.ru'
 const AUTH_TOKEN = 'AUTH_TOKEN'
 
-const bitrix = prepareBitrix(`${BITRIX_ADDRESS}/rest`, AUTH_TOKE)
+const bitrix = prepareBitrix(`${BITRIX_ADDRESS}/rest`, AUTH_TOKEN)
 
 bitrix.batch({
   one: {
