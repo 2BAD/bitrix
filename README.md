@@ -41,7 +41,7 @@ bitrix.getList(Method.LIST_DEALS, {})
   .catch(console.error)
 
 // Get all
-bitrix.deals.list()
+bitrix.deals.list({ select: ["*", "UF_*"] })
   .then(console.log)
   .catch(console.error)
 ```
