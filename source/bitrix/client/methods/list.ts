@@ -14,7 +14,7 @@ import { MAX_COMMANDS_PER_BATCH } from './batch'
 const MAX_ENTRIES_PER_COMMAND = 50
 const MAX_ENTRIES_PER_BATCH = MAX_ENTRIES_PER_COMMAND * MAX_COMMANDS_PER_BATCH
 
-const fillBatchCommands = (method: Method, start: number, toProcess: number): Commands => {
+const fillWithBatchCommands = (method: Method, start: number, toProcess: number): Commands => {
   const requiresCommands = Math.ceil(toProcess / MAX_ENTRIES_PER_COMMAND)
   const commandsToDo = requiresCommands > MAX_COMMANDS_PER_BATCH
     ? MAX_COMMANDS_PER_BATCH
@@ -26,14 +26,14 @@ const fillBatchCommands = (method: Method, start: number, toProcess: number): Co
   }), {})
 }
 
-const fillBatchesCommands = (method: Method, start: number, toProcess: number): readonly Commands[] => {
+const fillWithBatchesCommands = (method: Method, start: number, toProcess: number): readonly Commands[] => {
   const requiresBatches = Math.ceil(toProcess / MAX_ENTRIES_PER_BATCH)
 
   return range(0, requiresBatches).reduce((batchesCommands, i) => {
     const processed = start + (MAX_ENTRIES_PER_BATCH * i)
     const remained = toProcess - processed
 
-    return [ ...batchesCommands, fillBatchCommands(method, processed, remained)]
+    return [ ...batchesCommands, fillWithBatchCommands(method, processed, remained)]
   }, [] as readonly Commands[])
 }
 
@@ -53,7 +53,7 @@ export default ({ getList, batch }: Dependencies) =>
     if (!firstCall.next) return firstCall
 
     const toProcess = firstCall.total - start
-    const batches = fillBatchesCommands(method, start, toProcess)
+    const batches = fillWithBatchesCommands(method, start, toProcess)
       .map((commands) => batch<Record<string | number, readonly P[]>>(commands))
 
     return Promise.all(batches)
