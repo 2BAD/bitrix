@@ -5,13 +5,19 @@ export enum Method {
   BATCH = 'batch',
   GET_DEAL = 'crm.deal.get',
   GET_LEAD = 'crm.lead.get',
+  GET_STATUS = 'crm.status.get',
 
   // Listable
   LIST_DEALS = 'crm.deal.list',
-  LIST_LEADS = 'crm.lead.list'
+  LIST_LEADS = 'crm.lead.list',
+  LIST_STATUSES = 'crm.status.list'
 }
 
-const LISTABLE_METHODS = [Method.LIST_DEALS, Method.LIST_LEADS] as const
+const LISTABLE_METHODS = [
+  Method.LIST_DEALS,
+  Method.LIST_LEADS,
+  Method.LIST_STATUSES
+] as const
 
 export type ListableMethod = typeof LISTABLE_METHODS[number]
 export type GettableMethod = Diff<Method, ListableMethod>
@@ -170,4 +176,20 @@ export interface Lead {
   readonly UTM_CAMPAIGN: string | null
   readonly UTM_CONTENT: string | null
   readonly UTM_TERM: string | null
+}
+
+export interface StatusExtra {
+  readonly SEMANTICS: string
+  readonly COLOR: string
+}
+
+export interface Status {
+  readonly ID: NumberString
+  readonly ENTITY_ID: string
+  readonly STATUS_ID: NumberString
+  readonly NAME: string
+  readonly NAME_INIT: string
+  readonly SORT: NumberString
+  readonly SYSTEM: BoolString
+  readonly EXTRA: StatusExtra | undefined
 }
