@@ -44,15 +44,15 @@ export default ({ get }: GotInstance<GotJSONFn>) => {
    * }
    *
    * const commands = {
-   *  dealsList: { method. BitrixMethod.LIST_DEALS },
-   *  someLead: { method. BitrixMethod.GET_LEAD, params: { ID: 11 } }
+   *  dealsList: { method. Method.LIST_DEALS },
+   *  someLead: { method. Method.GET_LEAD, params: { ID: 11 } }
    * }
    *
    * batch<Commands>(commands).then((p) => p.result.dealList)
    *
    * // Will error
    * batch<Commands>({
-   *  wrong: { method. BitrixMethod.LIST_DEALS }
+   *  wrong: { method. Method.LIST_DEALS }
    * })
    * ```
    *
@@ -61,8 +61,8 @@ export default ({ get }: GotInstance<GotJSONFn>) => {
    *
    * ```
    * const commands = [
-   *  { method. BitrixMethod.LIST_DEALS },
-   *  { method. BitrixMethod.GET_LEAD, params: { ID: 11 } }
+   *  { method. Method.LIST_DEALS },
+   *  { method. Method.GET_LEAD, params: { ID: 11 } }
    * ]
    *
    * batch<Record<string, readonly Deal[] | Lead>(commands).then((p) => p.result.dealList)
@@ -72,8 +72,8 @@ export default ({ get }: GotInstance<GotJSONFn>) => {
    *
    * ```
    * const commands = [
-   *  { method. BitrixMethod.LIST_DEALS },
-   *  { method. BitrixMethod.GET_LEAD, params: { ID: 11 } }
+   *  { method. Method.LIST_DEALS },
+   *  { method. Method.GET_LEAD, params: { ID: 11 } }
    * ] as const
    *
    * batch<[Deal[], Lead]>(commands).then(({ result }) => {
