@@ -1,8 +1,6 @@
 # @2bad/iris.crm.bitrix
 
-> Bitrix API that isn't shit
-
-Bitrix24 REST API client
+> Bitrix24 REST API client that isn't shit
 
 Some testing examples:
 
