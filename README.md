@@ -1,5 +1,7 @@
 # @2bad/iris.crm.bitrix
 
+> Bitrix API that isn't shit
+
 Bitrix24 REST API client
 
 Some testing examples:
@@ -12,6 +14,10 @@ const BITRIX_ADDRESS = 'https://DOMAIN.bitrix24.ru'
 const AUTH_TOKEN = 'AUTH_TOKEN'
 
 const bitrix = prepareBitrix(`${BITRIX_ADDRESS}/rest`, AUTH_TOKEN)
+
+// ----------------------
+// Common methods
+// ----------------------
 
 bitrix.batch({
   one: {
@@ -40,7 +46,16 @@ bitrix.getList(Method.LIST_DEALS, {})
   .then(console.log)
   .catch(console.error)
 
-// Get all
+// ----------------------
+// API
+// ----------------------
+
+// Get deal
+bitrix.deals.get({ ID: 25 })
+  .then(console.log)
+  .catch(console.error)
+
+// Get all deals
 bitrix.deals.list({ select: ["*", "UF_*"] })
   .then(console.log)
   .catch(console.error)
