@@ -7,6 +7,18 @@ import Get from './methods/get'
 import GetList from './methods/getList'
 import List from './methods/list'
 
+/**
+ * Got can't merge `query` option with other queries if they are string. But that hook can.
+ */
+const addAccessTokenHook = (token: string) => (options: got.GotJSONOptions) => {
+  // tslint:disable-next-line: no-if-statement
+  if (!options.path) return
+
+  const hasQuery = options.path.includes('?')
+  // tslint:disable-next-line:no-object-mutation no-expression-statement
+  options.path = `${options.path}${hasQuery ? '&' : '?'}access_token=${token}`
+}
+
 export default (restUri: string, token: string) => {
   const instance = got.extend({
     baseUrl: restUri,
@@ -14,10 +26,10 @@ export default (restUri: string, token: string) => {
       'user-agent': `${name}/${version}`
     },
     json: true,
-    query: {
-      access_token: token
-    },
     hooks: {
+      beforeRequest: [
+        addAccessTokenHook(token)
+      ]
       // should be used with rate limiter to handle throttling cases
       // afterResponse: [
       //   (response) => {
