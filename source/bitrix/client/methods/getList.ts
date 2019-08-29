@@ -1,5 +1,5 @@
 import { GotInstance, GotJSONFn } from 'got'
-import { ListableMethod, ListPayload } from '../../types'
+import { ListableMethod, ListParams, ListPayload } from '../../types'
 
 export const handleGetListPayload = <P>(payload: ListPayload<P>) => {
   // tslint:disable-next-line no-if-statement
@@ -17,6 +17,6 @@ export const handleGetListPayload = <P>(payload: ListPayload<P>) => {
 //       depending on `get` and `list` methods. Until we can automatically
 //       map those types based on methods and thus infer output types, we need this helper
 export default ({ get }: GotInstance<GotJSONFn>) =>
-  <P>(method: ListableMethod, query?: object | string): Promise<ListPayload<P>> =>
-    get(method, { query })
+  <P>(method: ListableMethod, params?: ListParams): Promise<ListPayload<P>> =>
+    get(method, { query: params })
       .then(({ body }) => handleGetListPayload(body as ListPayload<P>))

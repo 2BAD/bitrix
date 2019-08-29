@@ -2,20 +2,21 @@
 
 import {
   Deal,
+  GetParams,
   GetPayload,
   GettableMethod,
   ListableMethod,
-  ListOptions,
+  ListParams,
   ListPayload,
   Method
 } from '../types'
 
 interface Dependencies {
-  readonly get: <P>(method: GettableMethod, query?: object | string) => Promise<GetPayload<P>>
-  readonly list: <P>(method: ListableMethod, options?: ListOptions) => Promise<ListPayload<P>>
+  readonly get: <P>(method: GettableMethod, params?: GetParams) => Promise<GetPayload<P>>
+  readonly list: <P>(method: ListableMethod, params?: ListParams) => Promise<ListPayload<P>>
 }
 
 export default ({ get, list }: Dependencies) => ({
   get: () => get<Deal>(Method.GET_DEAL, {}),
-  list: (options?: ListOptions) => list<Deal>(Method.LIST_DEALS, options)
+  list: (params?: ListParams) => list<Deal>(Method.LIST_DEALS, params)
 })

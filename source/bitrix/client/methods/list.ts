@@ -4,7 +4,7 @@ import {
   Command,
   Commands,
   ListableMethod,
-  ListOptions,
+  ListParams,
   ListPayload,
   Method
 } from '../../types'
@@ -38,15 +38,15 @@ const fillWithBatchesCommands = (method: Method, start: number, toProcess: numbe
 }
 
 interface Dependencies {
-  readonly getList: <P>(method: ListableMethod, query?: object | string) => Promise<ListPayload<P>>
+  readonly getList: <P>(method: ListableMethod, params?: ListParams) => Promise<ListPayload<P>>
   // tslint:disable-next-line no-mixed-interface
   readonly batch: <C extends Record<string, any>>(commands: Record<keyof C, Command>) =>
     Promise<BatchPayload<C>>
 }
 
 export default ({ getList, batch }: Dependencies) =>
-  async <P>(method: ListableMethod, options: ListOptions = {}): Promise<ListPayload<P>> => {
-    const start = options.start || 0
+  async <P>(method: ListableMethod, params: ListParams = {}): Promise<ListPayload<P>> => {
+    const start = params.start || 0
     const firstCall = await getList<P>(method, { query: { start } })
 
     // tslint:disable-next-line no-if-statement
