@@ -5,7 +5,7 @@ import got from 'got'
 import range from 'lodash.range'
 import nock from 'nock'
 import { Method } from '../../types'
-import prepareBatch, { commandsToBatchQuery, handleBatchPayload, MAX_COMMANDS_PER_BATCH } from './batch'
+import Batch, { commandsToBatchQuery, handleBatchPayload, MAX_COMMANDS_PER_BATCH } from './batch'
 
 describe('Bitrix `commandsToBatchQuery` method', () => {
   it('should transform dict of the commands into the query object', () => {
@@ -110,7 +110,7 @@ describe('Bitrix `handleBatchPayload` method', () => {
 })
 
 const TEST_URI = 'https://test.com/rest'
-const batch = prepareBatch(got.extend({ baseUrl: TEST_URI, json: true }))
+const batch = Batch(got.extend({ baseUrl: TEST_URI, json: true }))
 const RESPONSE_200 = 200
 
 describe('Bitrix `batch` method', () => {

@@ -2,10 +2,10 @@
 
 import got from 'got'
 import { name, version } from '../../../package.json'
-import makeBatch from './methods/batch'
-import makeGet from './methods/get'
-import makeGetList from './methods/getList'
-import makeList from './methods/list'
+import Batch from './methods/batch'
+import Get from './methods/get'
+import GetList from './methods/getList'
+import List from './methods/list'
 
 export default (restUri: string, token: string) => {
   const instance = got.extend({
@@ -27,10 +27,10 @@ export default (restUri: string, token: string) => {
     }
   })
 
-  const get = makeGet(instance)
-  const getList = makeGetList(instance)
-  const batch = makeBatch(instance)
-  const list = makeList({ getList, batch })
+  const get = Get(instance)
+  const getList = GetList(instance)
+  const batch = Batch(instance)
+  const list = List({ getList, batch })
 
   return {
     get,

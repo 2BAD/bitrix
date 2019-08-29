@@ -1,18 +1,18 @@
 // tslint:disable:object-literal-sort-keys
 
-import prepareClient from './client'
-import prepareDealsService from './services/deals'
-import prepareLeadsService from './services/leads'
+import Client from './client'
+import DealsService from './services/deals'
+import LeadsService from './services/leads'
 
 export default (restUri: string, token: string) => {
-  const { get, getList, batch, list } = prepareClient(restUri, token)
+  const { get, getList, batch, list } = Client(restUri, token)
 
   return {
     get,
     getList,
     batch,
     list,
-    deals: prepareDealsService({ get, list }),
-    leads: prepareLeadsService({ get, list })
+    deals: DealsService({ get, list }),
+    leads: LeadsService({ get, list })
   }
 }

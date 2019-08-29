@@ -4,10 +4,10 @@
 import got from 'got'
 import nock from 'nock'
 import { Method } from '../../types'
-import prepareGet from './get'
+import Get from './get'
 
 const TEST_URI = 'https://test.com/rest'
-const get = prepareGet(got.extend({ baseUrl: TEST_URI, json: true }))
+const get = Get(got.extend({ baseUrl: TEST_URI, json: true }))
 const RESPONSE_200 = 200
 
 describe('Bitrix `get` method', () => {
