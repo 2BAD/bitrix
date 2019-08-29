@@ -1,4 +1,5 @@
 import { GotInstance, GotJSONFn } from 'got'
+import { stringify as toQuery } from 'qs'
 import { ListableMethod, ListParams, ListPayload } from '../../types'
 
 export const handleGetListPayload = <P>(payload: ListPayload<P>) => {
@@ -18,5 +19,5 @@ export const handleGetListPayload = <P>(payload: ListPayload<P>) => {
 //       map those types based on methods and thus infer output types, we need this helper
 export default ({ get }: GotInstance<GotJSONFn>) =>
   <P>(method: ListableMethod, params?: ListParams): Promise<ListPayload<P>> =>
-    get(method, { query: params })
+    get(method, { query: toQuery(params) })
       .then(({ body }) => handleGetListPayload(body as ListPayload<P>))

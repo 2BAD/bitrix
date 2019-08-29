@@ -38,7 +38,12 @@ describe('Bitrix `handleGetListPayload` method', () => {
 
 describe('Bitrix `getList` method', () => {
   it('should form a proper request', async () => {
-    const params = { start: 50 }
+    const params = {
+      filter: { '>PROBABILITY': 50 },
+      order: { STAGE_ID: 'ASC' },
+      select: ['ID', 'TITLE'],
+      start: 50
+    } as const
 
     const scope = nock(TEST_URI)
       .get(`/${Method.LIST_DEALS}`)
