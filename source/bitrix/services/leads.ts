@@ -17,6 +17,6 @@ interface Dependencies {
 }
 
 export default ({ get, list }: Dependencies) => ({
-  get: () => get<Lead>(Method.GET_LEAD, {}),
+  get: (params?: GetParams) => get<Lead>(Method.GET_LEAD, params),
   list: (params?: ListParams) => list<Lead>(Method.LIST_LEADS, params)
 })
