@@ -93,6 +93,11 @@ export type BoolString = 'Y' | 'N'
 
 // @todo This is approximate structure. Might not be accurate
 export interface Deal {
+  // Deal can have user fields
+  // @todo Remove `unknown` when all fields will be known
+  readonly [key: string]: string | unknown
+
+  // tslint:disable-next-line: no-mixed-interface
   readonly ID: NumberString
   readonly TITLE: string
   readonly TYPE_ID: string
@@ -133,8 +138,14 @@ export interface Deal {
   readonly UTM_CONTENT: string | null
   readonly UTM_TERM: string | null
 }
+
 // @todo This is approximate structure. Might not be accurate
 export interface Lead {
+  // Deal can have user fields
+  // @todo Remove `unknown` when all fields will be known
+  readonly [key: string]: string | unknown
+
+  // tslint:disable-next-line: no-mixed-interface
   readonly ID: NumberString
   readonly TITLE: string
   readonly HONORIFIC: unknown | null // @todo
