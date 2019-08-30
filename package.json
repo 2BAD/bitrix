@@ -60,9 +60,9 @@
     "lint": "tslint --project .",
     "lint:fix": "tslint --fix --project .",
     "test": "jest --setupFiles dotenv/config",
+    "test:watch": "jest --watch --setupFiles dotenv/config",
     "test:unit": "jest unit --setupFiles dotenv/config",
     "test:integration": "jest integration --setupFiles dotenv/config",
-    "test:watch": "jest --watch --setupFiles dotenv/config --testPathIgnorePatterns __tests__/integration",
     "watch": "run-s clean build:main && run-p build:main:watch"
   },
   "jest": {
