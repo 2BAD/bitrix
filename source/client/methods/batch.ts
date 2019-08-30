@@ -34,7 +34,12 @@ export const handleBatchPayload = <C>(payload: BatchPayload<C>): BatchPayload<C>
   return payload
 }
 
-export default ({ get }: GotInstance<GotJSONFn>) => {
+export type Batch = <
+  CPM extends { [K in keyof C]: unknown },
+  C extends { [K in keyof CPM]: Command} = { [K in keyof CPM]: Command}
+>(commands: C) => Promise<BatchPayload<CPM>>
+
+export default ({ get }: GotInstance<GotJSONFn>): Batch => {
   /**
    * A complicated generics setup needed to properly map payload to commands names and back
    * <CPM> stands for commands payload map and allows to specify properly function result. When leaved blank,
@@ -89,7 +94,7 @@ export default ({ get }: GotInstance<GotJSONFn>) => {
    * batch<[Deal[], Lead, Lead]>(commands)
    * ```
    */
-  return async <
+  const batch: Batch = async <
     CPM extends { [K in keyof C]: unknown },
     C extends { [K in keyof CPM]: Command} = { [K in keyof CPM]: Command}
   >(commands: C): Promise<BatchPayload<CPM>> => {
@@ -106,4 +111,6 @@ export default ({ get }: GotInstance<GotJSONFn>) => {
     return get(Method.BATCH, { query: prepareCommandsQueries(commands) })
       .then(({ body }) => handleBatchPayload(body as BatchPayload<CPM>))
   }
+
+  return batch
 }

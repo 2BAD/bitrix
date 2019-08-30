@@ -1,19 +1,12 @@
 // tslint:disable:object-literal-sort-keys
 
-import {
-  GetParams,
-  GetPayload,
-  GettableMethod,
-  ListableMethod,
-  ListParams,
-  ListPayload,
-  Method,
-  Status
-} from '../types'
+import { Get } from '../client/methods/get'
+import { List } from '../client/methods/list'
+import { GetParams, ListParams, Method, Status } from '../types'
 
 interface Dependencies {
-  readonly get: <P>(method: GettableMethod, params?: GetParams) => Promise<GetPayload<P>>
-  readonly list: <P>(method: ListableMethod, params?: ListParams) => Promise<ListPayload<P>>
+  readonly get: Get
+  readonly list: List
 }
 
 export default ({ get, list }: Dependencies) => ({

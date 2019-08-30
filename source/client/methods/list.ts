@@ -1,6 +1,5 @@
 import range from 'lodash.range'
 import {
-  BatchPayload,
   Command,
   Commands,
   ListableMethod,
@@ -8,7 +7,8 @@ import {
   ListPayload
 } from '../../types'
 import isArray from '../../utils/isArray'
-import { MAX_COMMANDS_PER_BATCH } from './batch'
+import { Batch, MAX_COMMANDS_PER_BATCH } from './batch'
+import { GetList } from './getList'
 
 const MAX_ENTRIES_PER_COMMAND = 50
 const MAX_ENTRIES_PER_BATCH = MAX_ENTRIES_PER_COMMAND * MAX_COMMANDS_PER_BATCH
@@ -37,14 +37,15 @@ const fillWithBatchesCommands = (command: Command, start: number, toProcess: num
 }
 
 interface Dependencies {
-  readonly getList: <P>(method: ListableMethod, params?: ListParams) => Promise<ListPayload<P>>
+  readonly getList: GetList
   // tslint:disable-next-line no-mixed-interface
-  readonly batch: <C extends Record<string, any>>(commands: Record<keyof C, Command>) =>
-    Promise<BatchPayload<C>>
+  readonly batch: Batch
 }
 
-export default ({ getList, batch }: Dependencies) =>
-  async <P>(method: ListableMethod, params: ListParams = {}): Promise<ListPayload<P>> => {
+export type List = <P>(method: ListableMethod, params?: ListParams) => Promise<ListPayload<P>>
+
+export default ({ getList, batch }: Dependencies): List => {
+  const list: List = async <P>(method: ListableMethod, params: ListParams = {}): Promise<ListPayload<P>> => {
     const start = params.start || 0
     const firstCall = await getList<P>(method, { ...params, start })
 
@@ -106,3 +107,6 @@ export default ({ getList, batch }: Dependencies) =>
         }
       })
   }
+
+  return list
+}
