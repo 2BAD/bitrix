@@ -54,7 +54,7 @@
   "scripts": {
     "build": "run-s clean && run-p build:*",
     "build:main": "tsc --project tsconfig.json",
-    "build:main:watch": "tsc --watch --project tsconfig.json",
+    "build:main:watch": "run-s \"build:main -- --watch\"",
     "build:module": "tsc --project tsconfig.module.json",
     "clean": "rimraf build",
     "lint": "tslint --project .",
