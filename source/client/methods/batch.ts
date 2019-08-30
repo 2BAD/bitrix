@@ -96,7 +96,7 @@ export default ({ get }: GotInstance<GotJSONFn>): Batch => {
    */
   const batch: Batch = async <
     CPM extends { [K in keyof C]: unknown },
-    C extends { [K in keyof CPM]: Command} = { [K in keyof CPM]: Command}
+    C extends { [K in keyof CPM]: Command } = { [K in keyof CPM]: Command }
   >(commands: C): Promise<BatchPayload<CPM>> => {
     const commandsAmount = Object.keys(commands).length
 
