@@ -4,6 +4,7 @@
     "interface-name": [true, "never-prefix"],
     "no-implicit-dependencies": [true, "dev", ["~"]],
     "no-magic-numbers": true,
-    "no-submodule-imports": false
+    "no-submodule-imports": false,
+    "object-literal-key-quotes": [true, "as-needed"]
   }
 }
