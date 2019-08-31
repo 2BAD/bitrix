@@ -6,7 +6,6 @@ import {
   ListParams,
   ListPayload
 } from '../../types'
-import isArray from '../../utils/isArray'
 import { Batch } from './batch'
 import { GetList } from './getList'
 
@@ -45,11 +44,9 @@ export default ({ getList, batch }: Dependencies): List => {
     const batchCommands = fillWithCommands({ method, params }, start, toProcess, MAX_ENTRIES_PER_COMMAND)
 
     return batch<Record<string | number, readonly P[]>>(batchCommands)
-      // @todo Messy, made in hurry. Refactor this. Had some issues with types
       .then(({ result: { result, result_error }, time }) => {
-        const flattenResult = isArray(result)
-          ? result.reduce((res, r) => [...res, ...r], [] as readonly P[])
-          : Object.values(result).reduce((res, r) => !res || !r ? [] : [...res, ...r], [] as readonly P[])
+        const flattenResult = Object.entries(result)
+          .reduce((flatten, [_key, r]) => !r ? flatten : [...flatten, ...r], [] as readonly P[])
 
               // tslint:disable-next-line no-if-statement
         if (result_error.length && result_error.length > 0) {
