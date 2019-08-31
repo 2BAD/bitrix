@@ -525,8 +525,8 @@ describe('Bitrix `batch` method', () => {
       result: {
         result: { one: 'done', two: 'done' },
         result_error: {
-          one: 'Exptected error from numbered `batch` one',
-          two: 'Exptected error from numbered `batch` two'
+          one: 'Expected error from numbered `batch` one',
+          two: 'Expected error from numbered `batch` two'
         }
       }
     }
@@ -550,7 +550,7 @@ describe('Bitrix `batch` method', () => {
     const payload = {
       result: {
         result: ['done'],
-        result_error: ['Exptected error from numbered `batch` 0', 'Exptected error from numbered `batch` 1']
+        result_error: ['Expected error from numbered `batch` 0', 'Expected error from numbered `batch` 1']
       }
     }
 
@@ -573,7 +573,7 @@ describe('Bitrix `batch` method', () => {
     const payload = {
       result: {
         result: ['done'],
-        result_error: ['Exptected error from array of command `batch` 0', 'Exptected error from array of command `batch` 1']
+        result_error: ['Expected error from array of command `batch` 0', 'Expected error from array of command `batch` 1']
       }
     }
 

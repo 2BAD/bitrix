@@ -24,20 +24,20 @@ Object {
 
 exports[`Bitrix \`batch\` method should throw when getting errors in array of commands payload 1`] = `
 [Error: [batch] failed to process. Received errors in 2 commands:
-Exptected error from array of command \`batch\` 0
-Exptected error from array of command \`batch\` 1]
+Expected error from array of command \`batch\` 0
+Expected error from array of command \`batch\` 1]
 `;
 
 exports[`Bitrix \`batch\` method should throw when getting errors in numbered commands payload 1`] = `
 [Error: [batch] failed to process. Received errors in 2 commands:
-Exptected error from numbered \`batch\` 0
-Exptected error from numbered \`batch\` 1]
+Expected error from numbered \`batch\` 0
+Expected error from numbered \`batch\` 1]
 `;
 
 exports[`Bitrix \`batch\` method should throw when getting errors in payload 1`] = `
 [Error: [batch] failed to process. Received errors in 2 commands:
-Exptected error from numbered \`batch\` one
-Exptected error from numbered \`batch\` two]
+Expected error from numbered \`batch\` one
+Expected error from numbered \`batch\` two]
 `;
 
 exports[`Bitrix \`chunkCommands\` method should chunk array of commands 1`] = `
