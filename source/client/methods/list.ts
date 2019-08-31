@@ -19,10 +19,8 @@ const fillWithCommands = (
 ): Commands => {
   const requiresCommands = Math.ceil(toProcess / entriesPerCommand)
 
-  return range(0, requiresCommands).reduce((commands, i) => ({
-    ...commands,
-    [i]: { method, params: { ...params, start: start + (entriesPerCommand * i) } }
-  }), {})
+  return range(0, requiresCommands)
+    .map((i) => ({ method, params: { ...params, start: start + (entriesPerCommand * i) } }), {})
 }
 
 interface Dependencies {
