@@ -52,7 +52,7 @@ export default ({ getList, batch }: Dependencies): List => {
         if (result_error.length && result_error.length > 0) {
           // tslint:disable-next-line no-throw
           throw new Error(
-            `[batch] failed to process the batch. Received ${result_error.length} errors.`
+            `[list] failed to process the list. Received ${result_error.length} errors.`
           )
         }
 
