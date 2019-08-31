@@ -4,7 +4,8 @@ import {
   Commands,
   ListableMethod,
   ListParams,
-  ListPayload
+  ListPayload,
+  BatchPayload
 } from '../../types'
 import { Batch } from './batch'
 import { GetList } from './getList'
@@ -23,6 +24,21 @@ const fillWithCommands = (
     .map((i) => ({ method, params: { ...params, start: start + (entriesPerCommand * i) } }), {})
 }
 
+const batchToListPayload = <P>(payload: BatchPayload<Record<string | number, readonly P[]>>): ListPayload<P> => {
+  const { result: { result, result_total }, time } = payload
+  const flattenResult = Object.entries(result)
+    .reduce((flatten, [_key, r]) => !r ? flatten : [...flatten, ...r], [] as readonly P[])
+
+  return {
+    error: undefined,
+    next: undefined,
+    result: flattenResult ? flattenResult : [],
+    // @todo Not accurate, we do not care
+    time,
+    total: result_total[0] || 0
+  }
+}
+
 interface Dependencies {
   readonly getList: GetList
   readonly batch: Batch
@@ -38,30 +54,18 @@ export default ({ getList, batch }: Dependencies): List => {
       const toProcess = firstCall.total - start
       const batchCommands = fillWithCommands({ method, params }, start, toProcess, MAX_ENTRIES_PER_COMMAND)
 
-      const {
-        result: { result, result_error, result_total },
-        time
-      } = await batch<Record<string | number, readonly P[]>>(batchCommands)
+      const payload = await batch<Record<string | number, readonly P[]>>(batchCommands)
+      const errors = payload.result.result_error
 
-            // tslint:disable-next-line no-if-statement
-      if (result_error.length && result_error.length > 0) {
+      // tslint:disable-next-line no-if-statement
+      if (errors.length && errors.length > 0) {
         // tslint:disable-next-line no-throw
         throw new Error(
-          `[list] failed to process the list. Received ${result_error.length} errors.`
+          `[list] failed to process the list. Received ${errors.length} errors.`
         )
       }
 
-      const flattenResult = Object.entries(result)
-        .reduce((flatten, [_key, r]) => !r ? flatten : [...flatten, ...r], [] as readonly P[])
-
-      return {
-        error: undefined,
-        next: undefined,
-        result: flattenResult ? flattenResult : [],
-        // @todo Not accurate, we do not care
-        time,
-        total: result_total[0] || 0
-      }
+      return batchToListPayload(payload)
     }
 
     const firstCall = await getList<P>(method, { ...params, start })
