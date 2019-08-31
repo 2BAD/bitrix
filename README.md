@@ -4,10 +4,10 @@
 
 **Features:**
 
-* No shit, Sherlock
+* No bullshit
 * Expressive API
 * Strongly typed with TypeScript
-* Typed request results
+* Typed requests results
 * Promise-based
 
 ## Testing examples
@@ -58,7 +58,7 @@ bitrix.deals.list({ select: ["*", "UF_*"] })
 
 > Is it finished?
 
-Not yet. However, what's in the docs already works, and not yet covered Bitrix operations can be done with a provided low-level client methods.
+Not yet. What's in the docs already works, and not covered Bitrix operations can be done with a provided low-level client methods.
 
 > Does it handle authentication?
 
@@ -66,11 +66,11 @@ Not yet. You have to init client with already obtained by any legal means authen
 
 > Should I check payloads `error` properties for errors?
 
-You shouldn't. Catch rejections instead, as the library will check it and reject if there are any errors in a payload.
+You shouldn't. Catch rejections instead, as the library will reject if there are any errors in a payload.
 
 > I need to call a Bitrix method which isn't supported yet
 
-Use appropriate provided low-level client methods, like that:
+Use appropriate low-level client methods, like so:
 
 ```ts
 bitrix.get<SomeNewMethodType>('some.new.get.method' as any, { ID: 77 })
@@ -79,7 +79,7 @@ bitrix.list<SomeNewMethodType>('some.new.list.method' as any, { select: ["TITLE"
 
 > I need to call a specific set of commands. How to do that effectively?
 
-Use low-level `batch` method. It will make minimum network requests and do all dirty work behind the curtains:
+Use `batch` method. It will handle all routine:
 
 ```ts
 bitrix.batch<{
