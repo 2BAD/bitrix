@@ -1,8 +1,8 @@
-import { Method } from '../../types'
-import { fillWithCommands } from './list'
-
 /* eslint-env jest */
-// tslint:disable: no-expression-statement
+// tslint:disable: no-expression-statement object-literal-sort-keys no-magic-numbers
+
+import { Method } from '../../types'
+import { batchToListPayload, fillWithCommands } from './list'
 
 describe('Bitrix `fillWithCommands` method', () => {
   it('should fill array with required amount of commands to process all entries', () => {
@@ -32,6 +32,89 @@ describe('Bitrix `fillWithCommands` method', () => {
     const commands = fillWithCommands(command, start, toProcess, entriesPerCommand)
 
     expect(Object.values(commands).map((c) => c.params)).toMatchSnapshot()
+  })
+})
+
+describe('Bitrix `batchToListPayload` method', () => {
+  it('should convert batch with named payloads to a list payload', () => {
+    const payload = {
+      result: {
+        result: {
+          a: [{ ID: '1' }, { ID: '2' }],
+          b: [{ ID: '3' }, { ID: '4' }]
+        },
+        result_error: { a: 'Expected error A', b: 'Expected error B' },
+        result_total: { a: 4, b: 4 },
+        result_next: { a: 2, b: 4 },
+        result_time: {
+          a: {
+            start: 1567196891.008149,
+            finish: 1567196891.022234,
+            duration: 0.014085054397583008,
+            processing: 0.013998985290527344,
+            date_start: '2019-08-30T23:28:11+03:00',
+            date_finish: '2019-08-30T23:28:11+03:00'
+          },
+          b: {
+            start: 1567196891.022316,
+            finish: 1567196891.03225,
+            duration: 0.009933948516845703,
+            processing: 0.009846210479736328,
+            date_start: '2019-08-30T23:28:11+03:00',
+            date_finish: '2019-08-30T23:28:11+03:00'
+          }
+        }
+      },
+      time: {
+        start: 1567196890.959017,
+        finish: 1567196891.223739,
+        duration: 0.2647218704223633,
+        processing: 0.21567082405090332,
+        date_start: '2019-08-30T23:28:10+03:00',
+        date_finish: '2019-08-30T23:28:11+03:00'
+      }
+    }
+
+    expect(batchToListPayload(payload)).toMatchSnapshot()
+  })
+
+  it('should convert batch with payload of arrays to a list payload', () => {
+    const payload = {
+      result: {
+        result: [
+          [{ ID: '1' }, { ID: '2' }],
+          [{ ID: '3' }, { ID: '4' }]
+        ],
+        result_error: ['Expected error 1', 'Expected error 2'],
+        result_total: [4, 4],
+        result_next: [2, 4],
+        result_time: [{
+          start: 1567196891.008149,
+          finish: 1567196891.022234,
+          duration: 0.014085054397583008,
+          processing: 0.013998985290527344,
+          date_start: '2019-08-30T23:28:11+03:00',
+          date_finish: '2019-08-30T23:28:11+03:00'
+        }, {
+          start: 1567196891.022316,
+          finish: 1567196891.03225,
+          duration: 0.009933948516845703,
+          processing: 0.009846210479736328,
+          date_start: '2019-08-30T23:28:11+03:00',
+          date_finish: '2019-08-30T23:28:11+03:00'
+        }]
+      },
+      time: {
+        start: 1567196890.959017,
+        finish: 1567196891.223739,
+        duration: 0.2647218704223633,
+        processing: 0.21567082405090332,
+        date_start: '2019-08-30T23:28:10+03:00',
+        date_finish: '2019-08-30T23:28:11+03:00'
+      }
+    }
+
+    expect(batchToListPayload(payload)).toMatchSnapshot()
   })
 })
 

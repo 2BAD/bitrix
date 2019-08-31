@@ -1,5 +1,67 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Bitrix \`batchToListPayload\` method should convert batch with named payloads to a list payload 1`] = `
+Object {
+  "error": "Expected error A
+Expected error B",
+  "next": 4,
+  "result": Array [
+    Object {
+      "ID": "1",
+    },
+    Object {
+      "ID": "2",
+    },
+    Object {
+      "ID": "3",
+    },
+    Object {
+      "ID": "4",
+    },
+  ],
+  "time": Object {
+    "date_finish": "2019-08-30T23:28:11+03:00",
+    "date_start": "2019-08-30T23:28:10+03:00",
+    "duration": 0.2647218704223633,
+    "finish": 1567196891.223739,
+    "processing": 0.21567082405090332,
+    "start": 1567196890.959017,
+  },
+  "total": 4,
+}
+`;
+
+exports[`Bitrix \`batchToListPayload\` method should convert batch with payload of arrays to a list payload 1`] = `
+Object {
+  "error": "Expected error 1
+Expected error 2",
+  "next": 4,
+  "result": Array [
+    Object {
+      "ID": "1",
+    },
+    Object {
+      "ID": "2",
+    },
+    Object {
+      "ID": "3",
+    },
+    Object {
+      "ID": "4",
+    },
+  ],
+  "time": Object {
+    "date_finish": "2019-08-30T23:28:11+03:00",
+    "date_start": "2019-08-30T23:28:10+03:00",
+    "duration": 0.2647218704223633,
+    "finish": 1567196891.223739,
+    "processing": 0.21567082405090332,
+    "start": 1567196890.959017,
+  },
+  "total": 4,
+}
+`;
+
 exports[`Bitrix \`fillWithCommands\` method should fill array with required amount of commands to process all entries 1`] = `
 Array [
   Object {

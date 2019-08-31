@@ -30,7 +30,7 @@ export const fillWithCommands = (
 /**
  * Converts batch payload to a list payload
  */
-const batchToListPayload = <P>(payload: BatchPayload<Record<string | number, readonly P[]>>): ListPayload<P> => {
+export const batchToListPayload = <P>(payload: BatchPayload<Record<string | number, readonly P[]>>): ListPayload<P> => {
   const { result: { result, result_total, result_error, result_next }, time } = payload
 
   const flattenResult = Object.entries(result).reduce(
