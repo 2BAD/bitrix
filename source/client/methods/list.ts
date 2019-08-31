@@ -1,11 +1,11 @@
 import range from 'lodash.range'
 import {
+  BatchPayload,
   Command,
   Commands,
   ListableMethod,
   ListParams,
-  ListPayload,
-  BatchPayload
+  ListPayload
 } from '../../types'
 import { Batch } from './batch'
 import { GetList } from './getList'
@@ -53,17 +53,7 @@ export default ({ getList, batch }: Dependencies): List => {
     const listAll = async () => {
       const toProcess = firstCall.total - start
       const batchCommands = fillWithCommands({ method, params }, start, toProcess, MAX_ENTRIES_PER_COMMAND)
-
       const payload = await batch<Record<string | number, readonly P[]>>(batchCommands)
-      const errors = payload.result.result_error
-
-      // tslint:disable-next-line no-if-statement
-      if (errors.length && errors.length > 0) {
-        // tslint:disable-next-line no-throw
-        throw new Error(
-          `[list] failed to process the list. Received ${errors.length} errors.`
-        )
-      }
 
       return batchToListPayload(payload)
     }
