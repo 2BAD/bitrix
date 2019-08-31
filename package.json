@@ -70,7 +70,7 @@
     "test:integration": "jest integration --setupFiles dotenv/config",
     "test:integration:watch": "run-s \"test:integration -- --watch\"",
     "watch": "run-s clean build:main && run-p build:main:watch",
-    "preversion": "run-s lint test build"
+    "preversion": "run-s clean lint test build"
   },
   "jest": {
     "preset": "ts-jest",
