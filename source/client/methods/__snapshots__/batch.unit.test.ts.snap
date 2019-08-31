@@ -1,5 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Bitrix \`batch\` method should merge payloads when more then max allowed commands provided 1`] = `
+Object {
+  "result": Object {
+    "result": Array [
+      "done1",
+      "done2",
+    ],
+    "result_error": Array [],
+    "result_next": Array [
+      1,
+      2,
+    ],
+    "result_time": Array [],
+    "result_total": Array [
+      2,
+      2,
+    ],
+  },
+  "time": Object {},
+}
+`;
+
+exports[`Bitrix \`batch\` method should throw when getting errors in array of commands payload 1`] = `
+[Error: [batch] failed to process. Received errors in 2 commands:
+Exptected error from array of command \`batch\` 0
+Exptected error from array of command \`batch\` 1]
+`;
+
 exports[`Bitrix \`batch\` method should throw when getting errors in numbered commands payload 1`] = `
 [Error: [batch] failed to process. Received errors in 2 commands:
 Exptected error from numbered \`batch\` 0
@@ -12,7 +40,57 @@ Exptected error from numbered \`batch\` one
 Exptected error from numbered \`batch\` two]
 `;
 
-exports[`Bitrix \`batch\` method should throw when passing more then max allowed per batch commands 1`] = `[Error: [batch] failed to process. Received 51 commands, but maximum 50 allowed]`;
+exports[`Bitrix \`chunkCommands\` method should chunk array of commands 1`] = `
+Array [
+  Array [
+    Object {
+      "method": "crm.deal.get",
+    },
+    Object {
+      "method": "crm.lead.get",
+    },
+  ],
+  Array [
+    Object {
+      "method": "crm.deal.list",
+    },
+    Object {
+      "method": "crm.lead.list",
+    },
+  ],
+  Array [
+    Object {
+      "method": "crm.status.list",
+    },
+  ],
+]
+`;
+
+exports[`Bitrix \`chunkCommands\` method should chunk named commands 1`] = `
+Array [
+  Object {
+    "a": Object {
+      "method": "crm.deal.get",
+    },
+    "b": Object {
+      "method": "crm.lead.get",
+    },
+  },
+  Object {
+    "c": Object {
+      "method": "crm.deal.list",
+    },
+    "d": Object {
+      "method": "crm.lead.list",
+    },
+  },
+  Object {
+    "e": Object {
+      "method": "crm.status.list",
+    },
+  },
+]
+`;
 
 exports[`Bitrix \`handleBatchPayload\` method should throw when getting errors in numbered commands payload 1`] = `
 "[batch] failed to process. Received errors in 1 commands:
@@ -22,6 +100,198 @@ Expected error for \`handleBatchPayload\`"
 exports[`Bitrix \`handleBatchPayload\` method should throw when getting errors in payload 1`] = `
 "[batch] failed to process. Received errors in 1 commands:
 Expected error for \`handleBatchPayload\`"
+`;
+
+exports[`Bitrix \`mergeBatchPayloads\` method should merge array payloads 1`] = `
+Object {
+  "result": Object {
+    "result": Array [
+      Array [
+        Object {
+          "ID": "1",
+        },
+        Object {
+          "ID": "2",
+        },
+      ],
+      Array [
+        Object {
+          "ID": "3",
+        },
+        Object {
+          "ID": "4",
+        },
+      ],
+      Array [
+        Object {
+          "ID": "5",
+        },
+        Object {
+          "ID": "6",
+        },
+      ],
+      Array [
+        Object {
+          "ID": "7",
+        },
+        Object {
+          "ID": "8",
+        },
+      ],
+    ],
+    "result_error": Array [],
+    "result_next": Array [
+      2,
+      4,
+      6,
+      8,
+    ],
+    "result_time": Array [
+      Object {
+        "date_finish": "2019-08-30T23:28:11+03:00",
+        "date_start": "2019-08-30T23:28:11+03:00",
+        "duration": 0.014085054397583008,
+        "finish": 1567196891.022234,
+        "processing": 0.013998985290527344,
+        "start": 1567196891.008149,
+      },
+      Object {
+        "date_finish": "2019-08-30T23:28:11+03:00",
+        "date_start": "2019-08-30T23:28:11+03:00",
+        "duration": 0.009933948516845703,
+        "finish": 1567196891.03225,
+        "processing": 0.009846210479736328,
+        "start": 1567196891.022316,
+      },
+      Object {
+        "date_finish": "2019-08-30T23:28:11+03:00",
+        "date_start": "2019-08-30T23:28:11+03:00",
+        "duration": 0.002981901168823242,
+        "finish": 1567196891.035297,
+        "processing": 0.002897024154663086,
+        "start": 1567196891.032315,
+      },
+      Object {
+        "date_finish": "2019-08-30T23:28:11+03:00",
+        "date_start": "2019-08-30T23:28:11+03:00",
+        "duration": 0.004575967788696289,
+        "finish": 1567196891.039936,
+        "processing": 0.00450897216796875,
+        "start": 1567196891.03536,
+      },
+    ],
+    "result_total": Array [
+      8,
+      8,
+      8,
+      8,
+    ],
+  },
+  "time": Object {
+    "date_finish": "2019-08-30T23:28:13+03:00",
+    "date_start": "2019-08-30T23:28:12+03:00",
+    "duration": 0.2647218704223683,
+    "finish": 1567196891.225739,
+    "processing": 0.21567082405090832,
+    "start": 1567196890.959517,
+  },
+}
+`;
+
+exports[`Bitrix \`mergeBatchPayloads\` method should merge named payloads 1`] = `
+Object {
+  "result": Object {
+    "result": Object {
+      "a": Array [
+        Object {
+          "ID": "1",
+        },
+        Object {
+          "ID": "2",
+        },
+      ],
+      "b": Array [
+        Object {
+          "ID": "3",
+        },
+        Object {
+          "ID": "4",
+        },
+      ],
+      "c": Array [
+        Object {
+          "ID": "5",
+        },
+        Object {
+          "ID": "6",
+        },
+      ],
+      "d": Array [
+        Object {
+          "ID": "7",
+        },
+        Object {
+          "ID": "8",
+        },
+      ],
+    },
+    "result_error": Array [],
+    "result_next": Object {
+      "a": 2,
+      "b": 4,
+      "c": 6,
+      "d": 8,
+    },
+    "result_time": Object {
+      "a": Object {
+        "date_finish": "2019-08-30T23:28:11+03:00",
+        "date_start": "2019-08-30T23:28:11+03:00",
+        "duration": 0.014085054397583008,
+        "finish": 1567196891.022234,
+        "processing": 0.013998985290527344,
+        "start": 1567196891.008149,
+      },
+      "b": Object {
+        "date_finish": "2019-08-30T23:28:11+03:00",
+        "date_start": "2019-08-30T23:28:11+03:00",
+        "duration": 0.009933948516845703,
+        "finish": 1567196891.03225,
+        "processing": 0.009846210479736328,
+        "start": 1567196891.022316,
+      },
+      "c": Object {
+        "date_finish": "2019-08-30T23:28:11+03:00",
+        "date_start": "2019-08-30T23:28:11+03:00",
+        "duration": 0.002981901168823242,
+        "finish": 1567196891.035297,
+        "processing": 0.002897024154663086,
+        "start": 1567196891.032315,
+      },
+      "d": Object {
+        "date_finish": "2019-08-30T23:28:11+03:00",
+        "date_start": "2019-08-30T23:28:11+03:00",
+        "duration": 0.004575967788696289,
+        "finish": 1567196891.039936,
+        "processing": 0.00450897216796875,
+        "start": 1567196891.03536,
+      },
+    },
+    "result_total": Object {
+      "a": 8,
+      "b": 8,
+      "c": 8,
+      "d": 8,
+    },
+  },
+  "time": Object {
+    "date_finish": "2019-08-30T23:28:13+03:00",
+    "date_start": "2019-08-30T23:28:12+03:00",
+    "duration": 0.2647218704223683,
+    "finish": 1567196891.225739,
+    "processing": 0.21567082405090832,
+    "start": 1567196890.959517,
+  },
+}
 `;
 
 exports[`Bitrix \`prepareCommandsQueries\` method should return empty query object when no commands provided 1`] = `Object {}`;
