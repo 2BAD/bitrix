@@ -12,6 +12,9 @@ import { GetList } from './getList'
 
 const MAX_ENTRIES_PER_COMMAND = 50
 
+/**
+ * Generates required amount of commands to process specified amount of entries
+ */
 const fillWithCommands = (
   { method, params }: Command,
   start: number,
@@ -24,6 +27,9 @@ const fillWithCommands = (
     .map((i) => ({ method, params: { ...params, start: start + (entriesPerCommand * i) } }), {})
 }
 
+/**
+ * Converts batch payload to a list payload
+ */
 const batchToListPayload = <P>(payload: BatchPayload<Record<string | number, readonly P[]>>): ListPayload<P> => {
   const { result: { result, result_total }, time } = payload
   const flattenResult = Object.entries(result)
@@ -46,6 +52,9 @@ interface Dependencies {
 
 export type List = <P>(method: ListableMethod, params?: ListParams) => Promise<ListPayload<P>>
 
+/**
+ * Gets all entries by dispatching required amount of requests
+ */
 export default ({ getList, batch }: Dependencies): List => {
   const list: List = async <P>(method: ListableMethod, params: ListParams = {}): Promise<ListPayload<P>> => {
     const start = params.start || 0

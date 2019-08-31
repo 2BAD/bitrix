@@ -29,6 +29,7 @@ export const chunkCommands = <C extends Commands>(
 }
 
 /**
+ * Prepares list of commands to be used in requests to the Bitrix
  * @note We could avoid that function... if only Bitrix API would support posting of the batch commands as
  *       plain objects, like it does with other methods. Instead, it should be a dict or array of string queries
  */
@@ -43,6 +44,9 @@ export const prepareCommandsQueries = <C extends Commands, R = { [K in keyof C]:
   // tslint:disable-next-line: no-object-literal-type-assertion
   }, {} as R)
 
+/**
+ * Checks wether payload have any errors and if it does — throws them
+ */
 export const handleBatchPayload = <C>(payload: BatchPayload<C>): BatchPayload<C> => {
   const resultErrors = payload.result.result_error
   const errors = isArray(resultErrors) ? resultErrors : Object.values(resultErrors)
@@ -58,7 +62,7 @@ export const handleBatchPayload = <C>(payload: BatchPayload<C>): BatchPayload<C>
 }
 
 /**
- * Merge list of batch responses into a single batch
+ * Merges list of batch responses into a single batch
  * @todo Generics inference is complicated here and might be not super accurate
  */
 export const mergeBatchPayloads = <
@@ -89,6 +93,11 @@ export type Batch = <
   C extends { [K in keyof CPM]: Command} = { [K in keyof CPM]: Command}
 >(commands: C, commandsPerRequest?: number) => Promise<BatchPayload<CPM>>
 
+/**
+ * Dispatches a batch request with specified commands
+ * Supports unlimited number of commands. If they do exceed max amount of commands per batch,
+ * will dispatch multiple request and merge result into single batch payload
+ */
 export default ({ get }: GotInstance<GotJSONFn>): Batch => {
   /**
    * A complicated generics setup needed to properly map payload to commands names and back
