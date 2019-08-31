@@ -65,8 +65,8 @@ You shouldn't. Catch rejections instead, as the library will check it and reject
 Use appropriate provided low-level client methods, like that:
 
 ```ts
-bitrix.get('some.new.get.method' as any, { ID: 77 })
-bitrix.list('some.new.list.method' as any, { select: ["TITLE"] })
+bitrix.get<SomeNewMethodType>('some.new.get.method' as any, { ID: 77 })
+bitrix.list<SomeNewMethodType>('some.new.list.method' as any, { select: ["TITLE"] })
 ```
 
 > I need to call a specific set of commands. How to do that effectively?
@@ -74,7 +74,10 @@ bitrix.list('some.new.list.method' as any, { select: ["TITLE"] })
 Use low-level `batch` method. It will make minimum network requests and do all dirty work behind the curtains:
 
 ```ts
-bitrix.batch({
+bitrix.batch<{
+  lead: Lead,
+  deals: Deal[]
+}>({
   lead: { method: Method.GET_LEAD, params: { ID: 77 } },
   deals: { method: Method.LIST_DEALS }
 })
