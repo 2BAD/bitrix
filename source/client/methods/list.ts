@@ -31,14 +31,20 @@ const fillWithCommands = (
  * Converts batch payload to a list payload
  */
 const batchToListPayload = <P>(payload: BatchPayload<Record<string | number, readonly P[]>>): ListPayload<P> => {
-  const { result: { result, result_total }, time } = payload
-  const flattenResult = Object.entries(result)
-    .reduce((flatten, [_key, r]) => !r ? flatten : [...flatten, ...r], [] as readonly P[])
+  const { result: { result, result_total, result_error, result_next }, time } = payload
+
+  const flattenResult = Object.entries(result).reduce(
+    (flatten, [_key, r]) => !r ? flatten : [...flatten, ...r]
+  , [] as readonly P[])
+
+  const highestNext = Object.values(result_next).reduce(
+    (a, b) => a === undefined || b === undefined ? undefined : a > b ? a : b
+  , 0)
 
   return {
-    error: undefined,
-    next: undefined,
-    result: flattenResult ? flattenResult : [],
+    error: Object.values(result_error).join('\n'),
+    next: highestNext,
+    result: flattenResult,
     // @todo Not accurate, we do not care
     time,
     total: result_total[0] || 0
