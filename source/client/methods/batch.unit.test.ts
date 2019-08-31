@@ -1,5 +1,5 @@
 /* eslint-env jest */
-// tslint:disable: no-expression-statement
+// tslint:disable: no-expression-statement object-literal-sort-keys no-magic-numbers
 
 import got from 'got'
 import nock from 'nock'
@@ -580,7 +580,7 @@ describe('Bitrix `batch` method', () => {
     const commands = [
       { method: Method.GET_DEAL },
       { method: Method.LIST_DEALS }
-    ]
+    ] as const
 
     nock(TEST_URI)
       // @todo We'd want to use `query` object here as it is much more readable, but nock for some reason
