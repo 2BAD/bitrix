@@ -79,3 +79,13 @@ bitrix.batch({
   deals: { method: Method.LIST_DEALS }
 })
 ```
+
+## Development
+
+* `npm test` — run all tests
+* `npm run test:unit` — run unit tests
+* `npm run test:integration` — run integration tests
+* `npm run test:watch` — watch for changes and run all tests
+* `npm run test:unit:watch` — watch for changes and run unit tests
+* `npm run test:integration:watch` — watch for changes and run integration tests
+* `npm run build` — build library for the release
