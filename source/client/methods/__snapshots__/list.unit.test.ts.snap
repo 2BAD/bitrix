@@ -51,3 +51,35 @@ Array [
   },
 ]
 `;
+
+exports[`Bitrix \`fillWithCommands\` method should properly take into account start 1`] = `
+Array [
+  Object {
+    "method": "crm.deal.list",
+    "params": Object {
+      "select": Array [
+        "*",
+      ],
+      "start": 2,
+    },
+  },
+  Object {
+    "method": "crm.deal.list",
+    "params": Object {
+      "select": Array [
+        "*",
+      ],
+      "start": 4,
+    },
+  },
+  Object {
+    "method": "crm.deal.list",
+    "params": Object {
+      "select": Array [
+        "*",
+      ],
+      "start": 6,
+    },
+  },
+]
+`;

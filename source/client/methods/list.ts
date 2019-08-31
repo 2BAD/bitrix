@@ -21,7 +21,7 @@ export const fillWithCommands = (
   toProcess: number,
   entriesPerCommand: number
 ): Commands => {
-  const requiresCommands = Math.ceil(toProcess / entriesPerCommand)
+  const requiresCommands = Math.ceil((toProcess - start) / entriesPerCommand)
 
   return range(0, requiresCommands)
     .map((i) => ({ method, params: { ...params, start: start + (entriesPerCommand * i) } }), {})

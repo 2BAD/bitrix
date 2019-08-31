@@ -14,6 +14,15 @@ describe('Bitrix `fillWithCommands` method', () => {
     expect(fillWithCommands(command, start, toProcess, entriesPerCommand)).toMatchSnapshot()
   })
 
+  it('should properly take into account start', () => {
+    const command = { method: Method.LIST_DEALS, params: { select: ['*'] } }
+    const start = 2
+    const toProcess = 7
+    const entriesPerCommand = 2
+
+    expect(fillWithCommands(command, start, toProcess, entriesPerCommand)).toMatchSnapshot()
+  })
+
   it('should override `params.start`', () => {
     const wrongStart = 99
     const command = { method: Method.LIST_DEALS, params: { start: wrongStart } }
