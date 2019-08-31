@@ -2,7 +2,15 @@
 
 > Bitrix24 REST API client that doesn't suck
 
-Some testing examples:
+**Features:**
+
+* No shit, Sherlock
+* Expressive API
+* Strongly typed with TypeScript
+* Typed request results
+* Promise-based
+
+## Testing examples
 
 ```ts
 import Bitrix from './bitrix'
