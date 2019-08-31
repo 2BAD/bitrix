@@ -1,19 +1,29 @@
+import { Method } from '../../types'
+import { fillWithCommands } from './list'
+
 /* eslint-env jest */
 // tslint:disable: no-expression-statement
 
-describe('Bitrix `fillBatchCommands` method', () => {
-  it.todo('should return dict of batch commands')
-  it.todo('should properly calculate required amount of commands to finish the queue')
-  it.todo('should properly take into account start')
-  it.todo('should return specified amount of batch commands when given less than max allowed per batch commands')
-  it.todo('should return max allowed per batch when given more than max allowed per batch commands')
-})
+describe('Bitrix `fillWithCommands` method', () => {
+  it('should fill array with required amount of commands to process all entries', () => {
+    const command = { method: Method.LIST_DEALS, params: { select: ['*'] } }
+    const start = 0
+    const toProcess = 7
+    const entriesPerCommand = 2
 
-describe('Bitrix `fillBatchesCommands` method', () => {
-  it.todo('should return array of dicts of batch commands')
-  it.todo('should properly calculate required amount of batches to finish the queue')
-  it.todo('should properly calculate required amount of batches commands to finish the queue')
-  it.todo('should properly take into account start')
+    expect(fillWithCommands(command, start, toProcess, entriesPerCommand)).toMatchSnapshot()
+  })
+
+  it('should override `params.start`', () => {
+    const wrongStart = 99
+    const command = { method: Method.LIST_DEALS, params: { start: wrongStart } }
+    const start = 0
+    const toProcess = 2
+    const entriesPerCommand = 1
+    const commands = fillWithCommands(command, start, toProcess, entriesPerCommand)
+
+    expect(Object.values(commands).map((c) => c.params)).toMatchSnapshot()
+  })
 })
 
 describe('Bitrix `list` method', () => {

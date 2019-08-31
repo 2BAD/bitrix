@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Bitrix \`fillWithCommands\` method should fill array with required amount of commands to process all entries 1`] = `
+Array [
+  Object {
+    "method": "crm.deal.list",
+    "params": Object {
+      "select": Array [
+        "*",
+      ],
+      "start": 0,
+    },
+  },
+  Object {
+    "method": "crm.deal.list",
+    "params": Object {
+      "select": Array [
+        "*",
+      ],
+      "start": 2,
+    },
+  },
+  Object {
+    "method": "crm.deal.list",
+    "params": Object {
+      "select": Array [
+        "*",
+      ],
+      "start": 4,
+    },
+  },
+  Object {
+    "method": "crm.deal.list",
+    "params": Object {
+      "select": Array [
+        "*",
+      ],
+      "start": 6,
+    },
+  },
+]
+`;
+
+exports[`Bitrix \`fillWithCommands\` method should override \`params.start\` 1`] = `
+Array [
+  Object {
+    "start": 0,
+  },
+  Object {
+    "start": 1,
+  },
+]
+`;

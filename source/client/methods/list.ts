@@ -15,7 +15,7 @@ const MAX_ENTRIES_PER_COMMAND = 50
 /**
  * Generates required amount of commands to process specified amount of entries
  */
-const fillWithCommands = (
+export const fillWithCommands = (
   { method, params }: Command,
   start: number,
   toProcess: number,
