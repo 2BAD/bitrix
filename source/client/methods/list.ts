@@ -66,8 +66,7 @@ export default ({ getList, batch }: Dependencies): List => {
     const start = params.start || 0
 
     const listAll = async () => {
-      const toProcess = firstCall.total - start
-      const batchCommands = fillWithCommands({ method, params }, start, toProcess, MAX_ENTRIES_PER_COMMAND)
+      const batchCommands = fillWithCommands({ method, params }, start, firstCall.total, MAX_ENTRIES_PER_COMMAND)
       const payload = await batch<Record<string | number, readonly P[]>>(batchCommands)
 
       return batchToListPayload(payload)
