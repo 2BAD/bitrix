@@ -37,17 +37,21 @@ const batchToListPayload = <P>(payload: BatchPayload<Record<string | number, rea
     (flatten, [_key, r]) => !r ? flatten : [...flatten, ...r]
   , [] as readonly P[])
 
-  const highestNext = Object.values(result_next).reduce(
-    (a, b) => a === undefined || b === undefined ? undefined : a > b ? a : b
-  , 0)
+  /**
+   * Get the highest value from object or an array if there's any
+   */
+  const highest = (input: ReadonlyArray<number | undefined> | Record<string, number | undefined>): number | undefined =>
+    Object.values(input).reduce(
+      (a, b) => a === undefined || b === undefined ? undefined : a > b ? a : b
+    , 0)
 
   return {
     error: Object.values(result_error).join('\n'),
-    next: highestNext,
+    next: highest(result_next),
     result: flattenResult,
     // @todo Not accurate, we do not care
     time,
-    total: result_total[0] || 0
+    total: highest(result_total) || 0
   }
 }
 
