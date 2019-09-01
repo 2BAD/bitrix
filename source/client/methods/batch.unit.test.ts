@@ -147,10 +147,6 @@ describe('Bitrix `handleBatchPayload` method', () => {
   })
 })
 
-const TEST_URI = 'https://test.com/rest'
-const batch = Batch(got.extend({ baseUrl: TEST_URI, json: true }))
-const RESPONSE_200 = 200
-
 describe('Bitrix `mergeBatchPayloads` method', () => {
   it('should merge named payloads', () => {
     const batch1 = {
@@ -306,6 +302,10 @@ describe('Bitrix `mergeBatchPayloads` method', () => {
     expect(mergeBatchPayloads([batch1, batch2])).toMatchSnapshot()
   })
 })
+
+const TEST_URI = 'https://test.com/rest'
+const batch = Batch(got.extend({ baseUrl: TEST_URI, json: true }))
+const RESPONSE_200 = 200
 
 describe('Bitrix `batch` method', () => {
   it('should form a proper request', async () => {
