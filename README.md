@@ -83,6 +83,9 @@ bitrix.deals.get({ ID: 77 })
 
 `Promise<GetPayload<Deal>>`
 
+<details>
+<summary>See payload example</summary>
+
 ```ts
 {
   result: {
@@ -146,6 +149,8 @@ bitrix.deals.get({ ID: 77 })
 }
 ```
 
+</details>
+
 #### Get deals
 
 Retrieve all deals.
@@ -168,6 +173,9 @@ bitrix.deals.list({ select: ['*', 'UF_*'] })
 ##### Returns
 
 `Promise<ListPayload<Deal>>`
+
+<details>
+<summary>See payload example</summary>
 
 ```ts
 {
@@ -234,6 +242,8 @@ bitrix.deals.list({ select: ['*', 'UF_*'] })
   total: 7
 }
 ```
+
+</details>
 
 ### Leads service
 
