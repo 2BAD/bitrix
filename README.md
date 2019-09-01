@@ -9,16 +9,54 @@
 * 💪 Strongly typed methods and requests results with TypeScript
 * ❤️ Promise-based
 
+## Getting Started
+
+Install using NPM:
+
+```shell
+npm install @2bad/bitrix
+```
+
+Init client with Bitrix API endpoint and authentication token:
+
+```ts
+import Bitrix from '@2bad/bitrix'
+
+const bitrix = Bitrix('https://YOUR_DOMAIN.bitrix24.ru/rest', 'YOUR_AUTH_TOKEN')
+```
+
+Finally, use client to ease your Bitrix pain:
+
+```ts
+import Bitrix from '@2bad/bitrix'
+
+const bitrix = Bitrix('https://YOUR_DOMAIN.bitrix24.ru/rest', 'YOUR_AUTH_TOKEN')
+
+// Get deal
+bitrix.deals.get({ ID: 77 })
+  .then(({ result }) => {
+    // Get typed payload
+    const { TITLE } = result // string
+    console.log(TITLE)
+  })
+  .catch(console.error)
+
+// Get all deals
+bitrix.deals.list({ select: ["*", "UF_*"] })
+  .then(({ result }) => {
+    const titles = result.map((e) => e.TITLE)
+    console.log(titles)
+  })
+  .catch(console.error)
+```
+
 ## Testing examples
 
 ```ts
-import Bitrix from './bitrix'
+import Bitrix from '@2bad/bitrix'
 import { Method } from './bitrix/types'
 
-const BITRIX_ADDRESS = 'https://DOMAIN.bitrix24.ru'
-const AUTH_TOKEN = 'AUTH_TOKEN'
-
-const bitrix = Bitrix(`${BITRIX_ADDRESS}/rest`, AUTH_TOKEN)
+const bitrix = Bitrix('https://YOUR_DOMAIN.bitrix24.ru/rest', 'YOUR_AUTH_TOKEN')
 
 // ----------------------
 // Common methods
@@ -35,20 +73,6 @@ bitrix.get(Method.GET_DEAL, { query: { ID: 9999999999999 } })
 
 // Get first 50
 bitrix.getList(Method.LIST_DEALS, {})
-  .then(console.log)
-  .catch(console.error)
-
-// ----------------------
-// API
-// ----------------------
-
-// Get deal
-bitrix.deals.get({ ID: 25 })
-  .then(console.log)
-  .catch(console.error)
-
-// Get all deals
-bitrix.deals.list({ select: ["*", "UF_*"] })
   .then(console.log)
   .catch(console.error)
 ```
