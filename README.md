@@ -25,7 +25,7 @@ import Bitrix from '@2bad/bitrix'
 const bitrix = Bitrix('https://YOUR_DOMAIN.bitrix24.ru/rest', 'YOUR_AUTH_TOKEN')
 ```
 
-Finally, use client to ease your Bitrix pain:
+Finally, use the client to ease your Bitrix pain:
 
 ```ts
 import Bitrix from '@2bad/bitrix'
@@ -49,6 +49,209 @@ bitrix.deals.list({ select: ["*", "UF_*"] })
   })
   .catch(console.error)
 ```
+
+## API
+
+The library has two layers:
+
+1. **A low-level client** — takes care of the routine and provides bare-bones methods to work with raw Bitrix methods.
+2. **Services** — a wrapper around the Bitrix REST operations. Orchestrates low-level client methods and casts returned payloads to proper types. That's what you want to use.
+
+### Services
+
+#### Deals
+
+Work with Bitrix CRM deals
+
+##### Type
+
+See [Deal](/2BAD/bitrix/blob/master/source/services/types.ts).
+
+#### Get deal
+
+Retrieve specified deal
+
+```ts
+bitrix.deals.get({ ID: 77 })
+```
+
+**Arguments**
+
+* `params: GetParams` — params to be passed with the API request.
+
+   Usually, you want to specify at least `ID` of the deal to retrieve.
+
+**Returns**
+
+`Promise<GetPayload<Deal>>`
+
+```ts
+{
+  result: {
+    ID: '77',
+    TITLE: 'RE: Hello',
+    HONORIFIC: null,
+    NAME: 'hello@example.com',
+    SECOND_NAME: '',
+    LAST_NAME: '',
+    COMPANY_TITLE: '',
+    COMPANY_ID: '7744',
+    CONTACT_ID: '47',
+    IS_RETURN_CUSTOMER: 'Y',
+    BIRTHDATE: '',
+    SOURCE_ID: 'EMAIL',
+    SOURCE_DESCRIPTION: null,
+    STATUS_ID: 'CONVERTED',
+    STATUS_DESCRIPTION: null,
+    POST: '',
+    COMMENTS: 'RE: Hello',
+    CURRENCY_ID: 'USD',
+    OPPORTUNITY: '0.00',
+    HAS_PHONE: 'N',
+    HAS_EMAIL: 'Y',
+    HAS_IMOL: 'N',
+    ASSIGNED_BY_ID: '17',
+    CREATED_BY_ID: '17',
+    MODIFY_BY_ID: '1',
+    DATE_CREATE: '2018-06-05T09:59:22+03:00',
+    DATE_MODIFY: '2019-07-22T23:39:46+03:00',
+    DATE_CLOSED: '2018-07-04T03:20:31+03:00',
+    STATUS_SEMANTIC_ID: 'S',
+    OPENED: 'Y',
+    ORIGINATOR_ID: 'email-tracker',
+    ORIGIN_ID: '7',
+    ADDRESS: null,
+    ADDRESS_2: null,
+    ADDRESS_CITY: null,
+    ADDRESS_POSTAL_CODE: null,
+    ADDRESS_REGION: null,
+    ADDRESS_PROVINCE: null,
+    ADDRESS_COUNTRY: null,
+    ADDRESS_COUNTRY_CODE: null,
+    UTM_SOURCE: null,
+    UTM_MEDIUM: null,
+    UTM_CAMPAIGN: null,
+    UTM_CONTENT: null,
+    UTM_TERM: null,
+    EMAIL: [
+      { ID: '774', VALUE_TYPE: 'WORK', VALUE: 'hello@example.com', TYPE_ID: 'EMAIL' }
+    ]
+  },
+  time: {
+    start: 1567372034.625375,
+    finish: 1567372034.8204,
+    duration: 0.19502496719360352,
+    processing: 0.03838515281677246,
+    date_start: "2019-09-02T00:07:14+03:00",
+    date_finish: "2019-09-02T00:07:14+03:00"
+  }
+}
+```
+
+#### Get deals
+
+Retrieve all deals.
+
+If there are more than 2500 deals, it will dispatch multiple requests to get all deals.
+
+```ts
+bitrix.deals.list({ select: ['*', 'UF_*'] })
+```
+
+**Arguments**
+
+* `params?: ListParams` — params to be passed with an API request
+
+   _Hints:_
+
+   * Specify `{ select: ['*', 'UF_*'] }` to get user fields too.
+   * Specify `start` if you want to skip some entries.
+
+**Returns**
+
+`Promise<ListPayload<Deal>>`
+
+```ts
+{
+  result: [{
+    ID: '77',
+    TITLE: 'RE: Hello',
+    HONORIFIC: null,
+    NAME: 'hello@example.com',
+    SECOND_NAME: '',
+    LAST_NAME: '',
+    COMPANY_TITLE: '',
+    COMPANY_ID: '7744',
+    CONTACT_ID: '47',
+    IS_RETURN_CUSTOMER: 'Y',
+    BIRTHDATE: '',
+    SOURCE_ID: 'EMAIL',
+    SOURCE_DESCRIPTION: null,
+    STATUS_ID: 'CONVERTED',
+    STATUS_DESCRIPTION: null,
+    POST: '',
+    COMMENTS: 'RE: Hello',
+    CURRENCY_ID: 'USD',
+    OPPORTUNITY: '0.00',
+    HAS_PHONE: 'N',
+    HAS_EMAIL: 'Y',
+    HAS_IMOL: 'N',
+    ASSIGNED_BY_ID: '17',
+    CREATED_BY_ID: '17',
+    MODIFY_BY_ID: '1',
+    DATE_CREATE: '2018-06-05T09:59:22+03:00',
+    DATE_MODIFY: '2019-07-22T23:39:46+03:00',
+    DATE_CLOSED: '2018-07-04T03:20:31+03:00',
+    STATUS_SEMANTIC_ID: 'S',
+    OPENED: 'Y',
+    ORIGINATOR_ID: 'email-tracker',
+    ORIGIN_ID: '7',
+    ADDRESS: null,
+    ADDRESS_2: null,
+    ADDRESS_CITY: null,
+    ADDRESS_POSTAL_CODE: null,
+    ADDRESS_REGION: null,
+    ADDRESS_PROVINCE: null,
+    ADDRESS_COUNTRY: null,
+    ADDRESS_COUNTRY_CODE: null,
+    UTM_SOURCE: null,
+    UTM_MEDIUM: null,
+    UTM_CAMPAIGN: null,
+    UTM_CONTENT: null,
+    UTM_TERM: null,
+    EMAIL: [
+      { ID: '774', VALUE_TYPE: 'WORK', VALUE: 'hello@example.com', TYPE_ID: 'EMAIL' }
+    ]
+  }],
+  error: 'Possible error',
+  next: 2,
+  time: {
+    start: 1567372034.625375,
+    finish: 1567372034.8204,
+    duration: 0.19502496719360352,
+    processing: 0.03838515281677246,
+    date_start: "2019-09-02T00:07:14+03:00",
+    date_finish: "2019-09-02T00:07:14+03:00"
+  },
+  total: 7
+}
+```
+
+#### Leads
+
+_TODO_
+
+#### Statuses
+
+_TODO_
+
+### Low-level methods
+
+Use those only for edge cases, as they will force you to take care of the payload typing. Besides, since Bitrix has a varying structure of payload for different methods, you must be sure that you're using Bitrix REST method with appropriate client method to get correct payload wrapping type.
+
+The only exclusion is a `batch` method which allows making a series of Bitrix REST operation with only one request.
+
+_TODO_
 
 ## Testing examples
 
@@ -96,7 +299,7 @@ You shouldn't. Catch rejections instead, as the library will reject if there are
 Bitrix API doesn't do that by default. Use wildcards in `select` param to force inclusion of user fields:
 
 ```ts
-bitrix.deals.list({ select: ['*', 'UF_*']})
+bitrix.deals.list({ select: ['*', 'UF_*'] })
 ```
 
 > User fields are not typed properly
@@ -127,7 +330,7 @@ bitrix.list<SomeNewMethodType>('some.new.list.method' as any, { select: ["TITLE"
 
 > I need to call a specific set of commands. How to do that effectively?
 
-Use `batch` method. It will handle all routine:
+Use the `batch` method. It will handle all routine:
 
 ```ts
 bitrix.batch<{
@@ -148,4 +351,4 @@ bitrix.batch<{
 * `npm run test:unit:watch` — watch for changes and run unit tests
 * `npm run test:integration:watch` — watch for changes and run integration tests
 * `npm run coverage` — collect full coverage report
-* `npm run build` — build library for the release
+* `npm run build` — build the library for the release
