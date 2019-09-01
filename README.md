@@ -57,7 +57,7 @@ The library has two layers:
 1. **A low-level client** — takes care of the routine and provides bare-bones methods to work with raw Bitrix methods.
 2. **Services** — a wrapper around the Bitrix REST operations. Orchestrates low-level client methods and casts returned payloads to proper types. That's what you want to use.
 
-### Deals services
+### Deals service
 
 Work with Bitrix CRM deals
 
