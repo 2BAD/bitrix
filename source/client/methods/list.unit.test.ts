@@ -2,7 +2,7 @@
 // tslint:disable: no-expression-statement object-literal-sort-keys no-magic-numbers
 
 import { Method } from '../../types'
-import { batchToListPayload, fillWithCommands } from './list'
+import List, { batchToListPayload, fillWithCommands } from './list'
 
 describe('Bitrix `fillWithCommands` method', () => {
   it('should fill array with required amount of commands to process all entries', () => {
@@ -119,13 +119,80 @@ describe('Bitrix `batchToListPayload` method', () => {
 })
 
 describe('Bitrix `list` method', () => {
-  it.todo('should form a proper first request')
-  it.todo('should properly take into account start')
-  it.todo('should return a first request payload when entities can be fetched in single request')
+  it('should make one request when entries can be fetched in one go', async () => {
+    const getListMock = jest.fn(() => Promise.resolve({ next: false }) as any)
+    const batchMock = jest.fn(() => Promise.resolve({}) as any)
+    const list = List({ getList: getListMock, batch: batchMock })
+
+    await list(Method.LIST_DEALS)
+
+    expect(getListMock.mock.calls).toMatchSnapshot()
+    expect(batchMock).not.toBeCalled()
+  })
+
+  it('should make multiple requests when entries can not be fetched in one go', async () => {
+    const getListMock = jest.fn(() => Promise.resolve({ next: 2, total: 120 }) as any)
+    const batchMock = jest.fn(() => Promise.resolve({
+      result: {
+        result: ['done'],
+        result_error: [],
+        result_next: [],
+        result_time: [],
+        result_total: []
+      },
+      time: {}
+    }) as any)
+    const list = List({ getList: getListMock, batch: batchMock })
+
+    await list(Method.LIST_DEALS)
+
+    expect(getListMock.mock.calls).toMatchSnapshot()
+    expect(batchMock.mock.calls).toMatchSnapshot()
+  })
+
+  it.todo('should return a first request payload when entities can be fetched in a single request')
+  it.todo('should return a flatten multiple requests when entities can not be fetched in one go')
+
+  it('should default start to 0', async () => {
+    const getListMock = jest.fn(() => Promise.resolve({ next: 2, total: 20 }) as any)
+    const batchMock = jest.fn(() => Promise.resolve({
+      result: {
+        result: ['done'],
+        result_error: [],
+        result_next: [],
+        result_time: [],
+        result_total: []
+      },
+      time: {}
+    }) as any)
+    const list = List({ getList: getListMock, batch: batchMock })
+
+    await list(Method.LIST_DEALS)
+
+    expect(getListMock.mock.calls[0]).toMatchSnapshot()
+    expect(batchMock.mock.calls[0]).toMatchSnapshot()
+  })
+
+  it('should properly take into account start', async () => {
+    const getListMock = jest.fn(() => Promise.resolve({ next: 2, total: 120 }) as any)
+    const batchMock = jest.fn(() => Promise.resolve({
+      result: {
+        result: ['done'],
+        result_error: [],
+        result_next: [],
+        result_time: [],
+        result_total: []
+      },
+      time: {}
+    }) as any)
+    const list = List({ getList: getListMock, batch: batchMock })
+
+    await list(Method.LIST_DEALS, { start: 27 })
+
+    expect(getListMock.mock.calls).toMatchSnapshot()
+    expect(batchMock.mock.calls).toMatchSnapshot()
+  })
+
   it.todo('should cast first request payload to the <P>')
-  it.todo('should form proper requests when entities can not be fetched in single request')
-  it.todo('should properly take into account start when forming multiple requests')
-  it.todo('should return flattened batches payloads')
-  it.todo('should throw when getting errors in batches payloads')
   it.todo('should cast payload results to the <P>')
 })

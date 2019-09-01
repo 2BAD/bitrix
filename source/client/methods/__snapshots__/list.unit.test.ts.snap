@@ -145,3 +145,106 @@ Array [
   },
 ]
 `;
+
+exports[`Bitrix \`list\` method should default start to 0 1`] = `
+Array [
+  "crm.deal.list",
+  Object {
+    "start": 0,
+  },
+]
+`;
+
+exports[`Bitrix \`list\` method should default start to 0 2`] = `
+Array [
+  Array [
+    Object {
+      "method": "crm.deal.list",
+      "params": Object {
+        "start": 0,
+      },
+    },
+  ],
+]
+`;
+
+exports[`Bitrix \`list\` method should make multiple requests when entries can not be fetched in one go 1`] = `
+Array [
+  Array [
+    "crm.deal.list",
+    Object {
+      "start": 0,
+    },
+  ],
+]
+`;
+
+exports[`Bitrix \`list\` method should make multiple requests when entries can not be fetched in one go 2`] = `
+Array [
+  Array [
+    Array [
+      Object {
+        "method": "crm.deal.list",
+        "params": Object {
+          "start": 0,
+        },
+      },
+      Object {
+        "method": "crm.deal.list",
+        "params": Object {
+          "start": 50,
+        },
+      },
+      Object {
+        "method": "crm.deal.list",
+        "params": Object {
+          "start": 100,
+        },
+      },
+    ],
+  ],
+]
+`;
+
+exports[`Bitrix \`list\` method should make one request when entries can be fetched in one go 1`] = `
+Array [
+  Array [
+    "crm.deal.list",
+    Object {
+      "start": 0,
+    },
+  ],
+]
+`;
+
+exports[`Bitrix \`list\` method should properly take into account start 1`] = `
+Array [
+  Array [
+    "crm.deal.list",
+    Object {
+      "start": 27,
+    },
+  ],
+]
+`;
+
+exports[`Bitrix \`list\` method should properly take into account start 2`] = `
+Array [
+  Array [
+    Array [
+      Object {
+        "method": "crm.deal.list",
+        "params": Object {
+          "start": 27,
+        },
+      },
+      Object {
+        "method": "crm.deal.list",
+        "params": Object {
+          "start": 77,
+        },
+      },
+    ],
+  ],
+]
+`;
