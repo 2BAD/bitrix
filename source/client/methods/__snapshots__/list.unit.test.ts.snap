@@ -248,3 +248,29 @@ Array [
   ],
 ]
 `;
+
+exports[`Bitrix \`list\` method should return a flatten payload when entities can not be fetched in a single request 1`] = `
+Object {
+  "error": "Expected error A
+Expected error B",
+  "next": 4,
+  "result": Array [
+    Object {
+      "ID": "1",
+    },
+    Object {
+      "ID": "2",
+    },
+    Object {
+      "ID": "3",
+    },
+    Object {
+      "ID": "4",
+    },
+  ],
+  "time": Object {
+    "start": 1567196890.959017,
+  },
+  "total": 4,
+}
+`;

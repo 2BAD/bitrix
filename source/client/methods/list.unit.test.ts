@@ -150,8 +150,43 @@ describe('Bitrix `list` method', () => {
     expect(batchMock.mock.calls).toMatchSnapshot()
   })
 
-  it.todo('should return a first request payload when entities can be fetched in a single request')
-  it.todo('should return a flatten multiple requests when entities can not be fetched in one go')
+  it('should return a first request payload when entities can be fetched in a single request', async () => {
+    const mockPayload = { next: false, result: 'test' }
+    const getListMock = jest.fn(() => Promise.resolve(mockPayload) as any)
+    const batchMock = jest.fn(() => Promise.resolve({}) as any)
+    const list = List({ getList: getListMock, batch: batchMock })
+
+    const payload = await list(Method.LIST_DEALS)
+
+    expect(payload).toEqual(mockPayload)
+  })
+
+  it('should return a flatten payload when entities can not be fetched in a single request', async () => {
+    const mockPayload = {
+      result: {
+        result: {
+          a: [{ ID: '1' }, { ID: '2' }],
+          b: [{ ID: '3' }, { ID: '4' }]
+        },
+        result_error: { a: 'Expected error A', b: 'Expected error B' },
+        result_total: { a: 4, b: 4 },
+        result_next: { a: 2, b: 4 },
+        result_time: {
+          a: { start: 1567196891.008149 },
+          b: { start: 1567196891.022316 }
+        }
+      },
+      time: { start: 1567196890.959017 }
+    }
+
+    const getListMock = jest.fn(() => Promise.resolve({ next: 2 }) as any)
+    const batchMock = jest.fn(() => Promise.resolve(mockPayload) as any)
+    const list = List({ getList: getListMock, batch: batchMock })
+
+    const payload = await list(Method.LIST_DEALS)
+
+    expect(payload).toMatchSnapshot()
+  })
 
   it('should default start to 0', async () => {
     const getListMock = jest.fn(() => Promise.resolve({ next: 2, total: 20 }) as any)
