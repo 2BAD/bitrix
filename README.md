@@ -57,13 +57,11 @@ The library has two layers:
 1. **A low-level client** — takes care of the routine and provides bare-bones methods to work with raw Bitrix methods.
 2. **Services** — a wrapper around the Bitrix REST operations. Orchestrates low-level client methods and casts returned payloads to proper types. That's what you want to use.
 
-### Services
-
-#### Deals
+### Deals services
 
 Work with Bitrix CRM deals
 
-##### Type
+#### Type
 
 See [Deal](/2BAD/bitrix/blob/master/source/services/types.ts).
 
@@ -75,13 +73,13 @@ Retrieve specified deal
 bitrix.deals.get({ ID: 77 })
 ```
 
-**Arguments**
+##### Arguments
 
 * `params: GetParams` — params to be passed with the API request.
 
    Usually, you want to specify at least `ID` of the deal to retrieve.
 
-**Returns**
+##### Returns
 
 `Promise<GetPayload<Deal>>`
 
@@ -158,7 +156,7 @@ If there are more than 2500 deals, it will dispatch multiple requests to get all
 bitrix.deals.list({ select: ['*', 'UF_*'] })
 ```
 
-**Arguments**
+##### Arguments
 
 * `params?: ListParams` — params to be passed with an API request
 
@@ -167,7 +165,7 @@ bitrix.deals.list({ select: ['*', 'UF_*'] })
    * Specify `{ select: ['*', 'UF_*'] }` to get user fields too.
    * Specify `start` if you want to skip some entries.
 
-**Returns**
+##### Returns
 
 `Promise<ListPayload<Deal>>`
 
@@ -237,11 +235,11 @@ bitrix.deals.list({ select: ['*', 'UF_*'] })
 }
 ```
 
-#### Leads
+### Leads service
 
 _TODO_
 
-#### Statuses
+### Statuses service
 
 _TODO_
 
