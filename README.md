@@ -68,6 +68,31 @@ Not yet. You have to init client with already obtained by any legal means authen
 
 You shouldn't. Catch rejections instead, as the library will reject if there are any errors in a payload.
 
+> List method does not return user fields!
+
+Bitrix API doesn't do that by default. Use wildcards in `select` param to force inclusion of user fields:
+
+```ts
+bitrix.deals.list({ select: ['*', 'UF_*']})
+```
+
+> User fields are not typed properly
+
+Client can't know about non-default properties in payloads. Because of that, it assumes that any payload can have any additional fields of type `[key: string]: string`:
+
+```ts
+bitrix.leads.get({ ID: 77 })
+  .then(({ result }) => {
+    // known property of type `string`
+    const title = result.TITLE
+
+    // unknown property of type `string`
+    const someData = result.UF_23232323
+
+    console.log(title, someData)
+  })
+```
+
 > I need to call a Bitrix method which isn't supported yet
 
 Use appropriate low-level client methods, like so:
