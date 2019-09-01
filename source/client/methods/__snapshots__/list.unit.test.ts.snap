@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Bitrix \`batchToListPayload\` method should convert batch with named payloads to a list payload 1`] = `
+exports[`Client \`batchToListPayload\` method should convert batch with named payloads to a list payload 1`] = `
 Object {
   "error": "Expected error A
 Expected error B",
@@ -31,7 +31,7 @@ Expected error B",
 }
 `;
 
-exports[`Bitrix \`batchToListPayload\` method should convert batch with payload of arrays to a list payload 1`] = `
+exports[`Client \`batchToListPayload\` method should convert batch with payload of arrays to a list payload 1`] = `
 Object {
   "error": "Expected error 1
 Expected error 2",
@@ -62,7 +62,7 @@ Expected error 2",
 }
 `;
 
-exports[`Bitrix \`batchToListPayload\` method should handle undefined in \`result\` 1`] = `
+exports[`Client \`batchToListPayload\` method should handle undefined in \`result\` 1`] = `
 Object {
   "error": "",
   "next": undefined,
@@ -83,7 +83,7 @@ Object {
 }
 `;
 
-exports[`Bitrix \`fillWithCommands\` method should fill array with required amount of commands to process all entries 1`] = `
+exports[`Client \`fillWithCommands\` method should fill array with required amount of commands to process all entries 1`] = `
 Array [
   Object {
     "method": "crm.deal.list",
@@ -124,7 +124,7 @@ Array [
 ]
 `;
 
-exports[`Bitrix \`fillWithCommands\` method should override \`params.start\` 1`] = `
+exports[`Client \`fillWithCommands\` method should override \`params.start\` 1`] = `
 Array [
   Object {
     "start": 0,
@@ -135,7 +135,7 @@ Array [
 ]
 `;
 
-exports[`Bitrix \`fillWithCommands\` method should properly take into account start 1`] = `
+exports[`Client \`fillWithCommands\` method should properly take into account start 1`] = `
 Array [
   Object {
     "method": "crm.deal.list",
@@ -167,7 +167,7 @@ Array [
 ]
 `;
 
-exports[`Bitrix \`list\` method should default start to 0 1`] = `
+exports[`Client \`list\` method should default start to 0 1`] = `
 Array [
   "crm.deal.list",
   Object {
@@ -176,7 +176,7 @@ Array [
 ]
 `;
 
-exports[`Bitrix \`list\` method should default start to 0 2`] = `
+exports[`Client \`list\` method should default start to 0 2`] = `
 Array [
   Array [
     Object {
@@ -189,7 +189,7 @@ Array [
 ]
 `;
 
-exports[`Bitrix \`list\` method should make multiple requests when entries can not be fetched in one go 1`] = `
+exports[`Client \`list\` method should make multiple requests when entries can not be fetched in one go 1`] = `
 Array [
   Array [
     "crm.deal.list",
@@ -200,7 +200,7 @@ Array [
 ]
 `;
 
-exports[`Bitrix \`list\` method should make multiple requests when entries can not be fetched in one go 2`] = `
+exports[`Client \`list\` method should make multiple requests when entries can not be fetched in one go 2`] = `
 Array [
   Array [
     Array [
@@ -227,7 +227,7 @@ Array [
 ]
 `;
 
-exports[`Bitrix \`list\` method should make one request when entries can be fetched in one go 1`] = `
+exports[`Client \`list\` method should make one request when entries can be fetched in one go 1`] = `
 Array [
   Array [
     "crm.deal.list",
@@ -238,7 +238,7 @@ Array [
 ]
 `;
 
-exports[`Bitrix \`list\` method should properly take into account start 1`] = `
+exports[`Client \`list\` method should properly take into account start 1`] = `
 Array [
   Array [
     "crm.deal.list",
@@ -249,7 +249,7 @@ Array [
 ]
 `;
 
-exports[`Bitrix \`list\` method should properly take into account start 2`] = `
+exports[`Client \`list\` method should properly take into account start 2`] = `
 Array [
   Array [
     Array [
@@ -270,7 +270,7 @@ Array [
 ]
 `;
 
-exports[`Bitrix \`list\` method should return a flatten payload when entities can not be fetched in a single request 1`] = `
+exports[`Client \`list\` method should return a flatten payload when entities can not be fetched in a single request 1`] = `
 Object {
   "error": "Expected error A
 Expected error B",

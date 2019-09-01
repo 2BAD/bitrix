@@ -4,7 +4,7 @@
 import { Method } from '../types'
 import List, { batchToListPayload, fillWithCommands, highest } from './list'
 
-describe('Bitrix `fillWithCommands` method', () => {
+describe('Client `fillWithCommands` method', () => {
   it('should fill array with required amount of commands to process all entries', () => {
     const command = { method: Method.LIST_DEALS, params: { select: ['*'] } }
     const start = 0
@@ -35,7 +35,7 @@ describe('Bitrix `fillWithCommands` method', () => {
   })
 })
 
-describe('Bitrix `highest` method', () => {
+describe('Client `highest` method', () => {
   it('should get highest value from object', () => {
     expect(highest({ a: undefined })).toBe(undefined)
     expect(highest({ a: undefined, b: undefined })).toBe(undefined)
@@ -55,7 +55,7 @@ describe('Bitrix `highest` method', () => {
   })
 })
 
-describe('Bitrix `batchToListPayload` method', () => {
+describe('Client `batchToListPayload` method', () => {
   it('should convert batch with named payloads to a list payload', () => {
     const payload = {
       result: {
@@ -174,7 +174,7 @@ describe('Bitrix `batchToListPayload` method', () => {
   })
 })
 
-describe('Bitrix `list` method', () => {
+describe('Client `list` method', () => {
   it('should make one request when entries can be fetched in one go', async () => {
     const getListMock = jest.fn(() => Promise.resolve({ next: false }) as any)
     const batchMock = jest.fn(() => Promise.resolve({}) as any)

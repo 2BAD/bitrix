@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Bitrix \`batch\` method should merge payloads when more then max allowed commands provided 1`] = `
+exports[`Client \`batch\` method should merge payloads when more then max allowed commands provided 1`] = `
 Object {
   "result": Object {
     "result": Array [
@@ -22,25 +22,25 @@ Object {
 }
 `;
 
-exports[`Bitrix \`batch\` method should throw when getting errors in array of commands payload 1`] = `
+exports[`Client \`batch\` method should throw when getting errors in array of commands payload 1`] = `
 [Error: [batch] failed to process. Received errors in 2 commands:
 Expected error from array of command \`batch\` 0
 Expected error from array of command \`batch\` 1]
 `;
 
-exports[`Bitrix \`batch\` method should throw when getting errors in numbered commands payload 1`] = `
+exports[`Client \`batch\` method should throw when getting errors in numbered commands payload 1`] = `
 [Error: [batch] failed to process. Received errors in 2 commands:
 Expected error from numbered \`batch\` 0
 Expected error from numbered \`batch\` 1]
 `;
 
-exports[`Bitrix \`batch\` method should throw when getting errors in payload 1`] = `
+exports[`Client \`batch\` method should throw when getting errors in payload 1`] = `
 [Error: [batch] failed to process. Received errors in 2 commands:
 Expected error from numbered \`batch\` one
 Expected error from numbered \`batch\` two]
 `;
 
-exports[`Bitrix \`chunkCommands\` method should chunk array of commands 1`] = `
+exports[`Client \`chunkCommands\` method should chunk array of commands 1`] = `
 Array [
   Array [
     Object {
@@ -66,7 +66,7 @@ Array [
 ]
 `;
 
-exports[`Bitrix \`chunkCommands\` method should chunk named commands 1`] = `
+exports[`Client \`chunkCommands\` method should chunk named commands 1`] = `
 Array [
   Object {
     "a": Object {
@@ -92,17 +92,17 @@ Array [
 ]
 `;
 
-exports[`Bitrix \`handleBatchPayload\` method should throw when getting errors in numbered commands payload 1`] = `
+exports[`Client \`handleBatchPayload\` method should throw when getting errors in numbered commands payload 1`] = `
 "[batch] failed to process. Received errors in 1 commands:
 Expected error for \`handleBatchPayload\`"
 `;
 
-exports[`Bitrix \`handleBatchPayload\` method should throw when getting errors in payload 1`] = `
+exports[`Client \`handleBatchPayload\` method should throw when getting errors in payload 1`] = `
 "[batch] failed to process. Received errors in 1 commands:
 Expected error for \`handleBatchPayload\`"
 `;
 
-exports[`Bitrix \`mergeBatchPayloads\` method should merge array payloads 1`] = `
+exports[`Client \`mergeBatchPayloads\` method should merge array payloads 1`] = `
 Object {
   "result": Object {
     "result": Array [
@@ -198,7 +198,7 @@ Object {
 }
 `;
 
-exports[`Bitrix \`mergeBatchPayloads\` method should merge named payloads 1`] = `
+exports[`Client \`mergeBatchPayloads\` method should merge named payloads 1`] = `
 Object {
   "result": Object {
     "result": Object {
@@ -294,23 +294,23 @@ Object {
 }
 `;
 
-exports[`Bitrix \`prepareCommandsQueries\` method should return empty query object when no commands provided 1`] = `Object {}`;
+exports[`Client \`prepareCommandsQueries\` method should return empty query object when no commands provided 1`] = `Object {}`;
 
-exports[`Bitrix \`prepareCommandsQueries\` method should transform dict of the commands into the query object 1`] = `
+exports[`Client \`prepareCommandsQueries\` method should transform dict of the commands into the query object 1`] = `
 Object {
   "cmd[one]": "crm.deal.get?ID=11111",
   "cmd[two]": "crm.deal.list?filter%5B%3EPROBABILITY%5D=50&order%5BSTAGE_ID%5D=ASC&select%5B0%5D=ID&select%5B1%5D=TITLE&start=200",
 }
 `;
 
-exports[`Bitrix \`prepareCommandsQueries\` method should work with array of commands 1`] = `
+exports[`Client \`prepareCommandsQueries\` method should work with array of commands 1`] = `
 Object {
   "cmd[0]": "crm.deal.get",
   "cmd[1]": "crm.deal.list",
 }
 `;
 
-exports[`Bitrix \`prepareCommandsQueries\` method should work with numbered commands 1`] = `
+exports[`Client \`prepareCommandsQueries\` method should work with numbered commands 1`] = `
 Object {
   "cmd[0]": "crm.deal.get",
   "cmd[1]": "crm.deal.list",

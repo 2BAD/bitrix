@@ -10,7 +10,7 @@ const TEST_URI = 'https://test.com/rest'
 const get = Get(got.extend({ baseUrl: TEST_URI, json: true }))
 const RESPONSE_200 = 200
 
-describe('Bitrix `get` method', () => {
+describe('Client `get` method', () => {
   it('should form a proper request', async () => {
     const params = { ID: 1 }
 

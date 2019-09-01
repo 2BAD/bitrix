@@ -10,7 +10,7 @@ const TEST_URI = 'https://test.com/rest'
 const get = GetList(got.extend({ baseUrl: TEST_URI, json: true }))
 const RESPONSE_200 = 200
 
-describe('Bitrix `handleGetListPayload` method', () => {
+describe('Client `handleGetListPayload` method', () => {
   it('should return payload', () => {
     const payload = {
       error: undefined,
@@ -36,7 +36,7 @@ describe('Bitrix `handleGetListPayload` method', () => {
   })
 })
 
-describe('Bitrix `getList` method', () => {
+describe('Client `getList` method', () => {
   it('should form a proper request', async () => {
     const params = {
       filter: { '>PROBABILITY': 50 },

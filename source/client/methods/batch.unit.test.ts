@@ -13,7 +13,7 @@ import Batch, {
   prepareCommandsQueries
 } from './batch'
 
-describe('Bitrix `chunkCommands` method', () => {
+describe('Client `chunkCommands` method', () => {
   it('should chunk named commands', () => {
     const chunkSize = 2
     const commands = {
@@ -51,7 +51,7 @@ describe('Bitrix `chunkCommands` method', () => {
   })
 })
 
-describe('Bitrix `prepareCommandsQueries` method', () => {
+describe('Client `prepareCommandsQueries` method', () => {
   it('should transform dict of the commands into the query object', () => {
     const testDealId = 11111
 
@@ -97,7 +97,7 @@ describe('Bitrix `prepareCommandsQueries` method', () => {
   })
 })
 
-describe('Bitrix `handleBatchPayload` method', () => {
+describe('Client `handleBatchPayload` method', () => {
   it('should return payload', () => {
     const payload = {
       result: {
@@ -159,7 +159,7 @@ describe('Bitrix `handleBatchPayload` method', () => {
   })
 })
 
-describe('Bitrix `mergeBatchPayloads` method', () => {
+describe('Client `mergeBatchPayloads` method', () => {
   it('should merge named payloads', () => {
     const batch1 = {
       result: {
@@ -319,7 +319,7 @@ const TEST_URI = 'https://test.com/rest'
 const batch = Batch(got.extend({ baseUrl: TEST_URI, json: true }))
 const RESPONSE_200 = 200
 
-describe('Bitrix `batch` method', () => {
+describe('Client `batch` method', () => {
   it('should form a proper request', async () => {
     const payload = { result: { result: { one: 'done', two: 'done' }, result_error: [] } }
     const dealId = 999
