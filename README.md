@@ -4,11 +4,10 @@
 
 **Features:**
 
-* No bullshit
-* Expressive API
-* Strongly typed with TypeScript
-* Typed requests results
-* Promise-based
+* 🔥 No bullshit
+* ✨ Expressive API
+* 💪 Strongly typed methods and requests results with TypeScript
+* ❤️ Promise-based
 
 ## Testing examples
 
