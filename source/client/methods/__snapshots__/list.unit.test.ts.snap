@@ -62,11 +62,9 @@ Expected error 2",
 }
 `;
 
-exports[`Bitrix \`batchToListPayload\` method should handle undefined in \`result\`, \`result_error\` and \`result_next\` 1`] = `
+exports[`Bitrix \`batchToListPayload\` method should handle undefined in \`result\` 1`] = `
 Object {
-  "error": "
-Expected error
-",
+  "error": "",
   "next": undefined,
   "result": Array [
     Object {

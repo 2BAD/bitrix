@@ -27,6 +27,22 @@ export const fillWithCommands = (
     .map((i) => ({ method, params: { ...params, start: start + (entriesPerCommand * i) } }), {})
 }
 
+  /**
+   * Get the highest value from object or an array if there's any
+   */
+export const highest = (
+  input: ReadonlyArray<number | undefined> | Record<string, number | undefined>
+): number | undefined =>
+  Object.values(input).reduce(
+    (a, b) => a !== undefined && b !== undefined
+      ? a > b ? a : b
+      : a !== undefined && b === undefined
+        ? a
+        : a === undefined && b !== undefined
+          ? b
+          : undefined
+  , undefined)
+
 /**
  * Converts batch payload to a list payload
  */
@@ -36,14 +52,6 @@ export const batchToListPayload = <P>(payload: BatchPayload<Record<string | numb
   const flattenResult = Object.entries(result).reduce(
     (flatten, [_key, r]) => !r ? flatten : [...flatten, ...r]
   , [] as readonly P[])
-
-  /**
-   * Get the highest value from object or an array if there's any
-   */
-  const highest = (input: ReadonlyArray<number | undefined> | Record<string, number | undefined>): number | undefined =>
-    Object.values(input).reduce(
-      (a, b) => a === undefined || b === undefined ? undefined : a > b ? a : b
-    , 0)
 
   return {
     error: Object.values(result_error).join('\n'),

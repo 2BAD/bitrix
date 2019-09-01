@@ -2,7 +2,7 @@
 // tslint:disable: no-expression-statement object-literal-sort-keys no-magic-numbers
 
 import { Method } from '../types'
-import List, { batchToListPayload, fillWithCommands } from './list'
+import List, { batchToListPayload, fillWithCommands, highest } from './list'
 
 describe('Bitrix `fillWithCommands` method', () => {
   it('should fill array with required amount of commands to process all entries', () => {
@@ -32,6 +32,26 @@ describe('Bitrix `fillWithCommands` method', () => {
     const commands = fillWithCommands(command, start, toProcess, entriesPerCommand)
 
     expect(Object.values(commands).map((c) => c.params)).toMatchSnapshot()
+  })
+})
+
+describe('Bitrix `highest` method', () => {
+  it('should get highest value from object', () => {
+    expect(highest({ a: undefined })).toBe(undefined)
+    expect(highest({ a: undefined, b: undefined })).toBe(undefined)
+    expect(highest({ a: 1, b: undefined })).toBe(1)
+    expect(highest({ a: undefined, b: 1 })).toBe(1)
+    expect(highest({ a: 1, b: 2 })).toBe(2)
+    expect(highest({ a: 2, b: 1 })).toBe(2)
+  })
+
+  it('should get highest value from array', () => {
+    expect(highest([undefined])).toBe(undefined)
+    expect(highest([undefined, undefined])).toBe(undefined)
+    expect(highest([1, undefined])).toBe(1)
+    expect(highest([undefined, 1])).toBe(1)
+    expect(highest([1, 2])).toBe(2)
+    expect(highest([2, 1])).toBe(2)
   })
 })
 
@@ -117,13 +137,13 @@ describe('Bitrix `batchToListPayload` method', () => {
     expect(batchToListPayload(payload)).toMatchSnapshot()
   })
 
-  it('should handle undefined in `result`, `result_error` and `result_next`', () => {
+  it('should handle undefined in `result`', () => {
     const payload = {
       result: {
-        result: [ undefined, [{ ID: '1' }], undefined] as any,
-        result_error: [undefined, 'Expected error', undefined] as any,
-        result_total: [],
-        result_next: [undefined, 1, 2, undefined] as any,
+        result: [undefined, [{ ID: '1' }], undefined] as any,
+        result_error: [] as any,
+        result_total: [] as any,
+        result_next: [] as any,
         result_time: [{
           start: 1567196891.008149,
           finish: 1567196891.022234,
