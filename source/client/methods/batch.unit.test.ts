@@ -2,11 +2,13 @@
 // tslint:disable: no-expression-statement object-literal-sort-keys no-magic-numbers
 
 import got from 'got'
+import range from 'lodash.range';
 import nock from 'nock'
 import { Method } from '../types'
 import Batch, {
   chunkCommands,
   handleBatchPayload,
+  MAX_COMMANDS_PER_BATCH,
   mergeBatchPayloads,
   prepareCommandsQueries
 } from './batch'
@@ -36,6 +38,16 @@ describe('Bitrix `chunkCommands` method', () => {
     ] as const
 
     expect(chunkCommands(commands, chunkSize)).toMatchSnapshot()
+  })
+
+  it('should by default chunk with a size of `MAX_COMMANDS_PER_BATCH`', () => {
+    const commandsSets = 2
+    const commands = range(0, MAX_COMMANDS_PER_BATCH * commandsSets).map(() => ({ method: Method.GET_DEAL }))
+
+    const chunked = chunkCommands(commands)
+
+    expect(chunked.length).toBe(commandsSets)
+    expect(chunked[0].length).toBe(MAX_COMMANDS_PER_BATCH)
   })
 })
 
