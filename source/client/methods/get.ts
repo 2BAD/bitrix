@@ -1,6 +1,6 @@
 import { GotInstance, GotJSONFn } from 'got'
 import { stringify as toQuery } from 'qs'
-import { GetParams, GetPayload, GettableMethod } from '../../types'
+import { GetParams, GetPayload, GettableMethod } from '../types'
 
 export type Get = <P>(method: GettableMethod, params?: GetParams) => Promise<GetPayload<P>>
 

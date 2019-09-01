@@ -6,7 +6,7 @@ import {
   ListableMethod,
   ListParams,
   ListPayload
-} from '../../types'
+} from '../types'
 import { Batch } from './batch'
 import { GetList } from './getList'
 

@@ -1,6 +1,6 @@
 import { GotInstance, GotJSONFn } from 'got'
 import { stringify as toQuery } from 'qs'
-import { ListableMethod, ListParams, ListPayload } from '../../types'
+import { ListableMethod, ListParams, ListPayload } from '../types'
 
 /**
  * Checks wether payload has error and if yes — throws it

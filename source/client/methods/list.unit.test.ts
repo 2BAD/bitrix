@@ -1,7 +1,7 @@
 /* eslint-env jest */
 // tslint:disable: no-expression-statement object-literal-sort-keys no-magic-numbers
 
-import { Method } from '../../types'
+import { Method } from '../types'
 import List, { batchToListPayload, fillWithCommands } from './list'
 
 describe('Bitrix `fillWithCommands` method', () => {

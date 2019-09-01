@@ -1,4 +1,4 @@
-import { Diff } from './utils/Diff'
+import { Diff } from '../utils/Diff'
 
 export enum Method {
   // Gettable

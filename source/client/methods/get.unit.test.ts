@@ -3,7 +3,7 @@
 
 import got from 'got'
 import nock from 'nock'
-import { Method } from '../../types'
+import { Method } from '../types'
 import Get from './get'
 
 const TEST_URI = 'https://test.com/rest'

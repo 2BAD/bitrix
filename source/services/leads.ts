@@ -2,7 +2,7 @@
 
 import { Get } from '../client/methods/get'
 import { List } from '../client/methods/list'
-import { GetParams, ListParams, Method } from '../types'
+import { GetParams, ListParams, Method } from '../client/types'
 import { Lead } from './types'
 
 interface Dependencies {
