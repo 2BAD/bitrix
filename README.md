@@ -124,4 +124,5 @@ bitrix.batch<{
 * `npm run test:watch` — watch for changes and run all tests
 * `npm run test:unit:watch` — watch for changes and run unit tests
 * `npm run test:integration:watch` — watch for changes and run integration tests
+* `npm run coverage` — collect full coverage report
 * `npm run build` — build library for the release

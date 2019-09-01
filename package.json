@@ -69,6 +69,7 @@
     "test:unit:watch": "run-s \"test:unit -- --watch\"",
     "test:integration": "jest integration --setupFiles dotenv/config",
     "test:integration:watch": "run-s \"test:integration -- --watch\"",
+    "coverage": "jest --coverage --coverageDirectory coverage --collectCoverageFrom \"source/**/*.ts\"",
     "watch": "run-s clean build:main && run-p build:main:watch",
     "preversion": "run-s clean lint test build"
   },
