@@ -1,0 +1,23 @@
+aliases:
+  - &node
+    - image: circleci/node:10
+
+  - &save-npm-cache
+      key: npm-cache-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
+      paths:
+        - ./node_modules
+
+  - &restore-npm-cache
+      keys:
+        - npm-cache-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
+
+version: 2
+jobs:
+  build:
+    docker: *node
+    steps:
+      - checkout
+      - restore_cache: *restore-npm-cache
+      - run: npm install
+      - save_cache: *save-npm-cache
+      - run: npm test
