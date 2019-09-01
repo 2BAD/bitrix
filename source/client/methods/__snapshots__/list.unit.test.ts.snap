@@ -62,6 +62,29 @@ Expected error 2",
 }
 `;
 
+exports[`Bitrix \`batchToListPayload\` method should handle undefined in \`result\`, \`result_error\` and \`result_next\` 1`] = `
+Object {
+  "error": "
+Expected error
+",
+  "next": undefined,
+  "result": Array [
+    Object {
+      "ID": "1",
+    },
+  ],
+  "time": Object {
+    "date_finish": "2019-08-30T23:28:11+03:00",
+    "date_start": "2019-08-30T23:28:10+03:00",
+    "duration": 0.2647218704223633,
+    "finish": 1567196891.223739,
+    "processing": 0.21567082405090332,
+    "start": 1567196890.959017,
+  },
+  "total": 0,
+}
+`;
+
 exports[`Bitrix \`fillWithCommands\` method should fill array with required amount of commands to process all entries 1`] = `
 Array [
   Object {

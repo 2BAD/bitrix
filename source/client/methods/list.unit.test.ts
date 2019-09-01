@@ -116,6 +116,42 @@ describe('Bitrix `batchToListPayload` method', () => {
 
     expect(batchToListPayload(payload)).toMatchSnapshot()
   })
+
+  it('should handle undefined in `result`, `result_error` and `result_next`', () => {
+    const payload = {
+      result: {
+        result: [ undefined, [{ ID: '1' }], undefined] as any,
+        result_error: [undefined, 'Expected error', undefined] as any,
+        result_total: [],
+        result_next: [undefined, 1, 2, undefined] as any,
+        result_time: [{
+          start: 1567196891.008149,
+          finish: 1567196891.022234,
+          duration: 0.014085054397583008,
+          processing: 0.013998985290527344,
+          date_start: '2019-08-30T23:28:11+03:00',
+          date_finish: '2019-08-30T23:28:11+03:00'
+        }, {
+          start: 1567196891.022316,
+          finish: 1567196891.03225,
+          duration: 0.009933948516845703,
+          processing: 0.009846210479736328,
+          date_start: '2019-08-30T23:28:11+03:00',
+          date_finish: '2019-08-30T23:28:11+03:00'
+        }]
+      },
+      time: {
+        start: 1567196890.959017,
+        finish: 1567196891.223739,
+        duration: 0.2647218704223633,
+        processing: 0.21567082405090332,
+        date_start: '2019-08-30T23:28:10+03:00',
+        date_finish: '2019-08-30T23:28:11+03:00'
+      }
+    }
+
+    expect(batchToListPayload(payload)).toMatchSnapshot()
+  })
 })
 
 describe('Bitrix `list` method', () => {
