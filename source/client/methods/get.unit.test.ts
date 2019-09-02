@@ -12,7 +12,7 @@ const RESPONSE_200 = 200
 
 describe('Client `get` method', () => {
   it('should form a proper request', async () => {
-    const params = { ID: 1 }
+    const params = { ID: '1' }
 
     const scope = nock(TEST_URI)
       .get(`/${Method.GET_DEAL}`)
