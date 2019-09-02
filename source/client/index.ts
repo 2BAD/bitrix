@@ -1,22 +1,11 @@
 // tslint:disable:object-literal-sort-keys
 
 import got from 'got'
+import addAccessToken from './hooks/addAccessToken'
 import Batch from './methods/batch'
 import Get from './methods/get'
 import GetList from './methods/getList'
 import List from './methods/list'
-
-/**
- * Got can't merge `query` option with other queries if they are string. But that hook can.
- */
-const addAccessTokenHook = (accessToken: string) => (options: got.GotJSONOptions) => {
-  // tslint:disable-next-line: no-if-statement
-  if (!options.path) return
-
-  const hasQuery = options.path.includes('?')
-  // tslint:disable-next-line:no-object-mutation no-expression-statement
-  options.path = `${options.path}${hasQuery ? '&' : '?'}access_token=${accessToken}`
-}
 
 export default (restUri: string, accessToken: string) => {
   const instance = got.extend({
@@ -27,7 +16,7 @@ export default (restUri: string, accessToken: string) => {
     json: true,
     hooks: {
       beforeRequest: [
-        addAccessTokenHook(accessToken)
+        addAccessToken(accessToken)
       ]
       // should be used with rate limiter to handle throttling cases
       // afterResponse: [
