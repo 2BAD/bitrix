@@ -305,6 +305,12 @@ bitrix.getList(Method.LIST_DEALS, {})
 
 Not yet. What's in the docs already works, and not covered Bitrix operations can be done with a provided low-level client methods.
 
+> I'm not a Typed Language Master Race user. Can I use it with a regular JavaScript?
+
+Sure. Just install and import it as any other NPM module. But The Type Police is already on the way for you.
+
+Note that this library wasn't designed with regular JavaScript in mind, so it doesn't make unnecessary dynamic checks. Don't be too persistent in passing on wrong parameters — it might yield unexpected results. After all, TypeScript is a recommended way to use it.
+
 > Does it handle authentication?
 
 Not yet. You have to init client with already obtained by any legal means authentication token.
