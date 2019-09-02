@@ -30,6 +30,8 @@
 * 💪 Strongly typed methods and requests results with TypeScript
 * ❤️ Promise-based
 
+![@2bad/bitrix usage example](https://user-images.githubusercontent.com/4460311/64130824-7798c080-cdcd-11e9-99f0-7ded87541a85.png)
+
 ## Install
 
 ```shell
