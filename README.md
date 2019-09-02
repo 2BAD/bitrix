@@ -1,9 +1,5 @@
 # @2bad/bitrix
 
-> Bitrix24 REST API client that doesn't suck
-
----
-
 <p align='center'>
   <a href='https://www.npmjs.com/package/@2bad/bitrix'>
     <img src='https://img.shields.io/npm/v/@2bad/bitrix.svg' alt='NPM version' />
@@ -25,35 +21,29 @@
   </a>
 </p>
 
-**Features:**
+> Bitrix24 REST API client that doesn't suck
+
+## Features
 
 * 🔥 No bullshit
 * ✨ Expressive API
 * 💪 Strongly typed methods and requests results with TypeScript
 * ❤️ Promise-based
 
-## Getting Started
-
-Install using NPM:
+## Install
 
 ```shell
 npm install @2bad/bitrix
 ```
 
-Init client with Bitrix API endpoint and authentication token:
+## Usage
+
+Init client with Bitrix API endpoint and authentication token and use the client to ease your Bitrix pain:
 
 ```ts
 import Bitrix from '@2bad/bitrix'
 
-const bitrix = Bitrix('https://YOUR_DOMAIN.bitrix24.ru/rest', 'YOUR_AUTH_TOKEN')
-```
-
-Finally, use the client to ease your Bitrix pain:
-
-```ts
-import Bitrix from '@2bad/bitrix'
-
-const bitrix = Bitrix('https://YOUR_DOMAIN.bitrix24.ru/rest', 'YOUR_AUTH_TOKEN')
+const bitrix = Bitrix('https://PORTAL_NAME.bitrix24.ru/rest', 'AUTH_TOKEN')
 
 // Get deal
 bitrix.deals.get({ ID: 77 })
