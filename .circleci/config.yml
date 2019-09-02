@@ -1,7 +1,11 @@
-aliases:
-  - &node
-    - image: circleci/node:10
+version: 2.1
 
+executors:
+  node:
+    docker:
+      - image: circleci/node:10
+
+aliases:
   - &save-npm-cache
       key: npm-cache-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
       paths:
@@ -14,7 +18,7 @@ aliases:
 version: 2
 jobs:
   build:
-    docker: *node
+    executor: node
     steps:
       - checkout
       - restore_cache: *restore-npm-cache
