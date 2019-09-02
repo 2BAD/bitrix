@@ -74,10 +74,6 @@ The library has two layers:
 
 Work with Bitrix CRM deals
 
-#### Type
-
-See [Deal](/2BAD/bitrix/blob/master/source/services/types.ts).
-
 #### Get deal
 
 Retrieve specified deal
@@ -92,7 +88,7 @@ bitrix.deals.get('77')
 
 ##### Returns
 
-`Promise<GetPayload<Deal>>`
+`Promise<GetPayload<Deal>>` (See [Deal](/2BAD/bitrix/blob/master/source/services/types.ts))
 
 <details>
 <summary>See payload example</summary>
