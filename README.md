@@ -254,11 +254,125 @@ bitrix.deals.list({ select: ['*', 'UF_*'] })
 
 ### Leads service
 
-_TODO_
+Work with Bitrix CRM leads
+
+#### Get lead
+
+Retrieve specified lead
+
+```ts
+bitrix.leads.get('77')
+```
+
+##### Arguments
+
+* `id: string` — `ID` of the lead to retrieve.
+
+##### Returns
+
+`Promise<GetPayload<Lead>>` (See [Lead](/2BAD/bitrix/blob/master/source/services/types.ts))
+
+<details>
+<summary>See payload example</summary>
+
+```ts
+// @todo Add
+```
+
+</details>
+
+#### Get leads
+
+Retrieve all leads.
+
+If there are more than 2500 leads, it will dispatch multiple requests to get all leads.
+
+```ts
+bitrix.leads.list({ select: ['*', 'UF_*'] })
+```
+
+##### Arguments
+
+* `params?: ListParams` — params to be passed with an API request
+
+   _Hints:_
+
+   * Specify `{ select: ['*', 'UF_*'] }` to get user fields too.
+   * Specify `start` if you want to skip some entries.
+
+##### Returns
+
+`Promise<ListPayload<Lead>>`
+
+<details>
+<summary>See payload example</summary>
+
+```ts
+// @todo Add
+```
+
+</details>
 
 ### Statuses service
 
-_TODO_
+Work with Bitrix CRM statuses
+
+#### Get status
+
+Retrieve specified status
+
+```ts
+bitrix.statuses.get('77')
+```
+
+##### Arguments
+
+* `id: string` — `ID` of the status to retrieve.
+
+##### Returns
+
+`Promise<GetPayload<Status>>` (See [Status](/2BAD/bitrix/blob/master/source/services/types.ts))
+
+<details>
+<summary>See payload example</summary>
+
+```ts
+// @todo Add
+```
+
+</details>
+
+#### Get statuses
+
+Retrieve all statuses.
+
+If there are more than 2500 statuses, it will dispatch multiple requests to get all statuses.
+
+```ts
+bitrix.statuses.list({ select: ['*', 'UF_*'] })
+```
+
+##### Arguments
+
+* `params?: ListParams` — params to be passed with an API request
+
+   _Hints:_
+
+   * Specify `{ select: ['*', 'UF_*'] }` to get user fields too.
+   * Specify `start` if you want to skip some entries.
+
+##### Returns
+
+`Promise<ListPayload<Status>>`
+
+<details>
+<summary>See payload example</summary>
+
+```ts
+// @todo Add
+```
+
+</details>
 
 ### Low-level methods
 
