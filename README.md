@@ -46,7 +46,7 @@ import Bitrix from '@2bad/bitrix'
 const bitrix = Bitrix('https://PORTAL_NAME.bitrix24.ru/rest', 'AUTH_TOKEN')
 
 // Get deal
-bitrix.deals.get({ ID: '77' })
+bitrix.deals.get('77')
   .then(({ result }) => {
     // Get typed payload
     const { TITLE } = result // string
@@ -83,14 +83,12 @@ See [Deal](/2BAD/bitrix/blob/master/source/services/types.ts).
 Retrieve specified deal
 
 ```ts
-bitrix.deals.get({ ID: '77' })
+bitrix.deals.get('77')
 ```
 
 ##### Arguments
 
-* `params: GetParams` — params to be passed with the API request.
-
-   Usually, you want to specify at least `ID` of the deal to retrieve.
+* `id: string` — `ID` of the deal to retrieve.
 
 ##### Returns
 
