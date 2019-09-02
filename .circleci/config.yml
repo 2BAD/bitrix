@@ -25,6 +25,7 @@ jobs:
       - restore_cache: *restore-npm-cache
       - run: npm install
       - save_cache: *save-npm-cache
+      - run: npm run lint
       - run: npm test
       - run: npm run coverage
       - codecov/upload:
