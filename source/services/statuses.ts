@@ -2,7 +2,7 @@
 
 import { Get } from '../client/methods/get'
 import { List } from '../client/methods/list'
-import { GetParams, ListParams, Method } from '../client/types'
+import { ListParams, Method } from '../client/types'
 import { Status } from './types/status'
 
 interface Dependencies {
@@ -11,6 +11,6 @@ interface Dependencies {
 }
 
 export default ({ get, list }: Dependencies) => ({
-  get: (params: GetParams) => get<Status>(Method.GET_STATUS, params),
+  get: (id: string) => get<Status>(Method.GET_STATUS, { ID: id }),
   list: (params?: ListParams) => list<Status>(Method.LIST_STATUSES, params)
 })

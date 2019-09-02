@@ -2,7 +2,7 @@
 
 import { Get } from '../client/methods/get'
 import { List } from '../client/methods/list'
-import { GetParams, ListParams, Method } from '../client/types'
+import { ListParams, Method } from '../client/types'
 import { Lead } from './types/lead'
 
 interface Dependencies {
@@ -11,6 +11,6 @@ interface Dependencies {
 }
 
 export default ({ get, list }: Dependencies) => ({
-  get: (params: GetParams) => get<Lead>(Method.GET_LEAD, params),
+  get: (id: string) => get<Lead>(Method.GET_LEAD, { ID: id }),
   list: (params?: ListParams) => list<Lead>(Method.LIST_LEADS, params)
 })
