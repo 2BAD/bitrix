@@ -11,6 +11,9 @@
   <a href='https://www.npmjs.com/package/@2bad/bitrix'>
     <img src='https://img.shields.io/npm/l/@2bad/bitrix.svg' alt='License' />
   </a>
+  <a href='https://codecov.io/gh/2BAD/bitrix'>
+    <img src='https://img.shields.io/codecov/c/github/2BAD/bitrix.svg' alt='Code coverage' />
+  </a>
   <a href='https://circleci.com/gh/2BAD/bitrix'>
     <img src='https://img.shields.io/circleci/build/gh/2BAD/bitrix/master.svg?label=circle' alt='CircleCI Build Status' />
   </a>
