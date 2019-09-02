@@ -470,7 +470,7 @@ import Bitrix, { Method, Deal } from '@2bad/bitrix'
 
 // ...init client...
 
-bitrix.getList<Deal>(Method.LIST_DEALS, { start: 774 })
+bitrix.list<Deal>(Method.LIST_DEALS, { start: 774 })
 ```
 
 ##### Generics
@@ -507,7 +507,7 @@ import Bitrix, { Method, Deal } from '@2bad/bitrix'
 
 // ...init client...
 
-batch<{
+bitrix.batch<{
   deals: readonly Deal[]
   deal: Deal
 }>({
