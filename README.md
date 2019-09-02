@@ -2,6 +2,23 @@
 
 > Bitrix24 REST API client that doesn't suck
 
+---
+
+<p align='center'>
+  <a href='https://www.npmjs.com/package/@2bad/bitrix'>
+    <img src='https://img.shields.io/npm/v/@2bad/bitrix.svg' alt='NPM version' />
+  </a>
+  <a href='https://circleci.com/gh/2BAD/bitrix'>
+    <img src='https://img.shields.io/circleci/build/gh/2BAD/bitrix/master.svg?label=circle' alt='CircleCI Build Status' />
+  </a>
+  <a href='https://david-dm.org/2BAD/bitrix'>
+    <img src='https://img.shields.io/david/2BAD/bitrix.svg' alt='Dependency Status' />
+  </a>
+  <a href='https://github.com/2BAD/bitrix/search?l=typescript'>
+    <img src='https://img.shields.io/github/languages/top/2BAD/bitrix.svg' alt='Written in TypeScript' />
+  </a>
+</p>
+
 **Features:**
 
 * 🔥 No bullshit
