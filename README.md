@@ -88,7 +88,7 @@ bitrix.deals.get('77')
 
 ##### Returns
 
-`Promise<GetPayload<Deal>>` (See [Deal](/2BAD/bitrix/blob/master/source/services/types.ts))
+`Promise<GetPayload<Deal>>` (See [Deal](/2BAD/bitrix/blob/master/source/services/types/deal.ts))
 
 <details>
 <summary>See payload example</summary>
@@ -270,7 +270,7 @@ bitrix.leads.get('77')
 
 ##### Returns
 
-`Promise<GetPayload<Lead>>` (See [Lead](/2BAD/bitrix/blob/master/source/services/types.ts))
+`Promise<GetPayload<Lead>>` (See [Lead](/2BAD/bitrix/blob/master/source/services/types/lead.ts))
 
 <details>
 <summary>See payload example</summary>
@@ -331,7 +331,7 @@ bitrix.statuses.get('77')
 
 ##### Returns
 
-`Promise<GetPayload<Status>>` (See [Status](/2BAD/bitrix/blob/master/source/services/types.ts))
+`Promise<GetPayload<Status>>` (See [Status](/2BAD/bitrix/blob/master/source/services/types/status.ts))
 
 <details>
 <summary>See payload example</summary>
