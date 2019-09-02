@@ -1,4 +1,4 @@
-/* eslint-env jest */
+/* tslint-env jest */
 // tslint:disable: no-expression-statement
 
 import got from 'got'

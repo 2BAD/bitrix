@@ -1,4 +1,4 @@
-/* eslint-env jest */
+/* tslint-env jest */
 // tslint:disable: no-expression-statement object-literal-sort-keys no-magic-numbers
 
 import { Method } from '../types'
