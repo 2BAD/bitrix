@@ -3,7 +3,7 @@
 import { Get } from '../client/methods/get'
 import { List } from '../client/methods/list'
 import { GetParams, ListParams, Method } from '../client/types'
-import { Deal } from './types'
+import { Deal } from './types/deal'
 
 interface Dependencies {
   readonly get: Get
