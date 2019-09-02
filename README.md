@@ -38,12 +38,12 @@ npm install @2bad/bitrix
 
 ## Usage
 
-Init client with Bitrix API endpoint and authentication token and use the client to ease your Bitrix pain:
+Init client with Bitrix API endpoint and access token and use the client to ease your Bitrix pain:
 
 ```ts
 import Bitrix from '@2bad/bitrix'
 
-const bitrix = Bitrix('https://PORTAL_NAME.bitrix24.ru/rest', 'AUTH_TOKEN')
+const bitrix = Bitrix('https://PORTAL_NAME.bitrix24.ru/rest', 'ACCESS_TOKEN')
 
 // Get deal
 bitrix.deals.get('77')
@@ -388,7 +388,7 @@ _TODO_
 import Bitrix from '@2bad/bitrix'
 import { Method } from './bitrix/types'
 
-const bitrix = Bitrix('https://YOUR_DOMAIN.bitrix24.ru/rest', 'YOUR_AUTH_TOKEN')
+const bitrix = Bitrix('https://PORTAL_NAME.bitrix24.ru/rest', 'ACCESS_TOKEN')
 
 // ----------------------
 // Common methods
@@ -423,7 +423,7 @@ Note that this library wasn't designed with regular JavaScript in mind, so it do
 
 > Does it handle authentication?
 
-Not yet. You have to init client with already obtained by any legal means authentication token.
+Not yet. You have to init client with already obtained by any legal means access token.
 
 > Should I check payloads `error` properties for errors?
 

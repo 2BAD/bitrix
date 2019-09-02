@@ -5,8 +5,8 @@ import DealsService from './services/deals'
 import LeadsService from './services/leads'
 import StatusesService from './services/statuses'
 
-export default (restUri: string, token: string) => {
-  const { get, getList, batch, list } = Client(restUri, token)
+export default (restUri: string, accessToken: string) => {
+  const { get, getList, batch, list } = Client(restUri, accessToken)
 
   return {
     get,
