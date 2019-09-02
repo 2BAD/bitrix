@@ -46,7 +46,7 @@ import Bitrix from '@2bad/bitrix'
 const bitrix = Bitrix('https://PORTAL_NAME.bitrix24.ru/rest', 'AUTH_TOKEN')
 
 // Get deal
-bitrix.deals.get({ ID: 77 })
+bitrix.deals.get({ ID: '77' })
   .then(({ result }) => {
     // Get typed payload
     const { TITLE } = result // string
@@ -83,7 +83,7 @@ See [Deal](/2BAD/bitrix/blob/master/source/services/types.ts).
 Retrieve specified deal
 
 ```ts
-bitrix.deals.get({ ID: 77 })
+bitrix.deals.get({ ID: '77' })
 ```
 
 ##### Arguments
@@ -286,12 +286,12 @@ const bitrix = Bitrix('https://YOUR_DOMAIN.bitrix24.ru/rest', 'YOUR_AUTH_TOKEN')
 // Common methods
 // ----------------------
 
-bitrix.get(Method.GET_DEAL, { query: { ID: 3357 } })
+bitrix.get(Method.GET_DEAL, { query: { ID: '3357' } })
   .then(console.log)
   .catch(console.error)
 
 // Error example
-bitrix.get(Method.GET_DEAL, { query: { ID: 9999999999999 } })
+bitrix.get(Method.GET_DEAL, { query: { ID: '9999999999999' } })
   .then(console.log)
   .catch(console.error)
 
@@ -328,7 +328,7 @@ bitrix.deals.list({ select: ['*', 'UF_*'] })
 Client can't know about non-default properties in payloads. Because of that, it assumes that any payload can have any additional fields of type `[key: string]: string`:
 
 ```ts
-bitrix.leads.get({ ID: 77 })
+bitrix.leads.get({ ID: '77' })
   .then(({ result }) => {
     // known property of type `string`
     const title = result.TITLE
@@ -345,7 +345,7 @@ bitrix.leads.get({ ID: 77 })
 Use appropriate low-level client methods, like so:
 
 ```ts
-bitrix.get<SomeNewMethodType>('some.new.get.method' as any, { ID: 77 })
+bitrix.get<SomeNewMethodType>('some.new.get.method' as any, { ID: '77' })
 bitrix.list<SomeNewMethodType>('some.new.list.method' as any, { select: ["TITLE"] })
 ```
 
@@ -358,7 +358,7 @@ bitrix.batch<{
   lead: Lead,
   deals: Deal[]
 }>({
-  lead: { method: Method.GET_LEAD, params: { ID: 77 } },
+  lead: { method: Method.GET_LEAD, params: { ID: '77' } },
   deals: { method: Method.LIST_DEALS }
 })
 ```
