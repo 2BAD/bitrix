@@ -3,23 +3,31 @@ import { Diff } from '../utils/Diff'
 export enum Method {
   // Gettable
   BATCH = 'batch',
+
+  GET_CONTACT = 'crm.contact.get',
   GET_DEAL = 'crm.deal.get',
   GET_LEAD = 'crm.lead.get',
   GET_STATUS = 'crm.status.get',
+
+  CREATE_CONTACT = 'crm.contact.add',
   CREATE_DEAL = 'crm.deal.add',
   CREATE_LEAD = 'crm.lead.add',
   CREATE_STATUS = 'crm.status.add',
+
+  UPDATE_CONTACT = 'crm.contact.update',
   UPDATE_DEAL = 'crm.deal.update',
   UPDATE_LEAD = 'crm.lead.update',
   UPDATE_STATUS = 'crm.status.update',
 
   // Listable
+  LIST_CONTACTS = 'crm.contact.list',
   LIST_DEALS = 'crm.deal.list',
   LIST_LEADS = 'crm.lead.list',
   LIST_STATUSES = 'crm.status.list'
 }
 
 const LISTABLE_METHODS = [
+  Method.LIST_CONTACTS,
   Method.LIST_DEALS,
   Method.LIST_LEADS,
   Method.LIST_STATUSES
