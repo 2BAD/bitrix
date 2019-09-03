@@ -15,6 +15,7 @@ Icon
 ## Editors and IDE
 *.sublime*
 *.code-workspace
+.vscode
 
 ## Node.js
 lib-cov
