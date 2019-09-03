@@ -1,6 +1,6 @@
-# @2bad/bitrix
+# Bitrix24 REST API client that doesn't suck
 
-<p align='center'>
+<p>
   <a href='https://www.npmjs.com/package/@2bad/bitrix'>
     <img src='https://img.shields.io/npm/v/@2bad/bitrix.svg' alt='NPM version' />
   </a>
@@ -20,10 +20,6 @@
     <img src='https://img.shields.io/github/languages/top/2BAD/bitrix.svg' alt='Written in TypeScript' />
   </a>
 </p>
-
-> Bitrix24 REST API client that doesn't suck
-
-## Features
 
 * 🔥 No bullshit
 * ✨ Expressive API
@@ -71,6 +67,35 @@ The library has two layers:
 
 1. **A low-level client** — takes care of the routine and provides bare-bones methods to work with raw Bitrix methods.
 2. **Services** — a wrapper around the Bitrix REST operations. Orchestrates low-level client methods and casts returned payloads to proper types. That's what you want to use.
+
+* CRM
+  * [Deal](https://github.com/2BAD/bitrix#deals-service)
+    * [[create](https://github.com/2BAD/bitrix#create-deal), [get](https://github.com/2BAD/bitrix#get-deal), [list](https://github.com/2BAD/bitrix#list-deals), [update](https://github.com/2BAD/bitrix#update-deal), delete, fields]
+    * [productrows_set, productrows_get]
+    * [contact_fields, contact_add, contact_delete]
+    * [contact_items_get, contact_items_set, contact_items_delete]
+  * Company
+    * [create, get, list, update, delete, fields]
+    * [contact_fields, contact_add, contact_delete]
+    * [contact_items_get, contact_items_set, contact_items_delete]
+  * Contact
+    * [create, get, list, update, delete, fields]
+    * [company_fields, company_add, company_delete]
+    * [company_items_get, company_items_set, company_items_delete]
+  * Lead
+    * [create, get, list, update, delete, fields]
+    * [productrows_set, productrows_get]
+  * Status
+    * [create, get, list, update, delete, fields]
+    * [entity_types, entity_items, extra_fields]
+  * Currency
+    * [create, get, list, update, delete, fields]
+    * [localizations_fields, localizations_get, localizations_set, localizations_delete]
+    * [base_set, base_get]
+* User
+  * [create, get, list, update, delete, fields]
+  * [current, search, online, counters]
+  * [history_list, history_fields_list]
 
 ### Deals service
 
@@ -200,7 +225,7 @@ bitrix.deals.get('77')
 
 </details>
 
-#### Get deals
+#### List deals
 
 Retrieve all deals.
 
