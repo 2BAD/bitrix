@@ -76,6 +76,46 @@ The library has two layers:
 
 Work with Bitrix CRM deals
 
+#### Create deal
+
+Create new deal
+
+```ts
+bitrix.deals.create({
+  TITLE: 'New deal'
+}, {
+  REGISTER_SONET_EVENT: 'Y'
+})
+```
+
+##### Arguments
+
+* `fields: Partial<Deal>` — a fields to create deal with. See [Deal](/2BAD/bitrix/blob/master/source/services/types/deal.ts).
+* `params?: CreateParams['params']` — a params to create deal with. The most useful is `REGISTER_SONET_EVENT`, which enables or disables creation notification.
+
+##### Returns
+
+`Promise<GetPayload<number>>` — a `number` stands for... well, nobody knows. Probably `ID` of the created deal?
+
+<details>
+<summary>See payload example</summary>
+
+```ts
+{
+  result: 77,
+  time: {
+    start: 1567372034.625375,
+    finish: 1567372034.8204,
+    duration: 0.19502496719360352,
+    processing: 0.03838515281677246,
+    date_start: "2019-09-02T00:07:14+03:00",
+    date_finish: "2019-09-02T00:07:14+03:00"
+  }
+}
+```
+
+</details>
+
 #### Get deal
 
 Retrieve specified deal
@@ -254,9 +294,88 @@ bitrix.deals.list({ select: ['*', 'UF_*'] })
 
 </details>
 
+#### Update deal
+
+Update specified deal
+
+```ts
+bitrix.deals.update('77', {
+  TITLE: 'New deal title'
+})
+```
+
+##### Arguments
+
+* `id: string` — deal `ID` to update
+* `fields: Partial<Deal>` — a fields to update. See [Deal](/2BAD/bitrix/blob/master/source/services/types/deal.ts).
+* `params?: UpdateParams['params']` — a params to update deal with. The most useful is `REGISTER_SONET_EVENT`, which enables or disables update notification.
+
+##### Returns
+
+`Promise<GetPayload<boolean>>`
+
+<details>
+<summary>See payload example</summary>
+
+```ts
+{
+  result: true,
+  time: {
+    start: 1567372034.625375,
+    finish: 1567372034.8204,
+    duration: 0.19502496719360352,
+    processing: 0.03838515281677246,
+    date_start: "2019-09-02T00:07:14+03:00",
+    date_finish: "2019-09-02T00:07:14+03:00"
+  }
+}
+```
+
+</details>
+
 ### Leads service
 
 Work with Bitrix CRM leads
+
+#### Create lead
+
+Create new lead
+
+```ts
+bitrix.leads.create({
+  TITLE: 'New lead'
+}, {
+  REGISTER_SONET_EVENT: 'Y'
+})
+```
+
+##### Arguments
+
+* `fields: Partial<Lead>` — a fields to create lead with. See [Lead](/2BAD/bitrix/blob/master/source/services/types/lead.ts).
+* `params?: CreateParams['params']` — a params to create lead with. The most useful is `REGISTER_SONET_EVENT`, which enables or disables creation notification.
+
+##### Returns
+
+`Promise<GetPayload<number>>`
+
+<details>
+<summary>See payload example</summary>
+
+```ts
+{
+  result: 77,
+  time: {
+    start: 1567372034.625375,
+    finish: 1567372034.8204,
+    duration: 0.19502496719360352,
+    processing: 0.03838515281677246,
+    date_start: "2019-09-02T00:07:14+03:00",
+    date_finish: "2019-09-02T00:07:14+03:00"
+  }
+}
+```
+
+</details>
 
 #### Get lead
 
@@ -315,9 +434,85 @@ bitrix.leads.list({ select: ['*', 'UF_*'] })
 
 </details>
 
+#### Update lead
+
+Update specified lead
+
+```ts
+bitrix.leads.update('77', {
+  TITLE: 'New lead title'
+})
+```
+
+##### Arguments
+
+* `id: string` — lead `ID` to update
+* `fields: Partial<Lead>` — a fields to update. See [Lead](/2BAD/bitrix/blob/master/source/services/types/lead.ts).
+* `params?: UpdateParams['params']` — a params to update lead with. The most useful is `REGISTER_SONET_EVENT`, which enables or disables update notification.
+
+##### Returns
+
+`Promise<GetPayload<boolean>>`
+
+<details>
+<summary>See payload example</summary>
+
+```ts
+{
+  result: true,
+  time: {
+    start: 1567372034.625375,
+    finish: 1567372034.8204,
+    duration: 0.19502496719360352,
+    processing: 0.03838515281677246,
+    date_start: "2019-09-02T00:07:14+03:00",
+    date_finish: "2019-09-02T00:07:14+03:00"
+  }
+}
+```
+
+</details>
+
 ### Statuses service
 
 Work with Bitrix CRM statuses
+
+#### Create status
+
+Create new status
+
+```ts
+bitrix.statuses.create({
+  TITLE: 'New status'
+})
+```
+
+##### Arguments
+
+* `fields: Partial<Status>` — a fields to create status with. See [Status](/2BAD/bitrix/blob/master/source/services/types/status.ts).
+
+##### Returns
+
+`Promise<GetPayload<number>>`
+
+<details>
+<summary>See payload example</summary>
+
+```ts
+{
+  result: 77,
+  time: {
+    start: 1567372034.625375,
+    finish: 1567372034.8204,
+    duration: 0.19502496719360352,
+    processing: 0.03838515281677246,
+    date_start: "2019-09-02T00:07:14+03:00",
+    date_finish: "2019-09-02T00:07:14+03:00"
+  }
+}
+```
+
+</details>
 
 #### Get status
 
@@ -372,6 +567,44 @@ bitrix.statuses.list({ select: ['*', 'UF_*'] })
 
 ```ts
 // @todo Add
+```
+
+</details>
+
+#### Update status
+
+Update specified status
+
+```ts
+bitrix.statuses.update('77', {
+  TITLE: 'New status title'
+})
+```
+
+##### Arguments
+
+* `id: string` — status `ID` to update
+* `fields: Partial<Status>` — a fields to update. See [Status](/2BAD/bitrix/blob/master/source/services/types/status.ts)
+
+##### Returns
+
+`Promise<GetPayload<boolean>>`
+
+<details>
+<summary>See payload example</summary>
+
+```ts
+{
+  result: true,
+  time: {
+    start: 1567372034.625375,
+    finish: 1567372034.8204,
+    duration: 0.19502496719360352,
+    processing: 0.03838515281677246,
+    date_start: "2019-09-02T00:07:14+03:00",
+    date_finish: "2019-09-02T00:07:14+03:00"
+  }
+}
 ```
 
 </details>

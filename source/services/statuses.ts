@@ -11,6 +11,8 @@ interface Dependencies {
 }
 
 export default ({ get, list }: Dependencies) => ({
+  create: (fields: Partial<Status>) => get<number>(Method.CREATE_STATUS, { fields }),
   get: (id: string) => get<Status>(Method.GET_STATUS, { id }),
-  list: (params?: ListParams) => list<Status>(Method.LIST_STATUSES, params)
+  list: (params?: ListParams) => list<Status>(Method.LIST_STATUSES, params),
+  update: (id: string, fields: Partial<Status>) => get<boolean>(Method.UPDATE_STATUS, { id, fields })
 })

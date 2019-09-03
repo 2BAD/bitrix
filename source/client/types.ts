@@ -6,6 +6,12 @@ export enum Method {
   GET_DEAL = 'crm.deal.get',
   GET_LEAD = 'crm.lead.get',
   GET_STATUS = 'crm.status.get',
+  CREATE_DEAL = 'crm.deal.add',
+  CREATE_LEAD = 'crm.lead.add',
+  CREATE_STATUS = 'crm.status.add',
+  UPDATE_DEAL = 'crm.deal.update',
+  UPDATE_LEAD = 'crm.lead.update',
+  UPDATE_STATUS = 'crm.status.update',
 
   // Listable
   LIST_DEALS = 'crm.deal.list',
