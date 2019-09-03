@@ -58,6 +58,14 @@ export interface BatchPayload<C> {
   readonly time: PayloadTime
 }
 
+export interface CreateParams {
+  readonly fields: Record<string, any>
+  readonly params?: {
+    // Note that it doesn't work for some methods
+    readonly REGISTER_SONET_EVENT: 'Y' | 'N'
+  }
+}
+
 // @todo Figure out full list of possible values
 export interface ListParams {
   readonly start?: number
@@ -70,9 +78,18 @@ export interface GetParams {
   readonly id: string
 }
 
+export interface UpdateParams {
+  readonly id: string
+  readonly fields: Record<string, any>
+  readonly params?: {
+    // Note that it doesn't work for some methods
+    readonly REGISTER_SONET_EVENT: 'Y' | 'N'
+  }
+}
+
 export interface Command {
   readonly method: Method
-  readonly params?: GetParams | ListParams
+  readonly params?: CreateParams | GetParams | ListParams | UpdateParams
 }
 
 export type Commands =

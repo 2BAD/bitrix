@@ -388,7 +388,7 @@ Though, you might find useful a `batch` method which makes a series of Bitrix RE
 
 #### `get`
 
-A generic method for executing any Bitrix method which involves retrieval of the single entry. Usually, those contain `get` word in the method, like `crm.deal.get`.
+A generic method for executing any Bitrix method which involves work with a single entry. Usually, those contain `create`, `get` or `update` words in the method, like `crm.deal.get`.
 
 Note that method can't know which entity will it return, so its type might be provided as `<P>` generic. Otherwise, it will be of type `unknown`.
 
@@ -398,6 +398,16 @@ import Bitrix, { Method, Deal } from '@2bad/bitrix'
 // ...init client...
 
 bitrix.get<Deal>(Method.GET_DEAL, { ID: '77' })
+
+bitrix.get<number>(Method.CREATE_DEAL, {
+  fields: { TITLE: 'New deal' },
+  params: { REGISTER_SONET_EVENT: 'Y' }
+})
+
+bitrix.get<boolean>(Method.UPDATE_DEAL, {
+  id: 77,
+  fields: { TITLE: 'New deal title' }
+})
 ```
 
 ##### Generics
@@ -410,7 +420,9 @@ bitrix.get<Deal>(Method.GET_DEAL, { ID: '77' })
 
    The method will disallow to specify any Bitrix method which returns non-list payload. However, if you need to use something new or unsupported, consult Bitrix REST API documentation (ha, a joke!) to figure out does Bitrix method in question returns payload of type `GetPayload<P>`.
 
-* `params?: GetParams` — params to be passed with an API request
+* `params?: CreateParams | GetParams | UpdateParams` — params to be passed with an API request.
+
+   Note that for now the client won't check can specified parameters be used with a specified method. Just don't use `GetParams` with create-methods and so on. Type safety FTW.
 
 ##### Rejects
 
