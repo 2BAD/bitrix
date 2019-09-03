@@ -67,7 +67,7 @@ export interface ListParams {
 }
 
 export interface GetParams {
-  readonly ID: string
+  readonly id: string
 }
 
 export interface Command {

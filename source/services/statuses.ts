@@ -11,6 +11,6 @@ interface Dependencies {
 }
 
 export default ({ get, list }: Dependencies) => ({
-  get: (id: string) => get<Status>(Method.GET_STATUS, { ID: id }),
+  get: (id: string) => get<Status>(Method.GET_STATUS, { id }),
   list: (params?: ListParams) => list<Status>(Method.LIST_STATUSES, params)
 })
