@@ -15,7 +15,7 @@ bitrix.statuses.create({
 
 **Arguments**
 
-* `fields: Partial<Status>` — a fields to create status with. See [Status](/2BAD/bitrix/blob/master/source/services/types/status.ts).
+* `fields: Partial<Status>` — a fields to create status with. See [Status](/source/services/types/status.ts).
 
 **Returns**
 
@@ -54,7 +54,7 @@ bitrix.statuses.get('77')
 
 **Returns**
 
-`Promise<GetPayload<Status>>` (See [Status](/2BAD/bitrix/blob/master/source/services/types/status.ts))
+`Promise<GetPayload<Status>>` (See [Status](/source/services/types/status.ts))
 
 <details>
 <summary>See payload example</summary>
@@ -103,7 +103,7 @@ bitrix.statuses.update('77', {
 **Arguments**
 
 * `id: string` — status `ID` to update
-* `fields: Partial<Status>` — a fields to update. See [Status](/2BAD/bitrix/blob/master/source/services/types/status.ts)
+* `fields: Partial<Status>` — a fields to update. See [Status](/source/services/types/status.ts)
 
 **Returns**
 

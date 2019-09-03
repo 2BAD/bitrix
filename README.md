@@ -69,8 +69,8 @@ The library has two layers:
 2. **Services** — a wrapper around the Bitrix REST operations. Orchestrates low-level client methods and casts returned payloads to proper types. That's what you want to use.
 
 * CRM
-  * [Deal](/2BAD/bitrix/blob/master/docs/services/deals.md)
-    * [[create](/2BAD/bitrix/blob/master/docs/services/deals.md#create-deal), [get](/2BAD/bitrix/blob/master/docs/services/deals.md#get-deal), [list](/2BAD/bitrix/blob/master/docs/services/deals.md#list-deals), [update](/2BAD/bitrix/blob/master/docs/services/deals.md#update-deal), delete, fields]
+  * [Deal](/docs/services/deals.md)
+    * [[create](/docs/services/deals.md#create-deal), [get](/docs/services/deals.md#get-deal), [list](/docs/services/deals.md#list-deals), [update](/docs/services/deals.md#update-deal), delete, fields]
     * [productrows_set, productrows_get]
     * [contact_fields, contact_add, contact_delete]
     * [contact_items_get, contact_items_set, contact_items_delete]
