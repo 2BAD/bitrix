@@ -70,7 +70,13 @@ The library has two layers:
 
 * CRM
   * [Deal](/docs/services/deals.md)
-    * [[create](/docs/services/deals.md#create-deal), [get](/docs/services/deals.md#get-deal), [list](/docs/services/deals.md#list-deals), [update](/docs/services/deals.md#update-deal), delete, fields]
+    * [
+        [create](/docs/services/deals.md##create-deal---bitrixdealscreate),
+        [get](/docs/services/deals.md#get-deal---bitrixdealsget), 
+        [list](/docs/services/deals.md#list-deals---bitrixdealslist), 
+        [update](/docs/services/deals.md#update-deal---bitrixdealsupdate), 
+        delete, 
+        fields]
     * [productrows_set, productrows_get]
     * [contact_fields, contact_add, contact_delete]
     * [contact_items_get, contact_items_set, contact_items_delete]
@@ -82,11 +88,23 @@ The library has two layers:
     * [create, get, list, update, delete, fields]
     * [company_fields, company_add, company_delete]
     * [company_items_get, company_items_set, company_items_delete]
-  * Lead
-    * [create, get, list, update, delete, fields]
+  * [Lead](/docs/services/leads.md)
+    * [
+        [create](/docs/services/leads.md##create-lead---bitrixleadscreate),
+        [get](/docs/services/leads.md#get-lead---bitrixleadsget), 
+        [list](/docs/services/leads.md#list-leads---bitrixleadslist), 
+        [update](/docs/services/leads.md#update-lead---bitrixleadsupdate), 
+        delete, 
+        fields]
     * [productrows_set, productrows_get]
-  * Status
-    * [create, get, list, update, delete, fields]
+  * [Status](/docs/services/statuses.md)
+    * [
+        [create](/docs/services/statuses.md##create-status---bitrixstatusescreate),
+        [get](/docs/services/statuses.md#get-status---bitrixstatusesget), 
+        [list](/docs/services/statuses.md#list-statuses---bitrixstatuseslist), 
+        [update](/docs/services/statuses.md#update-status---bitrixstatusesupdate), 
+        delete, 
+        fields]
     * [entity_types, entity_items, extra_fields]
   * Currency
     * [create, get, list, update, delete, fields]
