@@ -3,8 +3,7 @@
 import got from 'got'
 import addAccessToken from './hooks/addAccessToken'
 import Batch from './methods/batch'
-import Get from './methods/get'
-import GetList from './methods/getList'
+import Call from './methods/call'
 import List from './methods/list'
 
 export default (restUri: string, accessToken: string) => {
@@ -27,14 +26,12 @@ export default (restUri: string, accessToken: string) => {
     }
   })
 
-  const get = Get(instance)
-  const getList = GetList(instance)
+  const call = Call(instance)
   const batch = Batch(instance)
-  const list = List({ getList, batch })
+  const list = List({ call, batch })
 
   return {
-    get,
-    getList,
+    call,
     batch,
     list
   }
