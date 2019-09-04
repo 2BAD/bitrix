@@ -203,4 +203,4 @@ Proper method parameters and payload types handling requires some routine when a
 2. Add it into the [`LISTABLE_METHODS`](/source/client/types.ts) array if it's listable (paginated).
 3. Describe it in the [Methods](source/types.ts) interface.
 4. Add new service and related tests into the [services](/source/services). Ensure that you're properly mapping service method arguments to `call` params.
-5. Document addition in the [docs](/source/docs).
+5. Document addition in the [docs](/docs).
