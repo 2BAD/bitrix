@@ -1,20 +1,25 @@
 // tslint:disable:object-literal-sort-keys
 
-import { Get } from '../client/methods/get'
+import { Call } from '../client/methods/call'
 import { List } from '../client/methods/list'
-import { CreateParams, ListParams, Method, UpdateParams } from '../client/types'
-import { Contact } from './types/contact'
+import { Method } from '../client/types'
+import { MethodParams } from '../types'
 
 interface Dependencies {
-  readonly get: Get
+  readonly call: Call
   readonly list: List
 }
 
-export default ({ get, list }: Dependencies) => ({
-  create: (fields: Partial<Contact>, params?: CreateParams['params']) =>
-    get<number>(Method.CREATE_CONTACT, { fields, params }),
-  get: (id: string) => get<Contact>(Method.GET_CONTACT, { id }),
-  list: (params?: ListParams) => list<Contact>(Method.LIST_CONTACTS, params),
-  update: (id: string, fields: Partial<Contact>, params?: UpdateParams['params']) =>
-    get<boolean>(Method.UPDATE_CONTACT, { id, fields, params })
+export default ({ call, list }: Dependencies) => ({
+  create: <D extends MethodParams<Method.CREATE_CONTACT>>(fields: D['fields'], params?: D['params']) =>
+    call(Method.CREATE_CONTACT, { fields, params }),
+
+  get: (id: string) =>
+    call(Method.GET_CONTACT, { id }),
+
+  list: (params: MethodParams<Method.LIST_CONTACTS> = {}) =>
+    list(Method.LIST_CONTACTS, params),
+
+  update: <D extends MethodParams<Method.UPDATE_CONTACT>>(id: string, fields: D['fields'], params?: D['params']) =>
+    call(Method.UPDATE_CONTACT, { id, fields, params })
 })

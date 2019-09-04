@@ -1,20 +1,25 @@
 // tslint:disable:object-literal-sort-keys
 
-import { Get } from '../client/methods/get'
+import { Call } from '../client/methods/call'
 import { List } from '../client/methods/list'
-import { CreateParams, ListParams, Method, UpdateParams } from '../client/types'
-import { Deal } from './types/deal'
+import { Method } from '../client/types'
+import { MethodParams } from '../types'
 
 interface Dependencies {
-  readonly get: Get
+  readonly call: Call
   readonly list: List
 }
 
-export default ({ get, list }: Dependencies) => ({
-  create: (fields: Partial<Deal>, params?: CreateParams['params']) =>
-    get<number>(Method.CREATE_DEAL, { fields, params }),
-  get: (id: string) => get<Deal>(Method.GET_DEAL, { id }),
-  list: (params?: ListParams) => list<Deal>(Method.LIST_DEALS, params),
-  update: (id: string, fields: Partial<Deal>, params?: UpdateParams['params']) =>
-    get<boolean>(Method.UPDATE_DEAL, { id, fields, params })
+export default ({ call, list }: Dependencies) => ({
+  create: <D extends MethodParams<Method.CREATE_DEAL>>(fields: D['fields'], params?: D['params']) =>
+    call(Method.CREATE_DEAL, { fields, params }),
+
+  get: (id: string) =>
+    call(Method.GET_DEAL, { id }),
+
+  list: (params: MethodParams<Method.LIST_DEALS> = {}) =>
+    list(Method.LIST_DEALS, params),
+
+  update: <D extends MethodParams<Method.UPDATE_DEAL>>(id: string, fields: D['fields'], params?: D['params']) =>
+    call(Method.UPDATE_DEAL, { id, fields, params })
 })

@@ -1,20 +1,25 @@
 // tslint:disable:object-literal-sort-keys
 
-import { Get } from '../client/methods/get'
+import { Call } from '../client/methods/call'
 import { List } from '../client/methods/list'
-import { CreateParams, ListParams, Method, UpdateParams } from '../client/types'
-import { Lead } from './types/lead'
+import { Method } from '../client/types'
+import { MethodParams } from '../types'
 
 interface Dependencies {
-  readonly get: Get
+  readonly call: Call
   readonly list: List
 }
 
-export default ({ get, list }: Dependencies) => ({
-  create: (fields: Partial<Lead>, params?: CreateParams['params']) =>
-    get<number>(Method.CREATE_LEAD, { fields, params }),
-  get: (id: string) => get<Lead>(Method.GET_LEAD, { id }),
-  list: (params?: ListParams) => list<Lead>(Method.LIST_LEADS, params),
-  update: (id: string, fields: Partial<Lead>, params?: UpdateParams['params']) =>
-    get<boolean>(Method.UPDATE_LEAD, { id, fields, params })
+export default ({ call, list }: Dependencies) => ({
+  create: <D extends MethodParams<Method.CREATE_LEAD>>(fields: D['fields'], params?: D['params']) =>
+    call(Method.CREATE_LEAD, { fields, params }),
+
+  get: (id: string) =>
+    call(Method.GET_LEAD, { id }),
+
+  list: (params: MethodParams<Method.LIST_LEADS> = {}) =>
+    list(Method.LIST_LEADS, params),
+
+  update: <D extends MethodParams<Method.UPDATE_LEAD>>(id: string, fields: D['fields'], params?: D['params']) =>
+    call(Method.UPDATE_LEAD, { id, fields, params })
 })

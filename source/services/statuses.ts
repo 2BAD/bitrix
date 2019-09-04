@@ -1,18 +1,25 @@
 // tslint:disable:object-literal-sort-keys
 
-import { Get } from '../client/methods/get'
+import { Call } from '../client/methods/call'
 import { List } from '../client/methods/list'
-import { ListParams, Method } from '../client/types'
-import { Status } from './types/status'
+import { Method } from '../client/types'
+import { MethodParams } from '../types'
 
 interface Dependencies {
-  readonly get: Get
+  readonly call: Call
   readonly list: List
 }
 
-export default ({ get, list }: Dependencies) => ({
-  create: (fields: Partial<Status>) => get<number>(Method.CREATE_STATUS, { fields }),
-  get: (id: string) => get<Status>(Method.GET_STATUS, { id }),
-  list: (params?: ListParams) => list<Status>(Method.LIST_STATUSES, params),
-  update: (id: string, fields: Partial<Status>) => get<boolean>(Method.UPDATE_STATUS, { id, fields })
+export default ({ call, list }: Dependencies) => ({
+  create: (fields: MethodParams<Method.CREATE_STATUS>['fields']) =>
+    call(Method.CREATE_STATUS, { fields }),
+
+  get: (id: string) =>
+    call(Method.GET_STATUS, { id }),
+
+  list: (params: MethodParams<Method.LIST_STATUSES> = {}) =>
+    list(Method.LIST_STATUSES, params),
+
+  update: (id: string, fields: MethodParams<Method.CREATE_STATUS>['fields']) =>
+    call(Method.UPDATE_STATUS, { id, fields })
 })
