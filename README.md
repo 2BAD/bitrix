@@ -64,11 +64,6 @@ bitrix.deals.list({ select: ["*", "UF_*"] })
 
 ## API
 
-The library has two layers:
-
-1. **A low-level client** — takes care of the routine and provides bare-bones methods to work with raw Bitrix methods (see [here](/docs/low-level-api.md)).
-2. **Services** — a wrapper around the Bitrix REST operations. Orchestrates low-level client methods and casts returned payloads to proper types (see below). That's what you want to use.
-
 * CRM
   * [Deal](/docs/services/deals.md)
     * [
@@ -115,6 +110,21 @@ The library has two layers:
   * [create, get, list, update, delete, fields]
   * [current, search, online, counters]
   * [history_list, history_fields_list]
+
+## How it works
+
+Our client tries hard to provide a consistent, strongly typed and at the same time effortless experience.
+
+It takes care of the any necessary batching to run "large" commands, like retrieving all deals or leads with least possible network request. That allows achieving a reading of the 250 000 and updating of 5000 entries per minute with a single line of code.
+
+Methods required params and returned payload types are automatically resolved based on [Methods](source/types.ts) interface, which effectively describes all currently supported methods.
+
+To facilitate better architecture, the client divided into layers:
+
+1. **Methods** — a mostly generic [methods](/docs/low-level-api.md) like `call` to work with Bitrix API methods. They take care of the routine and provide a foundation for more complex operations.
+2. **Client** — a generic [client](/source/client), which takes care of some additional routine tasks like setting access token on every request and providing generic methods.
+3. **Services** — each [service](/source/services) provides an expressive interface to work with a specific group of Bitrix REST API operations. In essence, they do orchestrate generic client methods and parameters to get proper results.
+4. **Bitrix client** — a top-level [provider](/source/bitrix.ts) of generic method and services. An effortless way to deal with Bitrix REST API by using an intuitive API, which takes care of all underlying complexity.
 
 ## FAQ
 
