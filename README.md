@@ -73,10 +73,10 @@ The library has two layers:
   * [Deal](/docs/services/deals.md)
     * [
         [create](/docs/services/deals.md##create-deal---bitrixdealscreate),
-        [get](/docs/services/deals.md#get-deal---bitrixdealsget), 
-        [list](/docs/services/deals.md#list-deals---bitrixdealslist), 
-        [update](/docs/services/deals.md#update-deal---bitrixdealsupdate), 
-        delete, 
+        [get](/docs/services/deals.md#get-deal---bitrixdealsget),
+        [list](/docs/services/deals.md#list-deals---bitrixdealslist),
+        [update](/docs/services/deals.md#update-deal---bitrixdealsupdate),
+        delete,
         fields]
     * [productrows_set, productrows_get]
     * [contact_fields, contact_add, contact_delete]
@@ -92,19 +92,19 @@ The library has two layers:
   * [Lead](/docs/services/leads.md)
     * [
         [create](/docs/services/leads.md##create-lead---bitrixleadscreate),
-        [get](/docs/services/leads.md#get-lead---bitrixleadsget), 
-        [list](/docs/services/leads.md#list-leads---bitrixleadslist), 
-        [update](/docs/services/leads.md#update-lead---bitrixleadsupdate), 
-        delete, 
+        [get](/docs/services/leads.md#get-lead---bitrixleadsget),
+        [list](/docs/services/leads.md#list-leads---bitrixleadslist),
+        [update](/docs/services/leads.md#update-lead---bitrixleadsupdate),
+        delete,
         fields]
     * [productrows_set, productrows_get]
   * [Status](/docs/services/statuses.md)
     * [
         [create](/docs/services/statuses.md##create-status---bitrixstatusescreate),
-        [get](/docs/services/statuses.md#get-status---bitrixstatusesget), 
-        [list](/docs/services/statuses.md#list-statuses---bitrixstatuseslist), 
-        [update](/docs/services/statuses.md#update-status---bitrixstatusesupdate), 
-        delete, 
+        [get](/docs/services/statuses.md#get-status---bitrixstatusesget),
+        [list](/docs/services/statuses.md#list-statuses---bitrixstatuseslist),
+        [update](/docs/services/statuses.md#update-status---bitrixstatusesupdate),
+        delete,
         fields]
     * [entity_types, entity_items, extra_fields]
   * Currency
@@ -194,3 +194,13 @@ bitrix.batch<{
 * `npm run test:integration:watch` — watch for changes and run integration tests
 * `npm run coverage` — collect full coverage report
 * `npm run build` — build the library for the release
+
+### Adding new methods
+
+Proper method parameters and payload types handling requires some routine when adding any new method. Hopefully, we can do it better in future, but for follow those steps:
+
+1. Add new method into the [`Method`](/source/client/types.ts) enum.
+2. Add it into the [`LISTABLE_METHODS`](/source/client/types.ts) array if it's listable (paginated).
+3. Describe it in the [Methods](source/types.ts) interface.
+4. Add new service and related tests into the [services](/source/services). Ensure that you're properly mapping service method arguments to `call` params.
+5. Document addition in the [docs](/source/docs).
