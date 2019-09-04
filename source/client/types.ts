@@ -72,6 +72,8 @@ export interface BatchPayload<C> {
   readonly time: PayloadTime
 }
 
+export type Payload<P> = GetPayload<P> | ListPayload<P> | BatchPayload<P>
+
 // @todo Figure out full list of possible values
 export interface ListParams {
   readonly start?: number
