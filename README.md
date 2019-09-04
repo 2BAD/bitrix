@@ -163,11 +163,14 @@ bitrix.leads.get({ ID: '77' })
 
 > I need to call a Bitrix method which isn't supported yet
 
-Use appropriate low-level client methods, like so:
+Use appropriate low-level client methods with a casting, like so:
 
 ```ts
-bitrix.get<SomeNewMethodType>('some.new.get.method' as any, { ID: '77' })
-bitrix.list<SomeNewMethodType>('some.new.list.method' as any, { select: ["TITLE"] })
+bitrix.call('some.new.get' as any, { ID: '77' } as any)
+  .then((payload) => payload as GetPayload<NewPayload>)
+
+bitrix.list('some.new.list' as any, { select: ["TITLE"] })
+  .then((payload) => payload as ListPayload<NewPayload>)
 ```
 
 > I need to call a specific set of commands. How to do that effectively?
@@ -175,12 +178,9 @@ bitrix.list<SomeNewMethodType>('some.new.list.method' as any, { select: ["TITLE"
 Use the `batch` method. It will handle all routine:
 
 ```ts
-bitrix.batch<{
-  lead: Lead,
-  deals: Deal[]
-}>({
+bitrix.batch({
   lead: { method: Method.GET_LEAD, params: { ID: '77' } },
-  deals: { method: Method.LIST_DEALS }
+  deals: { method: Method.LIST_DEALS, params: {} }
 })
 ```
 
