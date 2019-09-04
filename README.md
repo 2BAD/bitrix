@@ -126,7 +126,7 @@ To facilitate better architecture, the client divided into layers:
 
 1. **Methods** — a mostly generic [methods](/docs/methods.md) like `call` to work with Bitrix API methods. They take care of the routine and provide a foundation for more complex operations.
 2. **Client** — a generic [client](/source/client), which takes care of some additional routine tasks like setting access token on every request and providing generic methods.
-3. **Services** — each [service](/source/services) provides an expressive interface to work with a specific group of Bitrix REST API operations. In essence, they do orchestrate generic client methods and parameters to get proper results.
+3. **Services** — each [service](/docs/services) provides an expressive interface to work with a specific group of Bitrix REST API operations. In essence, they do orchestrate generic client methods and parameters to get proper results.
 4. **Bitrix client** — a top-level [provider](/source/bitrix.ts) of generic method and services. An effortless way to deal with Bitrix REST API by using an intuitive API, which takes care of all underlying complexity.
 
 ## FAQ
