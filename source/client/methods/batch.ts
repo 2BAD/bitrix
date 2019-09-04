@@ -2,8 +2,10 @@ import { GotInstance, GotJSONFn } from 'got'
 import chunk from 'lodash.chunk'
 import fromPairs from 'lodash.frompairs'
 import { stringify as toQuery } from 'qs'
+import { MethodPayloadType } from '../../types'
 import isArray from '../../utils/isArray'
-import { BatchPayload, Command, Commands, Method } from '../types'
+import { BatchPayload, Commands, Method } from '../types'
+import { handlePayload } from './call'
 
 export const MAX_COMMANDS_PER_BATCH = 50
 
@@ -45,23 +47,6 @@ export const prepareCommandsQueries = <C extends Commands, R = { [K in keyof C]:
   }, {} as R)
 
 /**
- * Checks wether payload have any errors and if it does — throws them
- */
-export const handleBatchPayload = <C>(payload: BatchPayload<C>): BatchPayload<C> => {
-  const resultErrors = payload.result.result_error
-  const errors = isArray(resultErrors) ? resultErrors : Object.values(resultErrors)
-
-  // tslint:disable-next-line no-if-statement
-  if (errors.length > 0) {
-    // @todo We can give better formatting to display errored commands. But it's not important for now
-    // tslint:disable-next-line no-throw
-    throw new Error(`[batch] failed to process. Received errors in ${errors.length} commands:\n${errors.join('\n')}`)
-  }
-
-  return payload
-}
-
-/**
  * Merges list of batch responses into a single batch
  * @todo Generics inference is complicated here and might be not super accurate
  */
@@ -88,77 +73,55 @@ export const mergeBatchPayloads = <
   }), { result: {}, time: {} } as BatchPayload<P>)
 }
 
+export type CommandsPayloads<
+  C extends Commands,
+  CM = {
+    [K in keyof C]: C[K] extends { readonly method: infer M } ? M : never
+  }
+  > = {
+  [K in keyof CM]: MethodPayloadType<CM[K] extends Method ? CM[K] : never>
+}
+
+// @todo Using `CommandsWithRequiredParamsTypes` and `Batch2` we could ensure that only supported commands
+//       are supplied to the `batch`, but it results in unknown error when assigning `Batch2` to `batch` constant.
+
+// export type CommandsWithRequiredParamsTypes<
+//   C extends Commands,
+//   CC = {
+//     [K in keyof C]: C[K] extends Command ? {
+//       method: C[K]['method'], params: MethodParams<C[K]['method']>
+//     } : Command
+//   },
+// > = CC
+
+// export type Batch2 = <
+//   C extends Commands & { [K in keyof CC]: CC[K] },
+//   CC = CommandsWithRequiredParamsTypes<C>,
+//   P = CommandsPayloads<C>
+// >(commands: C, commandsPerRequest?: number) => Promise<BatchPayload<P>>
+
 export type Batch = <
-  CPM extends { [K in keyof C]: unknown },
-  C extends { [K in keyof CPM]: Command} = { [K in keyof CPM]: Command}
->(commands: C, commandsPerRequest?: number) => Promise<BatchPayload<CPM>>
+  C extends Commands,
+  P = CommandsPayloads<C>
+>(commands: C, commandsPerRequest?: number) => Promise<BatchPayload<P>>
 
 /**
- * Dispatches a batch request with specified commands
- * Supports unlimited number of commands. If they do exceed max amount of commands per batch,
- * will dispatch multiple request and merge result into single batch payload
+ * Dispatches a batch request with specified commands. Will fill figure out payload type based on the Methods.
+ * Supports unlimited number of commands. If they do exceed max amount of commands per batch, will dispatch
+ * multiple request and merge result into single batch payload
+ * @todo For now due to issues with types it won't check `params` of command, so any Method can be used
+ *       with any (even wrong) params
  */
 export default ({ get }: GotInstance<GotJSONFn>): Batch => {
-  /**
-   * A complicated generics setup needed to properly map payload to commands names and back
-   * <CPM> stands for commands payload map and allows to specify properly function result. When leaved blank,
-   * function will do best to figure out possible result names based on commands, but payload will be `unknown`
-   * <C> stands for commands list itself and it is inferred from `commands` argument, so it shouldn't be touched
-   * <CPM> expected to be interface of the commands names mapped to their structural types:
-   *
-   * ```
-   * interface Commands {
-   *   dealsList: readonly Deal[]
-   *   someLead: Lead
-   * }
-   *
-   * const commands = {
-   *  dealsList: { method. Method.LIST_DEALS },
-   *  someLead: { method. Method.GET_LEAD, params: { ID: 11 } }
-   * }
-   *
-   * batch<Commands>(commands).then((p) => p.result.dealList)
-   *
-   * // Will error
-   * batch<Commands>({
-   *  wrong: { method. Method.LIST_DEALS }
-   * })
-   * ```
-   *
-   * Batch also will properly figure out payload when array of commands provided. However,
-   * in such case a generic Record with union of payloads should be provided
-   *
-   * ```
-   * const commands = [
-   *  { method. Method.LIST_DEALS },
-   *  { method. Method.GET_LEAD, params: { ID: 11 } }
-   * ]
-   *
-   * batch<Record<string, readonly Deal[] | Lead>(commands).then((p) => p.result.dealList)
-   * ```
-   *
-   * Or when array of commands is a const, a tuple can be used to figure out exactly each result:
-   *
-   * ```
-   * const commands = [
-   *  { method. Method.LIST_DEALS },
-   *  { method. Method.GET_LEAD, params: { ID: 11 } }
-   * ] as const
-   *
-   * batch<[Deal[], Lead]>(commands).then(({ result }) => {
-   *   const [deals, lead] = result
-   * })
-   *
-   * // This will error due to wrong number of payloads
-   * batch<[Deal[], Lead, Lead]>(commands)
-   * ```
-   */
   const batch: Batch = async <
-    CPM extends { [K in keyof C]: unknown },
-    C extends { [K in keyof CPM]: Command } = { [K in keyof CPM]: Command }
-  >(commands: C, commandsPerRequest: number = MAX_COMMANDS_PER_BATCH): Promise<BatchPayload<CPM>> => {
+    C extends Commands,
+    P = CommandsPayloads<C>
+  >(
+    commands: C,
+    commandsPerRequest: number = MAX_COMMANDS_PER_BATCH
+  ): Promise<BatchPayload<P>> => {
     const call = (c: C) => get(Method.BATCH, { query: prepareCommandsQueries(c) })
-      .then(({ body }) => body as BatchPayload<CPM>)
+      .then(({ body }) => body as BatchPayload<P>)
 
     const calls = chunkCommands(commands, commandsPerRequest)
       .map(call)
@@ -166,7 +129,7 @@ export default ({ get }: GotInstance<GotJSONFn>): Batch => {
     return Promise.all(calls)
       .then((chunkedPayloads) => {
         const payloads = mergeBatchPayloads(chunkedPayloads)
-        return handleBatchPayload(payloads)
+        return handlePayload(payloads)
       })
   }
 

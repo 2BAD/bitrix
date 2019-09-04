@@ -176,18 +176,18 @@ describe('Client `batchToListPayload` method', () => {
 
 describe('Client `list` method', () => {
   it('should make one request when entries can be fetched in one go', async () => {
-    const getListMock = jest.fn(() => Promise.resolve({ next: false }) as any)
+    const callMock = jest.fn(() => Promise.resolve({ next: false }) as any)
     const batchMock = jest.fn(() => Promise.resolve({}) as any)
-    const list = List({ getList: getListMock, batch: batchMock })
+    const list = List({ call: callMock, batch: batchMock })
 
-    await list(Method.LIST_DEALS)
+    await list(Method.LIST_DEALS, {})
 
-    expect(getListMock.mock.calls).toMatchSnapshot()
+    expect(callMock.mock.calls).toMatchSnapshot()
     expect(batchMock).not.toBeCalled()
   })
 
   it('should make multiple requests when entries can not be fetched in one go', async () => {
-    const getListMock = jest.fn(() => Promise.resolve({ next: 2, total: 120 }) as any)
+    const callMock = jest.fn(() => Promise.resolve({ next: 2, total: 120 }) as any)
     const batchMock = jest.fn(() => Promise.resolve({
       result: {
         result: ['done'],
@@ -198,21 +198,21 @@ describe('Client `list` method', () => {
       },
       time: {}
     }) as any)
-    const list = List({ getList: getListMock, batch: batchMock })
+    const list = List({ call: callMock, batch: batchMock })
 
-    await list(Method.LIST_DEALS)
+    await list(Method.LIST_DEALS, {})
 
-    expect(getListMock.mock.calls).toMatchSnapshot()
+    expect(callMock.mock.calls).toMatchSnapshot()
     expect(batchMock.mock.calls).toMatchSnapshot()
   })
 
   it('should return a first request payload when entities can be fetched in a single request', async () => {
     const mockPayload = { next: false, result: 'test' }
-    const getListMock = jest.fn(() => Promise.resolve(mockPayload) as any)
+    const callMock = jest.fn(() => Promise.resolve(mockPayload) as any)
     const batchMock = jest.fn(() => Promise.resolve({}) as any)
-    const list = List({ getList: getListMock, batch: batchMock })
+    const list = List({ call: callMock, batch: batchMock })
 
-    const payload = await list(Method.LIST_DEALS)
+    const payload = await list(Method.LIST_DEALS, {})
 
     expect(payload).toEqual(mockPayload)
   })
@@ -235,17 +235,17 @@ describe('Client `list` method', () => {
       time: { start: 1567196890.959017 }
     }
 
-    const getListMock = jest.fn(() => Promise.resolve({ next: 2 }) as any)
+    const callMock = jest.fn(() => Promise.resolve({ next: 2 }) as any)
     const batchMock = jest.fn(() => Promise.resolve(mockPayload) as any)
-    const list = List({ getList: getListMock, batch: batchMock })
+    const list = List({ call: callMock, batch: batchMock })
 
-    const payload = await list(Method.LIST_DEALS)
+    const payload = await list(Method.LIST_DEALS, {})
 
     expect(payload).toMatchSnapshot()
   })
 
   it('should default start to 0', async () => {
-    const getListMock = jest.fn(() => Promise.resolve({ next: 2, total: 20 }) as any)
+    const callMock = jest.fn(() => Promise.resolve({ next: 2, total: 20 }) as any)
     const batchMock = jest.fn(() => Promise.resolve({
       result: {
         result: ['done'],
@@ -256,16 +256,16 @@ describe('Client `list` method', () => {
       },
       time: {}
     }) as any)
-    const list = List({ getList: getListMock, batch: batchMock })
+    const list = List({ call: callMock, batch: batchMock })
 
-    await list(Method.LIST_DEALS)
+    await list(Method.LIST_DEALS, {})
 
-    expect(getListMock.mock.calls[0]).toMatchSnapshot()
+    expect(callMock.mock.calls[0]).toMatchSnapshot()
     expect(batchMock.mock.calls[0]).toMatchSnapshot()
   })
 
   it('should properly take into account start', async () => {
-    const getListMock = jest.fn(() => Promise.resolve({ next: 2, total: 120 }) as any)
+    const callMock = jest.fn(() => Promise.resolve({ next: 2, total: 120 }) as any)
     const batchMock = jest.fn(() => Promise.resolve({
       result: {
         result: ['done'],
@@ -276,11 +276,11 @@ describe('Client `list` method', () => {
       },
       time: {}
     }) as any)
-    const list = List({ getList: getListMock, batch: batchMock })
+    const list = List({ call: callMock, batch: batchMock })
 
     await list(Method.LIST_DEALS, { start: 27 })
 
-    expect(getListMock.mock.calls).toMatchSnapshot()
+    expect(callMock.mock.calls).toMatchSnapshot()
     expect(batchMock.mock.calls).toMatchSnapshot()
   })
 

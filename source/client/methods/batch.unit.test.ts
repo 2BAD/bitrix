@@ -7,7 +7,6 @@ import nock from 'nock'
 import { Method } from '../types'
 import Batch, {
   chunkCommands,
-  handleBatchPayload,
   MAX_COMMANDS_PER_BATCH,
   mergeBatchPayloads,
   prepareCommandsQueries
@@ -94,68 +93,6 @@ describe('Client `prepareCommandsQueries` method', () => {
 
   it('should return empty query object when no commands provided', () => {
     expect(prepareCommandsQueries({})).toMatchSnapshot()
-  })
-})
-
-describe('Client `handleBatchPayload` method', () => {
-  it('should return payload', () => {
-    const payload = {
-      result: {
-        result: { one: 'done' },
-        result_error: [],
-        result_next: [],
-        result_time: [],
-        result_total: []
-      },
-      time: { start: 1, finish: 1, duration: 1, processing: 1, date_start: 'date', date_finish: 'date' }
-    }
-
-    expect(handleBatchPayload(payload)).toBe(payload)
-  })
-
-  it('should return payload of array batch', () => {
-    const payload = {
-      result: {
-        result: ['done'],
-        result_error: [],
-        result_next: [],
-        result_time: [],
-        result_total: []
-      },
-      time: { start: 1, finish: 1, duration: 1, processing: 1, date_start: 'date', date_finish: 'date' }
-    }
-
-    expect(handleBatchPayload(payload)).toBe(payload)
-  })
-
-  it('should throw when getting errors in payload', () => {
-    const payload = {
-      result: {
-        result: { one: 'done' },
-        result_error: { one: 'Expected error for `handleBatchPayload`' },
-        result_next: [],
-        result_time: [],
-        result_total: []
-      },
-      time: { start: 1, finish: 1, duration: 1, processing: 1, date_start: 'date', date_finish: 'date' }
-    }
-
-    expect(() => handleBatchPayload(payload)).toThrowErrorMatchingSnapshot()
-  })
-
-  it('should throw when getting errors in numbered commands payload', () => {
-    const payload = {
-      result: {
-        result: ['done'],
-        result_error: ['Expected error for `handleBatchPayload`'],
-        result_next: [],
-        result_time: [],
-        result_total: []
-      },
-      time: { start: 1, finish: 1, duration: 1, processing: 1, date_start: 'date', date_finish: 'date' }
-    }
-
-    expect(() => handleBatchPayload(payload)).toThrowErrorMatchingSnapshot()
   })
 })
 

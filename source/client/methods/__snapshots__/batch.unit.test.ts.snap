@@ -92,16 +92,6 @@ Array [
 ]
 `;
 
-exports[`Client \`handleBatchPayload\` method should throw when getting errors in numbered commands payload 1`] = `
-"[batch] failed to process. Received errors in 1 commands:
-Expected error for \`handleBatchPayload\`"
-`;
-
-exports[`Client \`handleBatchPayload\` method should throw when getting errors in payload 1`] = `
-"[batch] failed to process. Received errors in 1 commands:
-Expected error for \`handleBatchPayload\`"
-`;
-
 exports[`Client \`mergeBatchPayloads\` method should merge array payloads 1`] = `
 Object {
   "result": Object {
