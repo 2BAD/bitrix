@@ -4,92 +4,58 @@ Those are bare-bones methods which are responsible for taking care of the routin
 
 They are used by the services internally and provided as a part of the public API for very specific use cases.
 
-Usually, _you do not want to use those directly_. They will force you to take care of the payload typing and be sure to use Bitrix REST method with appropriate client method, otherwise, you'll get incorrect payload wrapping type.
+Usually, _you do not want to use those directly_.
 
 Though, you might find useful a `batch` method which makes a series of Bitrix REST operation with only a few requests.
 
-## `get`
+## `call`
 
-A generic method for executing any Bitrix method which involves work with a single entry. Usually, those contain `create`, `get` or `update` words in the method, like `crm.deal.get`.
+A generic method for executing any supported Bitrix method.
 
-Note that method can't know which entity will it return, so its type might be provided as `<P>` generic. Otherwise, it will be of type `unknown`.
+Payload type will be resolved based on the `Methods` map.
 
 ```ts
-import Bitrix, { Method, Deal } from '@2bad/bitrix'
+import Bitrix, { Method } from '@2bad/bitrix'
 
 // ...init client...
 
-bitrix.get<Deal>(Method.GET_DEAL, { ID: '77' })
+bitrix.call(Method.GET_DEAL, { ID: '77' }) // returns GetPayload<Deal>
 
-bitrix.get<number>(Method.CREATE_DEAL, {
+bitrix.call(Method.CREATE_DEAL, {
   fields: { TITLE: 'New deal' },
   params: { REGISTER_SONET_EVENT: 'Y' }
-})
+}) // returns GetPayload<number>
 
-bitrix.get<boolean>(Method.UPDATE_DEAL, {
+bitrix.call(Method.UPDATE_DEAL, {
   id: 77,
   fields: { TITLE: 'New deal title' }
-})
+}) // returns GetPayload<boolean>
+
+bitrix.call(Method.LIST_DEALS, {}) // returns ListPayload<Deal>
+bitrix.getList<Deal>(Method.LIST_DEALS, { start: 774 }) // returns ListPayload<Deal>
 ```
 
-**Generics**
-
-* `<P> = unknown` — a payload type. It will be wrapped into the `GetPayload<P>`, so you could get suggestions while accessing the result properties.
-
-**Arguments**
-
-* `method: GettableMethod` — any method that retrieves single entry, like `crm.deal.get`. Be sure to use `Method` enum here.
-
-   The method will disallow to specify any Bitrix method which returns non-list payload. However, if you need to use something new or unsupported, consult Bitrix REST API documentation (ha, a joke!) to figure out does Bitrix method in question returns payload of type `GetPayload<P>`.
-
-* `params?: CreateParams | GetParams | UpdateParams` — params to be passed with an API request.
-
-   Note that for now the client won't check can specified parameters be used with a specified method. Just don't use `GetParams` with create-methods and so on. Type safety FTW.
-
-**Rejects**
-
-* `Error` — a Got error, when an error received as a response
-
-**Returns**
-
-`Promise<GetPayload<P>>`
-
-## `getList`
-
-A generic method for executing any Bitrix method which involves retrieval of the list. Usually, those contain `list` word in the method, like `crm.deal.list`.
-
-On contrary to the `list` method, which _retrieves all entries_, even if they can't be retrieved with a single request, this one _gets only 50 entries per request_.
-
-Note that method can't know which entity will it return, so its type might be provided as a `<P>` generic. Otherwise, it will be of type `unknown`.
+In rare cases you might want to invoke not yet supported by this library method. Use casting and `any` as an escape hatch:
 
 ```ts
-import Bitrix, { Method, Deal } from '@2bad/bitrix'
-
-// ...init client...
-
-bitrix.getList<Deal>(Method.LIST_DEALS, { start: 774 })
+bitrix.call('some.new.method' as any, { newParam: true } as any)
+  .then((payload) => payload as GetPayload<NewPayload>)
 ```
-
-**Generics**
-
-* `<P> = unknown` — a payload type. It will be wrapped into the `ListPayload<P>`, so you could get suggestions while accessing the result properties.
 
 **Arguments**
 
-* `method: ListableMethod` — any method that retrieves multiple entries, like `crm.deal.list`. Be sure to use `Method` enum here.
-
-   The client will disallow to specify any Bitrix method which returns non-list payload. However, if you need to use something new or unsupported, consult Bitrix REST API documentation to figure out does Bitrix method in question returns payload of type `ListPayload<P>`.
-
-* `params?: ListParams` — params to be passed with an API request, like `start`, `select`, `filter` or `order`.
+* `method: Method` — any Bitrix method. Be sure to use `Method` enum here.
+* `params: MethodParams<M>` — params to be passed with an API request.
 
 **Rejects**
 
 * `Error` — a Got error, when an error received as a response
 * `Error` — when payload contains `result.error` property.
+* `Error` — when payload contains `result.result.result_error` property.
 
 **Returns**
 
-`Promise<ListPayload<P>>`
+`Promise<MethodPayload<M>>` — a resolved payload type.
 
 ## `list`
 
@@ -97,19 +63,15 @@ A compound method for executing any Bitrix method which involves retrieval of th
 
 Retrieves _all entries_ ("pages") by executing the necessary amount of batch requests with specified Bitrix method.
 
-Note that method can't know which entities will it return, so its type might be provided as a `<P>` generic. Otherwise, it will be of type `unknown`.
+Payload type will be resolved based on the `Methods` map.
 
 ```ts
 import Bitrix, { Method, Deal } from '@2bad/bitrix'
 
 // ...init client...
 
-bitrix.list<Deal>(Method.LIST_DEALS, { start: 774 })
+bitrix.list(Method.LIST_DEALS, { start: 774 })
 ```
-
-**Generics**
-
-* `<P> = unknown` — a payload type. It will be wrapped into the `ListPayload<P>`, so you could get suggestions while accessing the result properties.
 
 **Arguments**
 
@@ -117,7 +79,7 @@ bitrix.list<Deal>(Method.LIST_DEALS, { start: 774 })
 
    The method will disallow to specify any Bitrix method which returns non-list payload. However, if you need to use something new or unsupported, consult Bitrix REST API documentation to figure out does Bitrix method in question returns payload of type `ListPayload<P>`.
 
-* `params?: ListParams` — params to be passed with an API request, like `start`, `select`, `filter` or `order`.
+* `params: MethodParams<M>` — params to be passed with an API request, like `start`, `select`, `filter` or `order`.
 
 **Rejects**
 
@@ -134,62 +96,31 @@ Executes a series of Bitrix methods within as few as possible requests (using `/
 
 If the amount of commands exceeds max allowed by the Bitrix API commands per batch (50 per batch), they will be chunked into standalone request and merged upon completion.
 
-Note that the method can't know which entities will it return. A mapping of commands name to types can be provided as `<CPM>` generic. Otherwise, it will be an object with properties of type `unknown`.
+Payload type will be resolved based on the `Methods` map.
 
 ```ts
 import Bitrix, { Method, Deal } from '@2bad/bitrix'
 
 // ...init client...
 
-bitrix.batch<{
-  deals: readonly Deal[]
-  deal: Deal
-}>({
- deals: { method. Method.LIST_DEALS },
+// With an `const` of named commands
+bitrix.batch({
+ deals: { method. Method.LIST_DEALS, params: {} },
  deal: { method. Method.GET_DEAL, params: { ID: '77' } }
-})
+} as const) // returns { deals: ListPayload<Deal>, deal: Deal }
+
+// With an `const` of array of commands
+bitrix.batch([
+ { method. Method.LIST_DEALS, params: {} },
+ { method. Method.GET_DEAL, params: { ID: '77' } }
+ ] as const) // returns [ListPayload<Deal>, Deal]
+
+// With an array of commands
+ bitrix.batch([
+ { method. Method.LIST_DEALS, params: {} },
+ { method. Method.GET_DEAL, params: { ID: '77' } }
+ ]) // ReadonlyArray<ListPayload<Deal> | Deal>
 ```
-
-**Generics**
-
-* `<CPM>` — commands to payload type map. It will be wrapped into the `BatchPayload<CPM>`, so you could get suggestions while accessing the result properties.
-
-   It can be either a generic object, which won't provide any good suggestions while coding but useful when providing a simple array of commands:
-
-   ```ts
-   // Assumes that all responses will contain either `Deal[]` or `Lead`
-   batch<Record<string, readonly Deal[] | Lead>>([
-    { method. Method.LIST_DEALS },
-    { method. Method.GET_LEAD, params: { ID: '77' } }
-   ])
-   ```
-
-   However, in such case it is recommended to use a tuple with a `as const` of array of commands. That way it will be easier to get accurately typed results:
-
-   ```ts
-   batch<[Deal[], Lead]>([
-    { method. Method.LIST_DEALS },
-    { method. Method.GET_LEAD, params: { ID: 11 } }
-   ] as const)
-     .then(({ result }) => {
-       const [deals, lead] = result
-     })
-   ```
-
-   Or when used with named commands, it can be an interface to provide an accurate mapping from commands names to their types:
-
-   ```ts
-   batch<{
-     dealsList: readonly Deal[]
-     someLead: Lead
-   }>({
-    dealsList: { method. Method.LIST_DEALS },
-    someLead: { method. Method.GET_LEAD, params: { ID: 11 } }
-   })
-    .then(({ result }) => result.dealList)
-   ```
-
-   That generic is tightly coupled with the `commands` argument. Their types and shapes should match, otherwise TypeScript will be unhappy.
 
 **Arguments**
 
@@ -209,7 +140,7 @@ bitrix.batch<{
 
    The payload will depend on that format. In case of an array of commands, it will be of type `P[]`, and in case of the named commands, an object of similar shape will be returned.
 
-   Note that if `<CPM>` provided, the method will strictly demand properties of the `commands` and `<CPM>` to match.
+   It is highly advised to use commands with `as const`, as it will provide more accurate payload type.
 
 * `commandsPerRequest: number = MAX_COMMANDS_PER_BATCH` — how much commands to cramp into the single request. Usually, it shouldn't be changed. The default value is `50`, a max allowed by the Bitrix API.
 
@@ -220,4 +151,4 @@ bitrix.batch<{
 
 **Returns**
 
-`Promise<BatchPayload<CPM>>`
+`Promise<BatchPayload<P>>`

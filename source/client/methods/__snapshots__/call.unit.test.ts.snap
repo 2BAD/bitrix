@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Client \`call\` method should throw when getting errors in batch payload 1`] = `
+[Error: [batch] failed to process. Received errors in 1 commands:
+Expected error]
+`;
+
+exports[`Client \`call\` method should throw when getting errors in payload 1`] = `[Error: [call] failed to get the resource: Expected error for \`getList\`.]`;
+
+exports[`Client \`handlePayload\` method should throw when getting error in \`ListPayload\` 1`] = `"[call] failed to get the resource: Expected error for \`handlePayload\`."`;
+
+exports[`Client \`handlePayload\` method should throw when getting errors in \`BatchPayload\` with result from array of commands 1`] = `
+"[batch] failed to process. Received errors in 1 commands:
+Expected error for \`handlePayload\`"
+`;
+
+exports[`Client \`handlePayload\` method should throw when getting errors in \`BatchPayload\` with result from named commands 1`] = `
+"[batch] failed to process. Received errors in 1 commands:
+Expected error for \`handlePayload\`"
+`;
