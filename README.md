@@ -64,9 +64,9 @@ bitrix.deals.list({ select: ["*", "UF_*"] })
 
 ## API
 
-* [call](/docs/low-level-api.md#call)
-* [list](/docs/low-level-api.md#list)
-* [batch](/docs/low-level-api.md#batch)
+* [call](/docs/methods.md#call)
+* [list](/docs/methods.md#list)
+* [batch](/docs/methods.md#batch)
 * CRM
   * [Deal](/docs/services/deals.md)
     * [
@@ -124,7 +124,7 @@ Methods required params and returned payload types are automatically resolved ba
 
 To facilitate better architecture, the client divided into layers:
 
-1. **Methods** — a mostly generic [methods](/docs/low-level-api.md) like `call` to work with Bitrix API methods. They take care of the routine and provide a foundation for more complex operations.
+1. **Methods** — a mostly generic [methods](/docs/methods.md) like `call` to work with Bitrix API methods. They take care of the routine and provide a foundation for more complex operations.
 2. **Client** — a generic [client](/source/client), which takes care of some additional routine tasks like setting access token on every request and providing generic methods.
 3. **Services** — each [service](/source/services) provides an expressive interface to work with a specific group of Bitrix REST API operations. In essence, they do orchestrate generic client methods and parameters to get proper results.
 4. **Bitrix client** — a top-level [provider](/source/bitrix.ts) of generic method and services. An effortless way to deal with Bitrix REST API by using an intuitive API, which takes care of all underlying complexity.

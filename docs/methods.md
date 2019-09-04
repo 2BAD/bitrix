@@ -1,4 +1,4 @@
-# Low-level API
+# Methods
 
 Those are bare-bones methods which are responsible for taking care of the routine, error handling and types casting.
 
