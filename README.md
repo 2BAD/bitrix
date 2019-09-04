@@ -64,6 +64,9 @@ bitrix.deals.list({ select: ["*", "UF_*"] })
 
 ## API
 
+* [call](/docs/low-level-api.md#call)
+* [list](/docs/low-level-api.md#list)
+* [batch](/docs/low-level-api.md#batch)
 * CRM
   * [Deal](/docs/services/deals.md)
     * [
