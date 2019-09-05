@@ -2,7 +2,6 @@ import { BoolString, ISODate, NumberString } from './common'
 
 export interface Deal {
   // Deal can have user fields
-  // @todo Remove `unknown` when all fields will be known
   readonly [key: string]: string | null
 
   // tslint:disable-next-line: no-mixed-interface
