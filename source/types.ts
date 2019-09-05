@@ -3,6 +3,7 @@ import { Contact } from './services/types/contact'
 import { Deal } from './services/types/deal'
 import { Lead } from './services/types/lead'
 import { Status } from './services/types/status'
+import { User } from './services/types/user'
 import { ExtractValue } from './utils/ExtractValue'
 
 interface MethodsMap {
@@ -164,6 +165,21 @@ export interface Methods extends MethodsMap {
     readonly payload: ListPayload<Status>
     readonly params: ListParams
   }
+
+  // Users
+  readonly [Method.GET_USER]: {
+    readonly type: User
+    readonly payload: GetPayload<User>
+    readonly params: {
+      readonly id: string
+    }
+  }
+  readonly [Method.LIST_USERS]: {
+    readonly type: User
+    readonly payload: ListPayload<User>
+    readonly params: ListParams
+  }
+
 }
 
 /**

@@ -8,6 +8,7 @@ export enum Method {
   GET_DEAL = 'crm.deal.get',
   GET_LEAD = 'crm.lead.get',
   GET_STATUS = 'crm.status.get',
+  GET_USER = 'user.get',
 
   CREATE_CONTACT = 'crm.contact.add',
   CREATE_DEAL = 'crm.deal.add',
@@ -23,14 +24,17 @@ export enum Method {
   LIST_CONTACTS = 'crm.contact.list',
   LIST_DEALS = 'crm.deal.list',
   LIST_LEADS = 'crm.lead.list',
-  LIST_STATUSES = 'crm.status.list'
+  LIST_STATUSES = 'crm.status.list',
+  // yes, this one is correct, they don't have separate `list` method and this one returns all users
+  LIST_USERS = 'user.search'
 }
 
 const LISTABLE_METHODS = [
   Method.LIST_CONTACTS,
   Method.LIST_DEALS,
   Method.LIST_LEADS,
-  Method.LIST_STATUSES
+  Method.LIST_STATUSES,
+  Method.LIST_USERS
 ] as const
 
 export type ListableMethod = typeof LISTABLE_METHODS[number]
