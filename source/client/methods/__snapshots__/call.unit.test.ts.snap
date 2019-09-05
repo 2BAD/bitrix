@@ -1,5 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Client \`call\` method should add to the queue 1`] = `
+Array [
+  Array [
+    [Function],
+  ],
+  Array [
+    [Function],
+  ],
+]
+`;
+
 exports[`Client \`call\` method should throw when getting errors in batch payload 1`] = `
 [Error: [batch] failed to process. Received errors in 1 commands:
 Expected error]

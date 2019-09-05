@@ -6,8 +6,14 @@ import nock from 'nock'
 import { BatchPayload, GetPayload, ListPayload, Method } from '../types'
 import Call, { handlePayload } from './call'
 
+const queueAdd = jest.fn((fn: any) => Promise.resolve(fn()))
 const TEST_URI = 'https://test.com/rest'
-const call = Call(got.extend({ baseUrl: TEST_URI, json: true }))
+const call = Call({
+  client: got.extend({ baseUrl: TEST_URI, json: true }),
+  queue: {
+    add: queueAdd
+  } as any
+})
 const RESPONSE_200 = 200
 
 describe('Client `handlePayload` method', () => {
@@ -106,6 +112,10 @@ describe('Client `handlePayload` method', () => {
 })
 
 describe('Client `call` method', () => {
+  beforeEach(() => {
+    queueAdd.mockClear()
+  })
+
   it('should form a proper request', async () => {
     const params = { id: '1' }
 
@@ -189,4 +199,23 @@ describe('Client `call` method', () => {
   })
 
   it.todo('should cast payload to the <P>')
+
+  it('should add to the queue', async () => {
+    const payload = {}
+    const method = Method.LIST_DEALS
+
+    nock(TEST_URI)
+      // @todo We'd want to use `query` object here as it is much more readable, but nock for some reason
+      //       fails to match request when it contains `cmd[someName]`. The issue definitely connected
+      //       to the `[]`, since it does not appear when only one bracket present
+      .get(`/${method}`)
+      .reply(RESPONSE_200, payload)
+      .get(`/${method}`)
+      .reply(RESPONSE_200, payload)
+
+    await call(method, {})
+    await call(method, {})
+
+    expect(queueAdd.mock.calls).toMatchSnapshot()
+  })
 })

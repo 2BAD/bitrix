@@ -1,6 +1,7 @@
 import { GotInstance, GotJSONFn } from 'got'
 import chunk from 'lodash.chunk'
 import fromPairs from 'lodash.frompairs'
+import Queue from 'p-queue'
 import { stringify as toQuery } from 'qs'
 import { MethodPayloadType } from '../../types'
 import isArray from '../../utils/isArray'
@@ -105,6 +106,11 @@ export type Batch = <
   P = CommandsPayloads<C>
 >(commands: C, commandsPerRequest?: number) => Promise<BatchPayload<P>>
 
+interface Dependencies {
+  readonly client: GotInstance<GotJSONFn>
+  readonly queue: Queue
+}
+
 /**
  * Dispatches a batch request with specified commands. Will fill figure out payload type based on the Methods.
  * Supports unlimited number of commands. If they do exceed max amount of commands per batch, will dispatch
@@ -112,7 +118,7 @@ export type Batch = <
  * @todo For now due to issues with types it won't check `params` of command, so any Method can be used
  *       with any (even wrong) params
  */
-export default ({ get }: GotInstance<GotJSONFn>): Batch => {
+export default ({ client: { get }, queue }: Dependencies): Batch => {
   const batch: Batch = async <
     C extends Commands,
     P = CommandsPayloads<C>
@@ -120,8 +126,10 @@ export default ({ get }: GotInstance<GotJSONFn>): Batch => {
     commands: C,
     commandsPerRequest: number = MAX_COMMANDS_PER_BATCH
   ): Promise<BatchPayload<P>> => {
-    const call = (c: C) => get(Method.BATCH, { query: prepareCommandsQueries(c) })
-      .then(({ body }) => body as BatchPayload<P>)
+    const call = (c: C) =>
+      queue
+        .add(() => get(Method.BATCH, { query: prepareCommandsQueries(c) }))
+        .then(({ body }) => body as BatchPayload<P>)
 
     const calls = chunkCommands(commands, commandsPerRequest)
       .map(call)

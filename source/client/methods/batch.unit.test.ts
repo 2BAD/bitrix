@@ -252,11 +252,21 @@ describe('Client `mergeBatchPayloads` method', () => {
   })
 })
 
+const queueAdd = jest.fn((fn: any) => Promise.resolve(fn()))
 const TEST_URI = 'https://test.com/rest'
-const batch = Batch(got.extend({ baseUrl: TEST_URI, json: true }))
+const batch = Batch({
+  client: got.extend({ baseUrl: TEST_URI, json: true }),
+  queue: {
+    add: queueAdd
+  } as any
+})
 const RESPONSE_200 = 200
 
 describe('Client `batch` method', () => {
+  beforeEach(() => {
+    queueAdd.mockClear()
+  })
+
   it('should form a proper request', async () => {
     const payload = { result: { result: { one: 'done', two: 'done' }, result_error: [] } }
     const dealId = 999
@@ -539,5 +549,32 @@ describe('Client `batch` method', () => {
       .reply(RESPONSE_200, payload)
 
     return expect(batch(commands)).rejects.toMatchSnapshot()
+  })
+
+  it('should add to the queue', async () => {
+    const payload = {
+      result: {
+        result: ['done'],
+        result_error: []
+      }
+    }
+
+    const commands = [
+      { method: Method.GET_DEAL },
+      { method: Method.LIST_DEALS }
+    ] as const
+
+    nock(TEST_URI)
+      // @todo We'd want to use `query` object here as it is much more readable, but nock for some reason
+      //       fails to match request when it contains `cmd[someName]`. The issue definitely connected
+      //       to the `[]`, since it does not appear when only one bracket present
+      .get(`/${Method.BATCH}?cmd%5B0%5D=${commands[0].method}`)
+      .reply(RESPONSE_200, payload)
+      .get(`/${Method.BATCH}?cmd%5B0%5D=${commands[1].method}`)
+      .reply(RESPONSE_200, payload)
+
+    await batch(commands, 1)
+
+    expect(queueAdd.mock.calls).toMatchSnapshot()
   })
 })

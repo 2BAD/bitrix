@@ -24,7 +24,7 @@
 * 🔥 No bullshit
 * ✨ Expressive API
 * 💪 Strongly typed methods and requests results with TypeScript
-* 🚀 Handles records batching for you
+* 🚀 Handles records batching and rate limiting for you
 * ❤️ Promise-based
 
 ![@2bad/bitrix usage example](https://user-images.githubusercontent.com/4460311/64130824-7798c080-cdcd-11e9-99f0-7ded87541a85.png)
@@ -119,6 +119,8 @@ bitrix.deals.list({ select: ["*", "UF_*"] })
 Our client tries hard to provide a consistent, strongly typed and at the same time effortless experience.
 
 It takes care of the any necessary batching to run "large" commands, like retrieving all deals or leads with least possible network request. That allows achieving a reading of the 250 000 and updating of 5000 entries per minute with a single line of code.
+
+All client methods are automatically rate-limited and queued if needed to cope with Bitrix REST API limitation of 2 requests per second, so you should never see Bitrix erroring about exceeding rate limits.
 
 Methods required params and returned payload types are automatically resolved based on [Methods](source/types.ts) interface, which effectively describes all currently supported methods.
 
