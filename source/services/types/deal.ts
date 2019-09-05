@@ -1,17 +1,16 @@
 import { BoolString, ISODate, NumberString } from './common'
 
-// @todo This is approximate structure. Might not be accurate
 export interface Deal {
   // Deal can have user fields
   // @todo Remove `unknown` when all fields will be known
-  readonly [key: string]: string | unknown
+  readonly [key: string]: string | null
 
   // tslint:disable-next-line: no-mixed-interface
   readonly ID: NumberString
   readonly TITLE: string
   readonly TYPE_ID: string
   readonly STAGE_ID: string
-  readonly PROBABILITY: unknown // @todo Check is it right
+  readonly PROBABILITY: NumberString | null
   readonly CURRENCY_ID: string
   readonly OPPORTUNITY: NumberString
   readonly TAX_VALUE: NumberString
@@ -29,7 +28,7 @@ export interface Deal {
   readonly OPENED: BoolString
   readonly CLOSED: BoolString
   readonly COMMENTS: string
-  readonly ADDITIONAL_INFO: unknown // @todo Check is it right
+  readonly ADDITIONAL_INFO: NumberString | null
   readonly LOCATION_ID: NumberString | null
   readonly CATEGORY_ID: NumberString
   readonly STAGE_SEMANTIC_ID: NumberString
