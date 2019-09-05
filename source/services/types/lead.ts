@@ -2,7 +2,7 @@ import { BoolString, ISODate, NumberString } from './common'
 
 export interface Lead {
   // Deal can have user fields
-  readonly [key: string]: string
+  readonly [key: string]: string | null
 
   readonly ID: NumberString
   readonly TITLE: string
