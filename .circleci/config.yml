@@ -27,5 +27,6 @@ jobs:
       - save_cache: *save-npm-cache
       - run: npm run lint
       - run: npm run coverage
+      - run: npm run build
       - codecov/upload:
           file: coverage/*.json
