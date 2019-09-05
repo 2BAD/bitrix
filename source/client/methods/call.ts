@@ -1,5 +1,4 @@
-import { GotInstance, GotJSONFn } from 'got'
-import Queue from 'p-queue'
+import { GotJSONFn } from 'got'
 import { stringify as toQuery } from 'qs'
 import { MethodParams, MethodPayload } from '../../types'
 import isArray from '../../utils/isArray'
@@ -37,17 +36,15 @@ export const handlePayload = <P extends Payload<unknown>>(payload: P): P => {
 export type Call = <M extends Method>(method: M, params: MethodParams<M>) => Promise<MethodPayload<M>>
 
 interface Dependencies {
-  readonly client: GotInstance<GotJSONFn>
-  readonly queue: Queue
+  readonly get: GotJSONFn
 }
 
 /**
  * Dispatches a request with specified method and params. Will fill figure out payload type based on the Method
  */
-export default ({ client: { get }, queue }: Dependencies): Call => {
+export default ({ get }: Dependencies): Call => {
   const call: Call = <M extends Method>(method: M, params: MethodParams<M>): Promise<MethodPayload<M>> =>
-    queue
-      .add(() => get(method, { query: toQuery(params) }))
+    get(method, { query: toQuery(params) })
       .then(({ body }) => handlePayload(body as MethodPayload<M>))
 
   return call
