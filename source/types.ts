@@ -60,9 +60,7 @@ export interface Methods extends MethodsMap {
   readonly [Method.LIST_DEALS]: {
     readonly type: Deal
     readonly payload: ListPayload<Deal>
-    readonly params: {
-      readonly start?: number
-    }
+    readonly params: ListParams
   }
 
   // Leads
