@@ -1,16 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Client \`batch\` method should add to the queue 1`] = `
-Array [
-  Array [
-    [Function],
-  ],
-  Array [
-    [Function],
-  ],
-]
-`;
-
 exports[`Client \`batch\` method should merge payloads when more then max allowed commands provided 1`] = `
 Object {
   "result": Object {
