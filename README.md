@@ -216,6 +216,7 @@ Proper method parameters and payload types handling requires some routine when a
 
 1. Add new method into the [`Method`](/source/client/types.ts) enum.
 2. Add it into the [`LISTABLE_METHODS`](/source/client/types.ts) array if it's listable (paginated).
-3. Describe it in the [Methods](source/types.ts) interface.
+3. Describe it in the [Methods](source/types.ts) interface. Test and check method payload type to be sure you've described it correctly!
 4. Add new service and related tests into the [services](/source/services). Ensure that you're properly mapping service method arguments to `call` params.
-5. Document addition in the [docs](/docs).
+5. Re-export service public types in the [bitrix.ts](/source/bitrix.ts) to make them available to the end-users.
+6. Document addition in the [docs](/docs).

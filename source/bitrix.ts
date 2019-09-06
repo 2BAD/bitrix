@@ -21,3 +21,13 @@ export default (restUri: string, accessToken: string) => {
     users: UsersService({ call, list })
   }
 }
+
+export * from './types'
+export * from './client/types'
+export * from './services/types/common'
+export * from './services/types/contact'
+export * from './services/types/currency'
+export * from './services/types/deal'
+export * from './services/types/lead'
+export * from './services/types/status'
+export * from './services/types/user'
