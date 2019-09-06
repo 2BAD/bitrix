@@ -3,7 +3,8 @@
 
 import got from 'got'
 import nock from 'nock'
-import { BatchPayload, GetPayload, ListPayload, Method } from '../types'
+import { Method } from '../../method.types'
+import { BatchPayload, GetPayload, ListPayload } from '../../payload.types'
 import Call, { handlePayload } from './call'
 
 const TEST_URI = 'https://test.com/rest'

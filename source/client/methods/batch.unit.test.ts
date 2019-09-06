@@ -4,7 +4,7 @@
 import got from 'got'
 import range from 'lodash.range'
 import nock from 'nock'
-import { Method } from '../types'
+import { Method } from '../../method.types'
 import Batch, {
   chunkCommands,
   MAX_COMMANDS_PER_BATCH,

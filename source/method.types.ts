@@ -1,10 +1,52 @@
-import { BatchPayload, Commands, GetPayload, ListParams, ListPayload, Method } from './client/types'
-import { Contact } from './services/types/contact'
-import { Deal } from './services/types/deal'
-import { Lead } from './services/types/lead'
-import { Status } from './services/types/status'
-import { User } from './services/types/user'
+import { Commands } from './command.types'
+import { Contact } from './entities/contact'
+import { Deal } from './entities/deal'
+import { Lead } from './entities/lead'
+import { Status } from './entities/status'
+import { User } from './entities/user'
+import { BatchPayload, GetPayload, ListPayload } from './payload.types'
+import { Diff } from './utils/Diff'
 import { ExtractValue } from './utils/ExtractValue'
+
+export enum Method {
+  // Gettable
+  BATCH = 'batch',
+
+  GET_CONTACT = 'crm.contact.get',
+  GET_DEAL = 'crm.deal.get',
+  GET_LEAD = 'crm.lead.get',
+  GET_STATUS = 'crm.status.get',
+  GET_USER = 'user.get',
+
+  CREATE_CONTACT = 'crm.contact.add',
+  CREATE_DEAL = 'crm.deal.add',
+  CREATE_LEAD = 'crm.lead.add',
+  CREATE_STATUS = 'crm.status.add',
+
+  UPDATE_CONTACT = 'crm.contact.update',
+  UPDATE_DEAL = 'crm.deal.update',
+  UPDATE_LEAD = 'crm.lead.update',
+  UPDATE_STATUS = 'crm.status.update',
+
+  // Listable
+  LIST_CONTACTS = 'crm.contact.list',
+  LIST_DEALS = 'crm.deal.list',
+  LIST_LEADS = 'crm.lead.list',
+  LIST_STATUSES = 'crm.status.list',
+  // yes, this one is correct, they don't have separate `list` method and this one returns all users
+  LIST_USERS = 'user.search'
+}
+
+const LISTABLE_METHODS = [
+  Method.LIST_CONTACTS,
+  Method.LIST_DEALS,
+  Method.LIST_LEADS,
+  Method.LIST_STATUSES,
+  Method.LIST_USERS
+] as const
+
+export type ListableMethod = typeof LISTABLE_METHODS[number]
+export type GettableMethod = Diff<Method, ListableMethod>
 
 interface MethodsMap {
   readonly [key: string]: {
@@ -12,6 +54,14 @@ interface MethodsMap {
     readonly payload: unknown
     readonly params: Record<string, any>
   }
+}
+
+// @todo Figure out full list of possible values
+export interface ListParams {
+  readonly start?: number
+  readonly order?: { readonly [key: string]: 'ASC' }
+  readonly filter?: { readonly '>PROBABILITY': number }
+  readonly select?: ReadonlyArray<'*' | 'UF_*' | string>
 }
 
 /**

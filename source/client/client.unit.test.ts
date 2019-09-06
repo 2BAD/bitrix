@@ -2,8 +2,8 @@
 // tslint:disable: no-expression-statement
 
 import nock from 'nock'
+import { Method } from '../method.types'
 import Client from './index'
-import { Method } from './types'
 
 const TEST_URI = 'https://test.com/rest'
 const TEST_ACCESS_TOKEN = 'test_access_token'

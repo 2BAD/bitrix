@@ -2,9 +2,10 @@ import { GotJSONFn } from 'got'
 import chunk from 'lodash.chunk'
 import fromPairs from 'lodash.frompairs'
 import { stringify as toQuery } from 'qs'
-import { MethodPayloadType } from '../../types'
+import { Commands } from '../../command.types'
+import { Method, MethodPayloadType } from '../../method.types'
+import { BatchPayload } from '../../payload.types'
 import isArray from '../../utils/isArray'
-import { BatchPayload, Commands, Method } from '../types'
 import { handlePayload } from './call'
 
 export const MAX_COMMANDS_PER_BATCH = 50

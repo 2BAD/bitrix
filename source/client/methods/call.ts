@@ -1,8 +1,8 @@
 import { GotJSONFn } from 'got'
 import { stringify as toQuery } from 'qs'
-import { MethodParams, MethodPayload } from '../../types'
+import { Method, MethodParams, MethodPayload } from '../../method.types'
+import { BatchPayload, ListPayload, Payload } from '../../payload.types'
 import isArray from '../../utils/isArray'
-import { BatchPayload, ListPayload, Method, Payload } from '../types'
 
 /**
  * Checks wether payload have any errors and if it does — throws them

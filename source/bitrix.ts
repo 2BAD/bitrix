@@ -22,12 +22,12 @@ export default (restUri: string, accessToken: string) => {
   }
 }
 
-export * from './types'
-export * from './client/types'
-export * from './services/types/common'
-export * from './services/types/contact'
-export * from './services/types/currency'
-export * from './services/types/deal'
-export * from './services/types/lead'
-export * from './services/types/status'
-export * from './services/types/user'
+export * from './method.types'
+export * from './command.types'
+export * from './entities/common'
+export * from './entities/contact'
+export * from './entities/currency'
+export * from './entities/deal'
+export * from './entities/lead'
+export * from './entities/status'
+export * from './entities/user'
