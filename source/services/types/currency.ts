@@ -1,6 +1,6 @@
 import { BoolString, ISODate, NumberString } from './common'
 
-export interface User {
+export interface Currency {
   readonly CURRENCY: string
   readonly AMOUNT_CNT: NumberString
   readonly AMOUNT: NumberString
