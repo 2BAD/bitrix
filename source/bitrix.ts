@@ -25,7 +25,7 @@ export default (restUri: string, accessToken: string) => {
 export * from './method.types'
 export * from './command.types'
 export * from './entities/common'
-export * from './entities/contact'
+export * from './services/contacts/entities'
 export * from './entities/currency'
 export * from './entities/deal'
 export * from './entities/lead'

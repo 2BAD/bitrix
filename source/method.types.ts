@@ -1,10 +1,10 @@
 import { Commands } from './command.types'
-import { Contact } from './entities/contact'
 import { Deal } from './entities/deal'
 import { Lead } from './entities/lead'
 import { Status } from './entities/status'
 import { User } from './entities/user'
 import { BatchPayload, GetPayload, ListPayload } from './payload.types'
+import { ContactsMethods } from './services/contacts/methods'
 import { Diff } from './utils/Diff'
 import { ExtractValue } from './utils/ExtractValue'
 
@@ -71,7 +71,7 @@ export interface ListParams {
  * - `payload` — a payload that method returns
  * - `params` — params that method accepts
  */
-export interface Methods extends MethodsMap {
+export interface Methods extends MethodsMap, ContactsMethods {
   readonly [Method.BATCH]: {
     readonly type: unknown
     readonly payload: BatchPayload<unknown>
@@ -140,42 +140,6 @@ export interface Methods extends MethodsMap {
   }
   readonly [Method.UPDATE_LEAD]: {
     readonly type: Lead
-    readonly payload: GetPayload<boolean>
-    readonly params: {
-      readonly id: string
-      readonly fields: Record<string, any>
-      readonly params?: {
-        readonly REGISTER_SONET_EVENT: 'Y' | 'N'
-      }
-    }
-  }
-
-  // Contacts
-
-  readonly [Method.CREATE_CONTACT]: {
-    readonly type: Contact
-    readonly payload: GetPayload<number>
-    readonly params: {
-      readonly fields: Partial<Contact>
-      readonly params?: {
-        readonly REGISTER_SONET_EVENT: 'Y' | 'N'
-      }
-    }
-  }
-  readonly [Method.GET_CONTACT]: {
-    readonly type: Contact
-    readonly payload: GetPayload<Contact>
-    readonly params: {
-      readonly id: string
-    }
-  }
-  readonly [Method.LIST_CONTACTS]: {
-    readonly type: Contact
-    readonly payload: ListPayload<Contact>
-    readonly params: ListParams
-  }
-  readonly [Method.UPDATE_CONTACT]: {
-    readonly type: Contact
     readonly payload: GetPayload<boolean>
     readonly params: {
       readonly id: string
