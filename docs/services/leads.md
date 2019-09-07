@@ -17,7 +17,7 @@ bitrix.leads.create({
 
 **Arguments**
 
-* `fields: Partial<Lead>` — a fields to create lead with. See [Lead](/source/services/types/lead.ts).
+* `fields: Partial<Lead>` — a fields to create lead with. See [Lead](/source/services/leads/entities.ts).
 * `params?: CreateParams['params']` — a params to create lead with.
 
 **Returns**
@@ -57,7 +57,7 @@ bitrix.leads.get('77')
 
 **Returns**
 
-`Promise<GetPayload<Lead>>` (See [Lead](/source/services/types/lead.ts))
+`Promise<GetPayload<Lead>>` (See [Lead](/source/services/leads/entities.ts))
 
 <details>
 <summary>See payload example</summary>
@@ -106,7 +106,7 @@ bitrix.leads.update('77', {
 **Arguments**
 
 * `id: string` — lead `ID` to update
-* `fields: Partial<Lead>` — a fields to update. See [Lead](/source/services/types/lead.ts).
+* `fields: Partial<Lead>` — a fields to update. See [Lead](/source/services/leads/entities.ts).
 * `params?: UpdateParams['params']` — a params to update lead with.
 
 **Returns**
