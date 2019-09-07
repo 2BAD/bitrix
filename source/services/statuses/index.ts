@@ -16,8 +16,8 @@ export default ({ call, list }: Dependencies) => ({
   get: (id: string) =>
     call(Method.GET_STATUS, { id }),
 
-  list: <D extends MethodParams<Method.LIST_STATUSES>>(order?: D['order'], filter?: D['filter']) =>
-    list(Method.LIST_STATUSES, { order, filter }),
+  list: (params: MethodParams<Method.LIST_STATUSES> = {}) =>
+    list(Method.LIST_STATUSES, params),
 
   update: (id: string, fields: MethodParams<Method.CREATE_STATUS>['fields']) =>
     call(Method.UPDATE_STATUS, { id, fields })
