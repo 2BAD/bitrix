@@ -28,6 +28,13 @@ describe('Contacts', () => {
       })
       expect(mockCall.mock.calls).toMatchSnapshot()
     })
+
+    it('should work without optional params', async () => {
+      await contacts.create({
+        COMMENTS: 'Some comment'
+      })
+      expect(mockCall.mock.calls).toMatchSnapshot()
+    })
   })
 
   describe('`get`', () => {
@@ -47,6 +54,11 @@ describe('Contacts', () => {
       })
       expect(mockCall.mock.calls).toMatchSnapshot()
     })
+
+    it('should work without optional params', async () => {
+      await contacts.list()
+      expect(mockCall.mock.calls).toMatchSnapshot()
+    })
   })
 
   describe('`update`', () => {
@@ -55,6 +67,13 @@ describe('Contacts', () => {
         COMMENTS: 'Some comment'
       }, {
         REGISTER_SONET_EVENT: 'Y'
+      })
+      expect(mockCall.mock.calls).toMatchSnapshot()
+    })
+
+    it('should work without optional params', async () => {
+      await contacts.update(ID, {
+        COMMENTS: 'Some comment'
       })
       expect(mockCall.mock.calls).toMatchSnapshot()
     })
