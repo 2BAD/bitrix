@@ -10,7 +10,7 @@ import List from './methods/list'
 const BITRIX_API_RATE_LIMIT = 2
 const BITRIX_API_RATE_INTERVAL = 1000 // 1 second
 
-export default (restUri: string, accessToken: string, Queuer: typeof Queue = Queue) => {
+export default (restUri: string, accessToken: string) => {
   const client = got.extend({
     baseUrl: restUri,
     headers: {
@@ -24,7 +24,7 @@ export default (restUri: string, accessToken: string, Queuer: typeof Queue = Que
     }
   })
 
-  const queue = new Queuer({
+  const queue = new Queue({
     intervalCap: BITRIX_API_RATE_LIMIT,
     interval: BITRIX_API_RATE_INTERVAL
   })

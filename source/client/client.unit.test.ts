@@ -2,26 +2,19 @@
 // tslint:disable: no-expression-statement
 
 import nock from 'nock'
+import Queue from 'p-queue'
 import { Method } from '../method.types'
 import Client from './index'
 
 const TEST_URI = 'https://test.com/rest'
 const TEST_ACCESS_TOKEN = 'test_access_token'
 const RESPONSE_200 = 200
-
-const queueAdd = jest.fn((fn: any) => Promise.resolve(fn()))
-
-const Queue = jest.fn().mockImplementation(() => {
-  return {
-    add: queueAdd
-  }
-})
-
-const client = Client(TEST_URI, TEST_ACCESS_TOKEN, Queue as any)
+const spiedQueueAdd = jest.spyOn(Queue.prototype, 'add')
+const client = Client(TEST_URI, TEST_ACCESS_TOKEN)
 
 describe('Client', () => {
   beforeEach(() => {
-    queueAdd.mockClear()
+    spiedQueueAdd.mockClear()
   })
 
   describe('`call`', () => {
@@ -38,7 +31,7 @@ describe('Client', () => {
       await client.call(method, {})
       await client.call(method, {})
 
-      expect(queueAdd.mock.calls).toMatchSnapshot()
+      expect(spiedQueueAdd.mock.calls).toMatchSnapshot()
     })
   })
 
@@ -67,7 +60,7 @@ describe('Client', () => {
 
       await client.batch(commands, 1)
 
-      expect(queueAdd.mock.calls).toMatchSnapshot()
+      expect(spiedQueueAdd.mock.calls).toMatchSnapshot()
     })
   })
 })
