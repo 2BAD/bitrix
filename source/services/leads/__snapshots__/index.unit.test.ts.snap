@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Leads \`create\` should invoke \`call\` 1`] = `
+Array [
+  Array [
+    "crm.lead.add",
+    Object {
+      "fields": Object {
+        "COMMENTS": "Some comment",
+      },
+      "params": Object {
+        "REGISTER_SONET_EVENT": "Y",
+      },
+    },
+  ],
+]
+`;
+
+exports[`Leads \`create\` should work without optional params 1`] = `
+Array [
+  Array [
+    "crm.lead.add",
+    Object {
+      "fields": Object {
+        "COMMENTS": "Some comment",
+      },
+      "params": undefined,
+    },
+  ],
+]
+`;
+
+exports[`Leads \`get\` should invoke \`call\` 1`] = `
+Array [
+  Array [
+    "crm.lead.get",
+    Object {
+      "id": "77",
+    },
+  ],
+]
+`;
+
+exports[`Leads \`list\` should invoke \`list\` 1`] = `Array []`;
+
+exports[`Leads \`list\` should work without optional params 1`] = `Array []`;
+
+exports[`Leads \`update\` should invoke \`call\` 1`] = `
+Array [
+  Array [
+    "crm.lead.update",
+    Object {
+      "fields": Object {
+        "COMMENTS": "Some comment",
+      },
+      "id": "77",
+      "params": Object {
+        "REGISTER_SONET_EVENT": "Y",
+      },
+    },
+  ],
+]
+`;
+
+exports[`Leads \`update\` should work without optional params 1`] = `
+Array [
+  Array [
+    "crm.lead.update",
+    Object {
+      "fields": Object {
+        "COMMENTS": "Some comment",
+      },
+      "id": "77",
+      "params": undefined,
+    },
+  ],
+]
+`;
+
+exports[`Leads should expose API methods 1`] = `
+Object {
+  "create": [Function],
+  "get": [Function],
+  "list": [Function],
+  "update": [Function],
+}
+`;
