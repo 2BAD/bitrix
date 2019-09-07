@@ -17,7 +17,7 @@ export default (restUri: string, accessToken: string) => {
     contacts: ContactsService({ call, list }),
     deals: DealsService({ call, list }),
     leads: LeadsService({ call, list }),
-    statuses: StatusesService({ call, list }),
+    statuses: StatusesService({ call }),
     users: UsersService({ call, list })
   }
 }
