@@ -1,10 +1,10 @@
 import { Commands } from './command.types'
-import { Status } from './entities/status'
 import { User } from './entities/user'
 import { BatchPayload, GetPayload, ListPayload } from './payload.types'
 import { ContactsMethods } from './services/contacts/methods'
 import { DealsMethods } from './services/deals/methods'
 import { LeadsMethods } from './services/leads/methods'
+import { StatusesMethods } from './services/statuses/methods'
 import { Diff } from './utils/Diff'
 import { ExtractValue } from './utils/ExtractValue'
 
@@ -71,41 +71,11 @@ export interface ListParams {
  * - `payload` — a payload that method returns
  * - `params` — params that method accepts
  */
-export interface Methods extends MethodsMap, ContactsMethods, DealsMethods, LeadsMethods {
+export interface Methods extends MethodsMap, ContactsMethods, DealsMethods, LeadsMethods, StatusesMethods {
   readonly [Method.BATCH]: {
     readonly type: unknown
     readonly payload: BatchPayload<unknown>
     readonly params: Commands
-  }
-
-  // Statuses
-
-  readonly [Method.CREATE_STATUS]: {
-    readonly type: Status
-    readonly payload: GetPayload<number>
-    readonly params: {
-      readonly fields: Partial<Status>
-    }
-  }
-  readonly [Method.GET_STATUS]: {
-    readonly type: Status
-    readonly payload: GetPayload<Status>
-    readonly params: {
-      readonly id: string
-    }
-  }
-  readonly [Method.UPDATE_STATUS]: {
-    readonly type: Status
-    readonly payload: GetPayload<boolean>
-    readonly params: {
-      readonly id: string
-      readonly fields: Record<string, any>
-    }
-  }
-  readonly [Method.LIST_STATUSES]: {
-    readonly type: Status
-    readonly payload: ListPayload<Status>
-    readonly params: ListParams
   }
 
   // Users
