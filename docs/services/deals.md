@@ -17,7 +17,7 @@ bitrix.deals.create({
 
 **Arguments**
 
-* `fields: Partial<Deal>` — a set of fields to create deal with. See [Deal](/source/services/types/deal.ts).
+* `fields: Partial<Deal>` — a set of fields to create deal with. See [Deal](/source/services/deals/entities.ts).
 * `params?: CreateParams['params']` — a list of parameters to create deal with.
 
 **Returns**
@@ -57,7 +57,7 @@ bitrix.deals.get('77')
 
 **Returns**
 
-`Promise<GetPayload<Deal>>` (See [Deal](/source/services/types/deal.ts))
+`Promise<GetPayload<Deal>>` (See [Deal](/source/services/deals/entities.ts))
 
 <details>
 <summary>See payload example</summary>
@@ -227,7 +227,7 @@ bitrix.deals.update('77', {
 **Arguments**
 
 * `id: string` — deal `ID` to update
-* `fields: Partial<Deal>` — a fields to update. See [Deal](/source/services/types/deal.ts).
+* `fields: Partial<Deal>` — a fields to update. See [Deal](/source/services/deals/entities.ts).
 * `params?: UpdateParams['params']` — a params to update deal with.
 
 **Returns**
