@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Bitrix should expose API methods 1`] = `
+Object {
+  "batch": [Function],
+  "call": [Function],
+  "contacts": Object {
+    "create": [Function],
+    "get": [Function],
+    "list": [Function],
+    "update": [Function],
+  },
+  "deals": Object {
+    "create": [Function],
+    "get": [Function],
+    "list": [Function],
+    "update": [Function],
+  },
+  "leads": Object {
+    "create": [Function],
+    "get": [Function],
+    "list": [Function],
+    "update": [Function],
+  },
+  "list": [Function],
+  "statuses": Object {
+    "create": [Function],
+    "get": [Function],
+    "list": [Function],
+    "update": [Function],
+  },
+  "users": Object {
+    "get": [Function],
+    "list": [Function],
+  },
+}
+`;
+
+exports[`Bitrix should pass endpoint and acccess token to the client 1`] = `
+Array [
+  Array [
+    "https://test.com",
+    "test_token",
+  ],
+]
+`;
