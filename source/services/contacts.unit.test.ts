@@ -45,7 +45,7 @@ describe('Contacts', () => {
   })
 
   describe('`list`', () => {
-    it('should invoke `call`', async () => {
+    it('should invoke `list`', async () => {
       await contacts.list({
         start: 0,
         order: { COMMENTS: 'ASC' },
