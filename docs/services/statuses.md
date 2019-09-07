@@ -9,7 +9,7 @@ Create new status
 
 ```ts
 bitrix.statuses.create({
-  TITLE: 'New status'
+  NAME: 'New status'
 })
 ```
 
@@ -96,7 +96,7 @@ Update specified status
 
 ```ts
 bitrix.statuses.update('77', {
-  TITLE: 'New status title'
+  NAME: 'New status name'
 })
 ```
 
