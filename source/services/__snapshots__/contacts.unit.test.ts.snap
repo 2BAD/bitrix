@@ -43,8 +43,6 @@ Array [
 
 exports[`Contacts \`list\` should invoke \`call\` 1`] = `Array []`;
 
-exports[`Contacts \`list\` should work with default params 1`] = `Array []`;
-
 exports[`Contacts \`list\` should work without optional params 1`] = `Array []`;
 
 exports[`Contacts \`update\` should invoke \`call\` 1`] = `
