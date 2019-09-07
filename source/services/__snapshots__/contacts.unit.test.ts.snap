@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Contacts \`create\` should invoke \`call\` 1`] = `
+Array [
+  Array [
+    "crm.contact.add",
+    Object {
+      "fields": Object {
+        "COMMENTS": "Some comment",
+      },
+      "params": Object {
+        "REGISTER_SONET_EVENT": "Y",
+      },
+    },
+  ],
+]
+`;
+
+exports[`Contacts \`get\` should invoke \`call\` 1`] = `
+Array [
+  Array [
+    "crm.contact.get",
+    Object {
+      "id": "77",
+    },
+  ],
+]
+`;
+
+exports[`Contacts \`list\` should invoke \`call\` 1`] = `Array []`;
+
+exports[`Contacts \`update\` should invoke \`call\` 1`] = `
+Array [
+  Array [
+    "crm.contact.update",
+    Object {
+      "fields": Object {
+        "COMMENTS": "Some comment",
+      },
+      "id": "77",
+      "params": Object {
+        "REGISTER_SONET_EVENT": "Y",
+      },
+    },
+  ],
+]
+`;
+
+exports[`Contacts should expose API methods 1`] = `
+Object {
+  "create": [Function],
+  "get": [Function],
+  "list": [Function],
+  "update": [Function],
+}
+`;
