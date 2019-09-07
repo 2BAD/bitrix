@@ -41,9 +41,35 @@ Array [
 ]
 `;
 
-exports[`Contacts \`list\` should invoke \`list\` 1`] = `Array []`;
+exports[`Contacts \`list\` should invoke \`list\` 1`] = `
+Array [
+  Array [
+    "crm.contact.list",
+    Object {
+      "filter": Object {
+        ">PROBABILITY": 50,
+      },
+      "order": Object {
+        "COMMENTS": "ASC",
+      },
+      "select": Array [
+        "*",
+        "UF_*",
+      ],
+      "start": 0,
+    },
+  ],
+]
+`;
 
-exports[`Contacts \`list\` should work without optional params 1`] = `Array []`;
+exports[`Contacts \`list\` should work without optional params 1`] = `
+Array [
+  Array [
+    "crm.contact.list",
+    Object {},
+  ],
+]
+`;
 
 exports[`Contacts \`update\` should invoke \`call\` 1`] = `
 Array [

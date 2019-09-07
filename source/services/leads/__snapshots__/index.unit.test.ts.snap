@@ -41,9 +41,35 @@ Array [
 ]
 `;
 
-exports[`Leads \`list\` should invoke \`list\` 1`] = `Array []`;
+exports[`Leads \`list\` should invoke \`list\` 1`] = `
+Array [
+  Array [
+    "crm.lead.list",
+    Object {
+      "filter": Object {
+        ">PROBABILITY": 50,
+      },
+      "order": Object {
+        "COMMENTS": "ASC",
+      },
+      "select": Array [
+        "*",
+        "UF_*",
+      ],
+      "start": 0,
+    },
+  ],
+]
+`;
 
-exports[`Leads \`list\` should work without optional params 1`] = `Array []`;
+exports[`Leads \`list\` should work without optional params 1`] = `
+Array [
+  Array [
+    "crm.lead.list",
+    Object {},
+  ],
+]
+`;
 
 exports[`Leads \`update\` should invoke \`call\` 1`] = `
 Array [

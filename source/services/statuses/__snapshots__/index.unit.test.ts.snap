@@ -24,9 +24,30 @@ Array [
 ]
 `;
 
-exports[`Statuses \`list\` should invoke \`list\` 1`] = `Array []`;
+exports[`Statuses \`list\` should invoke \`call\` 1`] = `
+Array [
+  Array [
+    "crm.status.list",
+    Object {
+      "filter": Object {
+        "ENTITY_ID": "STATUS",
+      },
+      "order": Object {
+        "NAME": "ASC",
+      },
+    },
+  ],
+]
+`;
 
-exports[`Statuses \`list\` should work without optional params 1`] = `Array []`;
+exports[`Statuses \`list\` should work without optional params 1`] = `
+Array [
+  Array [
+    "crm.status.list",
+    Object {},
+  ],
+]
+`;
 
 exports[`Statuses \`update\` should invoke \`call\` 1`] = `
 Array [

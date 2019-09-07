@@ -5,7 +5,7 @@ import Statuses from '.'
 
 const mockCall = jest.fn(() => Promise.resolve()) as any
 const mockList = jest.fn(() => Promise.resolve()) as any
-const statuses = Statuses({ call: mockCall, list: mockList })
+const statuses = Statuses({ call: mockCall })
 
 const ID = '77'
 
@@ -36,7 +36,7 @@ describe('Statuses', () => {
   })
 
   describe('`list`', () => {
-    it('should invoke `list`', async () => {
+    it('should invoke `call`', async () => {
       await statuses.list({
         order: { NAME: 'ASC' },
         filter: { ENTITY_ID: 'STATUS' }

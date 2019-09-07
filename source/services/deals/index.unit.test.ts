@@ -52,12 +52,12 @@ describe('Deals', () => {
         filter: { '>PROBABILITY': 50 },
         select: ['*', 'UF_*']
       })
-      expect(mockCall.mock.calls).toMatchSnapshot()
+      expect(mockList.mock.calls).toMatchSnapshot()
     })
 
     it('should work without optional params', async () => {
       await deals.list()
-      expect(mockCall.mock.calls).toMatchSnapshot()
+      expect(mockList.mock.calls).toMatchSnapshot()
     })
   })
 
