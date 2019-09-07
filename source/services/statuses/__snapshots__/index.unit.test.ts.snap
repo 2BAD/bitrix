@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Statuses \`create\` should invoke \`call\` 1`] = `
+Array [
+  Array [
+    "crm.status.add",
+    Object {
+      "fields": Object {
+        "NAME": "Test name",
+      },
+    },
+  ],
+]
+`;
+
+exports[`Statuses \`get\` should invoke \`call\` 1`] = `
+Array [
+  Array [
+    "crm.status.get",
+    Object {
+      "id": "77",
+    },
+  ],
+]
+`;
+
+exports[`Statuses \`list\` should invoke \`list\` 1`] = `Array []`;
+
+exports[`Statuses \`list\` should work without optional params 1`] = `Array []`;
+
+exports[`Statuses \`update\` should invoke \`call\` 1`] = `
+Array [
+  Array [
+    "crm.status.update",
+    Object {
+      "fields": Object {
+        "NAME": "Test name",
+      },
+      "id": "77",
+    },
+  ],
+]
+`;
+
+exports[`Statuses \`update\` should work without optional params 1`] = `
+Array [
+  Array [
+    "crm.status.update",
+    Object {
+      "fields": Object {
+        "NAME": "Test name",
+      },
+      "id": "77",
+    },
+  ],
+]
+`;
+
+exports[`Statuses should expose API methods 1`] = `
+Object {
+  "create": [Function],
+  "get": [Function],
+  "list": [Function],
+  "update": [Function],
+}
+`;
