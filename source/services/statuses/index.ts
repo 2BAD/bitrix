@@ -17,7 +17,7 @@ export default ({ call, list }: Dependencies) => ({
     call(Method.GET_STATUS, { id }),
 
   list: (params: MethodParams<Method.LIST_STATUSES> = {}) =>
-    list(Method.LIST_STATUSES, params),
+    call(Method.LIST_STATUSES, params),
 
   update: (id: string, fields: MethodParams<Method.CREATE_STATUS>['fields']) =>
     call(Method.UPDATE_STATUS, { id, fields })

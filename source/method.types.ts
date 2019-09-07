@@ -41,7 +41,6 @@ const LISTABLE_METHODS = [
   Method.LIST_CONTACTS,
   Method.LIST_DEALS,
   Method.LIST_LEADS,
-  Method.LIST_STATUSES,
   Method.LIST_USERS
 ] as const
 
