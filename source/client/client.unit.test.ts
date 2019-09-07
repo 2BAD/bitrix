@@ -1,6 +1,7 @@
 /* tslint-env jest */
 // tslint:disable: no-expression-statement
 
+import got from 'got'
 import nock from 'nock'
 import Queue from 'p-queue'
 import { Method } from '../method.types'
@@ -15,6 +16,21 @@ const client = Client(TEST_URI, TEST_ACCESS_TOKEN)
 describe('Client', () => {
   beforeEach(() => {
     spiedQueueAdd.mockClear()
+  })
+
+  it('should init', () => {
+    expect(() => Client(TEST_URI, TEST_ACCESS_TOKEN)).not.toThrow()
+  })
+
+  it('should extend `Got` instance with a specified parameters', () => {
+    const spiedGotExtend = jest.spyOn(got, 'extend')
+
+    Client('https://test.com', 'test_token')
+    expect(spiedGotExtend.mock.calls).toMatchSnapshot()
+  })
+
+  it('should expose API methods', () => {
+    expect(client).toMatchSnapshot()
   })
 
   describe('`call`', () => {
