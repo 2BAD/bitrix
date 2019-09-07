@@ -36,7 +36,7 @@ Object {
 }
 `;
 
-exports[`Bitrix should pass endpoint and acccess token to the client 1`] = `
+exports[`Bitrix should pass endpoint and access token to the client 1`] = `
 Array [
   Array [
     "https://test.com",

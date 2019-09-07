@@ -9,7 +9,7 @@ describe('Bitrix', () => {
     expect(() => Bitrix('https://test.com', 'test_token')).not.toThrow()
   })
 
-  it('should pass endpoint and acccess token to the client', () => {
+  it('should pass endpoint and access token to the client', () => {
     const SpiedClient = jest.spyOn(client, 'default')
 
     Bitrix('https://test.com', 'test_token')
