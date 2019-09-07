@@ -1,4 +1,4 @@
-import { BoolString, ISODate, NumberString } from './common'
+import { BoolString, ISODate, NumberString } from '../../entities/common'
 
 export interface Deal {
   // Deal can have user fields

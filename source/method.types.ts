@@ -1,10 +1,10 @@
 import { Commands } from './command.types'
-import { Deal } from './entities/deal'
 import { Lead } from './entities/lead'
 import { Status } from './entities/status'
 import { User } from './entities/user'
 import { BatchPayload, GetPayload, ListPayload } from './payload.types'
 import { ContactsMethods } from './services/contacts/methods'
+import { DealsMethods } from './services/deals/methods'
 import { Diff } from './utils/Diff'
 import { ExtractValue } from './utils/ExtractValue'
 
@@ -71,47 +71,11 @@ export interface ListParams {
  * - `payload` — a payload that method returns
  * - `params` — params that method accepts
  */
-export interface Methods extends MethodsMap, ContactsMethods {
+export interface Methods extends MethodsMap, ContactsMethods, DealsMethods {
   readonly [Method.BATCH]: {
     readonly type: unknown
     readonly payload: BatchPayload<unknown>
     readonly params: Commands
-  }
-
-  // Deals
-
-  readonly [Method.CREATE_DEAL]: {
-    readonly type: Deal
-    readonly payload: GetPayload<number>
-    readonly params: {
-      readonly fields: Partial<Deal>
-      readonly params?: {
-        readonly REGISTER_SONET_EVENT: 'Y' | 'N'
-      }
-    }
-  }
-  readonly [Method.GET_DEAL]: {
-    readonly type: Deal
-    readonly payload: GetPayload<Deal>
-    readonly params: {
-      readonly id: string
-    }
-  }
-  readonly [Method.UPDATE_DEAL]: {
-    readonly type: Deal
-    readonly payload: GetPayload<boolean>
-    readonly params: {
-      readonly id: string
-      readonly fields: Record<string, any>
-      readonly params?: {
-        readonly REGISTER_SONET_EVENT: 'Y' | 'N'
-      }
-    }
-  }
-  readonly [Method.LIST_DEALS]: {
-    readonly type: Deal
-    readonly payload: ListPayload<Deal>
-    readonly params: ListParams
   }
 
   // Leads
