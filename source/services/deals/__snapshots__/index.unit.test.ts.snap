@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Deals \`create\` should invoke \`call\` 1`] = `
+Array [
+  Array [
+    "crm.deal.add",
+    Object {
+      "fields": Object {
+        "COMMENTS": "Some comment",
+      },
+      "params": Object {
+        "REGISTER_SONET_EVENT": "Y",
+      },
+    },
+  ],
+]
+`;
+
+exports[`Deals \`create\` should work without optional params 1`] = `
+Array [
+  Array [
+    "crm.deal.add",
+    Object {
+      "fields": Object {
+        "COMMENTS": "Some comment",
+      },
+      "params": undefined,
+    },
+  ],
+]
+`;
+
+exports[`Deals \`get\` should invoke \`call\` 1`] = `
+Array [
+  Array [
+    "crm.deal.get",
+    Object {
+      "id": "77",
+    },
+  ],
+]
+`;
+
+exports[`Deals \`list\` should invoke \`list\` 1`] = `Array []`;
+
+exports[`Deals \`list\` should work without optional params 1`] = `Array []`;
+
+exports[`Deals \`update\` should invoke \`call\` 1`] = `
+Array [
+  Array [
+    "crm.deal.update",
+    Object {
+      "fields": Object {
+        "COMMENTS": "Some comment",
+      },
+      "id": "77",
+      "params": Object {
+        "REGISTER_SONET_EVENT": "Y",
+      },
+    },
+  ],
+]
+`;
+
+exports[`Deals \`update\` should work without optional params 1`] = `
+Array [
+  Array [
+    "crm.deal.update",
+    Object {
+      "fields": Object {
+        "COMMENTS": "Some comment",
+      },
+      "id": "77",
+      "params": undefined,
+    },
+  ],
+]
+`;
+
+exports[`Deals should expose API methods 1`] = `
+Object {
+  "create": [Function],
+  "get": [Function],
+  "list": [Function],
+  "update": [Function],
+}
+`;
