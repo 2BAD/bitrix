@@ -1,3 +1,5 @@
+![@2bad/bitrix](https://user-images.githubusercontent.com/4460311/64487745-c4a1ea00-d246-11e9-9d6e-a0b0227c801c.png)
+
 # Bitrix24 REST API client that doesn't suck
 
 <p>
