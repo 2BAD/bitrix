@@ -34,7 +34,9 @@ export enum Method {
   LIST_LEADS = 'crm.lead.list',
   LIST_STATUSES = 'crm.status.list',
   // yes, this one is correct, they don't have separate `list` method and this one returns all users
-  LIST_USERS = 'user.search'
+  LIST_USERS = 'user.search',
+
+  LIST_STATUS_FIELDS = 'crm.status.fields'
 }
 
 const LISTABLE_METHODS = [
