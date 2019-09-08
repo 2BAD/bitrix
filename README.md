@@ -212,11 +212,17 @@ bitrix.batch({
 
 ### Adding new methods
 
-Proper method parameters and payload types handling requires some routine when adding any new method. Hopefully, we can do it better in future, but for follow those steps:
+Proper method parameters and payload types handling requires some routine when adding any new method. Hopefully, we can do it better in future, but for now follow those steps:
 
 1. Add new method into the [`Method`](/source/method.types.ts) enum.
-2. Add it into the [`LISTABLE_METHODS`](/source/method.types.ts) array if it's listable (paginated).
-3. Describe it in the [Methods](/source/method.types.ts) interface. Test and check method payload type to be sure you've described it correctly!
-4. Add new service and related tests into the [services](/source/services). Ensure that you're properly mapping service method arguments to `call` params.
-5. Re-export service public types in the [bitrix.ts](/source/bitrix.ts) to make them available to the end-users.
-6. Document addition in the [docs](/docs).
+2. Add it into the [`LISTABLE_METHODS`](/source/method.types.ts) array if it is listable (paginated). Not everything that lists is listable, so check it.
+3. Add or update related [service](/source/services):
+
+   1. Put exposed by the service public methods into the `index.ts` file. Ensure that you're properly mapping service method arguments to `call` or `list` params.
+   2. Add related entities into the `entities.ts`.
+   3. Add interface describing service methods into the `methods.ts`. Test and check method payload type to be sure you've described it correctly!
+   4. Extend [`Methods`](/source/method.types.ts) interface with the added service-specific interface. That way the client will know how to resolve parameters and payload types for the added method.
+   5. Add tests into the `index.unit.test.ts`.
+
+4. Re-export service public types like Entities in the [bitrix.ts](/source/bitrix.ts) to make them available to the end-users.
+5. Document addition in the [docs](/docs).
