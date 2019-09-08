@@ -74,34 +74,34 @@ bitrix.deals.list({ select: ["*", "UF_*"] })
 
 #### [Deal](/docs/services/deals.md)
 
-| Bitrix method                   | Enum method                            | API                                                                                 |
-| :------------------------------ | :------------------------------------- | :---------------------------------------------------------------------------------- |
-| `crm.deal.add`                  | `Method.CRM_DEAL_ADD`                  | [`bitrix.deals.create()`](/docs/services/deals.md##create-deal---bitrixdealscreate) |
-| `crm.deal.contact.add`          | `Method.CRM_DEAL_CONTACT_ADD`          |                                                                                     |
-| `crm.deal.contact.delete`       | `Method.CRM_DEAL_CONTACT_DELETE`       |                                                                                     |
-| `crm.deal.contact.fields`       | `Method.CRM_DEAL_CONTACT_FIELDS`       |                                                                                     |
-| `crm.deal.contact.items.delete` | `Method.CRM_DEAL_CONTACT_ITEMS_DELETE` |                                                                                     |
-| `crm.deal.contact.items.get`    | `Method.CRM_DEAL_CONTACT_ITEMS_GET`    |                                                                                     |
-| `crm.deal.contact.items.set`    | `Method.CRM_DEAL_CONTACT_ITEMS_SET`    |                                                                                     |
-| `crm.deal.delete`               | `Method.CRM_DEAL_DELETE`               |                                                                                     |
-| `crm.deal.fields`               | `Method.CRM_DEAL_FIELDS`               |                                                                                     |
-| `crm.deal.get`                  | `Method.CRM_DEAL_GET`                  | [`bitrix.deals.get()`](/docs/services/deals.md#get-deal---bitrixdealsget)           |
-| `crm.deal.list`                 | `Method.CRM_DEAL_LIST`                 | [`bitrix.deals.list()`](/docs/services/deals.md#list-deals---bitrixdealslist)       |
-| `crm.deal.productrows.get`      | `Method.CRM_DEAL_PRODUCTROWS_GET`      |                                                                                     |
-| `crm.deal.productrows.set`      | `Method.CRM_DEAL_PRODUCTROWS_SET`      |                                                                                     |
-| `crm.deal.recurring.add`        | `Method.CRM_DEAL_RECURRING_ADD`        |                                                                                     |
-| `crm.deal.recurring.delete`     | `Method.CRM_DEAL_RECURRING_DELETE`     |                                                                                     |
-| `crm.deal.recurring.expose`     | `Method.CRM_DEAL_RECURRING_EXPOSE`     |                                                                                     |
-| `crm.deal.recurring.fields`     | `Method.CRM_DEAL_RECURRING_FIELDS`     |                                                                                     |
-| `crm.deal.recurring.get`        | `Method.CRM_DEAL_RECURRING_GET`        |                                                                                     |
-| `crm.deal.recurring.list`       | `Method.CRM_DEAL_RECURRING_LIST`       |                                                                                     |
-| `crm.deal.recurring.update`     | `Method.CRM_DEAL_RECURRING_UPDATE`     |                                                                                     |
-| `crm.deal.update`               | `Method.CRM_DEAL_UPDATE`               | [`bitrix.deals.update()`](/docs/services/deals.md#update-deal---bitrixdealsupdate)  |
-| `crm.deal.userfield.add`        | `Method.CRM_DEAL_USERFIELD_ADD`        |                                                                                     |
-| `crm.deal.userfield.delete`     | `Method.CRM_DEAL_USERFIELD_DELETE`     |                                                                                     |
-| `crm.deal.userfield.get`        | `Method.CRM_DEAL_USERFIELD_GET`        |                                                                                     |
-| `crm.deal.userfield.list`       | `Method.CRM_DEAL_USERFIELD_LIST`       |                                                                                     |
-| `crm.deal.userfield.update`     | `Method.CRM_DEAL_USERFIELD_UPDATE`     |                                                                                     |
+| Bitrix method                   | Enum method                            | API                                                                                |
+| :------------------------------ | :------------------------------------- | :--------------------------------------------------------------------------------- |
+| `crm.deal.add`                  | `Method.CRM_DEAL_ADD`                  | [`bitrix.deals.create()`](/docs/services/deals.md#create-deal---bitrixdealscreate) |
+| `crm.deal.contact.add`          | `Method.CRM_DEAL_CONTACT_ADD`          |                                                                                    |
+| `crm.deal.contact.delete`       | `Method.CRM_DEAL_CONTACT_DELETE`       |                                                                                    |
+| `crm.deal.contact.fields`       | `Method.CRM_DEAL_CONTACT_FIELDS`       |                                                                                    |
+| `crm.deal.contact.items.delete` | `Method.CRM_DEAL_CONTACT_ITEMS_DELETE` |                                                                                    |
+| `crm.deal.contact.items.get`    | `Method.CRM_DEAL_CONTACT_ITEMS_GET`    |                                                                                    |
+| `crm.deal.contact.items.set`    | `Method.CRM_DEAL_CONTACT_ITEMS_SET`    |                                                                                    |
+| `crm.deal.delete`               | `Method.CRM_DEAL_DELETE`               |                                                                                    |
+| `crm.deal.fields`               | `Method.CRM_DEAL_FIELDS`               |                                                                                    |
+| `crm.deal.get`                  | `Method.CRM_DEAL_GET`                  | [`bitrix.deals.get()`](/docs/services/deals.md#get-deal---bitrixdealsget)          |
+| `crm.deal.list`                 | `Method.CRM_DEAL_LIST`                 | [`bitrix.deals.list()`](/docs/services/deals.md#list-deals---bitrixdealslist)      |
+| `crm.deal.productrows.get`      | `Method.CRM_DEAL_PRODUCTROWS_GET`      |                                                                                    |
+| `crm.deal.productrows.set`      | `Method.CRM_DEAL_PRODUCTROWS_SET`      |                                                                                    |
+| `crm.deal.recurring.add`        | `Method.CRM_DEAL_RECURRING_ADD`        |                                                                                    |
+| `crm.deal.recurring.delete`     | `Method.CRM_DEAL_RECURRING_DELETE`     |                                                                                    |
+| `crm.deal.recurring.expose`     | `Method.CRM_DEAL_RECURRING_EXPOSE`     |                                                                                    |
+| `crm.deal.recurring.fields`     | `Method.CRM_DEAL_RECURRING_FIELDS`     |                                                                                    |
+| `crm.deal.recurring.get`        | `Method.CRM_DEAL_RECURRING_GET`        |                                                                                    |
+| `crm.deal.recurring.list`       | `Method.CRM_DEAL_RECURRING_LIST`       |                                                                                    |
+| `crm.deal.recurring.update`     | `Method.CRM_DEAL_RECURRING_UPDATE`     |                                                                                    |
+| `crm.deal.update`               | `Method.CRM_DEAL_UPDATE`               | [`bitrix.deals.update()`](/docs/services/deals.md#update-deal---bitrixdealsupdate) |
+| `crm.deal.userfield.add`        | `Method.CRM_DEAL_USERFIELD_ADD`        |                                                                                    |
+| `crm.deal.userfield.delete`     | `Method.CRM_DEAL_USERFIELD_DELETE`     |                                                                                    |
+| `crm.deal.userfield.get`        | `Method.CRM_DEAL_USERFIELD_GET`        |                                                                                    |
+| `crm.deal.userfield.list`       | `Method.CRM_DEAL_USERFIELD_LIST`       |                                                                                    |
+| `crm.deal.userfield.update`     | `Method.CRM_DEAL_USERFIELD_UPDATE`     |                                                                                    |
 
 #### Currency
 
@@ -166,34 +166,34 @@ bitrix.deals.list({ select: ["*", "UF_*"] })
 
 #### [Lead](/docs/services/leads.md)
 
-| Bitrix method               | Enum method                        | API                                                                                 |
-| :-------------------------- | :--------------------------------- | :---------------------------------------------------------------------------------- |
-| `crm.lead.add`              | `Method.CRM_LEAD_ADD`              | [`bitrix.leads.create()`](/docs/services/leads.md##create-lead---bitrixleadscreate) |
-| `crm.lead.delete`           | `Method.CRM_LEAD_DELETE`           |                                                                                     |
-| `crm.lead.fields`           | `Method.CRM_LEAD_FIELDS`           |                                                                                     |
-| `crm.lead.get`              | `Method.CRM_LEAD_GET`              | [`bitrix.leads.get()`](/docs/services/leads.md#get-lead---bitrixleadsget)           |
-| `crm.lead.list`             | `Method.CRM_LEAD_LIST`             | [`bitrix.leads.list()`](/docs/services/leads.md#list-leads---bitrixleadslist)       |
-| `crm.lead.productrows.get`  | `Method.CRM_LEAD.PRODUCTROWS_GET`  |                                                                                     |
-| `crm.lead.productrows.set`  | `Method.CRM_LEAD.PRODUCTROWS_SET`  |                                                                                     |
-| `crm.lead.update`           | `Method.CRM_LEAD_UPDATE`           | [`bitrix.leads.update()`](/docs/services/leads.md#update-lead---bitrixleadsupdate)  |
-| `crm.lead.userfield.add`    | `Method.CRM_LEAD_USERFIELD_ADD`    |                                                                                     |
-| `crm.lead.userfield.delete` | `Method.CRM_LEAD_USERFIELD_DELETE` |                                                                                     |
-| `crm.lead.userfield.get`    | `Method.CRM_LEAD_USERFIELD_GET`    |                                                                                     |
-| `crm.lead.userfield.list`   | `Method.CRM_LEAD_USERFIELD_LIST`   |                                                                                     |
-| `crm.lead.userfield.update` | `Method.CRM_LEAD_USERFIELD_UPDATE` |                                                                                     |
+| Bitrix method               | Enum method                        | API                                                                                |
+| :-------------------------- | :--------------------------------- | :--------------------------------------------------------------------------------- |
+| `crm.lead.add`              | `Method.CRM_LEAD_ADD`              | [`bitrix.leads.create()`](/docs/services/leads.md#create-lead---bitrixleadscreate) |
+| `crm.lead.delete`           | `Method.CRM_LEAD_DELETE`           |                                                                                    |
+| `crm.lead.fields`           | `Method.CRM_LEAD_FIELDS`           |                                                                                    |
+| `crm.lead.get`              | `Method.CRM_LEAD_GET`              | [`bitrix.leads.get()`](/docs/services/leads.md#get-lead---bitrixleadsget)          |
+| `crm.lead.list`             | `Method.CRM_LEAD_LIST`             | [`bitrix.leads.list()`](/docs/services/leads.md#list-leads---bitrixleadslist)      |
+| `crm.lead.productrows.get`  | `Method.CRM_LEAD.PRODUCTROWS_GET`  |                                                                                    |
+| `crm.lead.productrows.set`  | `Method.CRM_LEAD.PRODUCTROWS_SET`  |                                                                                    |
+| `crm.lead.update`           | `Method.CRM_LEAD_UPDATE`           | [`bitrix.leads.update()`](/docs/services/leads.md#update-lead---bitrixleadsupdate) |
+| `crm.lead.userfield.add`    | `Method.CRM_LEAD_USERFIELD_ADD`    |                                                                                    |
+| `crm.lead.userfield.delete` | `Method.CRM_LEAD_USERFIELD_DELETE` |                                                                                    |
+| `crm.lead.userfield.get`    | `Method.CRM_LEAD_USERFIELD_GET`    |                                                                                    |
+| `crm.lead.userfield.list`   | `Method.CRM_LEAD_USERFIELD_LIST`   |                                                                                    |
+| `crm.lead.userfield.update` | `Method.CRM_LEAD_USERFIELD_UPDATE` |                                                                                    |
 
 #### [Status](/docs/services/statuses.md)
 
-| Bitrix method             | Enum method                      | API                                                                                            |
-| :------------------------ | :------------------------------- | :--------------------------------------------------------------------------------------------- |
-| `crm.status.fields`       | `Method.CRM_STATUS_FIELDS`       |                                                                                                |
-| `crm.status.entity.types` | `Method.CRM_STATUS_ENTITY_TYPES` |                                                                                                |
-| `crm.status.entity.items` | `Method.CRM_STATUS_ENTITY_ITEMS` |                                                                                                |
-| `crm.status.add`          | `Method.CRM_STATUS_ADD`          | [`bitrix.statuses.create()`](/docs/services/statuses.md##create-status---bitrixstatusescreate) |
-| `crm.status.delete`       | `Method.CRM_STATUS_DELETE`       |                                                                                                |
-| `crm.status.get`          | `Method.CRM_STATUS_GET`          | [`bitrix.statuses.get()`](/docs/services/statuses.md#get-status---bitrixstatusesget)           |
-| `crm.status.list`         | `Method.CRM_STATUS_LIST`         | [`bitrix.statuses.list()`](/docs/services/statuses.md#list-statuses---bitrixstatuseslist)      |
-| `crm.status.update`       | `Method.CRM_STATUS_UPDATE`       | [`bitrix.statuses.update()`](/docs/services/statuses.md#update-status---bitrixstatusesupdate)  |
+| Bitrix method             | Enum method                      | API                                                                                           |
+| :------------------------ | :------------------------------- | :-------------------------------------------------------------------------------------------- |
+| `crm.status.fields`       | `Method.CRM_STATUS_FIELDS`       |                                                                                               |
+| `crm.status.entity.types` | `Method.CRM_STATUS_ENTITY_TYPES` |                                                                                               |
+| `crm.status.entity.items` | `Method.CRM_STATUS_ENTITY_ITEMS` |                                                                                               |
+| `crm.status.add`          | `Method.CRM_STATUS_ADD`          | [`bitrix.statuses.create()`](/docs/services/statuses.md#create-status---bitrixstatusescreate) |
+| `crm.status.delete`       | `Method.CRM_STATUS_DELETE`       |                                                                                               |
+| `crm.status.get`          | `Method.CRM_STATUS_GET`          | [`bitrix.statuses.get()`](/docs/services/statuses.md#get-status---bitrixstatusesget)          |
+| `crm.status.list`         | `Method.CRM_STATUS_LIST`         | [`bitrix.statuses.list()`](/docs/services/statuses.md#list-statuses---bitrixstatuseslist)     |
+| `crm.status.update`       | `Method.CRM_STATUS_UPDATE`       | [`bitrix.statuses.update()`](/docs/services/statuses.md#update-status---bitrixstatusesupdate) |
 
 ### Users
 
