@@ -10,15 +10,15 @@ interface Dependencies {
 }
 
 export default ({ call, list }: Dependencies) => ({
-  create: <D extends MethodParams<Method.CREATE_DEAL>>(fields: D['fields'], params?: D['params']) =>
-    call(Method.CREATE_DEAL, { fields, params }),
+  create: <D extends MethodParams<Method.CRM_DEAL_ADD>>(fields: D['fields'], params?: D['params']) =>
+    call(Method.CRM_DEAL_ADD, { fields, params }),
 
   get: (id: string) =>
-    call(Method.GET_DEAL, { id }),
+    call(Method.CRM_DEAL_GET, { id }),
 
-  list: (params: MethodParams<Method.LIST_DEALS> = {}) =>
-    list(Method.LIST_DEALS, params),
+  list: (params: MethodParams<Method.CRM_DEAL_LIST> = {}) =>
+    list(Method.CRM_DEAL_LIST, params),
 
-  update: <D extends MethodParams<Method.UPDATE_DEAL>>(id: string, fields: D['fields'], params?: D['params']) =>
-    call(Method.UPDATE_DEAL, { id, fields, params })
+  update: <D extends MethodParams<Method.CRM_DEAL_UPDATE>>(id: string, fields: D['fields'], params?: D['params']) =>
+    call(Method.CRM_DEAL_UPDATE, { id, fields, params })
 })

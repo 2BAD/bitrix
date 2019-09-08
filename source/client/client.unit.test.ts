@@ -36,7 +36,7 @@ describe('Client', () => {
   describe('`call`', () => {
     it('should add to queue', async () => {
       const payload = {}
-      const method = Method.LIST_DEALS
+      const method = Method.CRM_DEAL_LIST
 
       nock(TEST_URI)
         .get(`/${method}?access_token=${TEST_ACCESS_TOKEN}`)
@@ -61,8 +61,8 @@ describe('Client', () => {
       }
 
       const commands = [
-        { method: Method.GET_DEAL },
-        { method: Method.LIST_DEALS }
+        { method: Method.CRM_DEAL_GET },
+        { method: Method.CRM_DEAL_LIST }
       ] as const
 
       nock(TEST_URI)

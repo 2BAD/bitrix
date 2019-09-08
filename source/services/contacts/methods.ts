@@ -3,7 +3,7 @@ import { GetPayload, ListPayload } from './../../payload.types'
 import { Contact } from './entities'
 
 export interface ContactsMethods {
-  readonly [Method.CREATE_CONTACT]: {
+  readonly [Method.CRM_CONTACT_ADD]: {
     readonly type: Contact
     readonly payload: GetPayload<number>
     readonly params: {
@@ -13,19 +13,19 @@ export interface ContactsMethods {
       }
     }
   }
-  readonly [Method.GET_CONTACT]: {
+  readonly [Method.CRM_CONTACTS_GET]: {
     readonly type: Contact
     readonly payload: GetPayload<Contact>
     readonly params: {
       readonly id: string
     }
   }
-  readonly [Method.LIST_CONTACTS]: {
+  readonly [Method.CRM_CONTACT_LIST]: {
     readonly type: Contact
     readonly payload: ListPayload<Contact>
     readonly params: ListParams
   }
-  readonly [Method.UPDATE_CONTACT]: {
+  readonly [Method.CRM_CONTACT_UPDATE]: {
     readonly type: Contact
     readonly payload: GetPayload<boolean>
     readonly params: {

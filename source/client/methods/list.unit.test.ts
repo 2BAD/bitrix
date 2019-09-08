@@ -6,7 +6,7 @@ import List, { batchToListPayload, fillWithCommands, highest } from './list'
 
 describe('Client `fillWithCommands` method', () => {
   it('should fill array with required amount of commands to process all entries', () => {
-    const command = { method: Method.LIST_DEALS, params: { select: ['*'] } }
+    const command = { method: Method.CRM_DEAL_LIST, params: { select: ['*'] } }
     const start = 0
     const toProcess = 7
     const entriesPerCommand = 2
@@ -15,7 +15,7 @@ describe('Client `fillWithCommands` method', () => {
   })
 
   it('should properly take into account start', () => {
-    const command = { method: Method.LIST_DEALS, params: { select: ['*'] } }
+    const command = { method: Method.CRM_DEAL_LIST, params: { select: ['*'] } }
     const start = 2
     const toProcess = 7
     const entriesPerCommand = 2
@@ -25,7 +25,7 @@ describe('Client `fillWithCommands` method', () => {
 
   it('should override `params.start`', () => {
     const wrongStart = 99
-    const command = { method: Method.LIST_DEALS, params: { start: wrongStart } }
+    const command = { method: Method.CRM_DEAL_LIST, params: { start: wrongStart } }
     const start = 0
     const toProcess = 2
     const entriesPerCommand = 1
@@ -180,7 +180,7 @@ describe('Client `list` method', () => {
     const batchMock = jest.fn(() => Promise.resolve({}) as any)
     const list = List({ call: callMock, batch: batchMock })
 
-    await list(Method.LIST_DEALS, {})
+    await list(Method.CRM_DEAL_LIST, {})
 
     expect(callMock.mock.calls).toMatchSnapshot()
     expect(batchMock).not.toBeCalled()
@@ -200,7 +200,7 @@ describe('Client `list` method', () => {
     }) as any)
     const list = List({ call: callMock, batch: batchMock })
 
-    await list(Method.LIST_DEALS, {})
+    await list(Method.CRM_DEAL_LIST, {})
 
     expect(callMock.mock.calls).toMatchSnapshot()
     expect(batchMock.mock.calls).toMatchSnapshot()
@@ -212,7 +212,7 @@ describe('Client `list` method', () => {
     const batchMock = jest.fn(() => Promise.resolve({}) as any)
     const list = List({ call: callMock, batch: batchMock })
 
-    const payload = await list(Method.LIST_DEALS, {})
+    const payload = await list(Method.CRM_DEAL_LIST, {})
 
     expect(payload).toEqual(mockPayload)
   })
@@ -239,7 +239,7 @@ describe('Client `list` method', () => {
     const batchMock = jest.fn(() => Promise.resolve(mockPayload) as any)
     const list = List({ call: callMock, batch: batchMock })
 
-    const payload = await list(Method.LIST_DEALS, {})
+    const payload = await list(Method.CRM_DEAL_LIST, {})
 
     expect(payload).toMatchSnapshot()
   })
@@ -258,7 +258,7 @@ describe('Client `list` method', () => {
     }) as any)
     const list = List({ call: callMock, batch: batchMock })
 
-    await list(Method.LIST_DEALS, {})
+    await list(Method.CRM_DEAL_LIST, {})
 
     expect(callMock.mock.calls[0]).toMatchSnapshot()
     expect(batchMock.mock.calls[0]).toMatchSnapshot()
@@ -278,7 +278,7 @@ describe('Client `list` method', () => {
     }) as any)
     const list = List({ call: callMock, batch: batchMock })
 
-    await list(Method.LIST_DEALS, { start: 27 })
+    await list(Method.CRM_DEAL_LIST, { start: 27 })
 
     expect(callMock.mock.calls).toMatchSnapshot()
     expect(batchMock.mock.calls).toMatchSnapshot()

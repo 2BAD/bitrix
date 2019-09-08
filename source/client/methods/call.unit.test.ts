@@ -113,11 +113,11 @@ describe('Client `call` method', () => {
     const params = { id: '1' }
 
     const scope = nock(TEST_URI)
-      .get(`/${Method.GET_DEAL}`)
+      .get(`/${Method.CRM_DEAL_GET}`)
       .query(params)
       .reply(RESPONSE_200)
 
-    await call(Method.GET_DEAL, params)
+    await call(Method.CRM_DEAL_GET, params)
 
     expect(scope.done()).toBe(undefined)
   })
@@ -131,11 +131,11 @@ describe('Client `call` method', () => {
     } as const
 
     const scope = nock(TEST_URI)
-      .get(`/${Method.LIST_DEALS}`)
+      .get(`/${Method.CRM_DEAL_LIST}`)
       .query(params)
       .reply(RESPONSE_200)
 
-    await call(Method.LIST_DEALS, params)
+    await call(Method.CRM_DEAL_LIST, params)
 
     expect(scope.done()).toBe(undefined)
   })
@@ -145,31 +145,31 @@ describe('Client `call` method', () => {
     const payload = { test: 'value' }
 
     nock(TEST_URI)
-      .get(`/${Method.GET_DEAL}`)
+      .get(`/${Method.CRM_DEAL_GET}`)
       .query(params)
       .reply(RESPONSE_200, payload)
 
-    expect(await call(Method.GET_DEAL, params)).toEqual(payload)
+    expect(await call(Method.CRM_DEAL_GET, params)).toEqual(payload)
   })
 
   it('should return body as payload with list methods', async () => {
     const payload = { result: ['done'] }
 
     nock(TEST_URI)
-      .get(`/${Method.LIST_DEALS}`)
+      .get(`/${Method.CRM_DEAL_LIST}`)
       .reply(RESPONSE_200, payload)
 
-    expect(await call(Method.LIST_DEALS, {})).toEqual(payload)
+    expect(await call(Method.CRM_DEAL_LIST, {})).toEqual(payload)
   })
 
   it('should throw when getting errors in payload', () => {
     const payload = { result: ['done'], error: 'Expected error for `getList`' }
 
     nock(TEST_URI)
-      .get(`/${Method.LIST_DEALS}`)
+      .get(`/${Method.CRM_DEAL_LIST}`)
       .reply(RESPONSE_200, payload)
 
-    return expect(call(Method.LIST_DEALS, {})).rejects.toMatchSnapshot()
+    return expect(call(Method.CRM_DEAL_LIST, {})).rejects.toMatchSnapshot()
   })
 
   it('should throw when getting errors in batch payload', () => {

@@ -10,15 +10,15 @@ interface Dependencies {
 }
 
 export default ({ call, list }: Dependencies) => ({
-  create: <D extends MethodParams<Method.CREATE_LEAD>>(fields: D['fields'], params?: D['params']) =>
-    call(Method.CREATE_LEAD, { fields, params }),
+  create: <D extends MethodParams<Method.CRM_LEAD_ADD>>(fields: D['fields'], params?: D['params']) =>
+    call(Method.CRM_LEAD_ADD, { fields, params }),
 
   get: (id: string) =>
-    call(Method.GET_LEAD, { id }),
+    call(Method.CRM_LEAD_GET, { id }),
 
-  list: (params: MethodParams<Method.LIST_LEADS> = {}) =>
-    list(Method.LIST_LEADS, params),
+  list: (params: MethodParams<Method.CRM_LEAD_LIST> = {}) =>
+    list(Method.CRM_LEAD_LIST, params),
 
-  update: <D extends MethodParams<Method.UPDATE_LEAD>>(id: string, fields: D['fields'], params?: D['params']) =>
-    call(Method.UPDATE_LEAD, { id, fields, params })
+  update: <D extends MethodParams<Method.CRM_LEAD_UPDATE>>(id: string, fields: D['fields'], params?: D['params']) =>
+    call(Method.CRM_LEAD_UPDATE, { id, fields, params })
 })

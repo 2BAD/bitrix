@@ -9,10 +9,10 @@ interface Dependencies {
   readonly list: List
 }
 
-export default ({ call, list }: Dependencies) => ({
+export default ({ list }: Dependencies) => ({
   get: (id: string) =>
-    call(Method.GET_USER, { id }),
+    list(Method.USER_GET, { id }),
 
-  list: (params: MethodParams<Method.LIST_USERS> = {}) =>
-    list(Method.LIST_USERS, params)
+  list: (params: MethodParams<Method.USER_SEARCH> = {}) =>
+    list(Method.USER_SEARCH, params)
 })

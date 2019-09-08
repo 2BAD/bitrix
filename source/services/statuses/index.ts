@@ -8,15 +8,15 @@ interface Dependencies {
 }
 
 export default ({ call }: Dependencies) => ({
-  create: (fields: MethodParams<Method.CREATE_STATUS>['fields']) =>
-    call(Method.CREATE_STATUS, { fields }),
+  create: (fields: MethodParams<Method.CRM_STATUS_ADD>['fields']) =>
+    call(Method.CRM_STATUS_ADD, { fields }),
 
   get: (id: string) =>
-    call(Method.GET_STATUS, { id }),
+    call(Method.CRM_STATUS_GET, { id }),
 
-  list: (params: MethodParams<Method.LIST_STATUSES> = {}) =>
-    call(Method.LIST_STATUSES, params),
+  list: (params: MethodParams<Method.CRM_STATUS_LIST> = {}) =>
+    call(Method.CRM_STATUS_LIST, params),
 
-  update: (id: string, fields: MethodParams<Method.CREATE_STATUS>['fields']) =>
-    call(Method.UPDATE_STATUS, { id, fields })
+  update: (id: string, fields: MethodParams<Method.CRM_STATUS_UPDATE>['fields']) =>
+    call(Method.CRM_STATUS_UPDATE, { id, fields })
 })

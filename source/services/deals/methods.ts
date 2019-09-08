@@ -3,7 +3,7 @@ import { GetPayload, ListPayload } from './../../payload.types'
 import { Deal } from './entities'
 
 export interface DealsMethods {
-  readonly [Method.CREATE_DEAL]: {
+  readonly [Method.CRM_DEAL_ADD]: {
     readonly type: Deal
     readonly payload: GetPayload<number>
     readonly params: {
@@ -13,14 +13,19 @@ export interface DealsMethods {
       }
     }
   }
-  readonly [Method.GET_DEAL]: {
+  readonly [Method.CRM_DEAL_GET]: {
     readonly type: Deal
     readonly payload: GetPayload<Deal>
     readonly params: {
       readonly id: string
     }
   }
-  readonly [Method.UPDATE_DEAL]: {
+  readonly [Method.CRM_DEAL_LIST]: {
+    readonly type: Deal
+    readonly payload: ListPayload<Deal>
+    readonly params: ListParams
+  }
+  readonly [Method.CRM_DEAL_UPDATE]: {
     readonly type: Deal
     readonly payload: GetPayload<boolean>
     readonly params: {
@@ -30,10 +35,5 @@ export interface DealsMethods {
         readonly REGISTER_SONET_EVENT: 'Y' | 'N'
       }
     }
-  }
-  readonly [Method.LIST_DEALS]: {
-    readonly type: Deal
-    readonly payload: ListPayload<Deal>
-    readonly params: ListParams
   }
 }

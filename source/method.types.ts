@@ -12,38 +12,40 @@ export enum Method {
   // Gettable
   BATCH = 'batch',
 
-  GET_CONTACT = 'crm.contact.get',
-  GET_DEAL = 'crm.deal.get',
-  GET_LEAD = 'crm.lead.get',
-  GET_STATUS = 'crm.status.get',
-  GET_USER = 'user.get',
+  CRM_CONTACTS_GET = 'crm.contact.get',
+  CRM_DEAL_GET = 'crm.deal.get',
+  CRM_LEAD_GET = 'crm.lead.get',
+  CRM_STATUS_GET = 'crm.status.get',
 
-  CREATE_CONTACT = 'crm.contact.add',
-  CREATE_DEAL = 'crm.deal.add',
-  CREATE_LEAD = 'crm.lead.add',
-  CREATE_STATUS = 'crm.status.add',
+  CRM_CONTACT_ADD = 'crm.contact.add',
+  CRM_DEAL_ADD = 'crm.deal.add',
+  CRM_LEAD_ADD = 'crm.lead.add',
+  CRM_STATUS_ADD = 'crm.status.add',
 
-  UPDATE_CONTACT = 'crm.contact.update',
-  UPDATE_DEAL = 'crm.deal.update',
-  UPDATE_LEAD = 'crm.lead.update',
-  UPDATE_STATUS = 'crm.status.update',
+  CRM_CONTACT_UPDATE = 'crm.contact.update',
+  CRM_DEAL_UPDATE = 'crm.deal.update',
+  CRM_LEAD_UPDATE = 'crm.lead.update',
+  CRM_STATUS_UPDATE = 'crm.status.update',
 
   // Listable
-  LIST_CONTACTS = 'crm.contact.list',
-  LIST_DEALS = 'crm.deal.list',
-  LIST_LEADS = 'crm.lead.list',
-  LIST_STATUSES = 'crm.status.list',
+  CRM_CONTACT_LIST = 'crm.contact.list',
+  CRM_DEAL_LIST = 'crm.deal.list',
+  CRM_LEAD_LIST = 'crm.lead.list',
+  CRM_STATUS_LIST = 'crm.status.list',
   // yes, this one is correct, they don't have separate `list` method and this one returns all users
-  LIST_USERS = 'user.search',
+  USER_SEARCH = 'user.search',
+  USER_GET = 'user.get',
 
-  LIST_STATUS_FIELDS = 'crm.status.fields'
+  CRM_STATUS_FIELDS = 'crm.status.fields'
 }
 
 const LISTABLE_METHODS = [
-  Method.LIST_CONTACTS,
-  Method.LIST_DEALS,
-  Method.LIST_LEADS,
-  Method.LIST_USERS
+  Method.CRM_CONTACT_LIST,
+  Method.CRM_DEAL_LIST,
+  Method.CRM_LEAD_LIST,
+  Method.CRM_STATUS_LIST,
+  Method.USER_SEARCH,
+  Method.USER_GET
 ] as const
 
 export type ListableMethod = typeof LISTABLE_METHODS[number]
@@ -80,14 +82,14 @@ export interface Methods extends MethodsMap, ContactsMethods, DealsMethods, Lead
   }
 
   // Users
-  readonly [Method.GET_USER]: {
+  readonly [Method.USER_GET]: {
     readonly type: User
     readonly payload: GetPayload<User>
     readonly params: {
       readonly id: string
     }
   }
-  readonly [Method.LIST_USERS]: {
+  readonly [Method.USER_SEARCH]: {
     readonly type: User
     readonly payload: ListPayload<User>
     readonly params: ListParams

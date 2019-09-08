@@ -10,15 +10,15 @@ interface Dependencies {
 }
 
 export default ({ call, list }: Dependencies) => ({
-  create: <D extends MethodParams<Method.CREATE_CONTACT>>(fields: D['fields'], params?: D['params']) =>
-    call(Method.CREATE_CONTACT, { fields, params }),
+  create: <D extends MethodParams<Method.CRM_CONTACT_ADD>>(fields: D['fields'], params?: D['params']) =>
+    call(Method.CRM_CONTACT_ADD, { fields, params }),
 
   get: (id: string) =>
-    call(Method.GET_CONTACT, { id }),
+    call(Method.CRM_CONTACTS_GET, { id }),
 
-  list: (params: MethodParams<Method.LIST_CONTACTS> = {}) =>
-    list(Method.LIST_CONTACTS, params),
+  list: (params: MethodParams<Method.CRM_CONTACT_LIST> = {}) =>
+    list(Method.CRM_CONTACT_LIST, params),
 
-  update: <D extends MethodParams<Method.UPDATE_CONTACT>>(id: string, fields: D['fields'], params?: D['params']) =>
-    call(Method.UPDATE_CONTACT, { id, fields, params })
+  update: <D extends MethodParams<Method.CRM_CONTACT_UPDATE>>(id: string, fields: D['fields'], params?: D['params']) =>
+    call(Method.CRM_CONTACT_UPDATE, { id, fields, params })
 })

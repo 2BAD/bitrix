@@ -16,11 +16,11 @@ describe('Client `chunkCommands` method', () => {
   it('should chunk named commands', () => {
     const chunkSize = 2
     const commands = {
-      a: { method: Method.GET_DEAL },
-      b: { method: Method.GET_LEAD },
-      c: { method: Method.LIST_DEALS },
-      d: { method: Method.LIST_LEADS },
-      e: { method: Method.LIST_STATUSES }
+      a: { method: Method.CRM_DEAL_GET },
+      b: { method: Method.CRM_LEAD_GET },
+      c: { method: Method.CRM_DEAL_LIST },
+      d: { method: Method.CRM_LEAD_LIST },
+      e: { method: Method.CRM_STATUS_LIST }
     }
 
     expect(chunkCommands(commands, chunkSize)).toMatchSnapshot()
@@ -29,11 +29,11 @@ describe('Client `chunkCommands` method', () => {
   it('should chunk array of commands', () => {
     const chunkSize = 2
     const commands = [
-      { method: Method.GET_DEAL },
-      { method: Method.GET_LEAD },
-      { method: Method.LIST_DEALS },
-      { method: Method.LIST_LEADS },
-      { method: Method.LIST_STATUSES }
+      { method: Method.CRM_DEAL_GET },
+      { method: Method.CRM_LEAD_GET },
+      { method: Method.CRM_DEAL_LIST },
+      { method: Method.CRM_LEAD_LIST },
+      { method: Method.CRM_STATUS_LIST }
     ] as const
 
     expect(chunkCommands(commands, chunkSize)).toMatchSnapshot()
@@ -41,7 +41,7 @@ describe('Client `chunkCommands` method', () => {
 
   it('should by default chunk with a size of `MAX_COMMANDS_PER_BATCH`', () => {
     const commandsSets = 2
-    const commands = range(0, MAX_COMMANDS_PER_BATCH * commandsSets).map(() => ({ method: Method.GET_DEAL }))
+    const commands = range(0, MAX_COMMANDS_PER_BATCH * commandsSets).map(() => ({ method: Method.CRM_DEAL_GET }))
 
     const chunked = chunkCommands(commands)
 
@@ -56,11 +56,11 @@ describe('Client `prepareCommandsQueries` method', () => {
 
     const commands = {
       one: {
-        method: Method.GET_DEAL,
+        method: Method.CRM_DEAL_GET,
         params: { ID: testDealId }
       },
       two: {
-        method: Method.LIST_DEALS,
+        method: Method.CRM_DEAL_LIST,
         params: {
           filter: { '>PROBABILITY': 50 },
           order: { STAGE_ID: 'ASC' },
@@ -75,8 +75,8 @@ describe('Client `prepareCommandsQueries` method', () => {
 
   it('should work with numbered commands', () => {
     const commands = {
-      0: { method: Method.GET_DEAL },
-      1: { method: Method.LIST_DEALS }
+      0: { method: Method.CRM_DEAL_GET },
+      1: { method: Method.CRM_DEAL_LIST }
     }
 
     expect(prepareCommandsQueries(commands)).toMatchSnapshot()
@@ -84,8 +84,8 @@ describe('Client `prepareCommandsQueries` method', () => {
 
   it('should work with array of commands', () => {
     const commands = [
-      { method: Method.GET_DEAL },
-      { method: Method.LIST_DEALS }
+      { method: Method.CRM_DEAL_GET },
+      { method: Method.CRM_DEAL_LIST }
     ] as const
 
     expect(prepareCommandsQueries(commands)).toMatchSnapshot()
@@ -264,8 +264,8 @@ describe('Client `batch` method', () => {
     const dealId = 999
 
     const commands = {
-      one: { method: Method.GET_DEAL, params: { ID: dealId } },
-      two: { method: Method.LIST_DEALS }
+      one: { method: Method.CRM_DEAL_GET, params: { ID: dealId } },
+      two: { method: Method.CRM_DEAL_LIST }
     }
 
     const scope = nock(TEST_URI)
@@ -287,8 +287,8 @@ describe('Client `batch` method', () => {
     const dealId = 999
 
     const commands = {
-      0: { method: Method.GET_DEAL, params: { ID: dealId } },
-      1: { method: Method.LIST_DEALS }
+      0: { method: Method.CRM_DEAL_GET, params: { ID: dealId } },
+      1: { method: Method.CRM_DEAL_LIST }
     } as const
 
     const scope = nock(TEST_URI)
@@ -308,8 +308,8 @@ describe('Client `batch` method', () => {
     const dealId = 999
 
     const commands = [
-      { method: Method.GET_DEAL, params: { ID: dealId } },
-      { method: Method.LIST_DEALS }
+      { method: Method.CRM_DEAL_GET, params: { ID: dealId } },
+      { method: Method.CRM_DEAL_LIST }
     ] as const
 
     const scope = nock(TEST_URI)
@@ -330,8 +330,8 @@ describe('Client `batch` method', () => {
     const dealId = 999
 
     const commands = {
-      one: { method: Method.GET_DEAL, params: { ID: dealId } },
-      two: { method: Method.LIST_DEALS }
+      one: { method: Method.CRM_DEAL_GET, params: { ID: dealId } },
+      two: { method: Method.CRM_DEAL_LIST }
     }
 
     const scope = nock(TEST_URI)
@@ -358,8 +358,8 @@ describe('Client `batch` method', () => {
     const dealId = 999
 
     const commands = {
-      0: { method: Method.GET_DEAL, params: { ID: dealId } },
-      1: { method: Method.LIST_DEALS }
+      0: { method: Method.CRM_DEAL_GET, params: { ID: dealId } },
+      1: { method: Method.CRM_DEAL_LIST }
     } as const
 
     const scope = nock(TEST_URI)
@@ -382,8 +382,8 @@ describe('Client `batch` method', () => {
     const dealId = 999
 
     const commands = [
-      { method: Method.GET_DEAL, params: { ID: dealId } },
-      { method: Method.LIST_DEALS }
+      { method: Method.CRM_DEAL_GET, params: { ID: dealId } },
+      { method: Method.CRM_DEAL_LIST }
     ] as const
 
     const scope = nock(TEST_URI)
@@ -402,8 +402,8 @@ describe('Client `batch` method', () => {
 
   it('should return body as payload', async () => {
     const commands = {
-      0: { method: Method.GET_DEAL },
-      1: { method: Method.LIST_DEALS }
+      0: { method: Method.CRM_DEAL_GET },
+      1: { method: Method.CRM_DEAL_LIST }
     }
 
     const payload = {
@@ -431,8 +431,8 @@ describe('Client `batch` method', () => {
   it('should merge payloads when more then max allowed commands provided', async () => {
     const maxAllowedCommands = 1
     const commands = {
-      0: { method: Method.GET_DEAL },
-      1: { method: Method.LIST_DEALS }
+      0: { method: Method.CRM_DEAL_GET },
+      1: { method: Method.CRM_DEAL_LIST }
     }
 
     const payload1 = {
@@ -483,8 +483,8 @@ describe('Client `batch` method', () => {
     }
 
     const commands = {
-      one: { method: Method.GET_DEAL },
-      two: { method: Method.LIST_DEALS }
+      one: { method: Method.CRM_DEAL_GET },
+      two: { method: Method.CRM_DEAL_LIST }
     }
 
     nock(TEST_URI)
@@ -506,8 +506,8 @@ describe('Client `batch` method', () => {
     }
 
     const commands = {
-      0: { method: Method.GET_DEAL },
-      1: { method: Method.LIST_DEALS }
+      0: { method: Method.CRM_DEAL_GET },
+      1: { method: Method.CRM_DEAL_LIST }
     }
 
     nock(TEST_URI)
@@ -529,8 +529,8 @@ describe('Client `batch` method', () => {
     }
 
     const commands = [
-      { method: Method.GET_DEAL },
-      { method: Method.LIST_DEALS }
+      { method: Method.CRM_DEAL_GET },
+      { method: Method.CRM_DEAL_LIST }
     ] as const
 
     nock(TEST_URI)
