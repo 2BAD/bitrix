@@ -3,14 +3,14 @@
 
 | Bitrix method               | Enum method                        | API                                                                                |
 | :-------------------------- | :--------------------------------- | :--------------------------------------------------------------------------------- |
-| `crm.lead.add`              | `Method.CRM_LEAD_ADD`              | [`bitrix.leads.create()`](/docs/services/leads.md#create-lead---bitrixleadscreate) |
+| `crm.lead.add`              | `Method.CRM_LEAD_ADD`              | [`bitrix.leads.create()`](#create-lead---bitrixleadscreate)                        |
 | `crm.lead.delete`           | `Method.CRM_LEAD_DELETE`           |                                                                                    |
 | `crm.lead.fields`           | `Method.CRM_LEAD_FIELDS`           |                                                                                    |
-| `crm.lead.get`              | `Method.CRM_LEAD_GET`              | [`bitrix.leads.get()`](/docs/services/leads.md#get-lead---bitrixleadsget)          |
-| `crm.lead.list`             | `Method.CRM_LEAD_LIST`             | [`bitrix.leads.list()`](/docs/services/leads.md#list-leads---bitrixleadslist)      |
+| `crm.lead.get`              | `Method.CRM_LEAD_GET`              | [`bitrix.leads.get()`](#get-lead---bitrixleadsget)                                 |
+| `crm.lead.list`             | `Method.CRM_LEAD_LIST`             | [`bitrix.leads.list()`](#list-leads---bitrixleadslist)                             |
 | `crm.lead.productrows.get`  | `Method.CRM_LEAD.PRODUCTROWS_GET`  |                                                                                    |
 | `crm.lead.productrows.set`  | `Method.CRM_LEAD.PRODUCTROWS_SET`  |                                                                                    |
-| `crm.lead.update`           | `Method.CRM_LEAD_UPDATE`           | [`bitrix.leads.update()`](/docs/services/leads.md#update-lead---bitrixleadsupdate) |
+| `crm.lead.update`           | `Method.CRM_LEAD_UPDATE`           | [`bitrix.leads.update()`](#update-lead---bitrixleadsupdate)                        |
 | `crm.lead.userfield.add`    | `Method.CRM_LEAD_USERFIELD_ADD`    |                                                                                    |
 | `crm.lead.userfield.delete` | `Method.CRM_LEAD_USERFIELD_DELETE` |                                                                                    |
 | `crm.lead.userfield.get`    | `Method.CRM_LEAD_USERFIELD_GET`    |                                                                                    |

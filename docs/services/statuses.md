@@ -6,11 +6,11 @@
 | `crm.status.fields`       | `Method.CRM_STATUS_FIELDS`       |                                                                                               |
 | `crm.status.entity.types` | `Method.CRM_STATUS_ENTITY_TYPES` |                                                                                               |
 | `crm.status.entity.items` | `Method.CRM_STATUS_ENTITY_ITEMS` |                                                                                               |
-| `crm.status.add`          | `Method.CRM_STATUS_ADD`          | [`bitrix.statuses.create()`](/docs/services/statuses.md#create-status---bitrixstatusescreate) |
+| `crm.status.add`          | `Method.CRM_STATUS_ADD`          | [`bitrix.statuses.create()`](#create-status---bitrixstatusescreate)                           |
 | `crm.status.delete`       | `Method.CRM_STATUS_DELETE`       |                                                                                               |
-| `crm.status.get`          | `Method.CRM_STATUS_GET`          | [`bitrix.statuses.get()`](/docs/services/statuses.md#get-status---bitrixstatusesget)          |
-| `crm.status.list`         | `Method.CRM_STATUS_LIST`         | [`bitrix.statuses.list()`](/docs/services/statuses.md#list-statuses---bitrixstatuseslist)     |
-| `crm.status.update`       | `Method.CRM_STATUS_UPDATE`       | [`bitrix.statuses.update()`](/docs/services/statuses.md#update-status---bitrixstatusesupdate) |
+| `crm.status.get`          | `Method.CRM_STATUS_GET`          | [`bitrix.statuses.get()`](#get-status---bitrixstatusesget)                                    |
+| `crm.status.list`         | `Method.CRM_STATUS_LIST`         | [`bitrix.statuses.list()`](#list-statuses---bitrixstatuseslist)                               |
+| `crm.status.update`       | `Method.CRM_STATUS_UPDATE`       | [`bitrix.statuses.update()`](#update-status---bitrixstatusesupdate)                           |
 
 ## Create status - `bitrix.statuses.create()`
 
