@@ -1,18 +1,18 @@
 
 # Statuses service
 
-| API                                                                 | Enum method                      | Bitrix method                                                                                                    |
-| :------------------------------------------------------------------ | :------------------------------- | :------------------------------------------------------------------------------------------------------          |
-|                                                                     | `Method.CRM_STATUS_FIELDS`       | [`crm.status.fields`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_fields.php)             |
-|                                                                     | `Method.CRM_STATUS_ENTITY_TYPES` | [`crm.status.entity.types`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_entity_types.php) |
-|                                                                     | `Method.CRM_STATUS_ENTITY_ITEMS` | [`crm.status.entity.items`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_entity_items.php) |
-| [`bitrix.statuses.create()`](#create-status---bitrixstatusescreate) | `Method.CRM_STATUS_ADD`          | [`crm.status.add`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_add.php)                   |
-|                                                                     | `Method.CRM_STATUS_DELETE`       | [`crm.status.delete`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_delete.php)             |
-| [`bitrix.statuses.get()`](#get-status---bitrixstatusesget)          | `Method.CRM_STATUS_GET`          | [`crm.status.get`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_get.php)                   |
-| [`bitrix.statuses.list()`](#list-statuses---bitrixstatuseslist)     | `Method.CRM_STATUS_LIST`         | [`crm.status.list`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_list.php)                 |
-| [`bitrix.statuses.update()`](#update-status---bitrixstatusesupdate) | `Method.CRM_STATUS_UPDATE`       | [`crm.status.update`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_update.php)             |
+| API                                                 | Enum method                      | Bitrix method                                                                                                    |
+| :---------------------------------------------------| :------------------------------- | :------------------------------------------------------------------------------------------------------          |
+|                                                     | `Method.CRM_STATUS_FIELDS`       | [`crm.status.fields`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_fields.php)             |
+|                                                     | `Method.CRM_STATUS_ENTITY_TYPES` | [`crm.status.entity.types`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_entity_types.php) |
+|                                                     | `Method.CRM_STATUS_ENTITY_ITEMS` | [`crm.status.entity.items`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_entity_items.php) |
+| [`bitrix.statuses.create()`](#bitrixstatusescreate) | `Method.CRM_STATUS_ADD`          | [`crm.status.add`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_add.php)                   |
+|                                                     | `Method.CRM_STATUS_DELETE`       | [`crm.status.delete`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_delete.php)             |
+| [`bitrix.statuses.get()`](#bitrixstatusesget)       | `Method.CRM_STATUS_GET`          | [`crm.status.get`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_get.php)                   |
+| [`bitrix.statuses.list()`](#bitrixstatuseslist)     | `Method.CRM_STATUS_LIST`         | [`crm.status.list`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_list.php)                 |
+| [`bitrix.statuses.update()`](#bitrixstatusesupdate) | `Method.CRM_STATUS_UPDATE`       | [`crm.status.update`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_update.php)             |
 
-## Create status - `bitrix.statuses.create()`
+## `bitrix.statuses.create()`
 
 Create new status
 
@@ -49,7 +49,7 @@ bitrix.statuses.create({
 
 </details>
 
-## Get status - `bitrix.statuses.get()`
+## `bitrix.statuses.get()`
 
 Retrieve specified status
 
@@ -99,7 +99,7 @@ bitrix.statuses.get('1')
 
 </details>
 
-## List statuses - `bitrix.statuses.list()`
+## `bitrix.statuses.list()`
 
 Retrieve all statuses.
 
@@ -149,7 +149,7 @@ bitrix.statuses.list({ filter: { ID: '1' }})
 
 </details>
 
-## Update status - `bitrix.statuses.update()`
+## `bitrix.statuses.update()`
 
 Update specified status
 
