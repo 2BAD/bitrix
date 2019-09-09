@@ -43,7 +43,6 @@ const LISTABLE_METHODS = [
   Method.CRM_CONTACT_LIST,
   Method.CRM_DEAL_LIST,
   Method.CRM_LEAD_LIST,
-  Method.CRM_STATUS_LIST,
   Method.USER_SEARCH,
   Method.USER_GET
 ] as const
