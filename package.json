@@ -40,7 +40,7 @@
     "@types/got": "9.6.7",
     "@types/jest": "24.0.18",
     "@types/nock": "10.0.3",
-    "@types/node": "12.7.2",
+    "@types/node": "12.7.4",
     "codecov": "3.5.0",
     "dotenv": "8.1.0",
     "jest": "24.9.0",
@@ -51,7 +51,7 @@
     "tslint": "5.19.0",
     "tslint-config-standard": "8.0.1",
     "tslint-immutable": "6.0.1",
-    "typescript": "3.5.3"
+    "typescript": "3.6.2"
   },
   "engines": {
     "node": ">=8.12.0"
