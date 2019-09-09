@@ -53,7 +53,7 @@ interface MethodsMap {
 // @todo Figure out full list of possible values
 export interface ListParams {
   readonly start?: number
-  readonly order?: { readonly [key: string]: 'ASC' }
+  readonly order?: { readonly [key: string]: 'ASC' | 'DESC' }
   readonly filter?: { readonly '>PROBABILITY': number }
   readonly select?: ReadonlyArray<'*' | 'UF_*' | string>
 }
