@@ -124,7 +124,7 @@ describe('Client `call` method', () => {
 
   it('should form a proper request with list methods', async () => {
     const params = {
-      filter: { '>PROBABILITY': '50' },
+      filter: { '>PROBABILITY': 50 },
       order: { STAGE_ID: 'ASC' },
       select: ['ID', 'TITLE'],
       start: 50
