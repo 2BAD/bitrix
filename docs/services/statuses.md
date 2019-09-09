@@ -104,7 +104,7 @@ bitrix.statuses.get('1')
 Retrieve all statuses.
 
 ```ts
-bitrix.statuses.list({ filter: { ID: "1" }})
+bitrix.statuses.list({ filter: { ID: '1' }})
 ```
 
 **Arguments**
