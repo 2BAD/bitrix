@@ -5,7 +5,6 @@ import ContactsService from './services/contacts'
 import DealsService from './services/deals'
 import LeadsService from './services/leads'
 import StatusesService from './services/statuses'
-import UsersService from './services/users'
 
 export default (restUri: string, accessToken: string) => {
   const { call, batch, list } = Client(restUri, accessToken)
@@ -17,8 +16,7 @@ export default (restUri: string, accessToken: string) => {
     contacts: ContactsService({ call, list }),
     deals: DealsService({ call, list }),
     leads: LeadsService({ call, list }),
-    statuses: StatusesService({ call }),
-    users: UsersService({ call, list })
+    statuses: StatusesService({ call })
   }
 }
 
@@ -30,4 +28,3 @@ export * from './entities/currency'
 export * from './services/deals/entities'
 export * from './services/leads/entities'
 export * from './services/statuses/entities'
-export * from './entities/user'

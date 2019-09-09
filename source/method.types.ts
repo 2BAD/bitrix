@@ -1,6 +1,5 @@
 import { Commands } from './command.types'
-import { User } from './entities/user'
-import { BatchPayload, GetPayload, ListPayload } from './payload.types'
+import { BatchPayload } from './payload.types'
 import { ContactsMethods } from './services/contacts/methods'
 import { DealsMethods } from './services/deals/methods'
 import { LeadsMethods } from './services/leads/methods'
@@ -31,20 +30,13 @@ export enum Method {
   CRM_CONTACT_LIST = 'crm.contact.list',
   CRM_DEAL_LIST = 'crm.deal.list',
   CRM_LEAD_LIST = 'crm.lead.list',
-  CRM_STATUS_LIST = 'crm.status.list',
-  // yes, this one is correct, they don't have separate `list` method and this one returns all users
-  USER_SEARCH = 'user.search',
-  USER_GET = 'user.get',
-
-  CRM_STATUS_FIELDS = 'crm.status.fields'
+  CRM_STATUS_LIST = 'crm.status.list'
 }
 
 const LISTABLE_METHODS = [
   Method.CRM_CONTACT_LIST,
   Method.CRM_DEAL_LIST,
-  Method.CRM_LEAD_LIST,
-  Method.USER_SEARCH,
-  Method.USER_GET
+  Method.CRM_LEAD_LIST
 ] as const
 
 export type ListableMethod = typeof LISTABLE_METHODS[number]
@@ -74,26 +66,12 @@ export interface ListParams {
  * - `params` — params that method accepts
  */
 export interface Methods extends MethodsMap, ContactsMethods, DealsMethods, LeadsMethods, StatusesMethods {
+
   readonly [Method.BATCH]: {
     readonly type: unknown
     readonly payload: BatchPayload<unknown>
     readonly params: Commands
   }
-
-  // Users
-  readonly [Method.USER_GET]: {
-    readonly type: User
-    readonly payload: GetPayload<User>
-    readonly params: {
-      readonly id: string
-    }
-  }
-  readonly [Method.USER_SEARCH]: {
-    readonly type: User
-    readonly payload: ListPayload<User>
-    readonly params: ListParams
-  }
-
 }
 
 /**

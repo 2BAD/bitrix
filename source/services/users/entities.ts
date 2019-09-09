@@ -1,4 +1,4 @@
-import { GenderString, ISODate, NumberString } from './common'
+import { GenderString, ISODate, NumberString } from '../../entities/common'
 
 export interface User {
   readonly ID: NumberString

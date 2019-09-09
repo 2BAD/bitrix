@@ -29,10 +29,6 @@ Object {
     "list": [Function],
     "update": [Function],
   },
-  "users": Object {
-    "get": [Function],
-    "list": [Function],
-  },
 }
 `;
 
