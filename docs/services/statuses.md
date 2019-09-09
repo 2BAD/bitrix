@@ -28,7 +28,7 @@ bitrix.statuses.create({
 
 **Returns**
 
-`Promise<GetPayload<number>>`
+ * `Promise<GetPayload<number>>`
 
 <details>
 <summary>See payload example</summary>
@@ -63,7 +63,7 @@ bitrix.statuses.get('1')
 
 **Returns**
 
-`Promise<GetPayload<Status>>` (See [Status](/source/services/statuses/entities.ts))
+ * `Promise<GetPayload<Status>>` (See [Status](/source/services/statuses/entities.ts))
 
 <details>
 <summary>See payload example</summary>
@@ -113,7 +113,7 @@ bitrix.statuses.list({ filter: { ID: '1' }})
 
 **Returns**
 
-`Promise<ListPayload<Status>>`
+ * `Promise<ListPayload<Status>>`
 
 <details>
 <summary>See payload example</summary>
@@ -166,7 +166,7 @@ bitrix.statuses.update('77', {
 
 **Returns**
 
-`Promise<GetPayload<boolean>>`
+ * `Promise<GetPayload<boolean>>`
 
 <details>
 <summary>See payload example</summary>
