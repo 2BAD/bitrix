@@ -21,16 +21,6 @@ export interface StatusesMethods {
     }
   }
 
-  // https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_update.php
-  readonly [Method.CRM_STATUS_UPDATE]: {
-    readonly type: Status
-    readonly payload: GetPayload<boolean>
-    readonly params: {
-      readonly id: string
-      readonly fields: Record<string, any>
-    }
-  }
-
   // https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_list.php
   readonly [Method.CRM_STATUS_LIST]: {
     readonly type: Status
@@ -41,4 +31,15 @@ export interface StatusesMethods {
       readonly filter?: Record<string, any>
     }
   }
+
+  // https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_update.php
+  readonly [Method.CRM_STATUS_UPDATE]: {
+    readonly type: Status
+    readonly payload: GetPayload<boolean>
+    readonly params: {
+      readonly id: string
+      readonly fields: Record<string, any>
+    }
+  }
+
 }

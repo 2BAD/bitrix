@@ -1,16 +1,16 @@
 
 # Statuses service
 
-| Bitrix method             | Enum method                      | API                                                                                           |
-| :------------------------ | :------------------------------- | :-------------------------------------------------------------------------------------------- |
-| `crm.status.fields`       | `Method.CRM_STATUS_FIELDS`       |                                                                                               |
-| `crm.status.entity.types` | `Method.CRM_STATUS_ENTITY_TYPES` |                                                                                               |
-| `crm.status.entity.items` | `Method.CRM_STATUS_ENTITY_ITEMS` |                                                                                               |
-| `crm.status.add`          | `Method.CRM_STATUS_ADD`          | [`bitrix.statuses.create()`](#create-status---bitrixstatusescreate)                           |
-| `crm.status.delete`       | `Method.CRM_STATUS_DELETE`       |                                                                                               |
-| `crm.status.get`          | `Method.CRM_STATUS_GET`          | [`bitrix.statuses.get()`](#get-status---bitrixstatusesget)                                    |
-| `crm.status.list`         | `Method.CRM_STATUS_LIST`         | [`bitrix.statuses.list()`](#list-statuses---bitrixstatuseslist)                               |
-| `crm.status.update`       | `Method.CRM_STATUS_UPDATE`       | [`bitrix.statuses.update()`](#update-status---bitrixstatusesupdate)                           |
+| API                                                                 | Enum method                      | Bitrix method                                                                                                    |
+| :------------------------------------------------------------------ | :------------------------------- | :------------------------------------------------------------------------------------------------------          |
+|                                                                     | `Method.CRM_STATUS_FIELDS`       | [`crm.status.fields`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_fields.php)             |
+|                                                                     | `Method.CRM_STATUS_ENTITY_TYPES` | [`crm.status.entity.types`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_entity_types.php) |
+|                                                                     | `Method.CRM_STATUS_ENTITY_ITEMS` | [`crm.status.entity.items`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_entity_items.php) |
+| [`bitrix.statuses.create()`](#create-status---bitrixstatusescreate) | `Method.CRM_STATUS_ADD`          | [`crm.status.add`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_add.php)                   |
+|                                                                     | `Method.CRM_STATUS_DELETE`       | [`crm.status.delete`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_delete.php)             |
+| [`bitrix.statuses.get()`](#get-status---bitrixstatusesget)          | `Method.CRM_STATUS_GET`          | [`crm.status.get`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_get.php)                   |
+| [`bitrix.statuses.list()`](#list-statuses---bitrixstatuseslist)     | `Method.CRM_STATUS_LIST`         | [`crm.status.list`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_list.php)                 |
+| [`bitrix.statuses.update()`](#update-status---bitrixstatusesupdate) | `Method.CRM_STATUS_UPDATE`       | [`crm.status.update`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_update.php)             |
 
 ## Create status - `bitrix.statuses.create()`
 
@@ -54,7 +54,7 @@ bitrix.statuses.create({
 Retrieve specified status
 
 ```ts
-bitrix.statuses.get('77')
+bitrix.statuses.get('1')
 ```
 
 **Arguments**
@@ -69,7 +69,32 @@ bitrix.statuses.get('77')
 <summary>See payload example</summary>
 
 ```ts
-// @todo Add
+{
+  result: [
+    {
+      ID: "1",
+      ENTITY_ID: "STATUS",
+      STATUS_ID: "NEW",
+      NAME: "Не обработан",
+      NAME_INIT: "Не обработан",
+      SORT: "10",
+      SYSTEM: "Y",
+      EXTRA: {
+        SEMANTICS: "process",
+        COLOR: "#E1E1E1"
+      }
+    }
+  ],
+  total: 1,
+  time: {
+    start: 1567988070.0949659,
+    finish: 1567988070.1293139,
+    duration: 0.034348011016845703,
+    processing: 0.0028300285339355469,
+    date_start: "2019-09-09T03:14:30+03:00",
+    date_finish: "2019-09-09T03:14:30+03:00"
+  }
+}
 ```
 
 </details>
@@ -79,12 +104,12 @@ bitrix.statuses.get('77')
 Retrieve all statuses.
 
 ```ts
-bitrix.statuses.list({ select: ['*', 'UF_*'] })
+bitrix.statuses.list({ filter: { ID: "1" }})
 ```
 
 **Arguments**
 
-* `params?: ListParams` — params to be passed with an API request
+* `{ order?, filter? }: { Record<string, any>, Record<string, any>}` — statuses list accepts only optional `order` and `filter` parameters
 
 **Returns**
 
@@ -94,7 +119,32 @@ bitrix.statuses.list({ select: ['*', 'UF_*'] })
 <summary>See payload example</summary>
 
 ```ts
-// @todo Add
+{
+  result: [
+    {
+      ID: "1",
+      ENTITY_ID: "STATUS",
+      STATUS_ID: "NEW",
+      NAME: "Не обработан",
+      NAME_INIT: "Не обработан",
+      SORT: "10",
+      SYSTEM: "Y",
+      EXTRA: {
+        SEMANTICS: "process",
+        COLOR: "#E1E1E1"
+      }
+    }
+  ],
+  total: 1,
+  time: {
+    start: 1567988070.0949659,
+    finish: 1567988070.1293139,
+    duration: 0.034348011016845703,
+    processing: 0.0028300285339355469,
+    date_start: "2019-09-09T03:14:30+03:00",
+    date_finish: "2019-09-09T03:14:30+03:00"
+  }
+}
 ```
 
 </details>
