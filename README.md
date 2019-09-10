@@ -109,7 +109,7 @@ There are two ways to do that:
 
 ## How it works
 
-Our client tries hard to provide a consistent, strongly typed and at the same time effortless experience.
+The client tries hard to provide a consistent, strongly typed and at the same time effortless experience.
 
 It takes care of the any necessary batching to run "large" commands, like retrieving all deals or leads with least possible network request. That allows achieving a reading of the 250 000 and updating of 5000 entries per minute with a single line of code.
 
