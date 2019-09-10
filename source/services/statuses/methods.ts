@@ -30,7 +30,7 @@ export interface StatusesMethods {
     readonly type: Status
     readonly payload: GetPayload<Status>
     readonly params: {
-      readonly id: string
+      readonly id: string | number
     }
   }
 
@@ -50,7 +50,7 @@ export interface StatusesMethods {
     readonly type: Status
     readonly payload: GetPayload<boolean>
     readonly params: {
-      readonly id: string
+      readonly id: string | number
       readonly fields: Record<string, any>
     }
   }

@@ -14,11 +14,12 @@ export default ({ call }: Dependencies) => ({
   delete: (id: string | number, params: MethodParams<Method.CRM_STATUS_DELETE>['params'] = {}) =>
     call(Method.CRM_STATUS_DELETE, { id, params }),
 
+  get: (id: string | number) =>
     call(Method.CRM_STATUS_GET, { id }),
 
   list: (params: MethodParams<Method.CRM_STATUS_LIST> = {}) =>
     call(Method.CRM_STATUS_LIST, params),
 
-  update: (id: string, fields: MethodParams<Method.CRM_STATUS_UPDATE>['fields']) =>
+  update: (id: string | number, fields: MethodParams<Method.CRM_STATUS_UPDATE>['fields']) =>
     call(Method.CRM_STATUS_UPDATE, { id, fields })
 })
