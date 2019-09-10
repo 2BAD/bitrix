@@ -25,6 +25,7 @@ Object {
   "list": [Function],
   "statuses": Object {
     "create": [Function],
+    "delete": [Function],
     "get": [Function],
     "list": [Function],
     "update": [Function],

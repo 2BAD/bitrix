@@ -80,6 +80,7 @@ Array [
 exports[`Statuses should expose API methods 1`] = `
 Object {
   "create": [Function],
+  "delete": [Function],
   "get": [Function],
   "list": [Function],
   "update": [Function],

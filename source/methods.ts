@@ -14,23 +14,25 @@ export enum Method {
   CRM_CONTACTS_GET = 'crm.contact.get',
   CRM_DEAL_GET = 'crm.deal.get',
   CRM_LEAD_GET = 'crm.lead.get',
-  CRM_STATUS_GET = 'crm.status.get',
 
   CRM_CONTACT_ADD = 'crm.contact.add',
   CRM_DEAL_ADD = 'crm.deal.add',
   CRM_LEAD_ADD = 'crm.lead.add',
-  CRM_STATUS_ADD = 'crm.status.add',
 
   CRM_CONTACT_UPDATE = 'crm.contact.update',
   CRM_DEAL_UPDATE = 'crm.deal.update',
   CRM_LEAD_UPDATE = 'crm.lead.update',
+
+  CRM_STATUS_ADD = 'crm.status.add',
+  CRM_STATUS_DELETE = 'crm.status.delete',
+  CRM_STATUS_GET = 'crm.status.get',
+  CRM_STATUS_LIST = 'crm.status.list',
   CRM_STATUS_UPDATE = 'crm.status.update',
 
   // Listable
   CRM_CONTACT_LIST = 'crm.contact.list',
   CRM_DEAL_LIST = 'crm.deal.list',
-  CRM_LEAD_LIST = 'crm.lead.list',
-  CRM_STATUS_LIST = 'crm.status.list'
+  CRM_LEAD_LIST = 'crm.lead.list'
 }
 
 const LISTABLE_METHODS = [

@@ -11,7 +11,9 @@ export default ({ call }: Dependencies) => ({
   create: (fields: MethodParams<Method.CRM_STATUS_ADD>['fields']) =>
     call(Method.CRM_STATUS_ADD, { fields }),
 
-  get: (id: string) =>
+  delete: (id: string | number, params: MethodParams<Method.CRM_STATUS_DELETE>['params'] = {}) =>
+    call(Method.CRM_STATUS_DELETE, { id, params }),
+
     call(Method.CRM_STATUS_GET, { id }),
 
   list: (params: MethodParams<Method.CRM_STATUS_LIST> = {}) =>

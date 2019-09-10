@@ -12,6 +12,19 @@ export interface StatusesMethods {
     }
   }
 
+  // https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_delete.php
+  readonly [Method.CRM_STATUS_DELETE]: {
+    readonly type: Status
+    readonly payload: GetPayload<Status>
+    readonly params: {
+      readonly id: string | number
+      readonly params?: {
+        readonly FORCED?: 'Y' | 'N'
+      }
+    }
+
+  }
+
   // https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_get.php
   readonly [Method.CRM_STATUS_GET]: {
     readonly type: Status
