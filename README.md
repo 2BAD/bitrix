@@ -64,6 +64,34 @@ bitrix.deals.list({ select: ["*", "UF_*"] })
   .catch(console.error)
 ```
 
+## Authentication
+
+Before you'll be able to use Bitrix REST API, you need to authenticate.
+
+There are two ways to do that:
+
+1. **A harder, but proper way** — create a Bitrix application and then authenticate with an OAuth.
+
+   Authentication with an OAuth requires some additional steps and that's up to you to deal with it using a lambda function, some server or a Postman.
+
+   That will yield an access token. Use it to init the client:
+
+   ```ts
+   const bitrix = Bitrix('https://PORTAL_NAME.bitrix24.ru/rest', 'ACCESS_TOKEN')
+   ```
+
+   Note, that access token lives only 30 minutes and should be refreshed periodically with provided by OAuth refresh token, which in turn lives 1 month.
+
+2. **An easier way** — create a Bitrix inbound webhook with required permissions.
+
+   It will instantly give you an endpoint with a token inside of it. No additional authentication or access tokens required to use it:
+
+   ```ts
+   const bitrix = Bitrix('https://PORTAL_NAME.bitrix24.ru/rest/1/le0f0ntaa1gh8xs0')
+   ```
+
+   That endpoint lives indefinitely. Rejoice and hope that will never fire in your leg.
+
 ## API
 
 * [call](/docs/methods.md#call)
@@ -109,10 +137,6 @@ Not yet. What's in the docs already works, and not covered Bitrix operations can
 Sure. Just install and import it as any other NPM module. But The Type Police is already on the way for you.
 
 Note that this library wasn't designed with regular JavaScript in mind, so it doesn't make unnecessary dynamic checks. Don't be too persistent in passing on wrong parameters — it might yield unexpected results. After all, TypeScript is a recommended way to use it.
-
-> Does it handle authentication?
-
-Not yet. You have to init client with already obtained by any legal means access token.
 
 > Should I check payloads `error` properties for errors?
 

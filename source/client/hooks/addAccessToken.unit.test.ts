@@ -22,6 +22,14 @@ describe('Client `addAccessToken` hook', () => {
     expect(options.path).toBe(`/test?value=1&access_token=${token}`)
   })
 
+  it('should not add access token when it is undefined', () => {
+    const options = { json: true, path: '/test' } as const
+
+    addAccessToken()(options)
+
+    expect(options.path).toBe('/test')
+  })
+
   it('should not add access token when URL is undefined', () => {
     const options = { json: true, path: undefined } as const
 

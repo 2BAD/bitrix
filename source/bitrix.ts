@@ -6,8 +6,14 @@ import DealsService from './services/deals'
 import LeadsService from './services/leads'
 import StatusesService from './services/statuses'
 
-export default (restUri: string, accessToken: string) => {
-  const { call, batch, list } = Client(restUri, accessToken)
+/**
+ * Construct a Bitrix client with generic methods
+ * @param restURI REST endpoint, like a `https://hello.bitrix24.ua/rest` or an inbound webhook endpoint,
+ *                like a `https://hello.bitrix24.ua/rest/1/le0f0ntaa1gh8xs0`.
+ * @param accessToken Bitrix application Access Token. Do not specify in case inbound webhook endpoint used.
+ */
+export default (restURI: string, accessToken?: string) => {
+  const { call, batch, list } = Client(restURI, accessToken)
 
   return {
     call,

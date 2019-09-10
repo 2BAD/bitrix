@@ -10,9 +10,15 @@ import List from './methods/list'
 const BITRIX_API_RATE_LIMIT = 2
 const BITRIX_API_RATE_INTERVAL = 1000 // 1 second
 
-export default (restUri: string, accessToken: string) => {
+/**
+ * Construct a Bitrix client with generic methods
+ * @param restURI REST endpoint, like a `https://hello.bitrix24.ua/rest` or an inbound webhook endpoint,
+ *                like a `https://hello.bitrix24.ua/rest/1/le0f0ntaa1gh8xs0`.
+ * @param accessToken Bitrix application Access Token. Do not specify in case inbound webhook endpoint used.
+ */
+export default (restURI: string, accessToken?: string) => {
   const client = got.extend({
-    baseUrl: restUri,
+    baseUrl: restURI,
     headers: {
       'user-agent': `@2bad/bitrix`
     },
