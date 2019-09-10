@@ -54,5 +54,4 @@ export interface StatusesMethods {
       readonly fields: Record<string, any>
     }
   }
-
 }
