@@ -94,20 +94,18 @@ There are two ways to do that:
 
 ## API
 
-* [call](/docs/methods.md#call)
-* [list](/docs/methods.md#list)
-* [batch](/docs/methods.md#batch)
-
-### Available entities
-
- * CRM
-   * [Company](/docs/services/companies.md)
-   * [Contact](/docs/services/contacts.md)
-   * [Currency](/docs/services/currencies.md)
-   * [Deal](/docs/services/deals.md)
-   * [Lead](/docs/services/leads.md)
-   * [Status](/docs/services/statuses.md)
- * [User](/docs/services/users.md)
+* Generic
+  * [call()](/docs/methods.md#call)
+  * [list()](/docs/methods.md#list)
+  * [batch()](/docs/methods.md#batch)
+* CRM
+  * [Company](/docs/services/companies.md)
+  * [Contact](/docs/services/contacts.md)
+  * [Currency](/docs/services/currencies.md)
+  * [Deal](/docs/services/deals.md)
+  * [Lead](/docs/services/leads.md)
+  * [Status](/docs/services/statuses.md)
+* [User](/docs/services/users.md)
 
 ## How it works
 
