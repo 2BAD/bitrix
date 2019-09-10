@@ -7,7 +7,7 @@
 |                                                     | `Method.CRM_STATUS_ENTITY_TYPES` | [`crm.status.entity.types`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_entity_types.php) |
 |                                                     | `Method.CRM_STATUS_ENTITY_ITEMS` | [`crm.status.entity.items`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_entity_items.php) |
 | [`bitrix.statuses.create()`](#bitrixstatusescreate) | `Method.CRM_STATUS_ADD`          | [`crm.status.add`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_add.php)                   |
-|                                                     | `Method.CRM_STATUS_DELETE`       | [`crm.status.delete`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_delete.php)             |
+| [`bitrix.statuses.delete()`](#bitrixstatusesdelete) | `Method.CRM_STATUS_DELETE`       | [`crm.status.delete`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_delete.php)             |
 | [`bitrix.statuses.get()`](#bitrixstatusesget)       | `Method.CRM_STATUS_GET`          | [`crm.status.get`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_get.php)                   |
 | [`bitrix.statuses.list()`](#bitrixstatuseslist)     | `Method.CRM_STATUS_LIST`         | [`crm.status.list`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_list.php)                 |
 | [`bitrix.statuses.update()`](#bitrixstatusesupdate) | `Method.CRM_STATUS_UPDATE`       | [`crm.status.update`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_update.php)             |
@@ -36,6 +36,42 @@ bitrix.statuses.create({
 ```ts
 {
   result: 77,
+  time: {
+    start: 1567372034.625375,
+    finish: 1567372034.8204,
+    duration: 0.19502496719360352,
+    processing: 0.03838515281677246,
+    date_start: "2019-09-02T00:07:14+03:00",
+    date_finish: "2019-09-02T00:07:14+03:00"
+  }
+}
+```
+
+</details>
+
+## `bitrix.statuses.delete()`
+
+Delete status
+
+```ts
+bitrix.statuses.delete('1')
+```
+
+**Arguments**
+
+* `id: string` — `ID` of the status to delete.
+* `params?.FORCED?: 'Y' | 'N'` — setting FORCED parameter to 'Y' allows you to delete system statuses
+
+**Returns**
+
+ * `Promise<GetPayload<boolean>>`
+
+<details>
+<summary>See payload example</summary>
+
+```ts
+{
+  result: true,
   time: {
     start: 1567372034.625375,
     finish: 1567372034.8204,
