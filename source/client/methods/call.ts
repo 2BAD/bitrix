@@ -1,7 +1,7 @@
 import { GotJSONFn } from 'got'
 import { stringify as toQuery } from 'qs'
-import { Method, MethodParams, MethodPayload } from '../../method.types'
-import { BatchPayload, ListPayload, Payload } from '../../payload.types'
+import { Method, MethodParams, MethodPayload } from '../../methods'
+import { BatchPayload, ListPayload, Payload } from '../../payloads'
 import isArray from '../../utils/isArray'
 
 /**

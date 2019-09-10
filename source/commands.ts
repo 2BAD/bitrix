@@ -1,4 +1,4 @@
-import { Method } from './method.types'
+import { Method } from './methods'
 
 export interface Command {
   readonly method: Method

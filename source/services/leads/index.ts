@@ -2,7 +2,7 @@
 
 import { Call } from '../../client/methods/call'
 import { List } from '../../client/methods/list'
-import { Method, MethodParams } from '../../method.types'
+import { Method, MethodParams } from '../../methods'
 
 interface Dependencies {
   readonly call: Call

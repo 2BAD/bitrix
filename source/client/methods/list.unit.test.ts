@@ -1,7 +1,7 @@
 /* tslint-env jest */
 // tslint:disable: no-expression-statement object-literal-sort-keys no-magic-numbers
 
-import { Method } from '../../method.types'
+import { Method } from '../../methods'
 import List, { batchToListPayload, fillWithCommands, highest } from './list'
 
 describe('Client `fillWithCommands` method', () => {

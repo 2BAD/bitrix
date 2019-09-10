@@ -1,7 +1,7 @@
 // tslint:disable:object-literal-sort-keys
 
 import { Call } from '../../client/methods/call'
-import { Method, MethodParams } from '../../method.types'
+import { Method, MethodParams } from '../../methods'
 
 interface Dependencies {
   readonly call: Call

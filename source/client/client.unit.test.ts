@@ -4,7 +4,7 @@
 import got from 'got'
 import nock from 'nock'
 import Queue from 'p-queue'
-import { Method } from '../method.types'
+import { Method } from '../methods'
 import Client from './index'
 
 const TEST_URI = 'https://test.com/rest'

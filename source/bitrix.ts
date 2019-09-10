@@ -20,8 +20,8 @@ export default (restUri: string, accessToken: string) => {
   }
 }
 
-export * from './method.types'
-export * from './command.types'
+export * from './methods'
+export * from './commands'
 export * from './entities/common'
 export * from './services/contacts/entities'
 export * from './services/currencies/entities'

@@ -1,5 +1,5 @@
-import { ListParams, Method } from './../../method.types'
-import { GetPayload, ListPayload } from './../../payload.types'
+import { ListParams, Method } from '../../methods'
+import { GetPayload, ListPayload } from '../../payloads'
 import { Deal } from './entities'
 
 export interface DealsMethods {

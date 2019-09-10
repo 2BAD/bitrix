@@ -1,7 +1,7 @@
 import range from 'lodash.range'
-import { Command } from '../../command.types'
-import { ListableMethod, MethodParams, MethodPayloadType } from '../../method.types'
-import { BatchPayload, ListPayload } from '../../payload.types'
+import { Command } from '../../commands'
+import { ListableMethod, MethodParams, MethodPayloadType } from '../../methods'
+import { BatchPayload, ListPayload } from '../../payloads'
 import { Batch } from './batch'
 import { Call } from './call'
 

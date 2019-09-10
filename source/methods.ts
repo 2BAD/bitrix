@@ -1,5 +1,5 @@
-import { Commands } from './command.types'
-import { BatchPayload } from './payload.types'
+import { Commands } from './commands'
+import { BatchPayload } from './payloads'
 import { ContactsMethods } from './services/contacts/methods'
 import { DealsMethods } from './services/deals/methods'
 import { LeadsMethods } from './services/leads/methods'
