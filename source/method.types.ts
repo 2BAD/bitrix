@@ -54,7 +54,7 @@ interface MethodsMap {
 export interface ListParams {
   readonly start?: number
   readonly order?: { readonly [key: string]: string } // 'ASC' | 'DESC'
-  readonly filter?: { readonly [key: string]: number }
+  readonly filter?: { readonly [key: string]: string | number }
   readonly select?: ReadonlyArray<string>
 }
 
