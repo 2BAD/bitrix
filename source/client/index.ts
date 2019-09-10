@@ -13,7 +13,7 @@ const BITRIX_API_RATE_INTERVAL = 1000 // 1 second
 /**
  * Construct a Bitrix client with generic methods
  * @param restURI REST endpoint, like a `https://hello.bitrix24.ua/rest` or an inbound webhook endpoint,
- *                like a `https://hello.bitrix24.ua/rest/1/le0f0ntaa1gh8xs0`.
+ *                like a `https://hello.bitrix24.ua/rest/1/WEBHOOK_TOKEN`.
  * @param accessToken Bitrix application Access Token. Do not specify in case inbound webhook endpoint used.
  */
 export default (restURI: string, accessToken?: string) => {

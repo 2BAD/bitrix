@@ -87,7 +87,7 @@ There are two ways to do that:
    It will instantly give you an endpoint with a token inside of it. No additional authentication or access tokens required to use it:
 
    ```ts
-   const bitrix = Bitrix('https://PORTAL_NAME.bitrix24.ru/rest/1/le0f0ntaa1gh8xs0')
+   const bitrix = Bitrix('https://PORTAL_NAME.bitrix24.ru/rest/1/WEBHOOK_TOKEN')
    ```
 
    That endpoint lives indefinitely. Rejoice and hope that will never fire in your leg.
