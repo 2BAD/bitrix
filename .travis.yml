@@ -12,5 +12,5 @@ install:
   - npm ci
 
 script:
-  - npm run test
+  - npm run test:unit
   - npm run build
