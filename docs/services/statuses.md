@@ -49,6 +49,42 @@ bitrix.statuses.create({
 
 </details>
 
+## `bitrix.statuses.delete()`
+
+Delete status
+
+```ts
+bitrix.statuses.delete('1')
+```
+
+**Arguments**
+
+* `id: string` — `ID` of the status to delete.
+* `params?.FORCED?: 'Y' | 'N'` — setting FORCED parameter to 'Y' allows you to delete system statuses
+
+**Returns**
+
+ * `Promise<GetPayload<boolean>>`
+
+<details>
+<summary>See payload example</summary>
+
+```ts
+{
+  result: true,
+  time: {
+    start: 1567372034.625375,
+    finish: 1567372034.8204,
+    duration: 0.19502496719360352,
+    processing: 0.03838515281677246,
+    date_start: "2019-09-02T00:07:14+03:00",
+    date_finish: "2019-09-02T00:07:14+03:00"
+  }
+}
+```
+
+</details>
+
 ## `bitrix.statuses.get()`
 
 Retrieve specified status
@@ -163,42 +199,6 @@ bitrix.statuses.update('77', {
 
 * `id: string` — status `ID` to update
 * `fields: Partial<Status>` — a fields to update. See [Status](/source/services/statuses/entities.ts)
-
-**Returns**
-
- * `Promise<GetPayload<boolean>>`
-
-<details>
-<summary>See payload example</summary>
-
-```ts
-{
-  result: true,
-  time: {
-    start: 1567372034.625375,
-    finish: 1567372034.8204,
-    duration: 0.19502496719360352,
-    processing: 0.03838515281677246,
-    date_start: "2019-09-02T00:07:14+03:00",
-    date_finish: "2019-09-02T00:07:14+03:00"
-  }
-}
-```
-
-</details>
-
-## `bitrix.statuses.delete()`
-
-Delete status
-
-```ts
-bitrix.statuses.delete('1')
-```
-
-**Arguments**
-
-* `id: string` — `ID` of the status to delete.
-* `params?.FORCED?: 'Y' | 'N'` — setting FORCED parameter to 'Y' allows you to delete system statuses
 
 **Returns**
 
