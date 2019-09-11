@@ -17,6 +17,37 @@ if (!WEBHOOK_URL) {
 const { statuses } = Bitrix(WEBHOOK_URL)
 
 describe('Statuses', () => {
+  describe('create', () => {
+    it('should create an entry', async () => {
+      const entry = {
+        ENTITY_ID: 'STATUS',
+        STATUS_ID: 'TEST',
+        NAME: 'TEST'
+      }
+
+      const { result: id } = await statuses.create(entry)
+      expect(id).toBeGreaterThan(0)
+
+      const { result: status } = await statuses.get(id)
+      expect(status).toMatchSnapshot({
+        ID: expect.any(String)
+      })
+
+      const { result: deleteResult } = await statuses.delete(id)
+      expect(deleteResult).toBeTruthy()
+    })
+  })
+
+  describe('get', () => {
+    it('should get entry with ID = 1', async () => {
+      const { result } = await statuses.get('1')
+      expect(result).toMatchSnapshot()
+    })
+    it('should return an error in case non existent ID is requested', async () => {
+      const get = statuses.get('1001')
+      await expect(get).rejects.toThrow(Error)
+    })
+  })
 
   describe('list', () => {
     it('should get all entries without optional parameters', async () => {
@@ -42,38 +73,6 @@ describe('Statuses', () => {
       expect(result.every((s) => s.ENTITY_ID === 'STATUS')).toBeTruthy()
       expect(isSortedDesc(result.map((s) => s.SORT))).toBeTruthy()
       expect(result).toMatchSnapshot()
-    })
-  })
-
-  describe('get', () => {
-    it('should get entry with ID = 1', async () => {
-      const { result } = await statuses.get('1')
-      expect(result).toMatchSnapshot()
-    })
-    it('should return an error in case non existent ID is requested', async () => {
-      const get = statuses.get('1001')
-      await expect(get).rejects.toThrow(Error)
-    })
-  })
-
-  describe('create', () => {
-    it('should create an entry', async () => {
-      const entry = {
-        ENTITY_ID: 'STATUS',
-        STATUS_ID: 'TEST',
-        NAME: 'TEST'
-      }
-
-      const { result: id } = await statuses.create(entry)
-      expect(id).toBeGreaterThan(0)
-
-      const { result: status } = await statuses.get(id)
-      expect(status).toMatchSnapshot({
-        ID: expect.any(String)
-      })
-
-      const { result: deleteResult } = await statuses.delete(id)
-      expect(deleteResult).toBeTruthy()
     })
   })
 
