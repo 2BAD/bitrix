@@ -95,9 +95,9 @@ There are two ways to do that:
 ## API
 
 * Generic
-  * [call()](/docs/methods.md#call)
-  * [list()](/docs/methods.md#list)
-  * [batch()](/docs/methods.md#batch)
+  * [`call()`](/docs/methods.md#call)
+  * [`list()`](/docs/methods.md#list)
+  * [`batch()`](/docs/methods.md#batch)
 * CRM
   * [Company](/docs/services/companies.md)
   * [Contact](/docs/services/contacts.md)
