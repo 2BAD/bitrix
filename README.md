@@ -128,7 +128,11 @@ To facilitate better architecture, the client divided into layers:
 
 > Is it finished?
 
-Not yet. What's in the docs already works, and not covered Bitrix operations can be done with a provided low-level client methods.
+The core is ready and stable. It can be used to arbitrary invoke any Bitrix REST API methods.
+
+However, not all Bitrix REST API methods are exposed as convenient client services yet (the ones like `bitrix.deals.list()`).
+
+If you need specific service, add one by making a Pull Request, following the structure of already existing [services](/source/services) and ["Adding new methods"](#adding-new-methods) instructions.
 
 > I'm not a Typed Language Master Race user. Can I use it with a regular JavaScript?
 
