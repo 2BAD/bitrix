@@ -90,7 +90,7 @@ There are two ways to do that:
    const bitrix = Bitrix('https://PORTAL_NAME.bitrix24.ru/rest/1/WEBHOOK_TOKEN')
    ```
 
-   That endpoint lives indefinitely. Rejoice and hope that it will backfire on you.
+   That endpoint lives indefinitely. Rejoice and hope that it won't backfire on you.
 
 ## API
 
