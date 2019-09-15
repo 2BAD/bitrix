@@ -77,6 +77,7 @@
     "test:integration:watch": "run-s \"test:integration -- --watch\"",
     "coverage": "jest --coverage --coverageDirectory coverage --collectCoverageFrom \"source/**/*.ts\"",
     "watch": "run-s clean build:main && run-p build:main:watch",
+    "prepublish": "run-s clean build",
     "preversion": "run-s clean lint test build"
   },
   "jest": {
