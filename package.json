@@ -1,6 +1,6 @@
 {
   "name": "@2bad/bitrix",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Bitrix24 REST API client that doesn't suck",
   "homepage": "https://github.com/2BAD/bitrix#readme",
   "twitter": "@2BAD",
