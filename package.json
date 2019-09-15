@@ -86,6 +86,11 @@
     "testMatch": [
       "**/?(*.)+(spec|test).[jt]s?(x)"
     ],
-    "setupFiles": ["dotenv/config"]
+    "modulePathIgnorePatterns": [
+      "<rootDir>/build/"
+    ],
+    "setupFiles": [
+      "dotenv/config"
+    ]
   }
 }
