@@ -84,6 +84,7 @@
     "testEnvironment": "node",
     "testMatch": [
       "**/?(*.)+(spec|test).[jt]s?(x)"
-    ]
+    ],
+    "setupFiles": ["dotenv/config"]
   }
 }
