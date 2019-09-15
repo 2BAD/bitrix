@@ -22,9 +22,9 @@ export const fillWithCommands = <C extends Command>(
     .map((i) => ({ method, params: { ...params, start: start + (entriesPerCommand * i) } }))
 }
 
-  /**
-   * Get the highest value from object or an array if there's any
-   */
+/**
+ * Get the highest value from object or an array if there's any
+ */
 export const highest = (
   input: ReadonlyArray<number | undefined> | Record<string, number | undefined>
 ): number | undefined =>
