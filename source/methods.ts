@@ -10,6 +10,12 @@ import { ExtractValue } from './utils/ExtractValue'
 export enum Method {
   BATCH = 'batch',
 
+  CRM_COMPANY_FIELDS = 'crm.company.fields',
+  CRM_COMPANY_ADD = 'crm.company.add',
+  CRM_COMPANY_UPDATE = 'crm.company.update',
+  CRM_COMPANY_GET = 'crm.company.get',
+  CRM_COMPANY_LIST = 'crm.company.list',
+
   CRM_CONTACT_FIELDS = 'crm.contact.fields',
   CRM_CONTACT_ADD = 'crm.contact.add',
   CRM_CONTACT_UPDATE = 'crm.contact.update',
@@ -37,6 +43,7 @@ export enum Method {
 }
 
 const LISTABLE_METHODS = [
+  Method.CRM_COMPANY_LIST,
   Method.CRM_CONTACT_LIST,
   Method.CRM_DEAL_LIST,
   Method.CRM_LEAD_LIST

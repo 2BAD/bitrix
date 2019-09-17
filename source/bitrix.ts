@@ -1,6 +1,7 @@
 // tslint:disable:object-literal-sort-keys
 
 import Client from './client'
+import CompaniesService from './services/companies'
 import ContactsService from './services/contacts'
 import DealsService from './services/deals'
 import LeadsService from './services/leads'
@@ -19,6 +20,7 @@ export default (restURI: string, accessToken?: string) => {
     call,
     batch,
     list,
+    companies: CompaniesService({ call, list }),
     contacts: ContactsService({ call, list }),
     deals: DealsService({ call, list }),
     leads: LeadsService({ call, list }),
@@ -29,6 +31,7 @@ export default (restURI: string, accessToken?: string) => {
 export * from './methods'
 export * from './commands'
 export * from './services/common'
+export * from './services/companies/entities'
 export * from './services/contacts/entities'
 export * from './services/currencies/entities'
 export * from './services/deals/entities'
