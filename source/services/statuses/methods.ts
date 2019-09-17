@@ -1,8 +1,16 @@
 import { Method } from '../../methods'
 import { GetPayload, ListPayload } from '../../payloads'
+import { Fields } from '../common'
 import { Status } from './entities'
 
 export interface StatusesMethods {
+  // https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_fields.php
+  readonly [Method.CRM_STATUS_FIELDS]: {
+    readonly type: Status
+    readonly payload: GetPayload<Fields>
+    readonly params?: {}
+  }
+
   // https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_add.php
   readonly [Method.CRM_STATUS_ADD]: {
     readonly type: Status

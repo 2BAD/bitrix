@@ -8,6 +8,9 @@ interface Dependencies {
 }
 
 export default ({ call }: Dependencies) => ({
+  fields: () =>
+    call(Method.CRM_STATUS_FIELDS, {}),
+
   create: (fields: MethodParams<Method.CRM_STATUS_ADD>['fields']) =>
     call(Method.CRM_STATUS_ADD, { fields }),
 

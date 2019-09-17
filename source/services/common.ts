@@ -4,3 +4,15 @@ export type NumberString = string
 export type ISODate = string
 export type BoolString = 'Y' | 'N'
 export type GenderString = 'M' | 'F' | ''
+
+export interface Fields {
+  readonly [key: string]: {
+    readonly type: string
+    readonly isRequired: boolean
+    readonly isReadOnly: boolean
+    readonly isImmutable: boolean
+    readonly isMultiple: boolean
+    readonly isDynamic: boolean
+    readonly title: string
+  }
+}
