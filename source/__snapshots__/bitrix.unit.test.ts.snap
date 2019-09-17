@@ -18,6 +18,7 @@ Object {
   },
   "leads": Object {
     "create": [Function],
+    "fields": [Function],
     "get": [Function],
     "list": [Function],
     "update": [Function],

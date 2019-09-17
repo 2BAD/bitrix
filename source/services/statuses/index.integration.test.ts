@@ -1,7 +1,7 @@
 /* tslint-env jest */
 // tslint:disable: no-expression-statement object-literal-sort-keys
 
-import Bitrix from './../../bitrix'
+import Bitrix from '../../bitrix'
 
 const isSortedAsc = (arr: ReadonlyArray<string>) => arr.slice(1).every((v, i) => arr[i] <= v)
 const isSortedDesc = (arr: ReadonlyArray<string>) => arr.slice(1).every((v, i) => arr[i] >= v)

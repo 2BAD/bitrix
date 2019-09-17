@@ -1,8 +1,15 @@
 import { ListParams, Method } from '../../methods'
 import { GetPayload, ListPayload } from '../../payloads'
+import { Fields } from '../common'
 import { Lead } from './entities'
 
 export interface LeadsMethods {
+  readonly [Method.CRM_LEAD_FIELDS]: {
+    readonly type: Lead
+    readonly payload: GetPayload<Fields>
+    readonly params?: {}
+  }
+
   readonly [Method.CRM_LEAD_ADD]: {
     readonly type: Lead
     readonly payload: GetPayload<number>

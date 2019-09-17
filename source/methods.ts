@@ -23,6 +23,8 @@ export enum Method {
   CRM_DEAL_UPDATE = 'crm.deal.update',
   CRM_LEAD_UPDATE = 'crm.lead.update',
 
+  CRM_LEAD_FIELDS = 'crm.lead.fields',
+
   CRM_STATUS_FIELDS = 'crm.status.fields',
   CRM_STATUS_ADD = 'crm.status.add',
   CRM_STATUS_DELETE = 'crm.status.delete',
