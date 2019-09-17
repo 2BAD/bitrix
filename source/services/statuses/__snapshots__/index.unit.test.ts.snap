@@ -81,6 +81,7 @@ exports[`Statuses should expose API methods 1`] = `
 Object {
   "create": [Function],
   "delete": [Function],
+  "fields": [Function],
   "get": [Function],
   "list": [Function],
   "update": [Function],

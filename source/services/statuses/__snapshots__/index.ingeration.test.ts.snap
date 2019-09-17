@@ -15,6 +15,83 @@ Object {
 }
 `;
 
+exports[`Statuses fields should get all fields 1`] = `
+Object {
+  "ENTITY_ID": Object {
+    "isDynamic": false,
+    "isImmutable": true,
+    "isMultiple": false,
+    "isReadOnly": false,
+    "isRequired": true,
+    "title": "ID элемента сущности",
+    "type": "string",
+  },
+  "EXTRA": Object {
+    "isDynamic": false,
+    "isImmutable": false,
+    "isMultiple": false,
+    "isReadOnly": false,
+    "isRequired": false,
+    "title": "Дополнительные поля",
+    "type": "crm_status_extra",
+  },
+  "ID": Object {
+    "isDynamic": false,
+    "isImmutable": false,
+    "isMultiple": false,
+    "isReadOnly": true,
+    "isRequired": false,
+    "title": "ID",
+    "type": "integer",
+  },
+  "NAME": Object {
+    "isDynamic": false,
+    "isImmutable": false,
+    "isMultiple": false,
+    "isReadOnly": false,
+    "isRequired": true,
+    "title": "Название",
+    "type": "string",
+  },
+  "NAME_INIT": Object {
+    "isDynamic": false,
+    "isImmutable": false,
+    "isMultiple": false,
+    "isReadOnly": true,
+    "isRequired": false,
+    "title": "Название по умолчанию",
+    "type": "string",
+  },
+  "SORT": Object {
+    "isDynamic": false,
+    "isImmutable": false,
+    "isMultiple": false,
+    "isReadOnly": false,
+    "isRequired": false,
+    "title": "Сортировка",
+    "type": "integer",
+  },
+  "STATUS_ID": Object {
+    "isDynamic": false,
+    "isImmutable": true,
+    "isMultiple": false,
+    "isReadOnly": false,
+    "isRequired": true,
+    "title": "Статус",
+    "type": "string",
+  },
+  "SYSTEM": Object {
+    "isDynamic": false,
+    "isImmutable": false,
+    "isMultiple": false,
+    "isReadOnly": true,
+    "isRequired": false,
+    "title": "Системный",
+    "type": "char",
+  },
+}
+`;
+
 exports[`Statuses get should get entry with ID = 1 1`] = `
 Object {
   "ENTITY_ID": "STATUS",

@@ -17,6 +17,12 @@ if (!WEBHOOK_URL) {
 const { statuses } = Bitrix(WEBHOOK_URL)
 
 describe('Statuses', () => {
+  describe('fields', () => {
+    it('should get all fields', async () => {
+      const { result } = await statuses.fields()
+      expect(result).toMatchSnapshot()
+    })
+  })
 
   describe('list', () => {
     it('should get all entries without optional parameters', async () => {
