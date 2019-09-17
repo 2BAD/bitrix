@@ -11,7 +11,7 @@ export interface UsersMethods {
 
   readonly [Method.USER_GET]: {
     readonly type: User
-    readonly payload: GetPayload<User>
+    readonly payload: GetPayload<ReadonlyArray<User>>
     readonly params: {
       readonly id?: string
     }
