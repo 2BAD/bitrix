@@ -194,13 +194,12 @@ bitrix.batch({
 
 ## Development
 
-* `npm test` — run all tests
-* `npm run test:unit` — run unit tests
-* `npm run test:integration` — run integration tests
+* `npm test` — run all tests and collect full coverage report
+* `npm run test:unit` — run unit tests and collect coverage report
+* `npm run test:integration` — run integration tests and collect coverage report
 * `npm run test:watch` — watch for changes and run all tests
 * `npm run test:unit:watch` — watch for changes and run unit tests
 * `npm run test:integration:watch` — watch for changes and run integration tests
-* `npm run coverage` — collect full coverage report
 * `npm run build` — build the library for the release
 
 ### Adding new methods

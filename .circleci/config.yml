@@ -26,8 +26,12 @@ jobs:
       - run: npm install
       - save_cache: *save-npm-cache
       - run: npm run lint
-      - run: npm run test
-      - run: npm run coverage
-      - run: npm run build
+      - run: npm run test:unit
       - codecov/upload:
           file: coverage/*.json
+          flags: unit
+      - run: npm run test:integration
+      - codecov/upload:
+          file: coverage/*.json
+          flags: integration
+      - run: npm run build
