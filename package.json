@@ -39,18 +39,18 @@
   "devDependencies": {
     "@types/got": "9.6.7",
     "@types/jest": "24.0.18",
-    "@types/node": "12.7.4",
+    "@types/node": "12.7.5",
     "codecov": "3.5.0",
     "dotenv": "8.1.0",
     "jest": "24.9.0",
-    "nock": "11.3.3",
+    "nock": "11.3.4",
     "npm-run-all": "4.1.5",
     "rimraf": "3.0.0",
-    "ts-jest": "24.0.2",
-    "tslint": "5.19.0",
+    "ts-jest": "24.1.0",
+    "tslint": "5.20.0",
     "tslint-config-standard": "8.0.1",
     "tslint-immutable": "6.0.1",
-    "typescript": "3.6.2"
+    "typescript": "3.6.3"
   },
   "engines": {
     "node": ">=8.12.0"
