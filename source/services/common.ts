@@ -16,3 +16,10 @@ export interface Fields {
     readonly title: string
   }
 }
+
+export interface MultiField {
+  readonly ID: NumberString
+  readonly VALUE_TYPE: string
+  readonly VALUE: string
+  readonly TYPE_ID: string
+}
