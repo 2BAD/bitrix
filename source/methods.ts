@@ -5,6 +5,7 @@ import { ContactsMethods } from './services/contacts/methods'
 import { DealsMethods } from './services/deals/methods'
 import { LeadsMethods } from './services/leads/methods'
 import { StatusesMethods } from './services/statuses/methods'
+import { UsersMethods } from './services/users/methods'
 import { Diff } from './utils/Diff'
 import { ExtractValue } from './utils/ExtractValue'
 
@@ -40,7 +41,10 @@ export enum Method {
   CRM_STATUS_DELETE = 'crm.status.delete',
   CRM_STATUS_GET = 'crm.status.get',
   CRM_STATUS_LIST = 'crm.status.list',
-  CRM_STATUS_UPDATE = 'crm.status.update'
+  CRM_STATUS_UPDATE = 'crm.status.update',
+
+  USER_FIELDS = 'user.fields',
+  USER_GET = 'user.get'
 }
 
 const LISTABLE_METHODS = [
@@ -77,7 +81,7 @@ export interface ListParams {
  * - `params` — params that method accepts
  */
 export interface Methods extends MethodsMap,
-  CompaniesMethods, ContactsMethods, DealsMethods, LeadsMethods, StatusesMethods {
+  CompaniesMethods, ContactsMethods, DealsMethods, LeadsMethods, StatusesMethods, UsersMethods {
 
   readonly [Method.BATCH]: {
     readonly type: unknown
