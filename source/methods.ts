@@ -8,34 +8,32 @@ import { Diff } from './utils/Diff'
 import { ExtractValue } from './utils/ExtractValue'
 
 export enum Method {
-  // Gettable
   BATCH = 'batch',
 
-  CRM_CONTACTS_GET = 'crm.contact.get',
-  CRM_DEAL_GET = 'crm.deal.get',
-  CRM_LEAD_GET = 'crm.lead.get',
-
+  CRM_CONTACT_FIELD = 'crm.contact.fields',
   CRM_CONTACT_ADD = 'crm.contact.add',
-  CRM_DEAL_ADD = 'crm.deal.add',
-  CRM_LEAD_ADD = 'crm.lead.add',
-
   CRM_CONTACT_UPDATE = 'crm.contact.update',
+  CRM_CONTACTS_GET = 'crm.contact.get',
+  CRM_CONTACT_LIST = 'crm.contact.list',
+
+  CRM_DEAL_FIELDS = 'crm.deal.fields',
+  CRM_DEAL_ADD = 'crm.deal.add',
   CRM_DEAL_UPDATE = 'crm.deal.update',
-  CRM_LEAD_UPDATE = 'crm.lead.update',
+  CRM_DEAL_GET = 'crm.deal.get',
+  CRM_DEAL_LIST = 'crm.deal.list',
 
   CRM_LEAD_FIELDS = 'crm.lead.fields',
+  CRM_LEAD_ADD = 'crm.lead.add',
+  CRM_LEAD_UPDATE = 'crm.lead.update',
+  CRM_LEAD_GET = 'crm.lead.get',
+  CRM_LEAD_LIST = 'crm.lead.list',
 
   CRM_STATUS_FIELDS = 'crm.status.fields',
   CRM_STATUS_ADD = 'crm.status.add',
   CRM_STATUS_DELETE = 'crm.status.delete',
   CRM_STATUS_GET = 'crm.status.get',
   CRM_STATUS_LIST = 'crm.status.list',
-  CRM_STATUS_UPDATE = 'crm.status.update',
-
-  // Listable
-  CRM_CONTACT_LIST = 'crm.contact.list',
-  CRM_DEAL_LIST = 'crm.deal.list',
-  CRM_LEAD_LIST = 'crm.lead.list'
+  CRM_STATUS_UPDATE = 'crm.status.update'
 }
 
 const LISTABLE_METHODS = [
