@@ -6,6 +6,7 @@ Object {
   "call": [Function],
   "contacts": Object {
     "create": [Function],
+    "fields": [Function],
     "get": [Function],
     "list": [Function],
     "update": [Function],

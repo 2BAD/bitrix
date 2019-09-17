@@ -10,7 +10,7 @@ import { ExtractValue } from './utils/ExtractValue'
 export enum Method {
   BATCH = 'batch',
 
-  CRM_CONTACT_FIELD = 'crm.contact.fields',
+  CRM_CONTACT_FIELDS = 'crm.contact.fields',
   CRM_CONTACT_ADD = 'crm.contact.add',
   CRM_CONTACT_UPDATE = 'crm.contact.update',
   CRM_CONTACTS_GET = 'crm.contact.get',
