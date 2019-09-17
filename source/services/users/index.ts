@@ -11,6 +11,6 @@ export default ({ call }: Dependencies) => ({
   fields: () =>
     call(Method.USER_FIELDS, {}),
 
-  get: (id: string) =>
+  get: (id?: string) =>
     call(Method.USER_GET, { id })
 })

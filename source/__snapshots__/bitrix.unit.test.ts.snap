@@ -41,6 +41,10 @@ Object {
     "list": [Function],
     "update": [Function],
   },
+  "users": Object {
+    "fields": [Function],
+    "get": [Function],
+  },
 }
 `;
 

@@ -13,7 +13,7 @@ export interface UsersMethods {
     readonly type: User
     readonly payload: GetPayload<User>
     readonly params: {
-      readonly id: string
+      readonly id?: string
     }
   }
 }

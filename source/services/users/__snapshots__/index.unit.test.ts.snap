@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Users \`get\` should invoke \`call\` 1`] = `
+Array [
+  Array [
+    "user.get",
+    Object {
+      "id": "77",
+    },
+  ],
+]
+`;
+
+exports[`Users should expose API methods 1`] = `
+Object {
+  "fields": [Function],
+  "get": [Function],
+}
+`;
