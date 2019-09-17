@@ -1,6 +1,6 @@
 import { BoolString, NumberString } from '../../entities/common'
 
-export interface StatusExtra {
+export interface Extra {
   readonly SEMANTICS: string
   readonly COLOR: string
 }
@@ -13,5 +13,5 @@ export interface Status {
   readonly NAME_INIT: string
   readonly SORT: NumberString
   readonly SYSTEM: BoolString
-  readonly EXTRA: StatusExtra | undefined
+  readonly EXTRA: Extra | undefined
 }
