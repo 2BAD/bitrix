@@ -10,6 +10,9 @@ interface Dependencies {
 }
 
 export default ({ call, list }: Dependencies) => ({
+  fields: () =>
+    call(Method.CRM_DEAL_FIELDS, {}),
+
   create: <D extends MethodParams<Method.CRM_DEAL_ADD>>(fields: D['fields'], params?: D['params']) =>
     call(Method.CRM_DEAL_ADD, { fields, params }),
 

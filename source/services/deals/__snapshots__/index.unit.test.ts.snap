@@ -106,6 +106,7 @@ Array [
 exports[`Deals should expose API methods 1`] = `
 Object {
   "create": [Function],
+  "fields": [Function],
   "get": [Function],
   "list": [Function],
   "update": [Function],
