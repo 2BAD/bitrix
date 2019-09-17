@@ -20,7 +20,7 @@ export interface ContactsMethods {
       }
     }
   }
-  readonly [Method.CRM_CONTACTS_GET]: {
+  readonly [Method.CRM_CONTACT_GET]: {
     readonly type: Contact
     readonly payload: GetPayload<Contact>
     readonly params: {

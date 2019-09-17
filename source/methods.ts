@@ -19,7 +19,7 @@ export enum Method {
   CRM_CONTACT_FIELDS = 'crm.contact.fields',
   CRM_CONTACT_ADD = 'crm.contact.add',
   CRM_CONTACT_UPDATE = 'crm.contact.update',
-  CRM_CONTACTS_GET = 'crm.contact.get',
+  CRM_CONTACT_GET = 'crm.contact.get',
   CRM_CONTACT_LIST = 'crm.contact.list',
 
   CRM_DEAL_FIELDS = 'crm.deal.fields',

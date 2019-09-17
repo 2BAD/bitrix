@@ -17,7 +17,7 @@ export default ({ call, list }: Dependencies) => ({
     call(Method.CRM_CONTACT_ADD, { fields, params }),
 
   get: (id: string) =>
-    call(Method.CRM_CONTACTS_GET, { id }),
+    call(Method.CRM_CONTACT_GET, { id }),
 
   list: (params: MethodParams<Method.CRM_CONTACT_LIST> = {}) =>
     list(Method.CRM_CONTACT_LIST, params),
