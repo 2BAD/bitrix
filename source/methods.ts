@@ -1,5 +1,6 @@
 import { Commands } from './commands'
 import { BatchPayload } from './payloads'
+import { CompaniesMethods } from './services/companies/methods'
 import { ContactsMethods } from './services/contacts/methods'
 import { DealsMethods } from './services/deals/methods'
 import { LeadsMethods } from './services/leads/methods'
@@ -75,7 +76,8 @@ export interface ListParams {
  * - `payload` — a payload that method returns
  * - `params` — params that method accepts
  */
-export interface Methods extends MethodsMap, ContactsMethods, DealsMethods, LeadsMethods, StatusesMethods {
+export interface Methods extends MethodsMap,
+  CompaniesMethods, ContactsMethods, DealsMethods, LeadsMethods, StatusesMethods {
 
   readonly [Method.BATCH]: {
     readonly type: unknown
