@@ -4,6 +4,13 @@ exports[`Bitrix should expose API methods 1`] = `
 Object {
   "batch": [Function],
   "call": [Function],
+  "companies": Object {
+    "create": [Function],
+    "fields": [Function],
+    "get": [Function],
+    "list": [Function],
+    "update": [Function],
+  },
   "contacts": Object {
     "create": [Function],
     "fields": [Function],

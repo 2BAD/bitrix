@@ -1,0 +1,114 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Companies \`create\` should invoke \`call\` 1`] = `
+Array [
+  Array [
+    "crm.company.add",
+    Object {
+      "fields": Object {
+        "COMMENTS": "Some comment",
+      },
+      "params": Object {
+        "REGISTER_SONET_EVENT": "Y",
+      },
+    },
+  ],
+]
+`;
+
+exports[`Companies \`create\` should work without optional params 1`] = `
+Array [
+  Array [
+    "crm.company.add",
+    Object {
+      "fields": Object {
+        "COMMENTS": "Some comment",
+      },
+      "params": undefined,
+    },
+  ],
+]
+`;
+
+exports[`Companies \`get\` should invoke \`call\` 1`] = `
+Array [
+  Array [
+    "crm.company.get",
+    Object {
+      "id": "77",
+    },
+  ],
+]
+`;
+
+exports[`Companies \`list\` should invoke \`list\` 1`] = `
+Array [
+  Array [
+    "crm.company.list",
+    Object {
+      "filter": Object {
+        ">PROBABILITY": 50,
+      },
+      "order": Object {
+        "COMMENTS": "ASC",
+      },
+      "select": Array [
+        "*",
+        "UF_*",
+      ],
+      "start": 0,
+    },
+  ],
+]
+`;
+
+exports[`Companies \`list\` should work without optional params 1`] = `
+Array [
+  Array [
+    "crm.company.list",
+    Object {},
+  ],
+]
+`;
+
+exports[`Companies \`update\` should invoke \`call\` 1`] = `
+Array [
+  Array [
+    "crm.company.update",
+    Object {
+      "fields": Object {
+        "COMMENTS": "Some comment",
+      },
+      "id": "77",
+      "params": Object {
+        "REGISTER_SONET_EVENT": "Y",
+      },
+    },
+  ],
+]
+`;
+
+exports[`Companies \`update\` should work without optional params 1`] = `
+Array [
+  Array [
+    "crm.company.update",
+    Object {
+      "fields": Object {
+        "COMMENTS": "Some comment",
+      },
+      "id": "77",
+      "params": undefined,
+    },
+  ],
+]
+`;
+
+exports[`Companies should expose API methods 1`] = `
+Object {
+  "create": [Function],
+  "fields": [Function],
+  "get": [Function],
+  "list": [Function],
+  "update": [Function],
+}
+`;
