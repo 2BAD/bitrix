@@ -1,4 +1,4 @@
-import { BoolString, ISODate, NumberString } from '../../entities/common'
+import { BoolString, ISODate, NumberString } from '../common'
 
 export interface Contact {
   readonly ID: NumberString

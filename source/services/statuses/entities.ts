@@ -1,4 +1,4 @@
-import { BoolString, NumberString } from '../../entities/common'
+import { BoolString, NumberString } from '../common'
 
 export interface Extra {
   readonly SEMANTICS: string
