@@ -76,7 +76,7 @@
     "test:integration": "jest integration --coverage",
     "test:integration:watch": "jest integration --watch",
     "watch": "run-s clean build:main && run-p build:main:watch",
-    "prepublish": "run-s clean build",
+    "prepublishOnly": "run-s clean build",
     "preversion": "run-s clean lint test build"
   },
   "jest": {
