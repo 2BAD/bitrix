@@ -1,126 +1,35 @@
-
 # Statuses service
 
-| API                                                 | Enum method                      | Bitrix method                                                                                                    |
-| :---------------------------------------------------| :------------------------------- | :------------------------------------------------------------------------------------------------------          |
-| [`bitrix.statuses.create()`](#bitrixstatusesfields) | `Method.CRM_STATUS_FIELDS`       | [`crm.status.fields`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_fields.php)             |
-|                                                     | `Method.CRM_STATUS_ENTITY_TYPES` | [`crm.status.entity.types`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_entity_types.php) |
-|                                                     | `Method.CRM_STATUS_ENTITY_ITEMS` | [`crm.status.entity.items`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_entity_items.php) |
-| [`bitrix.statuses.create()`](#bitrixstatusescreate) | `Method.CRM_STATUS_ADD`          | [`crm.status.add`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_add.php)                   |
-| [`bitrix.statuses.delete()`](#bitrixstatusesdelete) | `Method.CRM_STATUS_DELETE`       | [`crm.status.delete`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_delete.php)             |
-| [`bitrix.statuses.get()`](#bitrixstatusesget)       | `Method.CRM_STATUS_GET`          | [`crm.status.get`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_get.php)                   |
-| [`bitrix.statuses.list()`](#bitrixstatuseslist)     | `Method.CRM_STATUS_LIST`         | [`crm.status.list`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_list.php)                 |
-| [`bitrix.statuses.update()`](#bitrixstatusesupdate) | `Method.CRM_STATUS_UPDATE`       | [`crm.status.update`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_update.php)             |
+| API | Enum method | Bitrix method |
+| :--- | :--- | :--- |
+| [`bitrix.statuses.fields()`](statuses.md#bitrixstatusesfields) | `Method.CRM_STATUS_FIELDS` | [`crm.status.fields`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_fields.php) |
+|  | `Method.CRM_STATUS_ENTITY_TYPES` | [`crm.status.entity.types`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_entity_types.php) |
+|  | `Method.CRM_STATUS_ENTITY_ITEMS` | [`crm.status.entity.items`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_entity_items.php) |
+| [`bitrix.statuses.create()`](statuses.md#bitrixstatusescreate) | `Method.CRM_STATUS_ADD` | [`crm.status.add`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_add.php) |
+| [`bitrix.statuses.delete()`](statuses.md#bitrixstatusesdelete) | `Method.CRM_STATUS_DELETE` | [`crm.status.delete`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_delete.php) |
+| [`bitrix.statuses.get()`](statuses.md#bitrixstatusesget) | `Method.CRM_STATUS_GET` | [`crm.status.get`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_get.php) |
+| [`bitrix.statuses.list()`](statuses.md#bitrixstatuseslist) | `Method.CRM_STATUS_LIST` | [`crm.status.list`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_list.php) |
+| [`bitrix.statuses.update()`](statuses.md#bitrixstatusesupdate) | `Method.CRM_STATUS_UPDATE` | [`crm.status.update`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_update.php) |
 
 ## `bitrix.statuses.fields()`
 
-List all fields for [Status](/source/services/statuses/entities.ts) entity
+List all fields for [Status](https://github.com/2BAD/bitrix/tree/b0db508dcebe77f486f7db833183f28de7de14db/source/services/statuses/entities.ts) entity
 
-```ts
+```typescript
 bitrix.statuses.fields()
 ```
 
 **Returns**
 
- * `Promise<GetPayload<Fields>>`
+* `Promise<GetPayload<Fields>>`
 
-<details>
-<summary>See payload example</summary>
-
-```ts
-{
-  result: {
-    ID: {
-      type: "integer",
-      isRequired: false,
-      isReadOnly: true,
-      isImmutable: false,
-      isMultiple: false,
-      isDynamic: false,
-      title: "ID"
-    },
-    ENTITY_ID: {
-      type: "string",
-      isRequired: true,
-      isReadOnly: false,
-      isImmutable: true,
-      isMultiple: false,
-      isDynamic: false,
-      title: "ID элемента сущности"
-    },
-    STATUS_ID: {
-      type: "string",
-      isRequired: true,
-      isReadOnly: false,
-      isImmutable: true,
-      isMultiple: false,
-      isDynamic: false,
-      title: "Статус"
-    },
-    SORT: {
-      type: "integer",
-      isRequired: false,
-      isReadOnly: false,
-      isImmutable: false,
-      isMultiple: false,
-      isDynamic: false,
-      title: "Сортировка"
-    },
-    NAME: {
-      type: "string",
-      isRequired: true,
-      isReadOnly: false,
-      isImmutable: false,
-      isMultiple: false,
-      isDynamic: false,
-      title: "Название"
-    },
-    NAME_INIT: {
-      type: "string",
-      isRequired: false,
-      isReadOnly: true,
-      isImmutable: false,
-      isMultiple: false,
-      isDynamic: false,
-      title: "Название по умолчанию"
-    },
-    SYSTEM: {
-      type: "char",
-      isRequired: false,
-      isReadOnly: true,
-      isImmutable: false,
-      isMultiple: false,
-      isDynamic: false,
-      title: "Системный"
-    },
-    EXTRA: {
-      type: "crm_status_extra",
-      isRequired: false,
-      isReadOnly: false,
-      isImmutable: false,
-      isMultiple: false,
-      isDynamic: false,
-      title: "Дополнительные поля"
-    }
-  },
-  time: {
-    start: 1568749081.1406679,
-    finish: 1568749081.1696601,
-    duration: 0.028992176055908203,
-    processing: 0.0014741420745849609,
-    date_start: "2019-09-17T22:38:01+03:00",
-    date_finish: "2019-09-17T22:38:01+03:00"
-  }
-}
-```
-
-</details>
+See payload example \`\`\`ts { result: { ID: { type: "integer", isRequired: false, isReadOnly: true, isImmutable: false, isMultiple: false, isDynamic: false, title: "ID" }, ENTITY\_ID: { type: "string", isRequired: true, isReadOnly: false, isImmutable: true, isMultiple: false, isDynamic: false, title: "ID элемента сущности" }, STATUS\_ID: { type: "string", isRequired: true, isReadOnly: false, isImmutable: true, isMultiple: false, isDynamic: false, title: "Статус" }, SORT: { type: "integer", isRequired: false, isReadOnly: false, isImmutable: false, isMultiple: false, isDynamic: false, title: "Сортировка" }, NAME: { type: "string", isRequired: true, isReadOnly: false, isImmutable: false, isMultiple: false, isDynamic: false, title: "Название" }, NAME\_INIT: { type: "string", isRequired: false, isReadOnly: true, isImmutable: false, isMultiple: false, isDynamic: false, title: "Название по умолчанию" }, SYSTEM: { type: "char", isRequired: false, isReadOnly: true, isImmutable: false, isMultiple: false, isDynamic: false, title: "Системный" }, EXTRA: { type: "crm\_status\_extra", isRequired: false, isReadOnly: false, isImmutable: false, isMultiple: false, isDynamic: false, title: "Дополнительные поля" } }, time: { start: 1568749081.1406679, finish: 1568749081.1696601, duration: 0.028992176055908203, processing: 0.0014741420745849609, date\_start: "2019-09-17T22:38:01+03:00", date\_finish: "2019-09-17T22:38:01+03:00" } } \`\`\`
 
 ## `bitrix.statuses.create()`
 
 Create new status
 
-```ts
+```typescript
 bitrix.statuses.create({
   NAME: 'New status'
 })
@@ -128,36 +37,19 @@ bitrix.statuses.create({
 
 **Arguments**
 
-* `fields: Partial<Status>` — a fields to create status with. See [Status](/source/services/statuses/entities.ts).
+* `fields: Partial<Status>` — a fields to create status with. See [Status](https://github.com/2BAD/bitrix/tree/b0db508dcebe77f486f7db833183f28de7de14db/source/services/statuses/entities.ts).
 
 **Returns**
 
- * `Promise<GetPayload<number>>`
+* `Promise<GetPayload<number>>`
 
-<details>
-<summary>See payload example</summary>
-
-```ts
-{
-  result: 77,
-  time: {
-    start: 1567372034.625375,
-    finish: 1567372034.8204,
-    duration: 0.19502496719360352,
-    processing: 0.03838515281677246,
-    date_start: "2019-09-02T00:07:14+03:00",
-    date_finish: "2019-09-02T00:07:14+03:00"
-  }
-}
-```
-
-</details>
+See payload example \`\`\`ts { result: 77, time: { start: 1567372034.625375, finish: 1567372034.8204, duration: 0.19502496719360352, processing: 0.03838515281677246, date\_start: "2019-09-02T00:07:14+03:00", date\_finish: "2019-09-02T00:07:14+03:00" } } \`\`\`
 
 ## `bitrix.statuses.delete()`
 
 Delete status
 
-```ts
+```typescript
 bitrix.statuses.delete('1')
 ```
 
@@ -168,32 +60,15 @@ bitrix.statuses.delete('1')
 
 **Returns**
 
- * `Promise<GetPayload<boolean>>`
+* `Promise<GetPayload<boolean>>`
 
-<details>
-<summary>See payload example</summary>
-
-```ts
-{
-  result: true,
-  time: {
-    start: 1567372034.625375,
-    finish: 1567372034.8204,
-    duration: 0.19502496719360352,
-    processing: 0.03838515281677246,
-    date_start: "2019-09-02T00:07:14+03:00",
-    date_finish: "2019-09-02T00:07:14+03:00"
-  }
-}
-```
-
-</details>
+See payload example \`\`\`ts { result: true, time: { start: 1567372034.625375, finish: 1567372034.8204, duration: 0.19502496719360352, processing: 0.03838515281677246, date\_start: "2019-09-02T00:07:14+03:00", date\_finish: "2019-09-02T00:07:14+03:00" } } \`\`\`
 
 ## `bitrix.statuses.get()`
 
 Retrieve specified status
 
-```ts
+```typescript
 bitrix.statuses.get('1')
 ```
 
@@ -203,47 +78,15 @@ bitrix.statuses.get('1')
 
 **Returns**
 
- * `Promise<GetPayload<Status>>` (See [Status](/source/services/statuses/entities.ts))
+* `Promise<GetPayload<Status>>` \(See [Status](https://github.com/2BAD/bitrix/tree/b0db508dcebe77f486f7db833183f28de7de14db/source/services/statuses/entities.ts)\)
 
-<details>
-<summary>See payload example</summary>
-
-```ts
-{
-  result: [
-    {
-      ID: "1",
-      ENTITY_ID: "STATUS",
-      STATUS_ID: "NEW",
-      NAME: "Не обработан",
-      NAME_INIT: "Не обработан",
-      SORT: "10",
-      SYSTEM: "Y",
-      EXTRA: {
-        SEMANTICS: "process",
-        COLOR: "#E1E1E1"
-      }
-    }
-  ],
-  total: 1,
-  time: {
-    start: 1567988070.0949659,
-    finish: 1567988070.1293139,
-    duration: 0.034348011016845703,
-    processing: 0.0028300285339355469,
-    date_start: "2019-09-09T03:14:30+03:00",
-    date_finish: "2019-09-09T03:14:30+03:00"
-  }
-}
-```
-
-</details>
+See payload example \`\`\`ts { result: \[ { ID: "1", ENTITY\_ID: "STATUS", STATUS\_ID: "NEW", NAME: "Не обработан", NAME\_INIT: "Не обработан", SORT: "10", SYSTEM: "Y", EXTRA: { SEMANTICS: "process", COLOR: "\#E1E1E1" } } \], total: 1, time: { start: 1567988070.0949659, finish: 1567988070.1293139, duration: 0.034348011016845703, processing: 0.0028300285339355469, date\_start: "2019-09-09T03:14:30+03:00", date\_finish: "2019-09-09T03:14:30+03:00" } } \`\`\`
 
 ## `bitrix.statuses.list()`
 
 Retrieve all statuses.
 
-```ts
+```typescript
 bitrix.statuses.list({ filter: { ID: '1' }})
 ```
 
@@ -253,47 +96,15 @@ bitrix.statuses.list({ filter: { ID: '1' }})
 
 **Returns**
 
- * `Promise<ListPayload<Status>>`
+* `Promise<ListPayload<Status>>`
 
-<details>
-<summary>See payload example</summary>
-
-```ts
-{
-  result: [
-    {
-      ID: "1",
-      ENTITY_ID: "STATUS",
-      STATUS_ID: "NEW",
-      NAME: "Не обработан",
-      NAME_INIT: "Не обработан",
-      SORT: "10",
-      SYSTEM: "Y",
-      EXTRA: {
-        SEMANTICS: "process",
-        COLOR: "#E1E1E1"
-      }
-    }
-  ],
-  total: 1,
-  time: {
-    start: 1567988070.0949659,
-    finish: 1567988070.1293139,
-    duration: 0.034348011016845703,
-    processing: 0.0028300285339355469,
-    date_start: "2019-09-09T03:14:30+03:00",
-    date_finish: "2019-09-09T03:14:30+03:00"
-  }
-}
-```
-
-</details>
+See payload example \`\`\`ts { result: \[ { ID: "1", ENTITY\_ID: "STATUS", STATUS\_ID: "NEW", NAME: "Не обработан", NAME\_INIT: "Не обработан", SORT: "10", SYSTEM: "Y", EXTRA: { SEMANTICS: "process", COLOR: "\#E1E1E1" } } \], total: 1, time: { start: 1567988070.0949659, finish: 1567988070.1293139, duration: 0.034348011016845703, processing: 0.0028300285339355469, date\_start: "2019-09-09T03:14:30+03:00", date\_finish: "2019-09-09T03:14:30+03:00" } } \`\`\`
 
 ## `bitrix.statuses.update()`
 
 Update specified status
 
-```ts
+```typescript
 bitrix.statuses.update('77', {
   NAME: 'New status name'
 })
@@ -302,27 +113,11 @@ bitrix.statuses.update('77', {
 **Arguments**
 
 * `id: string` — status `ID` to update
-* `fields: Partial<Status>` — a fields to update. See [Status](/source/services/statuses/entities.ts)
+* `fields: Partial<Status>` — a fields to update. See [Status](https://github.com/2BAD/bitrix/tree/b0db508dcebe77f486f7db833183f28de7de14db/source/services/statuses/entities.ts)
 
 **Returns**
 
- * `Promise<GetPayload<boolean>>`
+* `Promise<GetPayload<boolean>>`
 
-<details>
-<summary>See payload example</summary>
+See payload example \`\`\`ts { result: true, time: { start: 1567372034.625375, finish: 1567372034.8204, duration: 0.19502496719360352, processing: 0.03838515281677246, date\_start: "2019-09-02T00:07:14+03:00", date\_finish: "2019-09-02T00:07:14+03:00" } } \`\`\`
 
-```ts
-{
-  result: true,
-  time: {
-    start: 1567372034.625375,
-    finish: 1567372034.8204,
-    duration: 0.19502496719360352,
-    processing: 0.03838515281677246,
-    date_start: "2019-09-02T00:07:14+03:00",
-    date_finish: "2019-09-02T00:07:14+03:00"
-  }
-}
-```
-
-</details>

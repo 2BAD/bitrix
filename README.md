@@ -1,27 +1,12 @@
-![@2bad/bitrix](https://user-images.githubusercontent.com/4460311/64487745-c4a1ea00-d246-11e9-9d6e-a0b0227c801c.png)
+---
+description: that doesn't suck
+---
 
-# Bitrix24 REST API client that doesn't suck
+# Bitrix24 REST API client
 
-<p>
-  <a href='https://www.npmjs.com/package/@2bad/bitrix'>
-    <img src='https://img.shields.io/npm/v/@2bad/bitrix.svg' alt='NPM version' />
-  </a>
-  <a href='https://www.npmjs.com/package/@2bad/bitrix'>
-    <img src='https://img.shields.io/npm/l/@2bad/bitrix.svg' alt='License' />
-  </a>
-  <a href='https://codecov.io/gh/2BAD/bitrix'>
-    <img src='https://img.shields.io/codecov/c/github/2BAD/bitrix.svg' alt='Code coverage' />
-  </a>
-  <a href='https://circleci.com/gh/2BAD/bitrix'>
-    <img src='https://img.shields.io/circleci/build/gh/2BAD/bitrix/master.svg?label=circle' alt='CircleCI Build Status' />
-  </a>
-  <a href='https://david-dm.org/2BAD/bitrix'>
-    <img src='https://img.shields.io/david/2BAD/bitrix.svg' alt='Dependency Status' />
-  </a>
-  <a href='https://github.com/2BAD/bitrix/search?l=typescript'>
-    <img src='https://img.shields.io/github/languages/top/2BAD/bitrix.svg' alt='Written in TypeScript' />
-  </a>
-</p>
+![](https://user-images.githubusercontent.com/4460311/64487745-c4a1ea00-d246-11e9-9d6e-a0b0227c801c.png)
+
+ [![NPM version](https://img.shields.io/npm/v/@2bad/bitrix.svg)](https://www.npmjs.com/package/@2bad/bitrix) [![License](https://img.shields.io/npm/l/@2bad/bitrix.svg)](https://www.npmjs.com/package/@2bad/bitrix) [![Code coverage](https://img.shields.io/codecov/c/github/2BAD/bitrix.svg)](https://codecov.io/gh/2BAD/bitrix) [![CircleCI Build Status](https://img.shields.io/circleci/build/gh/2BAD/bitrix/master.svg?label=circle)](https://circleci.com/gh/2BAD/bitrix) [![Dependency Status](https://img.shields.io/david/2BAD/bitrix.svg)](https://david-dm.org/2BAD/bitrix) [![Written in TypeScript](https://img.shields.io/github/languages/top/2BAD/bitrix.svg)](https://github.com/2BAD/bitrix/search?l=typescript)
 
 * 🔥 No bullshit
 * ✨ Expressive API
@@ -31,17 +16,17 @@
 
 ![@2bad/bitrix usage example](https://user-images.githubusercontent.com/4460311/64130824-7798c080-cdcd-11e9-99f0-7ded87541a85.png)
 
-## Install
+### Install
 
-```shell
+```text
 npm install @2bad/bitrix
 ```
 
-## Usage
+### Usage
 
 Init client with Bitrix API endpoint and access token and use the client to ease your Bitrix pain:
 
-```ts
+```typescript
 import Bitrix from '@2bad/bitrix'
 
 const bitrix = Bitrix('https://PORTAL_NAME.bitrix24.ru/rest', 'ACCESS_TOKEN')
@@ -64,7 +49,7 @@ bitrix.deals.list({ select: ["*", "UF_*"] })
   .catch(console.error)
 ```
 
-## Authentication
+### Authentication
 
 Before you'll be able to use Bitrix REST API, you need to authenticate.
 
@@ -76,7 +61,7 @@ There are two ways to do that:
 
    That will yield an access token. Use it to init the client:
 
-   ```ts
+   ```typescript
    const bitrix = Bitrix('https://PORTAL_NAME.bitrix24.ru/rest', 'ACCESS_TOKEN')
    ```
 
@@ -86,28 +71,28 @@ There are two ways to do that:
 
    It will instantly give you an endpoint with a token inside of it. No additional authentication or access tokens required to use it:
 
-   ```ts
+   ```typescript
    const bitrix = Bitrix('https://PORTAL_NAME.bitrix24.ru/rest/1/WEBHOOK_TOKEN')
    ```
 
    That endpoint lives indefinitely. Rejoice and hope that it won't backfire on you.
 
-## API
+### API
 
 * Generic
-  * [`call()`](/docs/methods.md#call)
-  * [`list()`](/docs/methods.md#list)
-  * [`batch()`](/docs/methods.md#batch)
+  * [`call()`](docs/methods.md#call)
+  * [`list()`](docs/methods.md#list)
+  * [`batch()`](docs/methods.md#batch)
 * CRM
-  * [Company](/docs/services/companies.md)
-  * [Contact](/docs/services/contacts.md)
-  * [Currency](/docs/services/currencies.md)
-  * [Deal](/docs/services/deals.md)
-  * [Lead](/docs/services/leads.md)
-  * [Status](/docs/services/statuses.md)
-* [User](/docs/services/users.md)
+  * [Company](docs/services/companies.md)
+  * [Contact](docs/services/contacts.md)
+  * [Currency](docs/services/currencies.md)
+  * [Deal](docs/services/deals.md)
+  * [Lead](docs/services/leads.md)
+  * [Status](docs/services/statuses.md)
+* [User](docs/services/users.md)
 
-## How it works
+### How it works
 
 The client tries hard to provide a consistent, strongly typed and at the same time effortless experience.
 
@@ -115,24 +100,24 @@ It takes care of the any necessary batching to run "large" commands, like retrie
 
 All client methods are automatically rate-limited and queued if needed to cope with Bitrix REST API limitation of 2 requests per second, so you should never see Bitrix erroring about exceeding rate limits.
 
-Methods required params and returned payload types are automatically resolved based on [Methods](source/types.ts) interface, which effectively describes all currently supported methods.
+Methods required params and returned payload types are automatically resolved based on [Methods](https://github.com/2BAD/bitrix/tree/b0db508dcebe77f486f7db833183f28de7de14db/source/types.ts) interface, which effectively describes all currently supported methods.
 
 To facilitate better architecture, the client divided into layers:
 
-1. **Methods** — a mostly generic [methods](/docs/methods.md) like `call` to work with Bitrix API methods. They take care of the routine and provide a foundation for more complex operations.
-2. **Client** — a generic [client](/source/client), which takes care of some additional routine tasks like setting access token on every request, setting up a queue for the rate limiting, and providing generic methods.
-3. **Services** — each [service](/docs/services) provides an expressive interface to work with a specific group of Bitrix REST API operations. In essence, they do orchestrate generic client methods and parameters to get proper results.
-4. **Bitrix client** — a top-level [provider](/source/bitrix.ts) of generic method and services. An effortless way to deal with Bitrix REST API by using an intuitive API, which takes care of all underlying complexity.
+1. **Methods** — a mostly generic [methods](docs/methods.md) like `call` to work with Bitrix API methods. They take care of the routine and provide a foundation for more complex operations.
+2. **Client** — a generic [client](https://github.com/2BAD/bitrix/tree/b0db508dcebe77f486f7db833183f28de7de14db/source/client/README.md), which takes care of some additional routine tasks like setting access token on every request, setting up a queue for the rate limiting, and providing generic methods.
+3. **Services** — each [service](https://github.com/2BAD/bitrix/tree/b0db508dcebe77f486f7db833183f28de7de14db/docs/services/README.md) provides an expressive interface to work with a specific group of Bitrix REST API operations. In essence, they do orchestrate generic client methods and parameters to get proper results.
+4. **Bitrix client** — a top-level [provider](https://github.com/2BAD/bitrix/tree/b0db508dcebe77f486f7db833183f28de7de14db/source/bitrix.ts) of generic method and services. An effortless way to deal with Bitrix REST API by using an intuitive API, which takes care of all underlying complexity.
 
-## FAQ
+### FAQ
 
 > Is it finished?
 
 The core is ready and stable. It can be used to arbitrary invoke any Bitrix REST API methods.
 
-However, not all Bitrix REST API methods are exposed as convenient client services yet (the ones like `bitrix.deals.list()`).
+However, not all Bitrix REST API methods are exposed as convenient client services yet \(the ones like `bitrix.deals.list()`\).
 
-If you need specific service, add one by making a Pull Request, following the structure of already existing [services](/source/services) and ["Adding new methods"](#adding-new-methods) instructions.
+If you need specific service, add one by making a Pull Request, following the structure of already existing [services](https://github.com/2BAD/bitrix/tree/b0db508dcebe77f486f7db833183f28de7de14db/source/services/README.md) and ["Adding new methods"](./#adding-new-methods) instructions.
 
 > I'm not a Typed Language Master Race user. Can I use it with a regular JavaScript?
 
@@ -148,7 +133,7 @@ You shouldn't. Catch rejections instead, as the library will reject if there are
 
 Bitrix API doesn't do that by default. Use wildcards in `select` param to force inclusion of user fields:
 
-```ts
+```typescript
 bitrix.deals.list({ select: ['*', 'UF_*'] })
 ```
 
@@ -156,7 +141,7 @@ bitrix.deals.list({ select: ['*', 'UF_*'] })
 
 Client can't know about non-default properties in payloads. Because of that, it assumes that any payload can have any additional fields of type `[key: string]: string`:
 
-```ts
+```typescript
 bitrix.leads.get({ ID: '77' })
   .then(({ result }) => {
     // known property of type `string`
@@ -173,7 +158,7 @@ bitrix.leads.get({ ID: '77' })
 
 Use appropriate low-level client methods with a casting, like so:
 
-```ts
+```typescript
 bitrix.call('some.new.get' as any, { ID: '77' } as any)
   .then((payload) => payload as GetPayload<NewPayload>)
 
@@ -185,14 +170,14 @@ bitrix.list('some.new.list' as any, { select: ["TITLE"] })
 
 Use the `batch` method. It will handle all routine:
 
-```ts
+```typescript
 bitrix.batch({
   lead: { method: Method.GET_LEAD, params: { ID: '77' } },
   deals: { method: Method.LIST_DEALS, params: {} }
 })
 ```
 
-## Development
+### Development
 
 * `npm test` — run all tests and collect full coverage report
 * `npm run test:unit` — run unit tests and collect coverage report
@@ -202,19 +187,18 @@ bitrix.batch({
 * `npm run test:integration:watch` — watch for changes and run integration tests
 * `npm run build` — build the library for the release
 
-### Adding new methods
+#### Adding new methods
 
 Proper method parameters and payload types handling requires some routine when adding any new method. Hopefully, we can do it better in future, but for now follow those steps:
 
-1. Add new method into the [`Method`](/source/methods.ts) enum.
-2. Add it into the [`LISTABLE_METHODS`](/source/methods.ts) array if it is listable (paginated). Not everything that lists is listable, so check it.
-3. Add or update related [service](/source/services):
-
+1. Add new method into the [`Method`](https://github.com/2BAD/bitrix/tree/b0db508dcebe77f486f7db833183f28de7de14db/source/methods.ts) enum.
+2. Add it into the [`LISTABLE_METHODS`](https://github.com/2BAD/bitrix/tree/b0db508dcebe77f486f7db833183f28de7de14db/source/methods.ts) array if it is listable \(paginated\). Not everything that lists is listable, so check it.
+3. Add or update related [service](https://github.com/2BAD/bitrix/tree/b0db508dcebe77f486f7db833183f28de7de14db/source/services/README.md):
    1. Put exposed by the service public methods into the `index.ts` file. Ensure that you're properly mapping service method arguments to `call` or `list` params.
    2. Add related entities into the `entities.ts`.
    3. Add interface describing service methods into the `methods.ts`. Test and check method payload type to be sure you've described it correctly!
-   4. Extend [`Methods`](/source/methods.ts) interface with the added service-specific interface. That way the client will know how to resolve parameters and payload types for the added method.
+   4. Extend [`Methods`](https://github.com/2BAD/bitrix/tree/b0db508dcebe77f486f7db833183f28de7de14db/source/methods.ts) interface with the added service-specific interface. That way the client will know how to resolve parameters and payload types for the added method.
    5. Add tests into the `index.unit.test.ts`.
+4. Re-export service public types like Entities in the [bitrix.ts](https://github.com/2BAD/bitrix/tree/b0db508dcebe77f486f7db833183f28de7de14db/source/bitrix.ts) to make them available to the end-users.
+5. Document addition in the [docs](https://github.com/2BAD/bitrix/tree/b0db508dcebe77f486f7db833183f28de7de14db/docs/README.md).
 
-4. Re-export service public types like Entities in the [bitrix.ts](/source/bitrix.ts) to make them available to the end-users.
-5. Document addition in the [docs](/docs).

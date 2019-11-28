@@ -14,7 +14,7 @@ A generic method for executing any supported Bitrix method.
 
 Payload type will be resolved based on the `Methods` map.
 
-```ts
+```typescript
 import Bitrix, { Method } from '@2bad/bitrix'
 
 // ...init client...
@@ -37,7 +37,7 @@ bitrix.getList<Deal>(Method.LIST_DEALS, { start: 774 }) // returns ListPayload<D
 
 In rare cases you might want to invoke not yet supported by this library method. Use casting and `any` as an escape hatch:
 
-```ts
+```typescript
 bitrix.call('some.new.method' as any, { newParam: true } as any)
   .then((payload) => payload as GetPayload<NewPayload>)
 ```
@@ -61,11 +61,11 @@ bitrix.call('some.new.method' as any, { newParam: true } as any)
 
 A compound method for executing any Bitrix method which involves retrieval of the list. Usually, those contain `list` word in the method, like `crm.deal.list`.
 
-Retrieves _all entries_ ("pages") by executing the necessary amount of batch requests with specified Bitrix method.
+Retrieves _all entries_ \("pages"\) by executing the necessary amount of batch requests with specified Bitrix method.
 
 Payload type will be resolved based on the `Methods` map.
 
-```ts
+```typescript
 import Bitrix, { Method, Deal } from '@2bad/bitrix'
 
 // ...init client...
@@ -77,7 +77,7 @@ bitrix.list(Method.LIST_DEALS, { start: 774 })
 
 * `method: ListableMethod` — any method that retrieves multiple entries, like `crm.deal.list`. Be sure to use `Method` enum here.
 
-   The method will disallow to specify any Bitrix method which returns non-list payload. However, if you need to use something new or unsupported, consult Bitrix REST API documentation to figure out does Bitrix method in question returns payload of type `ListPayload<P>`.
+  The method will disallow to specify any Bitrix method which returns non-list payload. However, if you need to use something new or unsupported, consult Bitrix REST API documentation to figure out does Bitrix method in question returns payload of type `ListPayload<P>`.
 
 * `params: MethodParams<M>` — params to be passed with an API request, like `start`, `select`, `filter` or `order`.
 
@@ -92,13 +92,13 @@ bitrix.list(Method.LIST_DEALS, { start: 774 })
 
 ## `batch`
 
-Executes a series of Bitrix methods within as few as possible requests (using `/batch` Bitrix API endpoint).
+Executes a series of Bitrix methods within as few as possible requests \(using `/batch` Bitrix API endpoint\).
 
-If the amount of commands exceeds max allowed by the Bitrix API commands per batch (50 per batch), they will be chunked into standalone request and merged upon completion.
+If the amount of commands exceeds max allowed by the Bitrix API commands per batch \(50 per batch\), they will be chunked into standalone request and merged upon completion.
 
 Payload type will be resolved based on the `Methods` map.
 
-```ts
+```typescript
 import Bitrix, { Method, Deal } from '@2bad/bitrix'
 
 // ...init client...
@@ -126,7 +126,7 @@ bitrix.batch([
 
 * `commands: Commands` — an array of commands to execute, or an object of commands, like so:
 
-   ```ts
+  ```typescript
     const arrayOfCommands = [
       { method: Method.GET_DEAL },
       { method: Method.GET_LEAD }
@@ -136,11 +136,11 @@ bitrix.batch([
       one: { method: Method.GET_DEAL },
       two: { method: Method.GET_LEAD }
      } as const
-   ```
+  ```
 
-   The payload will depend on that format. In case of an array of commands, it will be of type `P[]`, and in case of the named commands, an object of similar shape will be returned.
+  The payload will depend on that format. In case of an array of commands, it will be of type `P[]`, and in case of the named commands, an object of similar shape will be returned.
 
-   It is highly advised to use commands with `as const`, as it will provide more accurate payload type.
+  It is highly advised to use commands with `as const`, as it will provide more accurate payload type.
 
 * `commandsPerRequest: number = MAX_COMMANDS_PER_BATCH` — how much commands to cramp into the single request. Usually, it shouldn't be changed. The default value is `50`, a max allowed by the Bitrix API.
 
@@ -152,3 +152,4 @@ bitrix.batch([
 **Returns**
 
 `Promise<BatchPayload<P>>`
+
