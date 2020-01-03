@@ -4,6 +4,8 @@ on:
   push:
     paths-ignore:
     - 'docs/**'
+  schedule:
+    - cron:  '0 20 * * *'
 
 jobs:
   test:
