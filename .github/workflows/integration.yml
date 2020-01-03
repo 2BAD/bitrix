@@ -7,7 +7,7 @@ on:
 
 jobs:
   test:
-    name: node 13.x on ${{ matrix.os }}
+    name: test integration with bitrix portal
     runs-on: ubuntu-latest
     env:
       CI: true
