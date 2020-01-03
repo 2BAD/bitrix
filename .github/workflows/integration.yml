@@ -5,7 +5,7 @@ on:
     paths-ignore:
     - 'docs/**'
   schedule:
-    - cron:  '0 20 * * *'
+    - cron: '0 20 * * *'
 
 jobs:
   test:
@@ -23,6 +23,13 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 13.x
+    - name: Cache node modules
+      uses: actions/cache@v1
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}
     - name: Install dependencies
       run: npm ci
     - name: Build
