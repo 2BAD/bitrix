@@ -1,0 +1,29 @@
+name: Integration testing
+
+on:
+  push:
+    paths-ignore:
+    - 'docs/**'
+
+jobs:
+  test:
+    name: node 13.x on ${{ matrix.os }}
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+      WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: Use node 13.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 13.x
+    - name: Instal dependencies
+      run: npm ci
+    - name: Build
+      run: npm run build
+    - name: Run integration tests
+      run: npm run test:integration
