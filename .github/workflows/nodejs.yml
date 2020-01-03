@@ -9,8 +9,6 @@ jobs:
   test:
     name: Test on node ${{ matrix.node_version }} (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
-    env:
-      CI: true
 
     strategy:
       matrix:
