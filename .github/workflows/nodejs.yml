@@ -7,8 +7,10 @@ on:
 
 jobs:
   test:
-    name: Test on node ${{ matrix.node_version }} (${{ matrix.os }})
+    name: node ${{ matrix.node-version }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+    env:
+      CI: true
 
     strategy:
       matrix:
