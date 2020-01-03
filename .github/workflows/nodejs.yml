@@ -9,6 +9,8 @@ jobs:
   test:
     name: Test on node ${{ matrix.node_version }} (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
+    env:
+      CI: true
 
     strategy:
       matrix:
@@ -23,10 +25,9 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: npm install, build, and test
-      run: |
-        npm ci
-        npm run build
-        npm run test:unit
-      env:
-        CI: true
+    - name: Instal dependencies
+      run: npm ci
+    - name: Build
+      run: npm run build
+    - name: Run unit tests
+      run: npm run test:unit
