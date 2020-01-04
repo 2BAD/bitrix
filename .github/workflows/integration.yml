@@ -1,37 +1,5 @@
 name: Integration testing
 
-aliases:
-  - &get-node-version
-      name: Get node version
-      id: node
-      run: echo "::set-output name=version::$(cat .github/.node-version)"
-  - &checkout
-      uses: actions/checkout@v1
-      with:
-        fetch-depth: 1
-  - &setup-node
-      name: Use node ${{ steps.node.version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ steps.node.version }}
-  - &cache
-      name: Cache node modules
-      uses: actions/cache@v1
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}
-  - &npm-ci
-      name: Install dependencies
-      run: npm ci
-  - &npm-build
-      name: Build
-      run: npm run build
-  - &npm-test-integration
-      name: Run integration tests
-      run: npm run test:integration
-
 on:
   push:
     paths-ignore:
@@ -41,17 +9,33 @@ on:
 
 jobs:
   test:
-    name: test integration with bitrix24
+    name: test integration with bitrix portal
     runs-on: ubuntu-latest
     env:
       CI: true
       WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
 
     steps:
-    - *get-node-version
-    - *checkout
-    - *setup-node
-    - *cache
-    - *npm-ci
-    - *npm-build
-    - *npm-test-integration
+    - name: Get node version
+      id: node
+      run: echo "::set-output name=version::$(cat .github/.node-version)"
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: Use node ${{ steps.node.version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ steps.node.version }}
+    - name: Cache node modules
+      uses: actions/cache@v1
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}
+    - name: Install dependencies
+      run: npm ci
+    - name: Build
+      run: npm run build
+    - name: Run integration tests
+      run: npm run test:integration

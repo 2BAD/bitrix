@@ -1,28 +1,5 @@
 name: Unit testing
 
-aliases:
-  - &checkout
-      uses: actions/checkout@v1
-      with:
-        fetch-depth: 1
-  - &cache
-      name: Cache node modules
-      uses: actions/cache@v1
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}
-  - &npm-ci
-      name: Install dependencies
-      run: npm ci
-  - &npm-build
-      name: Build
-      run: npm run build
-  - &npm-test-unit
-      name: Run unit tests
-      run: npm run test:unit
-
 on:
   push:
     paths-ignore:
@@ -41,12 +18,23 @@ jobs:
         os: [ubuntu-latest, macos-latest]
 
     steps:
-    - *checkout
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
     - name: Use node ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - *cache
-    - *npm-ci
-    - *npm-build
-    - *npm-test-unit
+    - name: Cache node modules
+      uses: actions/cache@v1
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}
+    - name: Install dependencies
+      run: npm ci
+    - name: Build
+      run: npm run build
+    - name: Run unit tests
+      run: npm run test:unit
