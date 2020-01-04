@@ -16,13 +16,16 @@ jobs:
       WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
 
     steps:
+    - name: Get node version
+      id: node
+      run: echo "::set-output name=version::$(cat .github/.node-version)"
     - uses: actions/checkout@v1
       with:
         fetch-depth: 1
-    - name: Use node 13.x
+    - name: Use node ${{ steps.node.version }}
       uses: actions/setup-node@v1
       with:
-        node-version: 13.x
+        node-version: ${{ steps.node.version }}
     - name: Cache node modules
       uses: actions/cache@v1
       with:
