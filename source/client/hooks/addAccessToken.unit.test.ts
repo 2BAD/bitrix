@@ -7,7 +7,7 @@ const token = 'mock_token'
 
 describe('Client `addAccessToken` hook', () => {
   it('should add access token to URL without a query', () => {
-    const options = { json: true, path: '/test' } as const
+    const options = { path: 'test', responseType: 'json' } as const
 
     addAccessToken(token)(options)
 
@@ -15,7 +15,7 @@ describe('Client `addAccessToken` hook', () => {
   })
 
   it('should add access token to URL with a query', () => {
-    const options = { json: true, path: '/test?value=1' } as const
+    const options = { path: 'test?value=1', responseType: 'json' } as const
 
     addAccessToken(token)(options)
 
@@ -23,7 +23,7 @@ describe('Client `addAccessToken` hook', () => {
   })
 
   it('should not add access token when it is undefined', () => {
-    const options = { json: true, path: '/test' } as const
+    const options = { path: 'test', responseType: 'json' } as const
 
     addAccessToken()(options)
 
@@ -31,7 +31,7 @@ describe('Client `addAccessToken` hook', () => {
   })
 
   it('should not add access token when URL is undefined', () => {
-    const options = { json: true, path: undefined } as const
+    const options = { path: undefined, responseType: 'json' } as const
 
     addAccessToken(token)(options)
 

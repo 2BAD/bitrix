@@ -9,7 +9,7 @@ import Call, { handlePayload } from './call'
 
 const TEST_URI = 'https://test.com/rest'
 const call = Call({
-  get: got.extend({ baseUrl: TEST_URI, json: true }).get
+  get: got.extend({ prefixUrl: TEST_URI, responseType: 'json' }).get
 })
 const RESPONSE_200 = 200
 
