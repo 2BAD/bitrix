@@ -1,9 +1,9 @@
-import { NormalizedOptions } from 'got'
+import { BeforeRequestHook } from 'got'
 
 /**
  * Got can't merge `query` option with other queries if they are string. But that hook can.
  */
-export default (accessToken?: string) => (options: NormalizedOptions): void => {
+export default (accessToken?: string): BeforeRequestHook => (options) => {
   // tslint:disable-next-line: no-if-statement
   if (!accessToken) return
   // tslint:disable-next-line: no-if-statement
