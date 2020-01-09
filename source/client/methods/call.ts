@@ -1,4 +1,4 @@
-import { Got } from 'got'
+import got from 'got'
 import { stringify as toQuery } from 'qs'
 import { Method, MethodParams, MethodPayload } from '../../methods'
 import { BatchPayload, ListPayload, Payload } from '../../payloads'
@@ -36,7 +36,7 @@ export const handlePayload = <P extends Payload<unknown>>(payload: P): P => {
 export type Call = <M extends Method>(method: M, params: MethodParams<M>) => Promise<MethodPayload<M>>
 
 interface Dependencies {
-  readonly get: Got
+  readonly get: typeof got.get
 }
 
 /**
@@ -45,7 +45,7 @@ interface Dependencies {
 export default ({ get }: Dependencies): Call => {
   const call: Call = <M extends Method>(method: M, params: MethodParams<M>): Promise<MethodPayload<M>> =>
     get(method, { searchParams: toQuery(params) })
-      .then(({ body }) => handlePayload(body as MethodPayload<M>))
+      .then(({ body }) => handlePayload(body as unknown as MethodPayload<M>))
 
   return call
 }

@@ -34,7 +34,6 @@ exports[`Client should extend \`Got\` instance with a specified parameters 1`] =
 Array [
   Array [
     Object {
-      "prefixUrl": "https://test.com",
       "headers": Object {
         "user-agent": "@2bad/bitrix",
       },
@@ -43,6 +42,7 @@ Array [
           [Function],
         ],
       },
+      "prefixUrl": "https://test.com",
       "responseType": "json",
     },
   ],

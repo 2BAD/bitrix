@@ -1,4 +1,4 @@
-import { GotJSONFn } from 'got'
+import got from 'got'
 import chunk from 'lodash.chunk'
 import fromPairs from 'lodash.frompairs'
 import { stringify as toQuery } from 'qs'
@@ -107,7 +107,7 @@ export type Batch = <
 >(commands: C, commandsPerRequest?: number) => Promise<BatchPayload<P>>
 
 interface Dependencies {
-  readonly get: GotJSONFn
+  readonly get: typeof got.get
 }
 
 /**
@@ -127,7 +127,7 @@ export default ({ get }: Dependencies): Batch => {
   ): Promise<BatchPayload<P>> => {
     const call = (c: C) =>
       get(Method.BATCH, { searchParams: prepareCommandsQueries(c) })
-        .then(({ body }) => body as BatchPayload<P>)
+        .then(({ body }) => body as unknown as BatchPayload<P>)
 
     const calls = chunkCommands(commands, commandsPerRequest)
       .map(call)
