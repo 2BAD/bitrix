@@ -126,8 +126,8 @@ export default ({ get }: Dependencies): Batch => {
     commandsPerRequest: number = MAX_COMMANDS_PER_BATCH
   ): Promise<BatchPayload<P>> => {
     const call = (c: C) =>
-      get(Method.BATCH, { searchParams: prepareCommandsQueries(c) })
-        .then(({ body }) => body as unknown as BatchPayload<P>)
+      get<BatchPayload<P>>(Method.BATCH, { searchParams: prepareCommandsQueries(c) })
+        .then(({ body }) => body)
 
     const calls = chunkCommands(commands, commandsPerRequest)
       .map(call)

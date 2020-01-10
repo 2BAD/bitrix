@@ -44,8 +44,8 @@ interface Dependencies {
  */
 export default ({ get }: Dependencies): Call => {
   const call: Call = <M extends Method>(method: M, params: MethodParams<M>): Promise<MethodPayload<M>> =>
-    get(method, { searchParams: toQuery(params) })
-      .then(({ body }) => handlePayload(body as unknown as MethodPayload<M>))
+    get<MethodPayload<M>>(method, { searchParams: toQuery(params) })
+      .then(({ body }) => handlePayload(body))
 
   return call
 }
