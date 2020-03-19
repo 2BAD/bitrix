@@ -98,7 +98,7 @@ The client tries hard to provide a consistent, strongly typed and at the same ti
 
 It takes care of the any necessary batching to run "large" commands, like retrieving all deals or leads with least possible network request. That allows achieving a reading of the 250 000 and updating of 5000 entries per minute with a single line of code.
 
-All client methods are automatically rate-limited and queued if needed to cope with Bitrix REST API limitation of 2 requests per second, so you should never see Bitrix erroring about exceeding rate limits.
+All client methods are automatically rate-limited and queued if needed to cope with Bitrix REST API limitation of 2 requests per second, so you should never see Bitrix errors about exceeding rate limits.
 
 Methods required params and returned payload types are automatically resolved based on [Methods](https://github.com/2BAD/bitrix/tree/b0db508dcebe77f486f7db833183f28de7de14db/source/types.ts) interface, which effectively describes all currently supported methods.
 
@@ -201,4 +201,3 @@ Proper method parameters and payload types handling requires some routine when a
    5. Add tests into the `index.unit.test.ts`.
 4. Re-export service public types like Entities in the [bitrix.ts](https://github.com/2BAD/bitrix/tree/b0db508dcebe77f486f7db833183f28de7de14db/source/bitrix.ts) to make them available to the end-users.
 5. Document addition in the [docs](https://github.com/2BAD/bitrix/tree/b0db508dcebe77f486f7db833183f28de7de14db/docs/README.md).
-
