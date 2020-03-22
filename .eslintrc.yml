@@ -1,0 +1,9 @@
+parserOptions:
+  project: './tsconfig.json'
+
+ignorePatterns:
+  - '**/*.test.ts'
+  - build
+
+extends:
+  - standard-with-typescript
