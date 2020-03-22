@@ -25,7 +25,7 @@ export interface User {
   readonly WORK_COMPANY: string | null
   readonly WORK_POSITION: string | null
   readonly WORK_PHONE: string | null
-  readonly UF_DEPARTMENT: ReadonlyArray<number>
+  readonly UF_DEPARTMENT: readonly number[]
   readonly UF_INTERESTS: string | null
   readonly UF_SKILLS: string | null
   readonly UF_WEB_SITES: string | null

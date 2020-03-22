@@ -9,10 +9,10 @@ export interface Company {
   readonly HAS_PHONE: BoolString
   readonly HAS_EMAIL: BoolString
   readonly HAS_IMOL: BoolString
-  readonly PHONE: ReadonlyArray<MultiField>
-  readonly EMAIL: ReadonlyArray<MultiField>
-  readonly WEB: ReadonlyArray<MultiField>
-  readonly IM: ReadonlyArray<MultiField>
+  readonly PHONE: readonly MultiField[]
+  readonly EMAIL: readonly MultiField[]
+  readonly WEB: readonly MultiField[]
+  readonly IM: readonly MultiField[]
   readonly ASSIGNED_BY_ID: NumberString
   readonly CREATED_BY_ID: NumberString
   readonly MODIFY_BY_ID: NumberString

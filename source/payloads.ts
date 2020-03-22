@@ -8,14 +8,14 @@ export interface PayloadTime {
 }
 
 export interface GetPayload<P> {
-  readonly result: P,
+  readonly result: P
   readonly time: PayloadTime
 }
 
 export interface ListPayload<P> {
-  readonly result: readonly P[],
-  readonly error?: string,
-  readonly total: number,
+  readonly result: readonly P[]
+  readonly error?: string
+  readonly total: number
   readonly next?: number
   readonly time: PayloadTime
 }

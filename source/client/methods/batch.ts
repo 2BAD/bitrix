@@ -16,7 +16,7 @@ export const MAX_COMMANDS_PER_BATCH = 50
 export const chunkCommands = <C extends Commands>(
   commands: C,
   size: number = MAX_COMMANDS_PER_BATCH
-): ReadonlyArray<C> => {
+): readonly C[] => {
   const commandsIsArray = isArray(commands)
   const chunks = chunk(Object.entries(commands), size)
 
@@ -54,7 +54,7 @@ export const prepareCommandsQueries = <C extends Commands, R = { [K in keyof C]:
 export const mergeBatchPayloads = <
   B extends BatchPayload<any>,
   P = B extends BatchPayload<infer U> ? U : never
->(payloads: ReadonlyArray<B>): BatchPayload<P> => {
+>(payloads: readonly B[]): BatchPayload<P> => {
   const merge = <T extends S, S extends readonly any[] | Record<string, any>>(a: T, b: S): T =>
     isArray(a) && isArray(b)
       // @todo Gotta find way to avoid unsafe casting here
