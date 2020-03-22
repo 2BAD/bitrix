@@ -20,7 +20,7 @@ export default (restURI: string, accessToken?: string) => {
   const client = got.extend({
     prefixUrl: restURI,
     headers: {
-      'user-agent': `@2bad/bitrix`
+      'user-agent': '@2bad/bitrix'
     },
     responseType: 'json',
     hooks: {
