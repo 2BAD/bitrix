@@ -79,7 +79,7 @@ export type CommandsPayloads<
   CM = {
     [K in keyof C]: C[K] extends { readonly method: infer M } ? M : never
   }
-  > = {
+> = {
   [K in keyof CM]: MethodPayloadType<CM[K] extends Method ? CM[K] : never>
 }
 

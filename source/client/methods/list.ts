@@ -36,7 +36,7 @@ export const highest = (
         : a === undefined && b !== undefined
           ? b
           : undefined
-  , undefined)
+    , undefined)
 
 /**
  * Converts batch payload to a list payload
@@ -46,7 +46,7 @@ export const batchToListPayload = <P>(payload: BatchPayload<Record<string, P> | 
 
   const flattenResult = Object.entries(result).reduce(
     (flatten, [_key, r]) => !r ? flatten : [...flatten, ...r]
-  , [] as readonly P[])
+    , [] as readonly P[])
 
   return {
     error: Object.values(result_error).join('\n'),
