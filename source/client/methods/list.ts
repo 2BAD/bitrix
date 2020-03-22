@@ -54,7 +54,7 @@ export const batchToListPayload = <P>(payload: BatchPayload<Record<string, P> | 
     result: flattenResult,
     // @todo Not accurate, we do not care
     time,
-    total: highest(result_total) || 0
+    total: highest(result_total) ?? 0
   }
 }
 
@@ -76,7 +76,7 @@ export default ({ call, batch }: Dependencies): List => {
     method: M,
     params: MethodParams<M>
   ): Promise<ListPayload<MethodPayloadType<M>>> => {
-    const start = params.start || 0
+    const start = params.start ?? 0
 
     const listAll = async () => {
       const batchCommands = fillWithCommands({ method, params }, start, firstCall.total, MAX_ENTRIES_PER_COMMAND)
