@@ -7,3 +7,9 @@ ignorePatterns:
 
 extends:
   - standard-with-typescript
+
+rules:
+  '@typescript-eslint/promise-function-async': 'off'
+  '@typescript-eslint/strict-boolean-expressions': 'off'
+  '@typescript-eslint/explicit-function-return-type': 'off'
+  '@typescript-eslint/consistent-type-assertions': 'off'
