@@ -3,10 +3,10 @@ parserOptions:
 
 ignorePatterns:
   - '**/*.test.ts'
-  - build
+  - 'build'
 
 extends:
-  - standard-with-typescript
+  - 'standard-with-typescript'
 
 rules:
   '@typescript-eslint/promise-function-async': 'off'
