@@ -11,14 +11,13 @@ import isArray from '../../utils/isArray'
 export const handlePayload = <P extends Payload<unknown>>(payload: P): P => {
   if ((payload as ListPayload<unknown>).error) {
     throw new Error(
-      `[call] failed to get the resource: ${(payload as ListPayload<unknown>).error}.`
+      `[call] failed to get the resource: ${(payload as ListPayload<unknown>).error ?? ''}.`
     )
   }
 
   if ((payload as BatchPayload<unknown>).result && (payload as BatchPayload<unknown>).result.result_error) {
     const resultErrors = (payload as BatchPayload<unknown>).result.result_error
     const errors = isArray(resultErrors) ? resultErrors : Object.values(resultErrors)
-
 
     if (errors.length > 0) {
       // @todo We can give better formatting to display errored commands. But it's not important for now

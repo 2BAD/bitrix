@@ -130,7 +130,7 @@ export default ({ get }: Dependencies): Batch => {
     const calls = chunkCommands(commands, commandsPerRequest)
       .map(call)
 
-    return Promise.all(calls)
+    return await Promise.all(calls)
       .then((chunkedPayloads) => {
         const payloads = mergeBatchPayloads(chunkedPayloads)
         return handlePayload(payloads)

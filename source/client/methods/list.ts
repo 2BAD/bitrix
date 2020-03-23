@@ -42,6 +42,7 @@ export const highest = (
  * Converts batch payload to a list payload
  */
 export const batchToListPayload = <P>(payload: BatchPayload<Record<string, P> | readonly P[]>): ListPayload<P> => {
+  // eslint-disable-next-line @typescript-eslint/camelcase
   const { result: { result, result_total, result_error, result_next }, time } = payload
 
   const flattenResult = Object.entries(result).reduce(
@@ -87,7 +88,7 @@ export default ({ call, batch }: Dependencies): List => {
 
     const firstCall = await call(method, { ...params, start })
 
-    return !firstCall.next ? firstCall : listAll()
+    return !firstCall.next ? firstCall : await listAll()
   }
 
   return list
