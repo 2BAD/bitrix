@@ -1,6 +1,3 @@
-/* tslint-env jest */
-// tslint:disable: no-expression-statement object-literal-sort-keys
-
 import Users from '.'
 
 const mockCall = jest.fn(() => Promise.resolve()) as any

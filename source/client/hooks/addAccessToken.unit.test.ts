@@ -1,5 +1,3 @@
-/* tslint-env jest */
-// tslint:disable: no-expression-statement
 import got from 'got'
 import addAccessToken from './addAccessToken'
 

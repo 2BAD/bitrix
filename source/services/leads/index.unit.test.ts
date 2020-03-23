@@ -1,6 +1,3 @@
-/* tslint-env jest */
-// tslint:disable: no-expression-statement object-literal-sort-keys
-
 import Leads from '.'
 
 const mockCall = jest.fn(() => Promise.resolve()) as any

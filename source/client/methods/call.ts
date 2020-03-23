@@ -9,23 +9,19 @@ import isArray from '../../utils/isArray'
  * Bitrix payload types do not provide discriminators, so we're forced to type cast them
  */
 export const handlePayload = <P extends Payload<unknown>>(payload: P): P => {
-  // tslint:disable-next-line no-if-statement
   if ((payload as ListPayload<unknown>).error) {
-  // tslint:disable-next-line no-throw
     throw new Error(
       `[call] failed to get the resource: ${(payload as ListPayload<unknown>).error}.`
     )
   }
 
-  // tslint:disable-next-line no-if-statement
   if ((payload as BatchPayload<unknown>).result && (payload as BatchPayload<unknown>).result.result_error) {
     const resultErrors = (payload as BatchPayload<unknown>).result.result_error
     const errors = isArray(resultErrors) ? resultErrors : Object.values(resultErrors)
 
-    // tslint:disable-next-line no-if-statement
+
     if (errors.length > 0) {
       // @todo We can give better formatting to display errored commands. But it's not important for now
-      // tslint:disable-next-line no-throw
       throw new Error(`[batch] failed to process. Received errors in ${errors.length} commands:\n${errors.join('\n')}`)
     }
   }

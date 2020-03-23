@@ -4,7 +4,6 @@ export interface Lead {
   // Deal can have user fields
   readonly [key: string]: string | null
 
-  // tslint:disable-next-line: no-mixed-interface
   readonly ID: NumberString
   readonly TITLE: string
   readonly HONORIFIC: string | null

@@ -44,7 +44,6 @@ export const prepareCommandsQueries = <C extends Commands, R = { [K in keyof C]:
       ...calls,
       [`cmd[${name}]`]: `${method}${stringifiedParams}`
     }
-  // tslint:disable-next-line: no-object-literal-type-assertion
   }, {} as R)
 
 /**
@@ -70,7 +69,6 @@ export const mergeBatchPayloads = <
       result_total: merge(merged.result.result_total || [], payload.result.result_total)
     },
     time: { ...merged.time, ...payload.time }
-  // tslint:disable-next-line: no-object-literal-type-assertion
   }), { result: {}, time: {} } as BatchPayload<P>)
 }
 

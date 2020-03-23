@@ -1,6 +1,3 @@
-/* tslint-env jest */
-// tslint:disable: no-expression-statement
-
 import Bitrix from './bitrix'
 import * as client from './client'
 

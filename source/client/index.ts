@@ -1,5 +1,3 @@
-// tslint:disable:object-literal-sort-keys
-
 import got from 'got'
 import Queue from 'p-queue'
 import addAccessToken from './hooks/addAccessToken'

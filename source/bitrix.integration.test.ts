@@ -1,6 +1,3 @@
-/* eslint-env jest */
-// tslint:disable: no-expression-statement
-
 describe('Bitrix API', () => {
   describe('`get` method', () => {
     it.todo('should get result')

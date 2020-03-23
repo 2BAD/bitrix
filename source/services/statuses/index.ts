@@ -1,5 +1,3 @@
-// tslint:disable:object-literal-sort-keys
-
 import { Call } from '../../client/methods/call'
 import { Method, MethodParams } from '../../methods'
 

@@ -1,6 +1,3 @@
-/* tslint-env jest */
-// tslint:disable: no-expression-statement object-literal-sort-keys no-magic-numbers
-
 import got from 'got'
 import range from 'lodash.range'
 import nock from 'nock'

@@ -1,5 +1,3 @@
-// tslint:disable:object-literal-sort-keys
-
 import Client from './client'
 import CompaniesService from './services/companies'
 import ContactsService from './services/contacts'

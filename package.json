@@ -71,7 +71,7 @@
     "build:module": "tsc --project tsconfig.json",
     "clean": "rimraf build",
     "lint": "eslint . --ext .ts",
-    "lint:fix": "tslint --fix --project .",
+    "lint:fix": "run-s \"lint -- --fix\"",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
     "test:unit": "jest unit --coverage",
