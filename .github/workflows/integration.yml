@@ -12,7 +12,6 @@ jobs:
     name: test integration with bitrix portal
     runs-on: ubuntu-latest
     env:
-      CI: true
       WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
 
     steps:
