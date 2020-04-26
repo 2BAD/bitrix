@@ -43,6 +43,13 @@ export enum Method {
   CRM_STATUS_LIST = 'crm.status.list',
   CRM_STATUS_UPDATE = 'crm.status.update',
 
+  ENTITY_ADD = "entity.add",
+  ENTITY_UPDATE = "entity.update",
+  ENTITY_RIGHTS = "entity.rights",
+  ENTITY_GET = "entity.get",
+  ENTITY_DELETE = "entity.delete",
+  ENTITY_ITEM_PROPERTY_ADD = "entity.item.property.add",
+
   USER_FIELDS = 'user.fields',
   USER_GET = 'user.get'
 }
