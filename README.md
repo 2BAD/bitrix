@@ -6,7 +6,13 @@ description: that doesn't suck
 
 ![](https://user-images.githubusercontent.com/4460311/64487745-c4a1ea00-d246-11e9-9d6e-a0b0227c801c.png)
 
- [![NPM version](https://img.shields.io/npm/v/@2bad/bitrix)](https://www.npmjs.com/package/@2bad/bitrix) [![License](https://img.shields.io/npm/l/@2bad/bitrix)](https://www.npmjs.com/package/@2bad/bitrix) [![Code coverage](https://img.shields.io/codecov/c/github/2BAD/bitrix)](https://codecov.io/gh/2BAD/bitrix) [![Travis Build Status](https://img.shields.io/travis/2BAD/bitrix?logo=Travis)](https://travis-ci.org/github/2BAD/bitrix) [![GitHub Build Status](https://img.shields.io/github/workflow/status/2BAD/bitrix/Integration testing?logo=GitHub)](https://github.com/2BAD/bitrix/actions?query=workflow%3A%22Integration+testing%22) [![Dependency Status](https://img.shields.io/david/2BAD/bitrix)](https://david-dm.org/2BAD/bitrix) [![Written in TypeScript](https://img.shields.io/github/languages/top/2BAD/bitrix)](https://github.com/2BAD/bitrix/search?l=typescript)
+ [![NPM version](https://img.shields.io/npm/v/@2bad/bitrix)](https://www.npmjs.com/package/@2bad/bitrix)
+ [![License](https://img.shields.io/npm/l/@2bad/bitrix)](https://www.npmjs.com/package/@2bad/bitrix)
+ [![Code coverage](https://img.shields.io/codecov/c/github/2BAD/bitrix)](https://codecov.io/gh/2BAD/bitrix)
+ [![Travis Build Status](https://img.shields.io/travis/2BAD/bitrix?logo=Travis)](https://travis-ci.org/github/2BAD/bitrix)
+ [![GitHub Build Status](https://img.shields.io/github/workflow/status/2BAD/bitrix/Integration%20testing?logo=GitHub)](https://github.com/2BAD/bitrix/actions?query=workflow%3A%22Integration+testing%22)
+ [![Dependency Status](https://img.shields.io/david/2BAD/bitrix)](https://david-dm.org/2BAD/bitrix)
+ [![Written in TypeScript](https://img.shields.io/github/languages/top/2BAD/bitrix)](https://github.com/2BAD/bitrix/search?l=typescript)
 
 * 🔥 No bullshit
 * ✨ Expressive API
