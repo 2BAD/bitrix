@@ -15,12 +15,12 @@ jobs:
       WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
 
     steps:
-    - name: Get node version
-      id: node
-      run: echo "::set-output name=version::$(cat .github/.node-version)"
     - uses: actions/checkout@v1
       with:
         fetch-depth: 1
+    - name: Get node version
+      id: node
+      run: echo "::set-output name=version::$(cat .github/.node-version)"
     - name: Use node ${{ steps.node.version }}
       uses: actions/setup-node@v2-beta
       with:
