@@ -4,6 +4,7 @@ on:
   push:
     paths-ignore:
     - 'docs/**'
+    - '*.md'
   schedule:
     - cron: '0 20 * * *'
 
