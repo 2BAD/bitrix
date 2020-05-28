@@ -11,8 +11,6 @@ jobs:
   test:
     name: test integration with bitrix portal
     runs-on: ubuntu-latest
-    env:
-      WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
 
     steps:
     - uses: actions/checkout@v1
@@ -38,3 +36,5 @@ jobs:
       run: npm run build
     - name: Run integration tests
       run: npm run test:integration
+      env:
+        WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
