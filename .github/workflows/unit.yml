@@ -19,9 +19,7 @@ jobs:
         os: [ubuntu-latest, macos-latest]
 
     steps:
-    - uses: actions/checkout@v1
-      with:
-        fetch-depth: 1
+    - uses: actions/checkout@v2
     - name: Use node ${{ matrix.node-version }}
       uses: actions/setup-node@v2-beta
       with:
