@@ -22,7 +22,7 @@ jobs:
       with:
         fetch-depth: 1
     - name: Use node ${{ steps.node.version }}
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v2-beta
       with:
         node-version: ${{ steps.node.version }}
     - name: Cache node modules

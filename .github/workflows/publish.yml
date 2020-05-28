@@ -17,7 +17,7 @@ jobs:
       with:
         fetch-depth: 1
     - name: Use node ${{ steps.node.version }}
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v2-beta
       with:
         node-version: ${{ steps.node.version }}
     - name: Cache node modules
@@ -45,7 +45,7 @@ jobs:
     - uses: actions/checkout@v1
       with:
         fetch-depth: 1
-    - uses: actions/setup-node@v1
+    - uses: actions/setup-node@v2-beta
       with:
         node-version: ${{ steps.node.version }}
         registry-url: https://registry.npmjs.org/
@@ -65,7 +65,7 @@ jobs:
   #   - uses: actions/checkout@v1
   #     with:
   #       fetch-depth: 1
-  #   - uses: actions/setup-node@v1
+  #   - uses: actions/setup-node@v2-beta
   #     with:
   #       node-version: 12
   #       registry-url: https://npm.pkg.github.com/
