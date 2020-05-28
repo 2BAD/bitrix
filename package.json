@@ -2,17 +2,6 @@
   "name": "@2bad/bitrix",
   "version": "2.3.1",
   "description": "Bitrix24 REST API client that doesn't suck",
-  "homepage": "https://github.com/2BAD/bitrix#readme",
-  "twitter": "@2BAD",
-  "author": "2BAD (https://github.com/2BAD)",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/2BAD/bitrix.git"
-  },
-  "bugs": {
-    "url": "https://github.com/2BAD/bitrix/issues"
-  },
-  "license": "MIT",
   "keywords": [
     "api",
     "rest",
@@ -24,6 +13,57 @@
     "bitrix24",
     "typescript"
   ],
+  "homepage": "https://github.com/2BAD/bitrix#readme",
+  "bugs": {
+    "url": "https://github.com/2BAD/bitrix/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/2BAD/bitrix.git"
+  },
+  "license": "MIT",
+  "author": "2BAD (https://github.com/2BAD)",
+  "main": "build/main/bitrix.js",
+  "module": "build/module/bitrix.js",
+  "typings": "build/main/bitrix.d.ts",
+  "files": [
+    "build"
+  ],
+  "scripts": {
+    "build": "run-s clean && run-p build:*",
+    "build:main": "tsc --project tsconfig.main.json",
+    "build:main:watch": "run-s \"build:main -- --watch\"",
+    "build:module": "tsc --project tsconfig.json",
+    "clean": "rimraf build",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "run-s \"lint -- --fix\"",
+    "prepublishOnly": "run-s clean build",
+    "test": "jest --coverage",
+    "test:integration": "jest integration --coverage",
+    "test:integration:watch": "jest integration --watch",
+    "test:unit": "jest unit --coverage",
+    "test:unit:watch": "jest unit --watch",
+    "test:watch": "jest --watch",
+    "preversion": "run-s clean lint test build",
+    "watch": "run-s clean build:main && run-p build:main:watch"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "source/**/*.ts"
+    ],
+    "coverageDirectory": "coverage",
+    "modulePathIgnorePatterns": [
+      "<rootDir>/build/"
+    ],
+    "preset": "ts-jest",
+    "setupFiles": [
+      "dotenv/config"
+    ],
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/?(*.)+(spec|test).[jt]s?(x)"
+    ]
+  },
   "dependencies": {
     "@types/lodash.chunk": "4.2.6",
     "@types/lodash.frompairs": "4.0.6",
@@ -57,46 +97,5 @@
   },
   "engines": {
     "node": ">=10"
-  },
-  "main": "build/main/bitrix.js",
-  "module": "build/module/bitrix.js",
-  "typings": "build/main/bitrix.d.ts",
-  "files": [
-    "build"
-  ],
-  "scripts": {
-    "build": "run-s clean && run-p build:*",
-    "build:main": "tsc --project tsconfig.main.json",
-    "build:main:watch": "run-s \"build:main -- --watch\"",
-    "build:module": "tsc --project tsconfig.json",
-    "clean": "rimraf build",
-    "lint": "eslint . --ext .ts",
-    "lint:fix": "run-s \"lint -- --fix\"",
-    "test": "jest --coverage",
-    "test:watch": "jest --watch",
-    "test:unit": "jest unit --coverage",
-    "test:unit:watch": "jest unit --watch",
-    "test:integration": "jest integration --coverage",
-    "test:integration:watch": "jest integration --watch",
-    "watch": "run-s clean build:main && run-p build:main:watch",
-    "prepublishOnly": "run-s clean build",
-    "preversion": "run-s clean lint test build"
-  },
-  "jest": {
-    "preset": "ts-jest",
-    "testEnvironment": "node",
-    "testMatch": [
-      "**/?(*.)+(spec|test).[jt]s?(x)"
-    ],
-    "modulePathIgnorePatterns": [
-      "<rootDir>/build/"
-    ],
-    "setupFiles": [
-      "dotenv/config"
-    ],
-    "coverageDirectory": "coverage",
-    "collectCoverageFrom": [
-      "source/**/*.ts"
-    ]
   }
 }
