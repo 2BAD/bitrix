@@ -44,6 +44,7 @@ export const prepareCommandsQueries = <C extends Commands, R = { [K in keyof C]:
       ...calls,
       [`cmd[${name}]`]: `${method}${stringifiedParams}`
     }
+    // eslint-disable-next-line @typescript-eslint/prefer-reduce-type-parameter
   }, {} as R)
 
 /**
@@ -69,6 +70,7 @@ export const mergeBatchPayloads = <
       result_total: merge(merged.result.result_total || [], payload.result.result_total)
     },
     time: { ...merged.time, ...payload.time }
+    // eslint-disable-next-line @typescript-eslint/prefer-reduce-type-parameter
   }), { result: {}, time: {} } as BatchPayload<P>)
 }
 
