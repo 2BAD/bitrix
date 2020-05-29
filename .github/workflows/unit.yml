@@ -43,3 +43,9 @@ jobs:
       run: npm run build
     - name: Run unit tests
       run: npm run test:unit
+    - name: Upload coverage report
+      uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        file: coverage/*.json
+        flags: unit
