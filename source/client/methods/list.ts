@@ -42,12 +42,12 @@ export const highest = (
  * Converts batch payload to a list payload
  */
 export const batchToListPayload = <P>(payload: BatchPayload<Record<string, P> | readonly P[]>): ListPayload<P> => {
-  // eslint-disable-next-line @typescript-eslint/camelcase
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const { result: { result, result_total, result_error, result_next }, time } = payload
 
-  const flattenResult = Object.entries(result).reduce(
+  const flattenResult = Object.entries(result).reduce<readonly P[]>(
     (flatten, [_key, r]) => !r ? flatten : [...flatten, ...r]
-    , [] as readonly P[])
+    , [])
 
   return {
     error: Object.values(result_error).join('\n'),

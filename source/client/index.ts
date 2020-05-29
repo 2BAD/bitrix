@@ -36,9 +36,9 @@ export default (restURI: string, accessToken?: string) => {
   const queuedGet = (...args: Parameters<typeof client.get>) =>
     queue.add(() => client.get(...args))
 
-  // @ts-ignore @todo remove after issue is resolved (https://github.com/sindresorhus/got/issues/954)
+  // @ts-expect-error @todo remove after issue is resolved (https://github.com/sindresorhus/got/issues/954)
   const call = Call({ get: queuedGet })
-  // @ts-ignore @todo remove after issue is resolved (https://github.com/sindresorhus/got/issues/954)
+  // @ts-expect-error @todo remove after issue is resolved (https://github.com/sindresorhus/got/issues/954)
   const batch = Batch({ get: queuedGet })
   const list = List({ call, batch })
 
