@@ -6,6 +6,7 @@ export interface Extra {
 }
 
 export interface Status {
+  readonly [key: string]: string | Extra | undefined
   readonly ID: NumberString
   readonly ENTITY_ID: string
   readonly STATUS_ID: NumberString

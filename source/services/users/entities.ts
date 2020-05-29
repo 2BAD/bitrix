@@ -1,6 +1,7 @@
 import { GenderString, ISODate, NumberString } from '../common'
 
 export interface User {
+  readonly [key: string]: string | boolean | null | readonly number[]
   readonly ID: NumberString
   readonly ACTIVE: boolean
   readonly EMAIL: string | null

@@ -1,6 +1,7 @@
 import { BoolString, ISODate, MultiField, NumberString } from '../common'
 
 export interface Company {
+  readonly [key: string]: string | boolean | null | readonly MultiField[]
   readonly ID: NumberString
   readonly COMPANY_TYPE: string | null
   readonly TITLE: string | null

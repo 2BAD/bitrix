@@ -1,6 +1,7 @@
 import { BoolString, ISODate, NumberString } from '../common'
 
 export interface Contact {
+  readonly [key: string]: string | null
   readonly ID: NumberString
   readonly POST: string | null
   readonly COMMENTS: string | null
