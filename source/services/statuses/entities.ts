@@ -1,11 +1,11 @@
 import { BoolString, NumberString } from '../common'
 
-export interface Extra {
+export type Extra = {
   readonly SEMANTICS: string
   readonly COLOR: string
 }
 
-export interface Status {
+export type Status = {
   readonly [key: string]: string | Extra | undefined
   readonly ID: NumberString
   readonly ENTITY_ID: string

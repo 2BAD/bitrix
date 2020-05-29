@@ -1,7 +1,7 @@
 import { Call } from '../../client/methods/call'
 import { Method } from '../../methods'
 
-interface Dependencies {
+type Dependencies = {
   readonly call: Call
 }
 

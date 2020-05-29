@@ -5,7 +5,7 @@ export type ISODate = string
 export type BoolString = 'Y' | 'N'
 export type GenderString = 'M' | 'F' | ''
 
-export interface Fields {
+export type Fields = {
   readonly [key: string]: {
     readonly type: string
     readonly isRequired: boolean
@@ -17,7 +17,7 @@ export interface Fields {
   }
 }
 
-export interface MultiField {
+export type MultiField = {
   readonly ID: NumberString
   readonly VALUE_TYPE: string
   readonly VALUE: string

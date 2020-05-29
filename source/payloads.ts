@@ -1,4 +1,4 @@
-export interface PayloadTime {
+export type PayloadTime = {
   readonly start: number
   readonly finish: number
   readonly duration: number
@@ -7,12 +7,12 @@ export interface PayloadTime {
   readonly date_finish: string
 }
 
-export interface GetPayload<P> {
+export type GetPayload<P> = {
   readonly result: P
   readonly time: PayloadTime
 }
 
-export interface ListPayload<P> {
+export type ListPayload<P> = {
   readonly result: readonly P[]
   readonly error?: string
   readonly total: number
@@ -23,7 +23,7 @@ export interface ListPayload<P> {
 // `C` stands for a map of names to structural types they will uphold in result
 // `[]` in language of ill Bitrix means `undefined`. Just deal with it.
 // Also, it will return object if command names specified and array if names are numbers. Deal with it.
-export interface BatchPayload<C> {
+export type BatchPayload<C> = {
   readonly result: {
     readonly result: { readonly [P in keyof C]?: C[P] } | ReadonlyArray<C[keyof C]>
     readonly result_error: { readonly [P in keyof C]?: string } | readonly string[]

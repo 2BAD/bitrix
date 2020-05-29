@@ -60,7 +60,7 @@ export const batchToListPayload = <P>(payload: BatchPayload<Record<string, P> | 
   }
 }
 
-interface Dependencies {
+type Dependencies = {
   readonly call: Call
   readonly batch: Batch
 }

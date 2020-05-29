@@ -1,6 +1,6 @@
 import { Method } from './methods'
 
-export interface Command {
+export type Command = {
   readonly method: Method
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly params?: Record<string, any>

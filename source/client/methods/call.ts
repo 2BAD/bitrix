@@ -30,7 +30,7 @@ export const handlePayload = <P extends Payload<unknown>>(payload: P): P => {
 
 export type Call = <M extends Method>(method: M, params: MethodParams<M>) => Promise<MethodPayload<M>>
 
-interface Dependencies {
+type Dependencies = {
   readonly get: typeof got.get
 }
 

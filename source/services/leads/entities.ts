@@ -1,6 +1,6 @@
 import { BoolString, ISODate, NumberString } from '../common'
 
-export interface Lead {
+export type Lead = {
   // Deal can have user fields
   readonly [key: string]: string | null
 

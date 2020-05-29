@@ -57,7 +57,7 @@ const LISTABLE_METHODS = [
 export type ListableMethod = typeof LISTABLE_METHODS[number]
 export type GettableMethod = Diff<Method, ListableMethod>
 
-interface MethodsMap {
+type MethodsMap = {
   readonly [key: string]: {
     readonly type: unknown
     readonly payload: unknown
@@ -66,7 +66,7 @@ interface MethodsMap {
 }
 
 // @todo Figure out full list of possible values
-export interface ListParams {
+export type ListParams = {
   readonly start?: number
   readonly order?: { readonly [key: string]: string } // 'ASC' | 'DESC'
   readonly filter?: { readonly [key: string]: string | number }
@@ -80,8 +80,7 @@ export interface ListParams {
  * - `payload` — a payload that method returns
  * - `params` — params that method accepts
  */
-export interface Methods extends MethodsMap,
-  CompaniesMethods, ContactsMethods, DealsMethods, LeadsMethods, StatusesMethods, UsersMethods {
+export type Methods = MethodsMap & CompaniesMethods & ContactsMethods & DealsMethods & LeadsMethods & StatusesMethods & UsersMethods & {
 
   readonly [Method.BATCH]: {
     readonly type: unknown

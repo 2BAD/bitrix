@@ -106,7 +106,7 @@ export type Batch = <
   P = CommandsPayloads<C>
 >(commands: C, commandsPerRequest?: number) => Promise<BatchPayload<P>>
 
-interface Dependencies {
+type Dependencies = {
   readonly get: typeof got.get
 }
 

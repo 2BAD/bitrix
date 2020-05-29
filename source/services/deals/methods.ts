@@ -3,7 +3,7 @@ import { GetPayload, ListPayload } from '../../payloads'
 import { Fields } from '../common'
 import { Deal } from './entities'
 
-export interface DealsMethods {
+export type DealsMethods = {
   readonly [Method.CRM_DEAL_FIELDS]: {
     readonly type: Deal
     readonly payload: GetPayload<Fields>
