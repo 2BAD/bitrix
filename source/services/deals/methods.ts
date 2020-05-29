@@ -7,7 +7,7 @@ export interface DealsMethods {
   readonly [Method.CRM_DEAL_FIELDS]: {
     readonly type: Deal
     readonly payload: GetPayload<Fields>
-    readonly params?: {}
+    readonly params?: Record<string, unknown>
   }
 
   readonly [Method.CRM_DEAL_ADD]: {
@@ -37,7 +37,7 @@ export interface DealsMethods {
     readonly payload: GetPayload<boolean>
     readonly params: {
       readonly id: string
-      readonly fields: Record<string, any>
+      readonly fields: Record<string, unknown>
       readonly params?: {
         readonly REGISTER_SONET_EVENT: 'Y' | 'N'
       }

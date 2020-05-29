@@ -4,7 +4,7 @@
  * which justifies whole existence of that helper.
  */
 export type ExtractValue<
-  MAP extends Record<string, any>,
+  MAP extends Record<string, unknown>,
   KEY extends string | number | symbol,
   MAPKEY extends keyof MAP = KEY extends keyof MAP ? KEY : never
 > = MAP[MAPKEY]

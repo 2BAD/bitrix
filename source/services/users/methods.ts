@@ -6,7 +6,7 @@ export interface UsersMethods {
   readonly [Method.USER_FIELDS]: {
     readonly type: User
     readonly payload: GetPayload<User>
-    readonly params?: {}
+    readonly params?: Record<string, unknown>
   }
 
   readonly [Method.USER_GET]: {

@@ -61,7 +61,7 @@ interface MethodsMap {
   readonly [key: string]: {
     readonly type: unknown
     readonly payload: unknown
-    readonly params: Record<string, any>
+    readonly params: Record<string, unknown>
   }
 }
 

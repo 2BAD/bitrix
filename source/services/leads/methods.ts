@@ -7,7 +7,7 @@ export interface LeadsMethods {
   readonly [Method.CRM_LEAD_FIELDS]: {
     readonly type: Lead
     readonly payload: GetPayload<Fields>
-    readonly params?: {}
+    readonly params?: Record<string, unknown>
   }
 
   readonly [Method.CRM_LEAD_ADD]: {
@@ -37,7 +37,7 @@ export interface LeadsMethods {
     readonly payload: GetPayload<boolean>
     readonly params: {
       readonly id: string
-      readonly fields: Record<string, any>
+      readonly fields: Record<string, unknown>
       readonly params?: {
         readonly REGISTER_SONET_EVENT: 'Y' | 'N'
       }

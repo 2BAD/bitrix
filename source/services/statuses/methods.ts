@@ -8,7 +8,7 @@ export interface StatusesMethods {
   readonly [Method.CRM_STATUS_FIELDS]: {
     readonly type: Status
     readonly payload: GetPayload<Fields>
-    readonly params?: {}
+    readonly params?: Record<string, unknown>
   }
 
   // https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_add.php
@@ -48,8 +48,8 @@ export interface StatusesMethods {
     readonly payload: ListPayload<Status>
     readonly params: {
       // @todo should be refined to only available properties
-      readonly order?: Record<string, any>
-      readonly filter?: Record<string, any>
+      readonly order?: Record<string, unknown>
+      readonly filter?: Record<string, unknown>
     }
   }
 
@@ -59,7 +59,7 @@ export interface StatusesMethods {
     readonly payload: GetPayload<boolean>
     readonly params: {
       readonly id: string | number
-      readonly fields: Record<string, any>
+      readonly fields: Record<string, unknown>
     }
   }
 }

@@ -52,10 +52,10 @@ export const prepareCommandsQueries = <C extends Commands, R = { [K in keyof C]:
  * @todo Generics inference is complicated here and might be not super accurate
  */
 export const mergeBatchPayloads = <
-  B extends BatchPayload<any>,
+  B extends BatchPayload<unknown>,
   P = B extends BatchPayload<infer U> ? U : never
 >(payloads: readonly B[]): BatchPayload<P> => {
-  const merge = <T extends S, S extends readonly any[] | Record<string, any>>(a: T, b: S): T =>
+  const merge = <T extends S, S extends readonly unknown[] | Record<string, unknown>>(a: T, b: S): T =>
     isArray(a) && isArray(b)
       // @todo Gotta find way to avoid unsafe casting here
       ? [...a, ...b] as unknown as T
