@@ -7,9 +7,12 @@ ignorePatterns:
 
 extends:
   - 'standard-with-typescript'
+  - 'plugin:@typescript-eslint/recommended'
+  - 'plugin:@typescript-eslint/recommended-requiring-type-checking'
 
 rules:
   '@typescript-eslint/promise-function-async': 'off'
   '@typescript-eslint/strict-boolean-expressions': 'off'
   '@typescript-eslint/explicit-function-return-type': 'off'
   '@typescript-eslint/consistent-type-assertions': 'off'
+  '@typescript-eslint/explicit-module-boundary-types': 'off'
