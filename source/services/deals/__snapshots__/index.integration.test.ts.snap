@@ -138,6 +138,15 @@ Object {
     "title": "ID",
     "type": "integer",
   },
+  "IS_MANUAL_OPPORTUNITY": Object {
+    "isDynamic": false,
+    "isImmutable": false,
+    "isMultiple": false,
+    "isReadOnly": false,
+    "isRequired": false,
+    "title": "IS_MANUAL_OPPORTUNITY",
+    "type": "char",
+  },
   "IS_NEW": Object {
     "isDynamic": false,
     "isImmutable": false,

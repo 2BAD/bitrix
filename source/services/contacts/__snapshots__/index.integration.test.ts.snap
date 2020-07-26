@@ -47,6 +47,15 @@ Object {
     "title": "Код страны",
     "type": "string",
   },
+  "ADDRESS_LOC_ADDR_ID": Object {
+    "isDynamic": false,
+    "isImmutable": false,
+    "isMultiple": false,
+    "isReadOnly": false,
+    "isRequired": false,
+    "title": "Идентификатор адреса местоположения",
+    "type": "integer",
+  },
   "ADDRESS_POSTAL_CODE": Object {
     "isDynamic": false,
     "isImmutable": false,

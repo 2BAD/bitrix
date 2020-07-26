@@ -56,6 +56,15 @@ Object {
     "title": "Юридический адрес",
     "type": "string",
   },
+  "ADDRESS_LOC_ADDR_ID": Object {
+    "isDynamic": false,
+    "isImmutable": false,
+    "isMultiple": false,
+    "isReadOnly": false,
+    "isRequired": false,
+    "title": "Идентификатор адреса местоположения",
+    "type": "integer",
+  },
   "ADDRESS_POSTAL_CODE": Object {
     "isDynamic": false,
     "isImmutable": false,
@@ -364,6 +373,15 @@ Object {
     "isRequired": false,
     "title": "Юридический адрес код страны",
     "type": "string",
+  },
+  "REG_ADDRESS_LOC_ADDR_ID": Object {
+    "isDynamic": false,
+    "isImmutable": false,
+    "isMultiple": false,
+    "isReadOnly": false,
+    "isRequired": false,
+    "title": "Юридический адрес идентификатор адреса местоположения",
+    "type": "integer",
   },
   "REG_ADDRESS_POSTAL_CODE": Object {
     "isDynamic": false,
