@@ -96,7 +96,6 @@ exports[`Statuses get should get entry with ID = 1 1`] = `
 Object {
   "ENTITY_ID": "STATUS",
   "EXTRA": Object {
-    "COLOR": "#39A8EF",
     "SEMANTICS": "process",
   },
   "ID": "1",
@@ -113,7 +112,6 @@ Array [
   Object {
     "ENTITY_ID": "DEAL_STAGE",
     "EXTRA": Object {
-      "COLOR": "#39A8EF",
       "SEMANTICS": "process",
     },
     "ID": "101",
@@ -198,7 +196,6 @@ Array [
   Object {
     "ENTITY_ID": "QUOTE_STATUS",
     "EXTRA": Object {
-      "COLOR": "#39A8EF",
       "SEMANTICS": "process",
     },
     "ID": "131",
@@ -220,7 +217,6 @@ Array [
   Object {
     "ENTITY_ID": "STATUS",
     "EXTRA": Object {
-      "COLOR": "#39A8EF",
       "SEMANTICS": "process",
     },
     "ID": "1",
@@ -251,7 +247,6 @@ Array [
   Object {
     "ENTITY_ID": "QUOTE_STATUS",
     "EXTRA": Object {
-      "COLOR": "#2FC6F6",
       "SEMANTICS": "process",
     },
     "ID": "133",
@@ -264,7 +259,6 @@ Array [
   Object {
     "ENTITY_ID": "STATUS",
     "EXTRA": Object {
-      "COLOR": "#55D0E0",
       "SEMANTICS": "process",
     },
     "ID": "3",
@@ -340,7 +334,6 @@ Array [
   Object {
     "ENTITY_ID": "DEAL_STAGE",
     "EXTRA": Object {
-      "COLOR": "#2FC6F6",
       "SEMANTICS": "process",
     },
     "ID": "103",
@@ -371,7 +364,6 @@ Array [
   Object {
     "ENTITY_ID": "DEAL_STAGE",
     "EXTRA": Object {
-      "COLOR": "#55D0E0",
       "SEMANTICS": "process",
     },
     "ID": "105",
@@ -393,7 +385,6 @@ Array [
   Object {
     "ENTITY_ID": "STATUS",
     "EXTRA": Object {
-      "COLOR": "#47E4C2",
       "SEMANTICS": "process",
     },
     "ID": "5",
@@ -406,7 +397,6 @@ Array [
   Object {
     "ENTITY_ID": "QUOTE_STATUS",
     "EXTRA": Object {
-      "COLOR": "#7BD500",
       "SEMANTICS": "success",
     },
     "ID": "135",
@@ -491,7 +481,6 @@ Array [
   Object {
     "ENTITY_ID": "DEAL_STAGE",
     "EXTRA": Object {
-      "COLOR": "#47E4C2",
       "SEMANTICS": "process",
     },
     "ID": "107",
@@ -513,7 +502,6 @@ Array [
   Object {
     "ENTITY_ID": "QUOTE_STATUS",
     "EXTRA": Object {
-      "COLOR": "#FF5752",
       "SEMANTICS": "failure",
     },
     "ID": "137",
@@ -589,7 +577,6 @@ Array [
   Object {
     "ENTITY_ID": "STATUS",
     "EXTRA": Object {
-      "COLOR": "#7BD500",
       "SEMANTICS": "success",
     },
     "ID": "7",
@@ -602,7 +589,6 @@ Array [
   Object {
     "ENTITY_ID": "DEAL_STAGE",
     "EXTRA": Object {
-      "COLOR": "#FFA900",
       "SEMANTICS": "process",
     },
     "ID": "109",
@@ -624,7 +610,6 @@ Array [
   Object {
     "ENTITY_ID": "QUOTE_STATUS",
     "EXTRA": Object {
-      "COLOR": "#FF5752",
       "SEMANTICS": "apology",
     },
     "ID": "139",
@@ -664,7 +649,6 @@ Array [
   Object {
     "ENTITY_ID": "STATUS",
     "EXTRA": Object {
-      "COLOR": "#FF5752",
       "SEMANTICS": "failure",
     },
     "ID": "9",
@@ -686,7 +670,6 @@ Array [
   Object {
     "ENTITY_ID": "DEAL_STAGE",
     "EXTRA": Object {
-      "COLOR": "#7BD500",
       "SEMANTICS": "success",
     },
     "ID": "111",
@@ -717,7 +700,6 @@ Array [
   Object {
     "ENTITY_ID": "DEAL_STAGE",
     "EXTRA": Object {
-      "COLOR": "#FF5752",
       "SEMANTICS": "failure",
     },
     "ID": "113",
@@ -775,7 +757,6 @@ Array [
   Object {
     "ENTITY_ID": "DEAL_STAGE",
     "EXTRA": Object {
-      "COLOR": "#FF5752",
       "SEMANTICS": "apology",
     },
     "ID": "115",
@@ -823,7 +804,7 @@ Array [
   },
   Object {
     "ENTITY_ID": "INVOICE_STATUS",
-    "ID": "144",
+    "ID": "145",
     "NAME": "Новый",
     "NAME_INIT": "Новый",
     "SORT": "100",
@@ -841,7 +822,7 @@ Array [
   },
   Object {
     "ENTITY_ID": "INVOICE_STATUS",
-    "ID": "150",
+    "ID": "151",
     "NAME": "Отправлен клиенту",
     "NAME_INIT": "",
     "SORT": "110",
@@ -850,7 +831,7 @@ Array [
   },
   Object {
     "ENTITY_ID": "INVOICE_STATUS",
-    "ID": "148",
+    "ID": "149",
     "NAME": "Оплачен",
     "NAME_INIT": "Оплачен",
     "SORT": "120",
@@ -859,7 +840,7 @@ Array [
   },
   Object {
     "ENTITY_ID": "INVOICE_STATUS",
-    "ID": "146",
+    "ID": "147",
     "NAME": "Не оплачен",
     "NAME_INIT": "Не оплачен",
     "SORT": "130",
@@ -874,7 +855,6 @@ Array [
   Object {
     "ENTITY_ID": "STATUS",
     "EXTRA": Object {
-      "COLOR": "#39A8EF",
       "SEMANTICS": "process",
     },
     "ID": "1",
@@ -887,7 +867,6 @@ Array [
   Object {
     "ENTITY_ID": "STATUS",
     "EXTRA": Object {
-      "COLOR": "#55D0E0",
       "SEMANTICS": "process",
     },
     "ID": "3",
@@ -900,7 +879,6 @@ Array [
   Object {
     "ENTITY_ID": "STATUS",
     "EXTRA": Object {
-      "COLOR": "#47E4C2",
       "SEMANTICS": "process",
     },
     "ID": "5",
@@ -913,7 +891,6 @@ Array [
   Object {
     "ENTITY_ID": "STATUS",
     "EXTRA": Object {
-      "COLOR": "#7BD500",
       "SEMANTICS": "success",
     },
     "ID": "7",
@@ -926,7 +903,6 @@ Array [
   Object {
     "ENTITY_ID": "STATUS",
     "EXTRA": Object {
-      "COLOR": "#FF5752",
       "SEMANTICS": "failure",
     },
     "ID": "9",
@@ -944,7 +920,6 @@ Array [
   Object {
     "ENTITY_ID": "STATUS",
     "EXTRA": Object {
-      "COLOR": "#FF5752",
       "SEMANTICS": "failure",
     },
     "ID": "9",
@@ -957,7 +932,6 @@ Array [
   Object {
     "ENTITY_ID": "STATUS",
     "EXTRA": Object {
-      "COLOR": "#7BD500",
       "SEMANTICS": "success",
     },
     "ID": "7",
@@ -970,7 +944,6 @@ Array [
   Object {
     "ENTITY_ID": "STATUS",
     "EXTRA": Object {
-      "COLOR": "#47E4C2",
       "SEMANTICS": "process",
     },
     "ID": "5",
@@ -983,7 +956,6 @@ Array [
   Object {
     "ENTITY_ID": "STATUS",
     "EXTRA": Object {
-      "COLOR": "#55D0E0",
       "SEMANTICS": "process",
     },
     "ID": "3",
@@ -996,7 +968,6 @@ Array [
   Object {
     "ENTITY_ID": "STATUS",
     "EXTRA": Object {
-      "COLOR": "#39A8EF",
       "SEMANTICS": "process",
     },
     "ID": "1",
@@ -1013,7 +984,6 @@ exports[`Statuses update should update an entry 1`] = `
 Object {
   "ENTITY_ID": "DEAL_STAGE",
   "EXTRA": Object {
-    "COLOR": "#39A8EF",
     "SEMANTICS": "process",
   },
   "ID": "101",
@@ -1029,7 +999,6 @@ exports[`Statuses update should update an entry 2`] = `
 Object {
   "ENTITY_ID": "DEAL_STAGE",
   "EXTRA": Object {
-    "COLOR": "#39A8EF",
     "SEMANTICS": "process",
   },
   "ID": "101",
