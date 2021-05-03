@@ -73,7 +73,7 @@
     "lodash.chunk": "4.2.0",
     "lodash.frompairs": "4.0.1",
     "lodash.range": "3.2.0",
-    "p-queue": "7.1.0",
+    "p-queue": "6.6.2",
     "qs": "6.10.1"
   },
   "devDependencies": {
