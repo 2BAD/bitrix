@@ -68,34 +68,37 @@
     "@types/lodash.chunk": "4.2.6",
     "@types/lodash.frompairs": "4.0.6",
     "@types/lodash.range": "3.2.6",
-    "@types/qs": "6.9.5",
-    "got": "11.8.0",
+    "@types/qs": "6.9.6",
+    "got": "11.8.2",
     "lodash.chunk": "4.2.0",
     "lodash.frompairs": "4.0.1",
     "lodash.range": "3.2.0",
-    "p-queue": "6.6.2",
-    "qs": "6.9.4"
+    "p-queue": "7.1.0",
+    "qs": "6.10.1"
   },
   "devDependencies": {
-    "@types/jest": "26.0.15",
-    "@types/node": "14.14.8",
-    "@typescript-eslint/eslint-plugin": "4.8.1",
+    "@types/jest": "26.0.23",
+    "@types/node": "15.0.1",
+    "@typescript-eslint/eslint-plugin": "4.22.0",
     "codecov": "3.8.1",
     "dotenv": "8.2.0",
-    "eslint": "7.13.0",
-    "eslint-config-standard-with-typescript": "19.0.1",
+    "eslint": "7.25.0",
+    "eslint-config-standard-with-typescript": "20.0.0",
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-promise": "4.2.1",
     "eslint-plugin-standard": "4.1.0",
     "jest": "26.6.3",
-    "nock": "13.0.5",
+    "nock": "13.0.11",
     "npm-run-all": "4.1.5",
     "rimraf": "3.0.2",
-    "ts-jest": "26.4.4",
-    "typescript": "4.0.5"
+    "ts-jest": "26.5.5",
+    "typescript": "4.2.4"
   },
   "engines": {
     "node": ">=10"
+  },
+  "volta": {
+    "node": "15.14.0"
   }
 }
