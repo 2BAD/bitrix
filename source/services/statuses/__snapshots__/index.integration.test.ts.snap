@@ -86,9 +86,9 @@ Object {
   },
   "SEMANTICS": Object {
     "isDynamic": false,
-    "isImmutable": false,
+    "isImmutable": true,
     "isMultiple": false,
-    "isReadOnly": true,
+    "isReadOnly": false,
     "isRequired": false,
     "title": "SEMANTICS",
     "type": "char",

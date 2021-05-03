@@ -3,8 +3,11 @@
 exports[`Users fields should get all fields 1`] = `
 Object {
   "ACTIVE": "Активность",
+  "DATE_REGISTER": "Дата регистрации",
   "EMAIL": "E-Mail",
   "ID": "ID",
+  "IS_ONLINE": "IS_ONLINE",
+  "LAST_LOGIN": "Последняя авторизация",
   "LAST_NAME": "Фамилия",
   "NAME": "Имя",
   "PERSONAL_BIRTHDAY": "Дата рождения",
@@ -23,6 +26,7 @@ Object {
   "PERSONAL_WWW": "Домашняя страничка",
   "PERSONAL_ZIP": "Почтовый индекс",
   "SECOND_NAME": "Отчество",
+  "TIME_ZONE_OFFSET": "TIME_ZONE_OFFSET",
   "UF_DEPARTMENT": "Подразделения",
   "UF_DISTRICT": "Район",
   "UF_FACEBOOK": "Facebook",
@@ -45,8 +49,11 @@ exports[`Users get should get all users 1`] = `
 Array [
   Object {
     "ACTIVE": true,
+    "DATE_REGISTER": "2019-09-05T03:00:00+03:00",
     "EMAIL": "2bad/bitrix@2bad.me",
     "ID": "1",
+    "IS_ONLINE": "N",
+    "LAST_LOGIN": "2021-04-27T03:00:00+03:00",
     "LAST_NAME": "McDickingson",
     "NAME": "Cunt",
     "PERSONAL_BIRTHDAY": "2019-09-05T03:00:00+03:00",
@@ -65,6 +72,7 @@ Array [
     "PERSONAL_WWW": "https://long-dong-between.us",
     "PERSONAL_ZIP": null,
     "SECOND_NAME": "",
+    "TIME_ZONE_OFFSET": "0",
     "UF_DEPARTMENT": Array [
       1,
     ],
@@ -90,8 +98,11 @@ exports[`Users get should get entry with ID = 1 1`] = `
 Array [
   Object {
     "ACTIVE": true,
+    "DATE_REGISTER": "2019-09-05T03:00:00+03:00",
     "EMAIL": "2bad/bitrix@2bad.me",
     "ID": "1",
+    "IS_ONLINE": "N",
+    "LAST_LOGIN": "2021-04-27T03:00:00+03:00",
     "LAST_NAME": "McDickingson",
     "NAME": "Cunt",
     "PERSONAL_BIRTHDAY": "2019-09-05T03:00:00+03:00",
@@ -110,6 +121,7 @@ Array [
     "PERSONAL_WWW": "https://long-dong-between.us",
     "PERSONAL_ZIP": null,
     "SECOND_NAME": "",
+    "TIME_ZONE_OFFSET": "0",
     "UF_DEPARTMENT": Array [
       1,
     ],
