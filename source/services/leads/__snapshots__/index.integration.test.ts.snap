@@ -256,6 +256,15 @@ Object {
     "title": "Мессенджер",
     "type": "crm_multifield",
   },
+  "IS_MANUAL_OPPORTUNITY": Object {
+    "isDynamic": false,
+    "isImmutable": false,
+    "isMultiple": false,
+    "isReadOnly": false,
+    "isRequired": false,
+    "title": "IS_MANUAL_OPPORTUNITY",
+    "type": "char",
+  },
   "IS_RETURN_CUSTOMER": Object {
     "isDynamic": false,
     "isImmutable": false,
