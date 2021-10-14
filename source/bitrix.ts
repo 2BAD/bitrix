@@ -1,3 +1,4 @@
+import { ExtendOptions } from 'got'
 import Client from './client'
 import CompaniesService from './services/companies'
 import ContactsService from './services/contacts'
@@ -11,9 +12,11 @@ import UsersService from './services/users'
  * @param restURI REST endpoint, like a `https://hello.bitrix24.ua/rest` or an inbound webhook endpoint,
  *                like a `https://hello.bitrix24.ua/rest/1/WEBHOOK_TOKEN`.
  * @param accessToken Bitrix application Access Token. Do not specify in case inbound webhook endpoint used.
+ * @param clientOptions an object that will overwrite underlying configuration for HTTP client,
+ *                see `https://github.com/sindresorhus/got/blob/main/documentation/2-options.md`.
  */
-export default (restURI: string, accessToken?: string) => {
-  const { call, batch, list } = Client(restURI, accessToken)
+export default (restURI: string, accessToken?: string, clientOptions?: ExtendOptions) => {
+  const { call, batch, list } = Client(restURI, accessToken, clientOptions)
 
   return {
     call,

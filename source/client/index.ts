@@ -1,4 +1,4 @@
-import got from 'got'
+import got, { ExtendOptions } from 'got'
 import Queue from 'p-queue'
 import addAccessToken from './hooks/addAccessToken'
 import Batch from './methods/batch'
@@ -13,8 +13,10 @@ const BITRIX_API_RATE_INTERVAL = 1000 // 1 second
  * @param restURI REST endpoint, like a `https://hello.bitrix24.ru/rest` or an inbound webhook endpoint,
  *                like a `https://hello.bitrix24.ru/rest/1/WEBHOOK_TOKEN`.
  * @param accessToken Bitrix application Access Token. Do not specify in case inbound webhook endpoint used.
+ * @param options an object that will overwrite underlying configuration for HTTP client,
+ *                see `https://github.com/sindresorhus/got/blob/main/documentation/2-options.md`.
  */
-export default (restURI: string, accessToken?: string) => {
+export default (restURI: string, accessToken?: string, options?: ExtendOptions) => {
   const client = got.extend({
     prefixUrl: restURI,
     headers: {
@@ -25,7 +27,8 @@ export default (restURI: string, accessToken?: string) => {
       beforeRequest: [
         addAccessToken(accessToken)
       ]
-    }
+    },
+    ...options
   })
 
   const queue = new Queue({
