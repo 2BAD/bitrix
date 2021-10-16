@@ -1,6 +1,6 @@
 {
   "name": "@2bad/bitrix",
-  "version": "2.3.1",
+  "version": "2.4.0",
   "description": "Bitrix24 REST API client that doesn't suck",
   "keywords": [
     "api",
