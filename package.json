@@ -38,7 +38,7 @@
     "lint": "eslint . --ext .ts",
     "lint:fix": "run-s \"lint -- --fix\"",
     "prepublishOnly": "run-s clean build",
-    "test": "jest --coverage",
+    "test": "jest unit --coverage",
     "test:integration": "jest integration --coverage",
     "test:integration:watch": "jest integration --watch",
     "test:unit": "jest unit --coverage",
