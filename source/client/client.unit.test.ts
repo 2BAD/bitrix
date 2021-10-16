@@ -22,7 +22,7 @@ describe('Client', () => {
   it('should extend `Got` instance with a specified parameters', () => {
     const spiedGotExtend = jest.spyOn(got, 'extend')
 
-    Client('https://test.com', 'test_token')
+    Client('https://test.com', 'test_token', {https: { rejectUnauthorized: false }})
     expect(spiedGotExtend.mock.calls).toMatchSnapshot()
   })
 
