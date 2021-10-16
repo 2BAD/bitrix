@@ -28,7 +28,7 @@ export default (restURI: string, accessToken?: string, options?: ExtendOptions) 
         addAccessToken(accessToken)
       ]
     },
-    ...options || {}
+    ...options ?? {}
   })
 
   const queue = new Queue({
