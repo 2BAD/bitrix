@@ -53,6 +53,7 @@ Array [
   Array [
     "https://test.com",
     "test_token",
+    undefined,
   ],
 ]
 `;

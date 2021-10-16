@@ -42,6 +42,9 @@ Array [
           [Function],
         ],
       },
+      "https": Object {
+        "rejectUnauthorized": false,
+      },
       "prefixUrl": "https://test.com",
       "responseType": "json",
     },
