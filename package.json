@@ -68,7 +68,7 @@
     "@types/lodash.chunk": "4.2.6",
     "@types/lodash.frompairs": "4.0.6",
     "@types/lodash.range": "3.2.6",
-    "@types/qs": "6.9.6",
+    "@types/qs": "6.9.7",
     "got": "11.8.2",
     "lodash.chunk": "4.2.0",
     "lodash.frompairs": "4.0.1",
