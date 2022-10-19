@@ -1,7 +1,7 @@
 import { BoolString, ISODate, NumberString } from '../common'
 
 export type Contact = {
-  readonly [key: string]: string | null
+  readonly [key: string]: any | null
   readonly ID: NumberString
   readonly POST: string | null
   readonly COMMENTS: string | null
