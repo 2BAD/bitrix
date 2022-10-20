@@ -2,7 +2,8 @@
   "extends": "@2bad/tsconfig",
   "compilerOptions": {
     "outDir": "build/module",
-    "declaration": true
+    "declaration": true,
+    "exactOptionalPropertyTypes": false
   },
   "include": ["source", "test"]
 }

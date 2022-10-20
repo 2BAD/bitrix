@@ -47,6 +47,7 @@ export const batchToListPayload = <P>(payload: BatchPayload<Record<string, P> | 
 
   const flattenResult = Object.entries(result).reduce<readonly P[]>(
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    // @ts-expect-error ignore this for now
     (flatten, [_key, r]) => !r ? flatten : [...flatten, ...r]
     , [])
 

@@ -6,9 +6,7 @@ type Dependencies = {
 }
 
 export default ({ call }: Dependencies) => ({
-  fields: () =>
-    call(Method.USER_FIELDS, {}),
+  fields: () => call(Method.USER_FIELDS, {}),
 
-  get: (id?: string) =>
-    call(Method.USER_GET, { id })
+  get: (id?: string) => call(Method.USER_GET, { id })
 })

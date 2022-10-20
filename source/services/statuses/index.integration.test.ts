@@ -1,9 +1,11 @@
 import Bitrix from '../../bitrix'
 
+// @ts-ignore this should be improved in a future but it works for now
 const isSortedAsc = (arr: ReadonlyArray<string>) => arr.slice(1).every((v, i) => arr[i] <= v)
+// @ts-ignore this should be improved in a future but it works for now
 const isSortedDesc = (arr: ReadonlyArray<string>) => arr.slice(1).every((v, i) => arr[i] >= v)
 
-const WEBHOOK_URL = process.env.WEBHOOK_URL
+const WEBHOOK_URL = process.env['WEBHOOK_URL']
 
 if (!WEBHOOK_URL) {
   throw Error('Integration tests require environmental variable `WEBHOOK_URL` to be set')
@@ -84,7 +86,10 @@ describe('Statuses', () => {
       const { result: status } = await statuses.get(STATUS_ID)
       expect(status).toMatchSnapshot()
 
-      const { result: updateResult } = await statuses.update(STATUS_ID, { ...status, NAME: 'CHANGED' })
+      const { result: updateResult } = await statuses.update(STATUS_ID, {
+        ...status,
+        NAME: 'CHANGED'
+      })
       expect(updateResult).toBeTruthy()
 
       const { result: updatedStatus } = await statuses.get(STATUS_ID)

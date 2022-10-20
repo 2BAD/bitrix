@@ -38,11 +38,14 @@ describe('Client `chunkCommands` method', () => {
 
   it('should by default chunk with a size of `MAX_COMMANDS_PER_BATCH`', () => {
     const commandsSets = 2
-    const commands = range(0, MAX_COMMANDS_PER_BATCH * commandsSets).map(() => ({ method: Method.CRM_DEAL_GET }))
+    const commands = range(0, MAX_COMMANDS_PER_BATCH * commandsSets).map(() => ({
+      method: Method.CRM_DEAL_GET
+    }))
 
     const chunked = chunkCommands(commands)
 
     expect(chunked.length).toBe(commandsSets)
+    // @ts-ignore we have asserted it length
     expect(chunked[0].length).toBe(MAX_COMMANDS_PER_BATCH)
   })
 })
@@ -80,10 +83,7 @@ describe('Client `prepareCommandsQueries` method', () => {
   })
 
   it('should work with array of commands', () => {
-    const commands = [
-      { method: Method.CRM_DEAL_GET },
-      { method: Method.CRM_DEAL_LIST }
-    ] as const
+    const commands = [{ method: Method.CRM_DEAL_GET }, { method: Method.CRM_DEAL_LIST }] as const
 
     expect(prepareCommandsQueries(commands)).toMatchSnapshot()
   })
@@ -184,21 +184,24 @@ describe('Client `mergeBatchPayloads` method', () => {
         result_error: [],
         result_total: [8, 8],
         result_next: [2, 4],
-        result_time: [{
-          start: 1567196891.008149,
-          finish: 1567196891.022234,
-          duration: 0.014085054397583008,
-          processing: 0.013998985290527344,
-          date_start: '2019-08-30T23:28:11+03:00',
-          date_finish: '2019-08-30T23:28:11+03:00'
-        }, {
-          start: 1567196891.022316,
-          finish: 1567196891.03225,
-          duration: 0.009933948516845703,
-          processing: 0.009846210479736328,
-          date_start: '2019-08-30T23:28:11+03:00',
-          date_finish: '2019-08-30T23:28:11+03:00'
-        }]
+        result_time: [
+          {
+            start: 1567196891.008149,
+            finish: 1567196891.022234,
+            duration: 0.014085054397583008,
+            processing: 0.013998985290527344,
+            date_start: '2019-08-30T23:28:11+03:00',
+            date_finish: '2019-08-30T23:28:11+03:00'
+          },
+          {
+            start: 1567196891.022316,
+            finish: 1567196891.03225,
+            duration: 0.009933948516845703,
+            processing: 0.009846210479736328,
+            date_start: '2019-08-30T23:28:11+03:00',
+            date_finish: '2019-08-30T23:28:11+03:00'
+          }
+        ]
       },
       time: {
         start: 1567196890.959017,
@@ -219,21 +222,24 @@ describe('Client `mergeBatchPayloads` method', () => {
         result_error: [],
         result_total: [8, 8],
         result_next: [6, 8],
-        result_time: [{
-          start: 1567196891.032315,
-          finish: 1567196891.035297,
-          duration: 0.002981901168823242,
-          processing: 0.002897024154663086,
-          date_start: '2019-08-30T23:28:11+03:00',
-          date_finish: '2019-08-30T23:28:11+03:00'
-        }, {
-          start: 1567196891.03536,
-          finish: 1567196891.039936,
-          duration: 0.004575967788696289,
-          processing: 0.00450897216796875,
-          date_start: '2019-08-30T23:28:11+03:00',
-          date_finish: '2019-08-30T23:28:11+03:00'
-        }]
+        result_time: [
+          {
+            start: 1567196891.032315,
+            finish: 1567196891.035297,
+            duration: 0.002981901168823242,
+            processing: 0.002897024154663086,
+            date_start: '2019-08-30T23:28:11+03:00',
+            date_finish: '2019-08-30T23:28:11+03:00'
+          },
+          {
+            start: 1567196891.03536,
+            finish: 1567196891.039936,
+            duration: 0.004575967788696289,
+            processing: 0.00450897216796875,
+            date_start: '2019-08-30T23:28:11+03:00',
+            date_finish: '2019-08-30T23:28:11+03:00'
+          }
+        ]
       },
       time: {
         start: 1567196890.959517,
@@ -292,7 +298,9 @@ describe('Client `batch` method', () => {
       // @todo We'd want to use `query` object here as it is much more readable, but nock for some reason
       //       fails to match request when it contains `cmd[someName]`. The issue definitely
       //       connected to the `[]` since it does not appear when only one bracket present
-      .get(`/${Method.BATCH}?cmd%5B0%5D=${commands[0].method}%3FID%3D${dealId}&cmd%5B1%5D=${commands[1].method}`)
+      .get(
+        `/${Method.BATCH}?cmd%5B0%5D=${commands[0].method}%3FID%3D${dealId}&cmd%5B1%5D=${commands[1].method}`
+      )
       .reply(RESPONSE_200, payload)
 
     await batch(commands)
@@ -313,7 +321,9 @@ describe('Client `batch` method', () => {
       // @todo We'd want to use `query` object here as it is much more readable, but nock for some reason
       //       fails to match request when it contains `cmd[someName]`. The issue definitely
       //       connected to the `[]` since it does not appear when only one bracket present
-      .get(`/${Method.BATCH}?cmd%5B0%5D=${commands[0].method}%3FID%3D${dealId}&cmd%5B1%5D=${commands[1].method}`)
+      .get(
+        `/${Method.BATCH}?cmd%5B0%5D=${commands[0].method}%3FID%3D${dealId}&cmd%5B1%5D=${commands[1].method}`
+      )
       .reply(RESPONSE_200, payload)
 
     await batch(commands)
@@ -335,13 +345,9 @@ describe('Client `batch` method', () => {
       // @todo We'd want to use `query` object here as it is much more readable, but nock for some reason
       //       fails to match request when it contains `cmd[someName]`. The issue definitely connected
       //       to the `[]`, since it does not appear when only one bracket present
-      .get(
-        `/${Method.BATCH}?cmd%5Bone%5D=${commands.one.method}%3FID%3D${dealId}`
-      )
+      .get(`/${Method.BATCH}?cmd%5Bone%5D=${commands.one.method}%3FID%3D${dealId}`)
       .reply(RESPONSE_200, payload)
-      .get(
-        `/${Method.BATCH}?cmd%5Btwo%5D=${commands.two.method}`
-      )
+      .get(`/${Method.BATCH}?cmd%5Btwo%5D=${commands.two.method}`)
       .reply(RESPONSE_200, payload)
 
     await batch(commands, maxCommandsPerBatch)
@@ -488,7 +494,9 @@ describe('Client `batch` method', () => {
       // @todo We'd want to use `query` object here as it is much more readable, but nock for some reason
       //       fails to match request when it contains `cmd[someName]`. The issue definitely connected
       //       to the `[]`, since it does not appear when only one bracket present
-      .get(`/${Method.BATCH}?cmd%5Bone%5D=${commands.one.method}&cmd%5Btwo%5D=${commands.two.method}`)
+      .get(
+        `/${Method.BATCH}?cmd%5Bone%5D=${commands.one.method}&cmd%5Btwo%5D=${commands.two.method}`
+      )
       .reply(RESPONSE_200, payload)
 
     return expect(batch(commands)).rejects.toMatchSnapshot()
@@ -498,7 +506,10 @@ describe('Client `batch` method', () => {
     const payload = {
       result: {
         result: ['done'],
-        result_error: ['Expected error from numbered `batch` 0', 'Expected error from numbered `batch` 1']
+        result_error: [
+          'Expected error from numbered `batch` 0',
+          'Expected error from numbered `batch` 1'
+        ]
       }
     }
 
@@ -521,14 +532,14 @@ describe('Client `batch` method', () => {
     const payload = {
       result: {
         result: ['done'],
-        result_error: ['Expected error from array of command `batch` 0', 'Expected error from array of command `batch` 1']
+        result_error: [
+          'Expected error from array of command `batch` 0',
+          'Expected error from array of command `batch` 1'
+        ]
       }
     }
 
-    const commands = [
-      { method: Method.CRM_DEAL_GET },
-      { method: Method.CRM_DEAL_LIST }
-    ] as const
+    const commands = [{ method: Method.CRM_DEAL_GET }, { method: Method.CRM_DEAL_LIST }] as const
 
     nock(TEST_URI)
       // @todo We'd want to use `query` object here as it is much more readable, but nock for some reason

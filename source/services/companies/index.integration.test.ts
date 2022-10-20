@@ -1,6 +1,6 @@
 import Bitrix from './../../bitrix'
 
-const WEBHOOK_URL = process.env.WEBHOOK_URL
+const WEBHOOK_URL = process.env['WEBHOOK_URL']
 
 if (!WEBHOOK_URL) {
   throw Error('Integration tests require environmental variable `WEBHOOK_URL` to be set')
