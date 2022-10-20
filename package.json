@@ -30,22 +30,15 @@
     "build"
   ],
   "scripts": {
-    "build": "run-s clean && run-p build:*",
-    "build:main": "tsc --project tsconfig.main.json",
-    "build:main:watch": "run-s \"build:main -- --watch\"",
-    "build:module": "tsc --project tsconfig.json",
+    "build": "tsc --project tsconfig.json",
     "clean": "rimraf build",
     "lint": "eslint . --ext .ts",
     "lint:fix": "run-s \"lint -- --fix\"",
     "prepublishOnly": "run-s clean build",
-    "test": "jest unit --coverage",
+    "test": "jest --coverage",
     "test:integration": "jest integration --coverage",
-    "test:integration:watch": "jest integration --watch",
     "test:unit": "jest unit --coverage",
-    "test:unit:watch": "jest unit --watch",
-    "test:watch": "jest --watch",
-    "preversion": "run-s clean lint test build",
-    "watch": "run-s clean build:main && run-p build:main:watch"
+    "preversion": "run-s clean lint test build"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -95,9 +88,6 @@
     "rimraf": "3.0.2",
     "ts-jest": "26.5.5",
     "typescript": "4.8.4"
-  },
-  "engines": {
-    "node": ">=10"
   },
   "volta": {
     "node": "19.0.0"
