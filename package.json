@@ -40,6 +40,12 @@
     "test:unit": "jest unit --coverage",
     "preversion": "run-s clean lint test build"
   },
+  "prettier": {
+    "printWidth": 100,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "none"
+  },
   "jest": {
     "collectCoverageFrom": [
       "source/**/*.ts"
