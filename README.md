@@ -7,7 +7,6 @@
 [![Code coverage](https://img.shields.io/codecov/c/github/2BAD/bitrix)](https://codecov.io/gh/2BAD/bitrix)
 [![Travis Build Status](https://img.shields.io/travis/2BAD/bitrix?logo=Travis)](https://travis-ci.org/github/2BAD/bitrix)
 [![GitHub Build Status](https://img.shields.io/github/workflow/status/2BAD/bitrix/Integration%20testing?logo=GitHub)](https://github.com/2BAD/bitrix/actions?query=workflow%3A%22Integration+testing%22)
-[![Dependency Status](https://img.shields.io/david/2BAD/bitrix)](https://david-dm.org/2BAD/bitrix)
 [![Written in TypeScript](https://img.shields.io/github/languages/top/2BAD/bitrix)](https://github.com/2BAD/bitrix/search?l=typescript)
 
 - 🔥 No bullshit
@@ -171,6 +170,14 @@ bitrix.list('some.new.list' as any, { select: ["TITLE"] })
 > I need to call a specific set of commands. How to do that effectively?
 
 Use the `batch` method. It will handle all routine:
+
+> I'm using a self-signed SSL certificate and I'm getting a `[RequestError]: self signed certificate`. What should I do?
+
+Override [`got options`](https://github.com/sindresorhus/got/blob/main/documentation/2-options.md) in constructor:
+
+```typescript
+const bitrix = Bitrix('https://PORTAL_NAME.bitrix24.ru/rest', 'ACCESS_TOKEN', {https: { rejectUnauthorized: false }})
+```
 
 ```typescript
 bitrix.batch({
