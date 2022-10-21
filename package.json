@@ -40,7 +40,7 @@
     "test": "jest --coverage",
     "test:integration": "jest integration --coverage",
     "test:unit": "jest unit --coverage",
-    "preversion": "run-s clean lint test build"
+    "preversion": "run-s clean lint test:unit build"
   },
   "prettier": {
     "printWidth": 100,
