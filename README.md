@@ -171,19 +171,19 @@ bitrix.list('some.new.list' as any, { select: ["TITLE"] })
 
 Use the `batch` method. It will handle all routine:
 
+```typescript
+bitrix.batch({
+  lead: { method: Method.GET_LEAD, params: { ID: '77' } },
+  deals: { method: Method.LIST_DEALS, params: {} }
+})
+```
+
 > I'm using a self-signed SSL certificate and I'm getting a `[RequestError]: self signed certificate`. What should I do?
 
 Override [`got options`](https://github.com/sindresorhus/got/blob/main/documentation/2-options.md) in constructor:
 
 ```typescript
 const bitrix = Bitrix('https://PORTAL_NAME.bitrix24.ru/rest', 'ACCESS_TOKEN', {https: { rejectUnauthorized: false }})
-```
-
-```typescript
-bitrix.batch({
-  lead: { method: Method.GET_LEAD, params: { ID: '77' } },
-  deals: { method: Method.LIST_DEALS, params: {} }
-})
 ```
 
 ### Development
