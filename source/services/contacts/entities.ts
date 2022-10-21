@@ -1,7 +1,7 @@
-import { BoolString, ISODate, NumberString } from '../common'
+import { BoolString, ISODate, MultiFieldArray, NumberString } from '../common'
 
 export type Contact = {
-  readonly [key: string]: string | null
+  readonly [key: string]: MultiFieldArray | string | null
   readonly ID: NumberString
   readonly POST: string | null
   readonly COMMENTS: string | null

@@ -23,3 +23,5 @@ export type MultiField = {
   readonly VALUE: string
   readonly TYPE_ID: string
 }
+
+export type MultiFieldArray = ReadonlyArray<Pick<MultiField, 'VALUE' | 'VALUE_TYPE'>>
