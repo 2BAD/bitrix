@@ -29,6 +29,8 @@ Init client with Bitrix API endpoint and access token and use the client to ease
 
 ```typescript
 import Bitrix from '@2bad/bitrix'
+// or for ESM
+import { Bitrix } from '@2bad/bitrix'
 
 const bitrix = Bitrix('https://PORTAL_NAME.bitrix24.ru/rest', 'ACCESS_TOKEN')
 
