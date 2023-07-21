@@ -15,7 +15,7 @@ import UsersService from './services/users'
  * @param clientOptions an object that will overwrite underlying configuration for HTTP client,
  *                see `https://github.com/sindresorhus/got/blob/main/documentation/2-options.md`.
  */
-export default (restURI: string, accessToken?: string, clientOptions?: ExtendOptions) => {
+export const Bitrix = (restURI: string, accessToken?: string, clientOptions?: ExtendOptions) => {
   const { call, batch, list } = Client(restURI, accessToken, clientOptions)
 
   return {
@@ -30,6 +30,8 @@ export default (restURI: string, accessToken?: string, clientOptions?: ExtendOpt
     users: UsersService({ call })
   }
 }
+
+export default Bitrix
 
 export * from './methods'
 export * from './commands'
