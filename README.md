@@ -5,8 +5,7 @@
 [![NPM version](https://img.shields.io/npm/v/@2bad/bitrix)](https://www.npmjs.com/package/@2bad/bitrix)
 [![License](https://img.shields.io/npm/l/@2bad/bitrix)](https://www.npmjs.com/package/@2bad/bitrix)
 [![Code coverage](https://img.shields.io/codecov/c/github/2BAD/bitrix)](https://codecov.io/gh/2BAD/bitrix)
-[![Travis Build Status](https://img.shields.io/travis/2BAD/bitrix?logo=Travis)](https://travis-ci.org/github/2BAD/bitrix)
-[![GitHub Build Status](https://img.shields.io/github/workflow/status/2BAD/bitrix/Integration%20testing?logo=GitHub)](https://github.com/2BAD/bitrix/actions?query=workflow%3A%22Integration+testing%22)
+[![GitHub Build Status](https://img.shields.io/github/actions/workflow/status/2BAD/bitrix/build.yml)](https://github.com/2BAD/bitrix/actions/workflows/build.yml)
 [![Written in TypeScript](https://img.shields.io/github/languages/top/2BAD/bitrix)](https://github.com/2BAD/bitrix/search?l=typescript)
 
 - 🔥 No bullshit
