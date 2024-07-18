@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json.schemastore.org/swcrc",
+  "test": ".*\\.ts$",
+  "exclude": [".*\\.test.ts$"],
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "decorators": true
+    },
+    "target": "es2022",
+    "baseUrl": "./source",
+    "paths": {
+      "~/*": ["./*"]
+    }
+  },
+  "module": {
+    "type": "es6"
+  }
+}
