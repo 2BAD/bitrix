@@ -1,3 +1,4 @@
+import { describe, expect, it, vi } from 'vitest'
 import Bitrix from './bitrix'
 import * as client from './client'
 
@@ -7,7 +8,7 @@ describe('Bitrix', () => {
   })
 
   it('should pass endpoint and access token to the client', () => {
-    const SpiedClient = jest.spyOn(client, 'default')
+    const SpiedClient = vi.spyOn(client, 'default')
 
     Bitrix('https://test.com', 'test_token')
     expect(SpiedClient.mock.calls).toMatchSnapshot()

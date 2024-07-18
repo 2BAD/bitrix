@@ -37,9 +37,9 @@
     "lint": "eslint . --ext .ts",
     "lint:fix": "run-s \"lint -- --fix\"",
     "prepublishOnly": "run-s clean build",
-    "test": "jest --coverage",
-    "test:integration": "jest integration --coverage",
-    "test:unit": "jest unit --coverage",
+    "test": "vitest run",
+    "test:integration": "vitest run integration --coverage",
+    "test:unit": "vitest run unit --coverage",
     "preversion": "run-s clean lint test:unit build"
   },
   "prettier": {
@@ -47,23 +47,6 @@
     "semi": false,
     "singleQuote": true,
     "trailingComma": "none"
-  },
-  "jest": {
-    "collectCoverageFrom": [
-      "source/**/*.ts"
-    ],
-    "coverageDirectory": "coverage",
-    "modulePathIgnorePatterns": [
-      "<rootDir>/build/"
-    ],
-    "preset": "ts-jest",
-    "setupFiles": [
-      "dotenv/config"
-    ],
-    "testEnvironment": "node",
-    "testMatch": [
-      "**/?(*.)+(spec|test).[jt]s?(x)"
-    ]
   },
   "dependencies": {
     "@types/lodash.chunk": "4.2.7",
@@ -79,9 +62,9 @@
   },
   "devDependencies": {
     "@2bad/tsconfig": "1.4.0",
-    "@types/jest": "26.0.23",
     "@types/node": "18.11.2",
     "@typescript-eslint/eslint-plugin": "4.22.0",
+    "@vitest/coverage-v8": "2.0.3",
     "codecov": "3.8.2",
     "dotenv": "16.0.3",
     "eslint": "7.25.0",
@@ -90,12 +73,12 @@
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-promise": "4.2.1",
     "eslint-plugin-standard": "4.1.0",
-    "jest": "26.6.3",
     "nock": "13.2.9",
     "npm-run-all": "4.1.5",
     "rimraf": "3.0.2",
-    "ts-jest": "26.5.5",
-    "typescript": "4.8.4"
+    "typescript": "4.8.4",
+    "vite-tsconfig-paths": "4.3.2",
+    "vitest": "2.0.3"
   },
   "volta": {
     "node": "22.5.0"

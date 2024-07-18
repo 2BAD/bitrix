@@ -1,143 +1,143 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Client \`batch\` method should merge payloads when more then max allowed commands provided 1`] = `
-Object {
-  "result": Object {
-    "result": Array [
+exports[`Client \`batch\` method > should merge payloads when more then max allowed commands provided 1`] = `
+{
+  "result": {
+    "result": [
       "done1",
       "done2",
     ],
-    "result_error": Array [],
-    "result_next": Array [
+    "result_error": [],
+    "result_next": [
       1,
       2,
     ],
-    "result_time": Array [],
-    "result_total": Array [
+    "result_time": [],
+    "result_total": [
       2,
       2,
     ],
   },
-  "time": Object {},
+  "time": {},
 }
 `;
 
-exports[`Client \`batch\` method should throw when getting errors in array of commands payload 1`] = `
+exports[`Client \`batch\` method > should throw when getting errors in array of commands payload 1`] = `
 [Error: [batch] failed to process. Received errors in 2 commands:
 Expected error from array of command \`batch\` 0
 Expected error from array of command \`batch\` 1]
 `;
 
-exports[`Client \`batch\` method should throw when getting errors in numbered commands payload 1`] = `
+exports[`Client \`batch\` method > should throw when getting errors in numbered commands payload 1`] = `
 [Error: [batch] failed to process. Received errors in 2 commands:
 Expected error from numbered \`batch\` 0
 Expected error from numbered \`batch\` 1]
 `;
 
-exports[`Client \`batch\` method should throw when getting errors in payload 1`] = `
+exports[`Client \`batch\` method > should throw when getting errors in payload 1`] = `
 [Error: [batch] failed to process. Received errors in 2 commands:
 Expected error from numbered \`batch\` one
 Expected error from numbered \`batch\` two]
 `;
 
-exports[`Client \`chunkCommands\` method should chunk array of commands 1`] = `
-Array [
-  Array [
-    Object {
+exports[`Client \`chunkCommands\` method > should chunk array of commands 1`] = `
+[
+  [
+    {
       "method": "crm.deal.get",
     },
-    Object {
+    {
       "method": "crm.lead.get",
     },
   ],
-  Array [
-    Object {
+  [
+    {
       "method": "crm.deal.list",
     },
-    Object {
+    {
       "method": "crm.lead.list",
     },
   ],
-  Array [
-    Object {
+  [
+    {
       "method": "crm.status.list",
     },
   ],
 ]
 `;
 
-exports[`Client \`chunkCommands\` method should chunk named commands 1`] = `
-Array [
-  Object {
-    "a": Object {
+exports[`Client \`chunkCommands\` method > should chunk named commands 1`] = `
+[
+  {
+    "a": {
       "method": "crm.deal.get",
     },
-    "b": Object {
+    "b": {
       "method": "crm.lead.get",
     },
   },
-  Object {
-    "c": Object {
+  {
+    "c": {
       "method": "crm.deal.list",
     },
-    "d": Object {
+    "d": {
       "method": "crm.lead.list",
     },
   },
-  Object {
-    "e": Object {
+  {
+    "e": {
       "method": "crm.status.list",
     },
   },
 ]
 `;
 
-exports[`Client \`mergeBatchPayloads\` method should merge array payloads 1`] = `
-Object {
-  "result": Object {
-    "result": Array [
-      Array [
-        Object {
+exports[`Client \`mergeBatchPayloads\` method > should merge array payloads 1`] = `
+{
+  "result": {
+    "result": [
+      [
+        {
           "ID": "1",
         },
-        Object {
+        {
           "ID": "2",
         },
       ],
-      Array [
-        Object {
+      [
+        {
           "ID": "3",
         },
-        Object {
+        {
           "ID": "4",
         },
       ],
-      Array [
-        Object {
+      [
+        {
           "ID": "5",
         },
-        Object {
+        {
           "ID": "6",
         },
       ],
-      Array [
-        Object {
+      [
+        {
           "ID": "7",
         },
-        Object {
+        {
           "ID": "8",
         },
       ],
     ],
-    "result_error": Array [],
-    "result_next": Array [
+    "result_error": [],
+    "result_next": [
       2,
       4,
       6,
       8,
     ],
-    "result_time": Array [
-      Object {
+    "result_time": [
+      {
         "date_finish": "2019-08-30T23:28:11+03:00",
         "date_start": "2019-08-30T23:28:11+03:00",
         "duration": 0.014085054397583008,
@@ -145,7 +145,7 @@ Object {
         "processing": 0.013998985290527344,
         "start": 1567196891.008149,
       },
-      Object {
+      {
         "date_finish": "2019-08-30T23:28:11+03:00",
         "date_start": "2019-08-30T23:28:11+03:00",
         "duration": 0.009933948516845703,
@@ -153,7 +153,7 @@ Object {
         "processing": 0.009846210479736328,
         "start": 1567196891.022316,
       },
-      Object {
+      {
         "date_finish": "2019-08-30T23:28:11+03:00",
         "date_start": "2019-08-30T23:28:11+03:00",
         "duration": 0.002981901168823242,
@@ -161,7 +161,7 @@ Object {
         "processing": 0.002897024154663086,
         "start": 1567196891.032315,
       },
-      Object {
+      {
         "date_finish": "2019-08-30T23:28:11+03:00",
         "date_start": "2019-08-30T23:28:11+03:00",
         "duration": 0.004575967788696289,
@@ -170,14 +170,14 @@ Object {
         "start": 1567196891.03536,
       },
     ],
-    "result_total": Array [
+    "result_total": [
       8,
       8,
       8,
       8,
     ],
   },
-  "time": Object {
+  "time": {
     "date_finish": "2019-08-30T23:28:13+03:00",
     "date_start": "2019-08-30T23:28:12+03:00",
     "duration": 0.2647218704223683,
@@ -188,52 +188,52 @@ Object {
 }
 `;
 
-exports[`Client \`mergeBatchPayloads\` method should merge named payloads 1`] = `
-Object {
-  "result": Object {
-    "result": Object {
-      "a": Array [
-        Object {
+exports[`Client \`mergeBatchPayloads\` method > should merge named payloads 1`] = `
+{
+  "result": {
+    "result": {
+      "a": [
+        {
           "ID": "1",
         },
-        Object {
+        {
           "ID": "2",
         },
       ],
-      "b": Array [
-        Object {
+      "b": [
+        {
           "ID": "3",
         },
-        Object {
+        {
           "ID": "4",
         },
       ],
-      "c": Array [
-        Object {
+      "c": [
+        {
           "ID": "5",
         },
-        Object {
+        {
           "ID": "6",
         },
       ],
-      "d": Array [
-        Object {
+      "d": [
+        {
           "ID": "7",
         },
-        Object {
+        {
           "ID": "8",
         },
       ],
     },
-    "result_error": Array [],
-    "result_next": Object {
+    "result_error": [],
+    "result_next": {
       "a": 2,
       "b": 4,
       "c": 6,
       "d": 8,
     },
-    "result_time": Object {
-      "a": Object {
+    "result_time": {
+      "a": {
         "date_finish": "2019-08-30T23:28:11+03:00",
         "date_start": "2019-08-30T23:28:11+03:00",
         "duration": 0.014085054397583008,
@@ -241,7 +241,7 @@ Object {
         "processing": 0.013998985290527344,
         "start": 1567196891.008149,
       },
-      "b": Object {
+      "b": {
         "date_finish": "2019-08-30T23:28:11+03:00",
         "date_start": "2019-08-30T23:28:11+03:00",
         "duration": 0.009933948516845703,
@@ -249,7 +249,7 @@ Object {
         "processing": 0.009846210479736328,
         "start": 1567196891.022316,
       },
-      "c": Object {
+      "c": {
         "date_finish": "2019-08-30T23:28:11+03:00",
         "date_start": "2019-08-30T23:28:11+03:00",
         "duration": 0.002981901168823242,
@@ -257,7 +257,7 @@ Object {
         "processing": 0.002897024154663086,
         "start": 1567196891.032315,
       },
-      "d": Object {
+      "d": {
         "date_finish": "2019-08-30T23:28:11+03:00",
         "date_start": "2019-08-30T23:28:11+03:00",
         "duration": 0.004575967788696289,
@@ -266,14 +266,14 @@ Object {
         "start": 1567196891.03536,
       },
     },
-    "result_total": Object {
+    "result_total": {
       "a": 8,
       "b": 8,
       "c": 8,
       "d": 8,
     },
   },
-  "time": Object {
+  "time": {
     "date_finish": "2019-08-30T23:28:13+03:00",
     "date_start": "2019-08-30T23:28:12+03:00",
     "duration": 0.2647218704223683,
@@ -284,24 +284,24 @@ Object {
 }
 `;
 
-exports[`Client \`prepareCommandsQueries\` method should return empty query object when no commands provided 1`] = `Object {}`;
+exports[`Client \`prepareCommandsQueries\` method > should return empty query object when no commands provided 1`] = `{}`;
 
-exports[`Client \`prepareCommandsQueries\` method should transform dict of the commands into the query object 1`] = `
-Object {
+exports[`Client \`prepareCommandsQueries\` method > should transform dict of the commands into the query object 1`] = `
+{
   "cmd[one]": "crm.deal.get?ID=11111",
   "cmd[two]": "crm.deal.list?filter%5B%3EPROBABILITY%5D=50&order%5BSTAGE_ID%5D=ASC&select%5B0%5D=ID&select%5B1%5D=TITLE&start=200",
 }
 `;
 
-exports[`Client \`prepareCommandsQueries\` method should work with array of commands 1`] = `
-Object {
+exports[`Client \`prepareCommandsQueries\` method > should work with array of commands 1`] = `
+{
   "cmd[0]": "crm.deal.get",
   "cmd[1]": "crm.deal.list",
 }
 `;
 
-exports[`Client \`prepareCommandsQueries\` method should work with numbered commands 1`] = `
-Object {
+exports[`Client \`prepareCommandsQueries\` method > should work with numbered commands 1`] = `
+{
   "cmd[0]": "crm.deal.get",
   "cmd[1]": "crm.deal.list",
 }

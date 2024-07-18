@@ -1,18 +1,18 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Users \`get\` should invoke \`call\` 1`] = `
-Array [
-  Array [
+exports[`Users > \`get\` > should invoke \`call\` 1`] = `
+[
+  [
     "user.get",
-    Object {
+    {
       "id": "77",
     },
   ],
 ]
 `;
 
-exports[`Users should expose API methods 1`] = `
-Object {
+exports[`Users > should expose API methods 1`] = `
+{
   "fields": [Function],
   "get": [Function],
 }

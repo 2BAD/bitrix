@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import Bitrix from '../../bitrix'
 
 // @ts-ignore this should be improved in a future but it works for now

@@ -1,3 +1,4 @@
+import { describe, expect, it, vi } from 'vitest'
 import { Method } from '../../methods'
 import List, { batchToListPayload, fillWithCommands, highest } from './list'
 
@@ -173,8 +174,8 @@ describe('Client `batchToListPayload` method', () => {
 
 describe('Client `list` method', () => {
   it('should make one request when entries can be fetched in one go', async () => {
-    const callMock = jest.fn(() => Promise.resolve({ next: false }) as any)
-    const batchMock = jest.fn(() => Promise.resolve({}) as any)
+    const callMock = vi.fn(() => Promise.resolve({ next: false }) as any)
+    const batchMock = vi.fn(() => Promise.resolve({}) as any)
     const list = List({ call: callMock, batch: batchMock })
 
     await list(Method.CRM_DEAL_LIST, {})
@@ -184,8 +185,8 @@ describe('Client `list` method', () => {
   })
 
   it('should make multiple requests when entries can not be fetched in one go', async () => {
-    const callMock = jest.fn(() => Promise.resolve({ next: 2, total: 120 }) as any)
-    const batchMock = jest.fn(() => Promise.resolve({
+    const callMock = vi.fn(() => Promise.resolve({ next: 2, total: 120 }) as any)
+    const batchMock = vi.fn(() => Promise.resolve({
       result: {
         result: ['done'],
         result_error: [],
@@ -205,8 +206,8 @@ describe('Client `list` method', () => {
 
   it('should return a first request payload when entities can be fetched in a single request', async () => {
     const mockPayload = { next: false, result: 'test' }
-    const callMock = jest.fn(() => Promise.resolve(mockPayload) as any)
-    const batchMock = jest.fn(() => Promise.resolve({}) as any)
+    const callMock = vi.fn(() => Promise.resolve(mockPayload) as any)
+    const batchMock = vi.fn(() => Promise.resolve({}) as any)
     const list = List({ call: callMock, batch: batchMock })
 
     const payload = await list(Method.CRM_DEAL_LIST, {})
@@ -232,8 +233,8 @@ describe('Client `list` method', () => {
       time: { start: 1567196890.959017 }
     }
 
-    const callMock = jest.fn(() => Promise.resolve({ next: 2 }) as any)
-    const batchMock = jest.fn(() => Promise.resolve(mockPayload) as any)
+    const callMock = vi.fn(() => Promise.resolve({ next: 2 }) as any)
+    const batchMock = vi.fn(() => Promise.resolve(mockPayload) as any)
     const list = List({ call: callMock, batch: batchMock })
 
     const payload = await list(Method.CRM_DEAL_LIST, {})
@@ -242,8 +243,8 @@ describe('Client `list` method', () => {
   })
 
   it('should default start to 0', async () => {
-    const callMock = jest.fn(() => Promise.resolve({ next: 2, total: 20 }) as any)
-    const batchMock = jest.fn(() => Promise.resolve({
+    const callMock = vi.fn(() => Promise.resolve({ next: 2, total: 20 }) as any)
+    const batchMock = vi.fn(() => Promise.resolve({
       result: {
         result: ['done'],
         result_error: [],
@@ -262,8 +263,8 @@ describe('Client `list` method', () => {
   })
 
   it('should properly take into account start', async () => {
-    const callMock = jest.fn(() => Promise.resolve({ next: 2, total: 120 }) as any)
-    const batchMock = jest.fn(() => Promise.resolve({
+    const callMock = vi.fn(() => Promise.resolve({ next: 2, total: 120 }) as any)
+    const batchMock = vi.fn(() => Promise.resolve({
       result: {
         result: ['done'],
         result_error: [],

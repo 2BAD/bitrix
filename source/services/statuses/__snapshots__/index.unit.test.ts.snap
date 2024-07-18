@@ -1,11 +1,11 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Statuses \`create\` should invoke \`call\` 1`] = `
-Array [
-  Array [
+exports[`Statuses > \`create\` > should invoke \`call\` 1`] = `
+[
+  [
     "crm.status.add",
-    Object {
-      "fields": Object {
+    {
+      "fields": {
         "NAME": "Test name",
       },
     },
@@ -13,26 +13,26 @@ Array [
 ]
 `;
 
-exports[`Statuses \`get\` should invoke \`call\` 1`] = `
-Array [
-  Array [
+exports[`Statuses > \`get\` > should invoke \`call\` 1`] = `
+[
+  [
     "crm.status.get",
-    Object {
+    {
       "id": "77",
     },
   ],
 ]
 `;
 
-exports[`Statuses \`list\` should invoke \`call\` 1`] = `
-Array [
-  Array [
+exports[`Statuses > \`list\` > should invoke \`call\` 1`] = `
+[
+  [
     "crm.status.list",
-    Object {
-      "filter": Object {
+    {
+      "filter": {
         "ENTITY_ID": "STATUS",
       },
-      "order": Object {
+      "order": {
         "NAME": "ASC",
       },
     },
@@ -40,21 +40,21 @@ Array [
 ]
 `;
 
-exports[`Statuses \`list\` should work without optional params 1`] = `
-Array [
-  Array [
+exports[`Statuses > \`list\` > should work without optional params 1`] = `
+[
+  [
     "crm.status.list",
-    Object {},
+    {},
   ],
 ]
 `;
 
-exports[`Statuses \`update\` should invoke \`call\` 1`] = `
-Array [
-  Array [
+exports[`Statuses > \`update\` > should invoke \`call\` 1`] = `
+[
+  [
     "crm.status.update",
-    Object {
-      "fields": Object {
+    {
+      "fields": {
         "NAME": "Test name",
       },
       "id": "77",
@@ -63,12 +63,12 @@ Array [
 ]
 `;
 
-exports[`Statuses \`update\` should work without optional params 1`] = `
-Array [
-  Array [
+exports[`Statuses > \`update\` > should work without optional params 1`] = `
+[
+  [
     "crm.status.update",
-    Object {
-      "fields": Object {
+    {
+      "fields": {
         "NAME": "Test name",
       },
       "id": "77",
@@ -77,8 +77,8 @@ Array [
 ]
 `;
 
-exports[`Statuses should expose API methods 1`] = `
-Object {
+exports[`Statuses > should expose API methods 1`] = `
+{
   "create": [Function],
   "delete": [Function],
   "fields": [Function],

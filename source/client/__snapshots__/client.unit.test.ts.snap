@@ -1,48 +1,26 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Client \`batch\` should add to queue 1`] = `
-Array [
-  Array [
-    [Function],
-  ],
-  Array [
-    [Function],
-  ],
-]
-`;
-
-exports[`Client \`call\` should add to queue 1`] = `
-Array [
-  Array [
-    [Function],
-  ],
-  Array [
-    [Function],
-  ],
-]
-`;
-
-exports[`Client should expose API methods 1`] = `
-Object {
+exports[`Client > should expose API methods 1`] = `
+{
   "batch": [Function],
   "call": [Function],
   "list": [Function],
 }
 `;
 
-exports[`Client should extend \`Got\` instance with a specified parameters 1`] = `
-Array [
-  Array [
-    Object {
-      "headers": Object {
+exports[`Client > should extend \`Got\` instance with a specified parameters 1`] = `
+[
+  [
+    {
+      "headers": {
         "user-agent": "@2bad/bitrix",
       },
-      "hooks": Object {
-        "beforeRequest": Array [
+      "hooks": {
+        "beforeRequest": [
           [Function],
         ],
       },
-      "https": Object {
+      "https": {
         "rejectUnauthorized": false,
       },
       "prefixUrl": "https://test.com",

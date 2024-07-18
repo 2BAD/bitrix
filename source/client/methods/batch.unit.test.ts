@@ -1,6 +1,7 @@
 import got from 'got'
 import range from 'lodash.range'
 import nock from 'nock'
+import { describe, expect, it } from 'vitest'
 import { Method } from '../../methods'
 import Batch, {
   chunkCommands,

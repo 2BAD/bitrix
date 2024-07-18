@@ -1,7 +1,8 @@
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import Companies from '.'
 
-const mockCall = jest.fn(() => Promise.resolve()) as any
-const mockList = jest.fn(() => Promise.resolve()) as any
+const mockCall = vi.fn(() => Promise.resolve()) as any
+const mockList = vi.fn(() => Promise.resolve()) as any
 const companies = Companies({ call: mockCall, list: mockList })
 
 const ID = '77'

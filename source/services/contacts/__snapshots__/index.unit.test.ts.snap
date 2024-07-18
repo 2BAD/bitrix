@@ -1,14 +1,14 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Contacts \`create\` should invoke \`call\` 1`] = `
-Array [
-  Array [
+exports[`Contacts > \`create\` > should invoke \`call\` 1`] = `
+[
+  [
     "crm.contact.add",
-    Object {
-      "fields": Object {
+    {
+      "fields": {
         "COMMENTS": "Some comment",
       },
-      "params": Object {
+      "params": {
         "REGISTER_SONET_EVENT": "Y",
       },
     },
@@ -16,12 +16,12 @@ Array [
 ]
 `;
 
-exports[`Contacts \`create\` should work without optional params 1`] = `
-Array [
-  Array [
+exports[`Contacts > \`create\` > should work without optional params 1`] = `
+[
+  [
     "crm.contact.add",
-    Object {
-      "fields": Object {
+    {
+      "fields": {
         "COMMENTS": "Some comment",
       },
       "params": undefined,
@@ -30,29 +30,29 @@ Array [
 ]
 `;
 
-exports[`Contacts \`get\` should invoke \`call\` 1`] = `
-Array [
-  Array [
+exports[`Contacts > \`get\` > should invoke \`call\` 1`] = `
+[
+  [
     "crm.contact.get",
-    Object {
+    {
       "id": "77",
     },
   ],
 ]
 `;
 
-exports[`Contacts \`list\` should invoke \`list\` 1`] = `
-Array [
-  Array [
+exports[`Contacts > \`list\` > should invoke \`list\` 1`] = `
+[
+  [
     "crm.contact.list",
-    Object {
-      "filter": Object {
+    {
+      "filter": {
         ">PROBABILITY": 50,
       },
-      "order": Object {
+      "order": {
         "COMMENTS": "ASC",
       },
-      "select": Array [
+      "select": [
         "*",
         "UF_*",
       ],
@@ -62,25 +62,25 @@ Array [
 ]
 `;
 
-exports[`Contacts \`list\` should work without optional params 1`] = `
-Array [
-  Array [
+exports[`Contacts > \`list\` > should work without optional params 1`] = `
+[
+  [
     "crm.contact.list",
-    Object {},
+    {},
   ],
 ]
 `;
 
-exports[`Contacts \`update\` should invoke \`call\` 1`] = `
-Array [
-  Array [
+exports[`Contacts > \`update\` > should invoke \`call\` 1`] = `
+[
+  [
     "crm.contact.update",
-    Object {
-      "fields": Object {
+    {
+      "fields": {
         "COMMENTS": "Some comment",
       },
       "id": "77",
-      "params": Object {
+      "params": {
         "REGISTER_SONET_EVENT": "Y",
       },
     },
@@ -88,12 +88,12 @@ Array [
 ]
 `;
 
-exports[`Contacts \`update\` should work without optional params 1`] = `
-Array [
-  Array [
+exports[`Contacts > \`update\` > should work without optional params 1`] = `
+[
+  [
     "crm.contact.update",
-    Object {
-      "fields": Object {
+    {
+      "fields": {
         "COMMENTS": "Some comment",
       },
       "id": "77",
@@ -103,8 +103,8 @@ Array [
 ]
 `;
 
-exports[`Contacts should expose API methods 1`] = `
-Object {
+exports[`Contacts > should expose API methods 1`] = `
+{
   "create": [Function],
   "fields": [Function],
   "get": [Function],

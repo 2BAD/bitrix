@@ -1,13 +1,14 @@
 import got from 'got'
 import nock from 'nock'
 import Queue from 'p-queue'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { Method } from '../methods'
 import Client from './index'
 
 const TEST_URI = 'https://test.com/rest'
 const TEST_ACCESS_TOKEN = 'test_access_token'
 const RESPONSE_200 = 200
-const spiedQueueAdd = jest.spyOn(Queue.prototype, 'add')
+const spiedQueueAdd = vi.spyOn(Queue.prototype, 'add')
 const client = Client(TEST_URI, TEST_ACCESS_TOKEN)
 
 describe('Client', () => {
@@ -20,7 +21,7 @@ describe('Client', () => {
   })
 
   it('should extend `Got` instance with a specified parameters', () => {
-    const spiedGotExtend = jest.spyOn(got, 'extend')
+    const spiedGotExtend = vi.spyOn(got, 'extend')
 
     Client('https://test.com', 'test_token', {https: { rejectUnauthorized: false }})
     expect(spiedGotExtend.mock.calls).toMatchSnapshot()

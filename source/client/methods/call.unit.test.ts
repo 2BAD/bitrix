@@ -1,5 +1,6 @@
 import got from 'got'
 import nock from 'nock'
+import { describe, expect, it } from 'vitest'
 import { Method } from '../../methods'
 import { BatchPayload, GetPayload, ListPayload } from '../../payloads'
 import Call, { handlePayload } from './call'

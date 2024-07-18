@@ -1,14 +1,14 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Leads \`create\` should invoke \`call\` 1`] = `
-Array [
-  Array [
+exports[`Leads > \`create\` > should invoke \`call\` 1`] = `
+[
+  [
     "crm.lead.add",
-    Object {
-      "fields": Object {
+    {
+      "fields": {
         "COMMENTS": "Some comment",
       },
-      "params": Object {
+      "params": {
         "REGISTER_SONET_EVENT": "Y",
       },
     },
@@ -16,12 +16,12 @@ Array [
 ]
 `;
 
-exports[`Leads \`create\` should work without optional params 1`] = `
-Array [
-  Array [
+exports[`Leads > \`create\` > should work without optional params 1`] = `
+[
+  [
     "crm.lead.add",
-    Object {
-      "fields": Object {
+    {
+      "fields": {
         "COMMENTS": "Some comment",
       },
       "params": undefined,
@@ -30,29 +30,29 @@ Array [
 ]
 `;
 
-exports[`Leads \`get\` should invoke \`call\` 1`] = `
-Array [
-  Array [
+exports[`Leads > \`get\` > should invoke \`call\` 1`] = `
+[
+  [
     "crm.lead.get",
-    Object {
+    {
       "id": "77",
     },
   ],
 ]
 `;
 
-exports[`Leads \`list\` should invoke \`list\` 1`] = `
-Array [
-  Array [
+exports[`Leads > \`list\` > should invoke \`list\` 1`] = `
+[
+  [
     "crm.lead.list",
-    Object {
-      "filter": Object {
+    {
+      "filter": {
         ">PROBABILITY": 50,
       },
-      "order": Object {
+      "order": {
         "COMMENTS": "ASC",
       },
-      "select": Array [
+      "select": [
         "*",
         "UF_*",
       ],
@@ -62,25 +62,25 @@ Array [
 ]
 `;
 
-exports[`Leads \`list\` should work without optional params 1`] = `
-Array [
-  Array [
+exports[`Leads > \`list\` > should work without optional params 1`] = `
+[
+  [
     "crm.lead.list",
-    Object {},
+    {},
   ],
 ]
 `;
 
-exports[`Leads \`update\` should invoke \`call\` 1`] = `
-Array [
-  Array [
+exports[`Leads > \`update\` > should invoke \`call\` 1`] = `
+[
+  [
     "crm.lead.update",
-    Object {
-      "fields": Object {
+    {
+      "fields": {
         "COMMENTS": "Some comment",
       },
       "id": "77",
-      "params": Object {
+      "params": {
         "REGISTER_SONET_EVENT": "Y",
       },
     },
@@ -88,12 +88,12 @@ Array [
 ]
 `;
 
-exports[`Leads \`update\` should work without optional params 1`] = `
-Array [
-  Array [
+exports[`Leads > \`update\` > should work without optional params 1`] = `
+[
+  [
     "crm.lead.update",
-    Object {
-      "fields": Object {
+    {
+      "fields": {
         "COMMENTS": "Some comment",
       },
       "id": "77",
@@ -103,8 +103,8 @@ Array [
 ]
 `;
 
-exports[`Leads should expose API methods 1`] = `
-Object {
+exports[`Leads > should expose API methods 1`] = `
+{
   "create": [Function],
   "fields": [Function],
   "get": [Function],

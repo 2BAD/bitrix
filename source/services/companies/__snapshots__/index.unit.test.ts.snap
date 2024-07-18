@@ -1,14 +1,14 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Companies \`create\` should invoke \`call\` 1`] = `
-Array [
-  Array [
+exports[`Companies > \`create\` > should invoke \`call\` 1`] = `
+[
+  [
     "crm.company.add",
-    Object {
-      "fields": Object {
+    {
+      "fields": {
         "COMMENTS": "Some comment",
       },
-      "params": Object {
+      "params": {
         "REGISTER_SONET_EVENT": "Y",
       },
     },
@@ -16,12 +16,12 @@ Array [
 ]
 `;
 
-exports[`Companies \`create\` should work without optional params 1`] = `
-Array [
-  Array [
+exports[`Companies > \`create\` > should work without optional params 1`] = `
+[
+  [
     "crm.company.add",
-    Object {
-      "fields": Object {
+    {
+      "fields": {
         "COMMENTS": "Some comment",
       },
       "params": undefined,
@@ -30,29 +30,29 @@ Array [
 ]
 `;
 
-exports[`Companies \`get\` should invoke \`call\` 1`] = `
-Array [
-  Array [
+exports[`Companies > \`get\` > should invoke \`call\` 1`] = `
+[
+  [
     "crm.company.get",
-    Object {
+    {
       "id": "77",
     },
   ],
 ]
 `;
 
-exports[`Companies \`list\` should invoke \`list\` 1`] = `
-Array [
-  Array [
+exports[`Companies > \`list\` > should invoke \`list\` 1`] = `
+[
+  [
     "crm.company.list",
-    Object {
-      "filter": Object {
+    {
+      "filter": {
         ">PROBABILITY": 50,
       },
-      "order": Object {
+      "order": {
         "COMMENTS": "ASC",
       },
-      "select": Array [
+      "select": [
         "*",
         "UF_*",
       ],
@@ -62,25 +62,25 @@ Array [
 ]
 `;
 
-exports[`Companies \`list\` should work without optional params 1`] = `
-Array [
-  Array [
+exports[`Companies > \`list\` > should work without optional params 1`] = `
+[
+  [
     "crm.company.list",
-    Object {},
+    {},
   ],
 ]
 `;
 
-exports[`Companies \`update\` should invoke \`call\` 1`] = `
-Array [
-  Array [
+exports[`Companies > \`update\` > should invoke \`call\` 1`] = `
+[
+  [
     "crm.company.update",
-    Object {
-      "fields": Object {
+    {
+      "fields": {
         "COMMENTS": "Some comment",
       },
       "id": "77",
-      "params": Object {
+      "params": {
         "REGISTER_SONET_EVENT": "Y",
       },
     },
@@ -88,12 +88,12 @@ Array [
 ]
 `;
 
-exports[`Companies \`update\` should work without optional params 1`] = `
-Array [
-  Array [
+exports[`Companies > \`update\` > should work without optional params 1`] = `
+[
+  [
     "crm.company.update",
-    Object {
-      "fields": Object {
+    {
+      "fields": {
         "COMMENTS": "Some comment",
       },
       "id": "77",
@@ -103,8 +103,8 @@ Array [
 ]
 `;
 
-exports[`Companies should expose API methods 1`] = `
-Object {
+exports[`Companies > should expose API methods 1`] = `
+{
   "create": [Function],
   "fields": [Function],
   "get": [Function],

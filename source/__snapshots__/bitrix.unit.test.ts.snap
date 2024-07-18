@@ -1,31 +1,31 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Bitrix should expose API methods 1`] = `
-Object {
+exports[`Bitrix > should expose API methods 1`] = `
+{
   "batch": [Function],
   "call": [Function],
-  "companies": Object {
+  "companies": {
     "create": [Function],
     "fields": [Function],
     "get": [Function],
     "list": [Function],
     "update": [Function],
   },
-  "contacts": Object {
+  "contacts": {
     "create": [Function],
     "fields": [Function],
     "get": [Function],
     "list": [Function],
     "update": [Function],
   },
-  "deals": Object {
+  "deals": {
     "create": [Function],
     "fields": [Function],
     "get": [Function],
     "list": [Function],
     "update": [Function],
   },
-  "leads": Object {
+  "leads": {
     "create": [Function],
     "fields": [Function],
     "get": [Function],
@@ -33,7 +33,7 @@ Object {
     "update": [Function],
   },
   "list": [Function],
-  "statuses": Object {
+  "statuses": {
     "create": [Function],
     "delete": [Function],
     "fields": [Function],
@@ -41,16 +41,16 @@ Object {
     "list": [Function],
     "update": [Function],
   },
-  "users": Object {
+  "users": {
     "fields": [Function],
     "get": [Function],
   },
 }
 `;
 
-exports[`Bitrix should pass endpoint and access token to the client 1`] = `
-Array [
-  Array [
+exports[`Bitrix > should pass endpoint and access token to the client 1`] = `
+[
+  [
     "https://test.com",
     "test_token",
     undefined,

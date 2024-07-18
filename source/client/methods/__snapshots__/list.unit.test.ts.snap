@@ -1,25 +1,25 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Client \`batchToListPayload\` method should convert batch with named payloads to a list payload 1`] = `
-Object {
+exports[`Client \`batchToListPayload\` method > should convert batch with named payloads to a list payload 1`] = `
+{
   "error": "Expected error A
 Expected error B",
   "next": 4,
-  "result": Array [
-    Object {
+  "result": [
+    {
       "ID": "1",
     },
-    Object {
+    {
       "ID": "2",
     },
-    Object {
+    {
       "ID": "3",
     },
-    Object {
+    {
       "ID": "4",
     },
   ],
-  "time": Object {
+  "time": {
     "date_finish": "2019-08-30T23:28:11+03:00",
     "date_start": "2019-08-30T23:28:10+03:00",
     "duration": 0.2647218704223633,
@@ -31,26 +31,26 @@ Expected error B",
 }
 `;
 
-exports[`Client \`batchToListPayload\` method should convert batch with payload of arrays to a list payload 1`] = `
-Object {
+exports[`Client \`batchToListPayload\` method > should convert batch with payload of arrays to a list payload 1`] = `
+{
   "error": "Expected error 1
 Expected error 2",
   "next": 4,
-  "result": Array [
-    Object {
+  "result": [
+    {
       "ID": "1",
     },
-    Object {
+    {
       "ID": "2",
     },
-    Object {
+    {
       "ID": "3",
     },
-    Object {
+    {
       "ID": "4",
     },
   ],
-  "time": Object {
+  "time": {
     "date_finish": "2019-08-30T23:28:11+03:00",
     "date_start": "2019-08-30T23:28:10+03:00",
     "duration": 0.2647218704223633,
@@ -62,16 +62,16 @@ Expected error 2",
 }
 `;
 
-exports[`Client \`batchToListPayload\` method should handle undefined in \`result\` 1`] = `
-Object {
+exports[`Client \`batchToListPayload\` method > should handle undefined in \`result\` 1`] = `
+{
   "error": "",
   "next": undefined,
-  "result": Array [
-    Object {
+  "result": [
+    {
       "ID": "1",
     },
   ],
-  "time": Object {
+  "time": {
     "date_finish": "2019-08-30T23:28:11+03:00",
     "date_start": "2019-08-30T23:28:10+03:00",
     "duration": 0.2647218704223633,
@@ -83,39 +83,39 @@ Object {
 }
 `;
 
-exports[`Client \`fillWithCommands\` method should fill array with required amount of commands to process all entries 1`] = `
-Array [
-  Object {
+exports[`Client \`fillWithCommands\` method > should fill array with required amount of commands to process all entries 1`] = `
+[
+  {
     "method": "crm.deal.list",
-    "params": Object {
-      "select": Array [
+    "params": {
+      "select": [
         "*",
       ],
       "start": 0,
     },
   },
-  Object {
+  {
     "method": "crm.deal.list",
-    "params": Object {
-      "select": Array [
+    "params": {
+      "select": [
         "*",
       ],
       "start": 2,
     },
   },
-  Object {
+  {
     "method": "crm.deal.list",
-    "params": Object {
-      "select": Array [
+    "params": {
+      "select": [
         "*",
       ],
       "start": 4,
     },
   },
-  Object {
+  {
     "method": "crm.deal.list",
-    "params": Object {
-      "select": Array [
+    "params": {
+      "select": [
         "*",
       ],
       "start": 6,
@@ -124,41 +124,41 @@ Array [
 ]
 `;
 
-exports[`Client \`fillWithCommands\` method should override \`params.start\` 1`] = `
-Array [
-  Object {
+exports[`Client \`fillWithCommands\` method > should override \`params.start\` 1`] = `
+[
+  {
     "start": 0,
   },
-  Object {
+  {
     "start": 1,
   },
 ]
 `;
 
-exports[`Client \`fillWithCommands\` method should properly take into account start 1`] = `
-Array [
-  Object {
+exports[`Client \`fillWithCommands\` method > should properly take into account start 1`] = `
+[
+  {
     "method": "crm.deal.list",
-    "params": Object {
-      "select": Array [
+    "params": {
+      "select": [
         "*",
       ],
       "start": 2,
     },
   },
-  Object {
+  {
     "method": "crm.deal.list",
-    "params": Object {
-      "select": Array [
+    "params": {
+      "select": [
         "*",
       ],
       "start": 4,
     },
   },
-  Object {
+  {
     "method": "crm.deal.list",
-    "params": Object {
-      "select": Array [
+    "params": {
+      "select": [
         "*",
       ],
       "start": 6,
@@ -167,21 +167,21 @@ Array [
 ]
 `;
 
-exports[`Client \`list\` method should default start to 0 1`] = `
-Array [
+exports[`Client \`list\` method > should default start to 0 1`] = `
+[
   "crm.deal.list",
-  Object {
+  {
     "start": 0,
   },
 ]
 `;
 
-exports[`Client \`list\` method should default start to 0 2`] = `
-Array [
-  Array [
-    Object {
+exports[`Client \`list\` method > should default start to 0 2`] = `
+[
+  [
+    {
       "method": "crm.deal.list",
-      "params": Object {
+      "params": {
         "start": 0,
       },
     },
@@ -189,36 +189,36 @@ Array [
 ]
 `;
 
-exports[`Client \`list\` method should make multiple requests when entries can not be fetched in one go 1`] = `
-Array [
-  Array [
+exports[`Client \`list\` method > should make multiple requests when entries can not be fetched in one go 1`] = `
+[
+  [
     "crm.deal.list",
-    Object {
+    {
       "start": 0,
     },
   ],
 ]
 `;
 
-exports[`Client \`list\` method should make multiple requests when entries can not be fetched in one go 2`] = `
-Array [
-  Array [
-    Array [
-      Object {
+exports[`Client \`list\` method > should make multiple requests when entries can not be fetched in one go 2`] = `
+[
+  [
+    [
+      {
         "method": "crm.deal.list",
-        "params": Object {
+        "params": {
           "start": 0,
         },
       },
-      Object {
+      {
         "method": "crm.deal.list",
-        "params": Object {
+        "params": {
           "start": 50,
         },
       },
-      Object {
+      {
         "method": "crm.deal.list",
-        "params": Object {
+        "params": {
           "start": 100,
         },
       },
@@ -227,41 +227,41 @@ Array [
 ]
 `;
 
-exports[`Client \`list\` method should make one request when entries can be fetched in one go 1`] = `
-Array [
-  Array [
+exports[`Client \`list\` method > should make one request when entries can be fetched in one go 1`] = `
+[
+  [
     "crm.deal.list",
-    Object {
+    {
       "start": 0,
     },
   ],
 ]
 `;
 
-exports[`Client \`list\` method should properly take into account start 1`] = `
-Array [
-  Array [
+exports[`Client \`list\` method > should properly take into account start 1`] = `
+[
+  [
     "crm.deal.list",
-    Object {
+    {
       "start": 27,
     },
   ],
 ]
 `;
 
-exports[`Client \`list\` method should properly take into account start 2`] = `
-Array [
-  Array [
-    Array [
-      Object {
+exports[`Client \`list\` method > should properly take into account start 2`] = `
+[
+  [
+    [
+      {
         "method": "crm.deal.list",
-        "params": Object {
+        "params": {
           "start": 27,
         },
       },
-      Object {
+      {
         "method": "crm.deal.list",
-        "params": Object {
+        "params": {
           "start": 77,
         },
       },
@@ -270,26 +270,26 @@ Array [
 ]
 `;
 
-exports[`Client \`list\` method should return a flatten payload when entities can not be fetched in a single request 1`] = `
-Object {
+exports[`Client \`list\` method > should return a flatten payload when entities can not be fetched in a single request 1`] = `
+{
   "error": "Expected error A
 Expected error B",
   "next": 4,
-  "result": Array [
-    Object {
+  "result": [
+    {
       "ID": "1",
     },
-    Object {
+    {
       "ID": "2",
     },
-    Object {
+    {
       "ID": "3",
     },
-    Object {
+    {
       "ID": "4",
     },
   ],
-  "time": Object {
+  "time": {
     "start": 1567196890.959017,
   },
   "total": 4,

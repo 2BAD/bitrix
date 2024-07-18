@@ -1,7 +1,8 @@
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import Statuses from '.'
 
-const mockCall = jest.fn(() => Promise.resolve()) as any
-const mockList = jest.fn(() => Promise.resolve()) as any
+const mockCall = vi.fn(() => Promise.resolve()) as any
+const mockList = vi.fn(() => Promise.resolve()) as any
 const statuses = Statuses({ call: mockCall })
 
 const ID = '77'
