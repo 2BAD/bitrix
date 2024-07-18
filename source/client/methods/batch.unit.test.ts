@@ -2,13 +2,13 @@ import got from 'got'
 import range from 'lodash.range'
 import nock from 'nock'
 import { describe, expect, it } from 'vitest'
-import { Method } from '../../methods'
+import { Method } from '../../methods.js'
 import Batch, {
   chunkCommands,
   MAX_COMMANDS_PER_BATCH,
   mergeBatchPayloads,
   prepareCommandsQueries
-} from './batch'
+} from './batch.js'
 
 describe('Client `chunkCommands` method', () => {
   it('should chunk named commands', () => {

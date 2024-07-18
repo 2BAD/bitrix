@@ -2,11 +2,11 @@ import got from 'got'
 import chunk from 'lodash.chunk'
 import fromPairs from 'lodash.frompairs'
 import { stringify as toQuery } from 'qs'
-import { Commands } from '../../commands'
-import { Method, MethodPayloadType } from '../../methods'
-import { BatchPayload } from '../../payloads'
-import isArray from '../../utils/isArray'
-import { handlePayload } from './call'
+import { Commands } from '../../commands.js'
+import { Method, MethodPayloadType } from '../../methods.js'
+import { BatchPayload } from '../../payloads.js'
+import isArray from '../../utils/isArray.js'
+import { handlePayload } from './call.js'
 
 export const MAX_COMMANDS_PER_BATCH = 50
 

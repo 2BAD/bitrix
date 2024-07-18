@@ -1,9 +1,9 @@
 import got, { ExtendOptions } from 'got'
 import Queue from 'p-queue'
-import addAccessToken from './hooks/addAccessToken'
-import Batch from './methods/batch'
-import Call from './methods/call'
-import List from './methods/list'
+import addAccessToken from './hooks/addAccessToken.js'
+import Batch from './methods/batch.js'
+import Call from './methods/call.js'
+import List from './methods/list.js'
 
 const BITRIX_API_RATE_LIMIT = 2
 const BITRIX_API_RATE_INTERVAL = 1000 // 1 second
@@ -28,7 +28,7 @@ export default (restURI: string, accessToken?: string, options?: ExtendOptions) 
         addAccessToken(accessToken)
       ]
     },
-    ...options ?? {}
+    ...(options ?? {})
   })
 
   const queue = new Queue({

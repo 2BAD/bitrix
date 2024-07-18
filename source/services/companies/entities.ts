@@ -1,4 +1,4 @@
-import { BoolString, ISODate, MultiField, NumberString } from '../common'
+import { BoolString, ISODate, MultiField, NumberString } from '../common.js'
 
 export type Company = {
   readonly [key: string]: string | boolean | null | readonly MultiField[]

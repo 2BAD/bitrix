@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import Leads from '.'
+import Leads from './index.js'
 
 const mockCall = vi.fn(() => Promise.resolve()) as any
 const mockList = vi.fn(() => Promise.resolve()) as any

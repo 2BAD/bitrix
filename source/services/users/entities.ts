@@ -1,4 +1,4 @@
-import { GenderString, ISODate, NumberString } from '../common'
+import { GenderString, ISODate, NumberString } from '../common.js'
 
 export type User = {
   readonly [key: string]: string | boolean | null | readonly number[]

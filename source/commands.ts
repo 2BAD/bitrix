@@ -1,4 +1,4 @@
-import { Method } from './methods'
+import { Method } from './methods.js'
 
 export type Command = {
   readonly method: Method

@@ -1,7 +1,7 @@
-import { Method } from '../../methods'
-import { GetPayload, ListPayload } from '../../payloads'
-import { Fields } from '../common'
-import { Status } from './entities'
+import { Method } from '../../methods.js'
+import { GetPayload, ListPayload } from '../../payloads.js'
+import { Fields } from '../common.js'
+import { Status } from './entities.js'
 
 export type StatusesMethods = {
   // https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_fields.php

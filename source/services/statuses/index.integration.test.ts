@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import Bitrix from '../../bitrix'
+import Bitrix from '../../bitrix.js'
 
 // @ts-ignore this should be improved in a future but it works for now
 const isSortedAsc = (arr: ReadonlyArray<string>) => arr.slice(1).every((v, i) => arr[i] <= v)

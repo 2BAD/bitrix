@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import Bitrix from './../../bitrix'
+import Bitrix from './../../bitrix.js'
 
 const WEBHOOK_URL = process.env['WEBHOOK_URL']
 

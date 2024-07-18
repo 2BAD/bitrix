@@ -1,5 +1,5 @@
-import { Call } from '../../client/methods/call'
-import { Method } from '../../methods'
+import { Call } from '../../client/methods/call.js'
+import { Method } from '../../methods.js'
 
 type Dependencies = {
   readonly call: Call

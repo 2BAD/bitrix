@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
-import { Method } from '../../methods'
-import List, { batchToListPayload, fillWithCommands, highest } from './list'
+import { Method } from '../../methods.js'
+import List, { batchToListPayload, fillWithCommands, highest } from './list.js'
 
 describe('Client `fillWithCommands` method', () => {
   it('should fill array with required amount of commands to process all entries', () => {

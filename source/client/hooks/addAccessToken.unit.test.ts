@@ -2,9 +2,9 @@ import { Options } from 'got';
 import { describe, expect, it } from 'vitest';
 import addAccessToken from './addAccessToken.js';
 
-const createMockOptions = (search = '') => ({
+const createMockOptions = (search = '') => (({
   url: new URL(`https://example.com${search}`)
-}) as const;
+}) as const);
 
 describe('Client `addAccessToken` hook', () => {
   it('should not modify the URL if accessToken is not provided', () => {

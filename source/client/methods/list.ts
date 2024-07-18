@@ -1,9 +1,9 @@
 import range from 'lodash.range'
-import { Command } from '../../commands'
-import { ListableMethod, MethodParams, MethodPayloadType } from '../../methods'
-import { BatchPayload, ListPayload } from '../../payloads'
-import { Batch } from './batch'
-import { Call } from './call'
+import { Command } from '../../commands.js'
+import { ListableMethod, MethodParams, MethodPayloadType } from '../../methods.js'
+import { BatchPayload, ListPayload } from '../../payloads.js'
+import { Batch } from './batch.js'
+import { Call } from './call.js'
 
 const MAX_ENTRIES_PER_COMMAND = 50
 

@@ -1,11 +1,11 @@
 import { ExtendOptions } from 'got'
-import Client from './client'
-import CompaniesService from './services/companies'
-import ContactsService from './services/contacts'
-import DealsService from './services/deals'
-import LeadsService from './services/leads'
-import StatusesService from './services/statuses'
-import UsersService from './services/users'
+import Client from './client/index.js'
+import CompaniesService from './services/companies/index.js'
+import ContactsService from './services/contacts/index.js'
+import DealsService from './services/deals/index.js'
+import LeadsService from './services/leads/index.js'
+import StatusesService from './services/statuses/index.js'
+import UsersService from './services/users/index.js'
 
 /**
  * Construct a Bitrix client with generic methods
@@ -33,13 +33,13 @@ export const Bitrix = (restURI: string, accessToken?: string, clientOptions?: Ex
 
 export default Bitrix
 
-export * from './methods'
-export * from './commands'
-export * from './services/common'
-export * from './services/companies/entities'
-export * from './services/contacts/entities'
-export * from './services/currencies/entities'
-export * from './services/deals/entities'
-export * from './services/leads/entities'
-export * from './services/statuses/entities'
-export * from './services/users/entities'
+export * from './methods.js'
+export * from './commands.js'
+export * from './services/common.js'
+export * from './services/companies/entities.js'
+export * from './services/contacts/entities.js'
+export * from './services/currencies/entities.js'
+export * from './services/deals/entities.js'
+export * from './services/leads/entities.js'
+export * from './services/statuses/entities.js'
+export * from './services/users/entities.js'

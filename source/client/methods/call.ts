@@ -1,8 +1,8 @@
 import got from 'got'
 import { stringify as toQuery } from 'qs'
-import { Method, MethodParams, MethodPayload } from '../../methods'
-import { BatchPayload, ListPayload, Payload } from '../../payloads'
-import isArray from '../../utils/isArray'
+import { Method, MethodParams, MethodPayload } from '../../methods.js'
+import { BatchPayload, ListPayload, Payload } from '../../payloads.js'
+import isArray from '../../utils/isArray.js'
 
 /**
  * Checks wether payload have any errors and if it does — throws them

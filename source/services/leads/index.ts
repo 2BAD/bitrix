@@ -1,6 +1,6 @@
-import { Call } from '../../client/methods/call'
-import { List } from '../../client/methods/list'
-import { Method, MethodParams } from '../../methods'
+import { Call } from '../../client/methods/call.js'
+import { List } from '../../client/methods/list.js'
+import { Method, MethodParams } from '../../methods.js'
 
 type Dependencies = {
   readonly call: Call

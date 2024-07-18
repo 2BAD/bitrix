@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
-import Bitrix from './bitrix'
-import * as client from './client'
+import Bitrix from './bitrix.js'
+import * as client from './client/index.js'
 
 describe('Bitrix', () => {
   it('should init', () => {

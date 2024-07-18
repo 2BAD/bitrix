@@ -1,4 +1,4 @@
-import { BoolString, ISODate, NumberString } from '../common'
+import { BoolString, ISODate, NumberString } from '../common.js'
 
 export type Deal = {
   // Deal can have user fields

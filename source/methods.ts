@@ -1,13 +1,13 @@
-import { Commands } from './commands'
-import { BatchPayload } from './payloads'
-import { CompaniesMethods } from './services/companies/methods'
-import { ContactsMethods } from './services/contacts/methods'
-import { DealsMethods } from './services/deals/methods'
-import { LeadsMethods } from './services/leads/methods'
-import { StatusesMethods } from './services/statuses/methods'
-import { UsersMethods } from './services/users/methods'
-import { Diff } from './utils/Diff'
-import { ExtractValue } from './utils/ExtractValue'
+import { Commands } from './commands.js'
+import { BatchPayload } from './payloads.js'
+import { CompaniesMethods } from './services/companies/methods.js'
+import { ContactsMethods } from './services/contacts/methods.js'
+import { DealsMethods } from './services/deals/methods.js'
+import { LeadsMethods } from './services/leads/methods.js'
+import { StatusesMethods } from './services/statuses/methods.js'
+import { UsersMethods } from './services/users/methods.js'
+import { Diff } from './utils/Diff.js'
+import { ExtractValue } from './utils/ExtractValue.js'
 
 export enum Method {
   BATCH = 'batch',
