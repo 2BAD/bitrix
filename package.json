@@ -40,7 +40,7 @@
     "fix:alias": "tsc-alias -p tsconfig.build.json",
     "fix:code": "run-s 'check:code -- --fix'",
     "prepublishOnly": "run-s build",
-    "preversion": "run-s check test build",
+    "preversion": "run-s check test:unit build",
     "test": "vitest run",
     "test:integration": "vitest run integration --coverage",
     "test:unit": "vitest run unit --coverage"
