@@ -7,5 +7,7 @@ export default (accessToken?: string): BeforeRequestHook => (options) => {
   if (!accessToken) return
   if (!options.url) return
 
-  options.url.search = `${options.url.search}${options.url.search ? '&' : '?'}access_token=${accessToken}`
+  if (typeof options.url.search === 'string') {
+    options.url.search = `${options.url.search}${options.url.search ? '&' : '?'}access_token=${accessToken}`
+  }
 }
