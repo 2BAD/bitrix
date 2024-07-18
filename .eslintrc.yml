@@ -17,4 +17,4 @@ rules:
   '@typescript-eslint/consistent-type-assertions': 'off'
   '@typescript-eslint/explicit-module-boundary-types': 'off'
   '@typescript-eslint/consistent-type-definitions': ['error', 'type']
-  'import/no-default-export': 'warn'
+  'import/no-default-export': 'off'
