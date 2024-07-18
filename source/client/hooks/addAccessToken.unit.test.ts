@@ -1,40 +1,49 @@
-import got from 'got'
-import { describe, expect, it } from 'vitest'
-import addAccessToken from './addAccessToken'
+import { Options } from 'got';
+import { describe, expect, it } from 'vitest';
+import addAccessToken from './addAccessToken.js';
 
-const token = 'mock_token'
-const merge = got.mergeOptions
+const createMockOptions = (search = '') => ({
+  url: new URL(`https://example.com${search}`)
+}) as const;
 
 describe('Client `addAccessToken` hook', () => {
-  it('should add access token to URL without a query', () => {
-    const options = merge({ path: 'test', responseType: 'json' } as const)
+  it('should not modify the URL if accessToken is not provided', () => {
+    const options = createMockOptions();
 
-    addAccessToken(token)(options)
+    addAccessToken()(options as Options);
 
-    expect(options.path).toBe(`test?access_token=${token}`)
-  })
+    expect(options.url.search).toBe('');
+  });
 
-  it('should add access token to URL with a query', () => {
-    const options = merge({ path: 'test?value=1', responseType: 'json' } as const)
+  it('should not modify the URL if options.url is not defined', () => {
+    const options = {};
 
-    addAccessToken(token)(options)
+    addAccessToken('test-token')(options as Options);
 
-    expect(options.path).toBe(`test?value=1&access_token=${token}`)
-  })
+    expect(options).not.toHaveProperty('url');
+  });
 
-  it('should not add access token when it is undefined', () => {
-    const options = merge({ path: 'test', responseType: 'json' } as const)
+  it('should append access_token if accessToken is provided', () => {
+    const options = createMockOptions();
 
-    addAccessToken()(options)
+    addAccessToken('test-token')(options as Options)
 
-    expect(options.path).toBe('test')
-  })
+    expect(options.url.search).toBe('?access_token=test-token');
+  });
 
-  it('should not add access token when URL is undefined', () => {
-    const options = merge({ path: undefined, responseType: 'json' } as const)
+  it('should append access_token to existing query string', () => {
+    const options = createMockOptions('?existing_param=value');
 
-    addAccessToken(token)(options)
+    addAccessToken('test-token')(options as Options)
 
-    expect(options.path).toBe(undefined)
-  })
+    expect(options.url.search).toBe('?existing_param=value&access_token=test-token');
+  });
+
+  it('should handle URLs with no initial search params correctly', () => {
+    const options = createMockOptions();
+
+    addAccessToken('test-token')(options as Options)
+
+    expect(options.url.search).toBe('?access_token=test-token');
+  });
 })

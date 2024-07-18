@@ -5,8 +5,7 @@ import { BeforeRequestHook } from 'got'
  */
 export default (accessToken?: string): BeforeRequestHook => (options) => {
   if (!accessToken) return
-  if (!options.path) return
+  if (!options.url) return
 
-  const hasQuery = options.path.includes('?')
-  options.path = `${options.path}${hasQuery ? '&' : '?'}access_token=${accessToken}`
+  options.url.search = `${options.url.search}${options.url.search ? '&' : '?'}access_token=${accessToken}`
 }
