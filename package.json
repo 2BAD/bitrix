@@ -30,17 +30,20 @@
     "build"
   ],
   "scripts": {
-    "build": "run-s clean && run-p build:*",
-    "build:main": "tsc --project tsconfig.main.json",
-    "build:module": "tsc --project tsconfig.json",
-    "clean": "rimraf build",
-    "lint": "eslint . --ext .ts",
-    "lint:fix": "run-s \"lint -- --fix\"",
-    "prepublishOnly": "run-s clean build",
+    "prebuild": "rimraf build",
+    "build": "run-p build:*",
+    "postbuild": "run-s fix:alias fix:ext",
+    "build:swc": "swc ./source -d ./build --strip-leading-paths",
+    "build:types": "tsc --project tsconfig.build.json",
+    "check": "run-p check:*",
+    "check:code": "eslint . --ext .ts --report-unused-disable-directives --max-warnings 0",
+    "fix:alias": "tsc-alias -p tsconfig.build.json",
+    "fix:code": "run-s 'check:code -- --fix'",
+    "prepublishOnly": "run-s build",
+    "preversion": "run-s check test build",
     "test": "vitest run",
     "test:integration": "vitest run integration --coverage",
-    "test:unit": "vitest run unit --coverage",
-    "preversion": "run-s clean lint test:unit build"
+    "test:unit": "vitest run unit --coverage"
   },
   "prettier": {
     "printWidth": 100,
