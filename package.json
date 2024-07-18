@@ -70,7 +70,6 @@
     "@types/node": "20.14.11",
     "@typescript-eslint/eslint-plugin": "4.22.0",
     "@vitest/coverage-v8": "2.0.3",
-    "codecov": "3.8.2",
     "dotenv": "16.4.5",
     "eslint": "7.25.0",
     "eslint-config-standard-with-typescript": "20.0.0",
