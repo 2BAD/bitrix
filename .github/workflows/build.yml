@@ -7,15 +7,25 @@ on:
       - '*.md'
 
 jobs:
-  test:
-    name: build
+  build:
+    name: build on node@${{ matrix.node-version }}
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version:
+          - 20
+          - 21
+          - 22
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
         with:
-          node-version-file: 'package.json'
+          persist-credentials: false
+      - uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
       - run: npm ci
-      - run: npm run lint
+      - run: npm run check
       - run: npm run build
