@@ -39,10 +39,8 @@ export default (restURI: string, accessToken?: string, options?: ExtendOptions) 
   const queuedGet = (...args: Parameters<typeof client.get>) =>
     queue.add(() => client.get(...args))
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error @todo remove after issue is resolved (https://github.com/sindresorhus/got/issues/954)
   const call = Call({ get: queuedGet })
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error @todo remove after issue is resolved (https://github.com/sindresorhus/got/issues/954)
   const batch = Batch({ get: queuedGet })
   const list = List({ call, batch })
