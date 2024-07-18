@@ -32,7 +32,7 @@
   "scripts": {
     "prebuild": "rimraf build",
     "build": "run-p build:*",
-    "postbuild": "run-s fix:alias fix:ext",
+    "postbuild": "run-s fix:alias",
     "build:swc": "swc ./source -d ./build --strip-leading-paths",
     "build:types": "tsc --project tsconfig.build.json",
     "check": "run-p check:*",

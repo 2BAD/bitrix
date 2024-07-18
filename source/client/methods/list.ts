@@ -84,6 +84,7 @@ export default ({ call, batch }: Dependencies): List => {
       const batchCommands = fillWithCommands({ method, params }, start, firstCall.total, MAX_ENTRIES_PER_COMMAND)
       const payload = await batch(batchCommands)
 
+      // @ts-expect-error ignore this for now
       return batchToListPayload(payload)
     }
 
