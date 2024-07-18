@@ -23,9 +23,9 @@
   },
   "license": "MIT",
   "author": "2BAD (https://github.com/2BAD)",
-  "main": "build/main/bitrix.js",
-  "module": "build/module/bitrix.js",
-  "typings": "build/main/bitrix.d.ts",
+  "type": "module",
+  "exports": "./build/bitrix.js",
+  "typings": "./build/bitrix.d.ts",
   "files": [
     "build"
   ],
@@ -61,7 +61,7 @@
     "qs": "6.11.0"
   },
   "devDependencies": {
-    "@2bad/tsconfig": "1.4.0",
+    "@2bad/tsconfig": "3.0.1",
     "@types/node": "18.11.2",
     "@typescript-eslint/eslint-plugin": "4.22.0",
     "@vitest/coverage-v8": "2.0.3",
