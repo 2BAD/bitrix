@@ -26,9 +26,9 @@ jobs:
           persist-credentials: false
 
       # Initializes the CodeQL tools for scanning.
-      - uses: github/codeql-action/init@4fa2a7953630fd2f3fb380f21be14ede0169dd4f # v3
+      - uses: github/codeql-action/init@f779452ac5af1c261dce0346a8f964149f49322b # v3
         with:
           languages: ${{ matrix.language }}
           queries: security-extended,security-and-quality
 
-      - uses: github/codeql-action/analyze@4fa2a7953630fd2f3fb380f21be14ede0169dd4f # v3
+      - uses: github/codeql-action/analyze@f779452ac5af1c261dce0346a8f964149f49322b # v3
