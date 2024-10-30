@@ -19,7 +19,7 @@
 ### Install
 
 ```shell
-npm install @2bad/bitrix
+npm install @2bad/bitrix@beta
 ```
 
 ### Usage
