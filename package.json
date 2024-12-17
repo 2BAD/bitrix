@@ -55,42 +55,42 @@
     "@types/lodash.chunk": "4.2.9",
     "@types/lodash.frompairs": "4.0.9",
     "@types/lodash.range": "3.2.9",
-    "@types/qs": "6.9.15",
-    "got": "14.4.1",
+    "@types/qs": "6.9.17",
+    "got": "14.4.5",
     "lodash.chunk": "4.2.0",
     "lodash.frompairs": "4.0.1",
     "lodash.range": "3.2.0",
     "p-queue": "8.0.1",
-    "qs": "6.12.3"
+    "qs": "6.13.1"
   },
   "devDependencies": {
     "@2bad/tsconfig": "3.0.1",
-    "@swc/cli": "0.4.0",
-    "@swc/core": "1.7.0",
-    "@types/node": "20.14.11",
-    "@typescript-eslint/eslint-plugin": "4.22.0",
-    "@vitest/coverage-v8": "2.0.3",
-    "dotenv": "16.4.5",
-    "eslint": "7.25.0",
+    "@swc/cli": "0.5.2",
+    "@swc/core": "1.10.1",
+    "@types/node": "20.17.10",
+    "@typescript-eslint/eslint-plugin": "4.33.0",
+    "@vitest/coverage-v8": "2.1.8",
+    "dotenv": "16.4.7",
+    "eslint": "7.32.0",
     "eslint-config-standard-with-typescript": "20.0.0",
-    "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-import": "2.31.0",
     "eslint-plugin-n": "14.0.0",
-    "eslint-plugin-promise": "4.2.1",
+    "eslint-plugin-promise": "4.3.1",
     "eslint-plugin-standard": "4.1.0",
-    "nock": "13.5.4",
-    "npm-run-all2": "6.2.2",
+    "nock": "13.5.6",
+    "npm-run-all2": "6.2.6",
     "rimraf": "6.0.1",
     "tsc-alias": "1.8.10",
-    "typescript": "5.5.3",
+    "typescript": "5.7.2",
     "vite-tsconfig-paths": "4.3.2",
-    "vitest": "2.0.3"
+    "vitest": "2.1.8"
   },
-  "packageManager": "npm@10.8.2",
+  "packageManager": "npm@10.9.2",
   "engines": {
     "node": ">=20"
   },
   "volta": {
-    "node": "22.4.1",
-    "npm": "10.8.2"
+    "node": "22.12.0",
+    "npm": "10.9.2"
   }
 }
