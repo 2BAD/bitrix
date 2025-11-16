@@ -56,18 +56,18 @@
     "@types/lodash.frompairs": "4.0.9",
     "@types/lodash.range": "3.2.9",
     "@types/qs": "6.14.0",
-    "got": "14.4.7",
+    "got": "14.6.4",
     "lodash.chunk": "4.2.0",
     "lodash.frompairs": "4.0.1",
     "lodash.range": "3.2.0",
-    "p-queue": "8.1.0",
+    "p-queue": "8.1.1",
     "qs": "6.14.0"
   },
   "devDependencies": {
-    "@2bad/tsconfig": "3.0.1",
-    "@swc/cli": "0.7.8",
-    "@swc/core": "1.13.3",
-    "@types/node": "20.19.9",
+    "@2bad/tsconfig": "3.0.2",
+    "@swc/cli": "0.7.9",
+    "@swc/core": "1.15.2",
+    "@types/node": "20.19.25",
     "@typescript-eslint/eslint-plugin": "4.33.0",
     "@vitest/coverage-v8": "2.1.9",
     "dotenv": "16.6.1",
@@ -79,18 +79,18 @@
     "eslint-plugin-standard": "4.1.0",
     "nock": "13.5.6",
     "npm-run-all2": "6.2.6",
-    "rimraf": "6.0.1",
+    "rimraf": "6.1.0",
     "tsc-alias": "1.8.16",
-    "typescript": "5.9.2",
+    "typescript": "5.9.3",
     "vite-tsconfig-paths": "4.3.2",
     "vitest": "2.1.9"
   },
-  "packageManager": "npm@10.9.3",
+  "packageManager": "npm@10.9.4",
   "engines": {
     "node": ">=20"
   },
   "volta": {
-    "node": "22.18.0",
-    "npm": "10.9.3"
+    "node": "22.21.1",
+    "npm": "10.9.4"
   }
 }
