@@ -56,17 +56,17 @@
     "@types/lodash.frompairs": "4.0.9",
     "@types/lodash.range": "3.2.9",
     "@types/qs": "6.14.0",
-    "got": "14.6.5",
+    "got": "14.6.6",
     "lodash.chunk": "4.2.0",
     "lodash.frompairs": "4.0.1",
     "lodash.range": "3.2.0",
     "p-queue": "8.1.1",
-    "qs": "6.14.0"
+    "qs": "6.14.1"
   },
   "devDependencies": {
     "@2bad/tsconfig": "3.0.2",
     "@swc/cli": "0.7.9",
-    "@swc/core": "1.15.7",
+    "@swc/core": "1.15.8",
     "@types/node": "20.19.27",
     "@typescript-eslint/eslint-plugin": "4.33.0",
     "@vitest/coverage-v8": "2.1.9",
