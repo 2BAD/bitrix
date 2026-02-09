@@ -67,7 +67,7 @@
     "@2bad/tsconfig": "3.0.2",
     "@swc/cli": "0.7.10",
     "@swc/core": "1.15.11",
-    "@types/node": "20.19.30",
+    "@types/node": "20.19.32",
     "@typescript-eslint/eslint-plugin": "4.33.0",
     "@vitest/coverage-v8": "2.1.9",
     "dotenv": "16.6.1",
