@@ -61,13 +61,13 @@
     "lodash.frompairs": "4.0.1",
     "lodash.range": "3.2.0",
     "p-queue": "8.1.1",
-    "qs": "6.15.0"
+    "qs": "6.15.1"
   },
   "devDependencies": {
     "@2bad/tsconfig": "3.0.2",
     "@swc/cli": "0.8.1",
-    "@swc/core": "1.15.21",
-    "@types/node": "20.19.37",
+    "@swc/core": "1.15.26",
+    "@types/node": "20.19.39",
     "@typescript-eslint/eslint-plugin": "4.33.0",
     "@vitest/coverage-v8": "2.1.9",
     "dotenv": "16.6.1",
