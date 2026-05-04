@@ -66,7 +66,7 @@
   "devDependencies": {
     "@2bad/tsconfig": "3.0.2",
     "@swc/cli": "0.8.1",
-    "@swc/core": "1.15.30",
+    "@swc/core": "1.15.32",
     "@types/node": "20.19.39",
     "@typescript-eslint/eslint-plugin": "4.33.0",
     "@vitest/coverage-v8": "2.1.9",
