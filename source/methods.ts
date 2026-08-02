@@ -1,51 +1,53 @@
-import { Commands } from './commands.js'
-import { BatchPayload } from './payloads.js'
-import { CompaniesMethods } from './services/companies/methods.js'
-import { ContactsMethods } from './services/contacts/methods.js'
-import { DealsMethods } from './services/deals/methods.js'
-import { LeadsMethods } from './services/leads/methods.js'
-import { StatusesMethods } from './services/statuses/methods.js'
-import { UsersMethods } from './services/users/methods.js'
-import { Diff } from './utils/Diff.js'
-import { ExtractValue } from './utils/ExtractValue.js'
+import type { Commands } from './commands.js'
+import type { BatchPayload } from './payloads.js'
+import type { CompaniesMethods } from './services/companies/methods.js'
+import type { ContactsMethods } from './services/contacts/methods.js'
+import type { DealsMethods } from './services/deals/methods.js'
+import type { LeadsMethods } from './services/leads/methods.js'
+import type { StatusesMethods } from './services/statuses/methods.js'
+import type { UsersMethods } from './services/users/methods.js'
+import type { Diff } from './utils/Diff.js'
+import type { ExtractValue } from './utils/ExtractValue.js'
 
-export enum Method {
-  BATCH = 'batch',
+export const Method = {
+  BATCH: 'batch',
 
-  CRM_COMPANY_FIELDS = 'crm.company.fields',
-  CRM_COMPANY_ADD = 'crm.company.add',
-  CRM_COMPANY_UPDATE = 'crm.company.update',
-  CRM_COMPANY_GET = 'crm.company.get',
-  CRM_COMPANY_LIST = 'crm.company.list',
+  CRM_COMPANY_FIELDS: 'crm.company.fields',
+  CRM_COMPANY_ADD: 'crm.company.add',
+  CRM_COMPANY_UPDATE: 'crm.company.update',
+  CRM_COMPANY_GET: 'crm.company.get',
+  CRM_COMPANY_LIST: 'crm.company.list',
 
-  CRM_CONTACT_FIELDS = 'crm.contact.fields',
-  CRM_CONTACT_ADD = 'crm.contact.add',
-  CRM_CONTACT_UPDATE = 'crm.contact.update',
-  CRM_CONTACT_GET = 'crm.contact.get',
-  CRM_CONTACT_LIST = 'crm.contact.list',
+  CRM_CONTACT_FIELDS: 'crm.contact.fields',
+  CRM_CONTACT_ADD: 'crm.contact.add',
+  CRM_CONTACT_UPDATE: 'crm.contact.update',
+  CRM_CONTACT_GET: 'crm.contact.get',
+  CRM_CONTACT_LIST: 'crm.contact.list',
 
-  CRM_DEAL_FIELDS = 'crm.deal.fields',
-  CRM_DEAL_ADD = 'crm.deal.add',
-  CRM_DEAL_UPDATE = 'crm.deal.update',
-  CRM_DEAL_GET = 'crm.deal.get',
-  CRM_DEAL_LIST = 'crm.deal.list',
+  CRM_DEAL_FIELDS: 'crm.deal.fields',
+  CRM_DEAL_ADD: 'crm.deal.add',
+  CRM_DEAL_UPDATE: 'crm.deal.update',
+  CRM_DEAL_GET: 'crm.deal.get',
+  CRM_DEAL_LIST: 'crm.deal.list',
 
-  CRM_LEAD_FIELDS = 'crm.lead.fields',
-  CRM_LEAD_ADD = 'crm.lead.add',
-  CRM_LEAD_UPDATE = 'crm.lead.update',
-  CRM_LEAD_GET = 'crm.lead.get',
-  CRM_LEAD_LIST = 'crm.lead.list',
+  CRM_LEAD_FIELDS: 'crm.lead.fields',
+  CRM_LEAD_ADD: 'crm.lead.add',
+  CRM_LEAD_UPDATE: 'crm.lead.update',
+  CRM_LEAD_GET: 'crm.lead.get',
+  CRM_LEAD_LIST: 'crm.lead.list',
 
-  CRM_STATUS_FIELDS = 'crm.status.fields',
-  CRM_STATUS_ADD = 'crm.status.add',
-  CRM_STATUS_DELETE = 'crm.status.delete',
-  CRM_STATUS_GET = 'crm.status.get',
-  CRM_STATUS_LIST = 'crm.status.list',
-  CRM_STATUS_UPDATE = 'crm.status.update',
+  CRM_STATUS_FIELDS: 'crm.status.fields',
+  CRM_STATUS_ADD: 'crm.status.add',
+  CRM_STATUS_DELETE: 'crm.status.delete',
+  CRM_STATUS_GET: 'crm.status.get',
+  CRM_STATUS_LIST: 'crm.status.list',
+  CRM_STATUS_UPDATE: 'crm.status.update',
 
-  USER_FIELDS = 'user.fields',
-  USER_GET = 'user.get'
-}
+  USER_FIELDS: 'user.fields',
+  USER_GET: 'user.get'
+} as const
+
+export type Method = (typeof Method)[keyof typeof Method]
 
 const LISTABLE_METHODS = [
   Method.CRM_COMPANY_LIST,
@@ -54,7 +56,7 @@ const LISTABLE_METHODS = [
   Method.CRM_LEAD_LIST
 ] as const
 
-export type ListableMethod = typeof LISTABLE_METHODS[number]
+export type ListableMethod = (typeof LISTABLE_METHODS)[number]
 export type GettableMethod = Diff<Method, ListableMethod>
 
 type MethodsMap = {
@@ -80,14 +82,19 @@ export type ListParams = {
  * - `payload` — a payload that method returns
  * - `params` — params that method accepts
  */
-export type Methods = MethodsMap & CompaniesMethods & ContactsMethods & DealsMethods & LeadsMethods & StatusesMethods & UsersMethods & {
-
-  readonly [Method.BATCH]: {
-    readonly type: unknown
-    readonly payload: BatchPayload<unknown>
-    readonly params: Commands
+export type Methods = MethodsMap &
+  CompaniesMethods &
+  ContactsMethods &
+  DealsMethods &
+  LeadsMethods &
+  StatusesMethods &
+  UsersMethods & {
+    readonly [Method.BATCH]: {
+      readonly type: unknown
+      readonly payload: BatchPayload<unknown>
+      readonly params: Commands
+    }
   }
-}
 
 /**
  * Retrieve specified method data

@@ -3,12 +3,7 @@ import range from 'lodash.range'
 import nock from 'nock'
 import { describe, expect, it } from 'vitest'
 import { Method } from '../../methods.js'
-import Batch, {
-  chunkCommands,
-  MAX_COMMANDS_PER_BATCH,
-  mergeBatchPayloads,
-  prepareCommandsQueries
-} from './batch.js'
+import Batch, { chunkCommands, MAX_COMMANDS_PER_BATCH, mergeBatchPayloads, prepareCommandsQueries } from './batch.js'
 
 describe('Client `chunkCommands` method', () => {
   it('should chunk named commands', () => {
@@ -46,7 +41,7 @@ describe('Client `chunkCommands` method', () => {
     const chunked = chunkCommands(commands)
 
     expect(chunked.length).toBe(commandsSets)
-    // @ts-ignore we have asserted it length
+    // @ts-expect-error we have asserted it length
     expect(chunked[0].length).toBe(MAX_COMMANDS_PER_BATCH)
   })
 })
@@ -172,7 +167,12 @@ describe('Client `mergeBatchPayloads` method', () => {
       }
     }
 
-    expect(mergeBatchPayloads([batch1, batch2])).toMatchSnapshot()
+    expect(
+      mergeBatchPayloads<{ readonly a: unknown; readonly b: unknown; readonly c: unknown; readonly d: unknown }>([
+        batch1,
+        batch2
+      ])
+    ).toMatchSnapshot()
   })
 
   it('should merge array payloads', () => {
@@ -276,9 +276,7 @@ describe('Client `batch` method', () => {
       // @todo We'd want to use `query` object here as it is much more readable, but nock for some reason
       //       fails to match request when it contains `cmd[someName]`. The issue definitely connected
       //       to the `[]`, since it does not appear when only one bracket present
-      .get(
-        `/${Method.BATCH}?cmd%5Bone%5D=${commands.one.method}%3FID%3D${dealId}&cmd%5Btwo%5D=${commands.two.method}`
-      )
+      .get(`/${Method.BATCH}?cmd%5Bone%5D=${commands.one.method}%3FID%3D${dealId}&cmd%5Btwo%5D=${commands.two.method}`)
       .reply(RESPONSE_200, payload)
 
     await batch(commands)
@@ -299,9 +297,7 @@ describe('Client `batch` method', () => {
       // @todo We'd want to use `query` object here as it is much more readable, but nock for some reason
       //       fails to match request when it contains `cmd[someName]`. The issue definitely
       //       connected to the `[]` since it does not appear when only one bracket present
-      .get(
-        `/${Method.BATCH}?cmd%5B0%5D=${commands[0].method}%3FID%3D${dealId}&cmd%5B1%5D=${commands[1].method}`
-      )
+      .get(`/${Method.BATCH}?cmd%5B0%5D=${commands[0].method}%3FID%3D${dealId}&cmd%5B1%5D=${commands[1].method}`)
       .reply(RESPONSE_200, payload)
 
     await batch(commands)
@@ -322,9 +318,7 @@ describe('Client `batch` method', () => {
       // @todo We'd want to use `query` object here as it is much more readable, but nock for some reason
       //       fails to match request when it contains `cmd[someName]`. The issue definitely
       //       connected to the `[]` since it does not appear when only one bracket present
-      .get(
-        `/${Method.BATCH}?cmd%5B0%5D=${commands[0].method}%3FID%3D${dealId}&cmd%5B1%5D=${commands[1].method}`
-      )
+      .get(`/${Method.BATCH}?cmd%5B0%5D=${commands[0].method}%3FID%3D${dealId}&cmd%5B1%5D=${commands[1].method}`)
       .reply(RESPONSE_200, payload)
 
     await batch(commands)
@@ -495,9 +489,7 @@ describe('Client `batch` method', () => {
       // @todo We'd want to use `query` object here as it is much more readable, but nock for some reason
       //       fails to match request when it contains `cmd[someName]`. The issue definitely connected
       //       to the `[]`, since it does not appear when only one bracket present
-      .get(
-        `/${Method.BATCH}?cmd%5Bone%5D=${commands.one.method}&cmd%5Btwo%5D=${commands.two.method}`
-      )
+      .get(`/${Method.BATCH}?cmd%5Bone%5D=${commands.one.method}&cmd%5Btwo%5D=${commands.two.method}`)
       .reply(RESPONSE_200, payload)
 
     return expect(batch(commands)).rejects.toMatchSnapshot()
@@ -507,10 +499,7 @@ describe('Client `batch` method', () => {
     const payload = {
       result: {
         result: ['done'],
-        result_error: [
-          'Expected error from numbered `batch` 0',
-          'Expected error from numbered `batch` 1'
-        ]
+        result_error: ['Expected error from numbered `batch` 0', 'Expected error from numbered `batch` 1']
       }
     }
 

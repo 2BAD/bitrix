@@ -1,4 +1,4 @@
-import { BoolString, ISODate, MultiFieldArray, NumberString } from '../common.js'
+import type { BoolString, ISODate, MultiFieldArray, NumberString } from '../common.js'
 
 export type Contact = {
   readonly [key: string]: MultiFieldArray | string | null

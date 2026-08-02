@@ -1,4 +1,4 @@
-import got, { ExtendOptions } from 'got'
+import got, { type ExtendOptions } from 'got'
 import Queue from 'p-queue'
 import addAccessToken from './hooks/addAccessToken.js'
 import Batch from './methods/batch.js'
@@ -24,11 +24,9 @@ export default (restURI: string, accessToken?: string, options?: ExtendOptions) 
     },
     responseType: 'json',
     hooks: {
-      beforeRequest: [
-        addAccessToken(accessToken)
-      ]
+      beforeRequest: [addAccessToken(accessToken)]
     },
-    ...(options ?? {})
+    ...options
   })
 
   const queue = new Queue({
@@ -36,8 +34,7 @@ export default (restURI: string, accessToken?: string, options?: ExtendOptions) 
     interval: BITRIX_API_RATE_INTERVAL
   })
 
-  const queuedGet = (...args: Parameters<typeof client.get>) =>
-    queue.add(() => client.get(...args))
+  const queuedGet = (...args: Parameters<typeof client.get>) => queue.add(() => client.get(...args))
 
   // @ts-expect-error @todo remove after issue is resolved (https://github.com/sindresorhus/got/issues/954)
   const call = Call({ get: queuedGet })

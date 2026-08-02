@@ -1,6 +1,6 @@
 import { Method } from '../../methods.js'
-import { GetPayload } from '../../payloads.js'
-import { User } from './entities.js'
+import type { GetPayload } from '../../payloads.js'
+import type { User } from './entities.js'
 
 export type UsersMethods = {
   readonly [Method.USER_FIELDS]: {

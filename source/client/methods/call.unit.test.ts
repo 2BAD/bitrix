@@ -2,7 +2,7 @@ import got from 'got'
 import nock from 'nock'
 import { describe, expect, it } from 'vitest'
 import { Method } from '../../methods.js'
-import { BatchPayload, GetPayload, ListPayload } from '../../payloads.js'
+import type { BatchPayload, GetPayload, ListPayload } from '../../payloads.js'
 import Call, { handlePayload } from './call.js'
 
 const TEST_URI = 'https://test.com/rest'
@@ -110,10 +110,7 @@ describe('Client `call` method', () => {
   it('should form a proper request', async () => {
     const params = { id: '1' }
 
-    const scope = nock(TEST_URI)
-      .get(`/${Method.CRM_DEAL_GET}`)
-      .query(params)
-      .reply(RESPONSE_200)
+    const scope = nock(TEST_URI).get(`/${Method.CRM_DEAL_GET}`).query(params).reply(RESPONSE_200)
 
     await call(Method.CRM_DEAL_GET, params)
 
@@ -128,10 +125,7 @@ describe('Client `call` method', () => {
       start: 50
     }
 
-    const scope = nock(TEST_URI)
-      .get(`/${Method.CRM_DEAL_LIST}`)
-      .query(params)
-      .reply(RESPONSE_200)
+    const scope = nock(TEST_URI).get(`/${Method.CRM_DEAL_LIST}`).query(params).reply(RESPONSE_200)
 
     await call(Method.CRM_DEAL_LIST, params)
 
@@ -142,10 +136,7 @@ describe('Client `call` method', () => {
     const params = { id: '1' }
     const payload = { test: 'value' }
 
-    nock(TEST_URI)
-      .get(`/${Method.CRM_DEAL_GET}`)
-      .query(params)
-      .reply(RESPONSE_200, payload)
+    nock(TEST_URI).get(`/${Method.CRM_DEAL_GET}`).query(params).reply(RESPONSE_200, payload)
 
     expect(await call(Method.CRM_DEAL_GET, params)).toEqual(payload)
   })
@@ -153,9 +144,7 @@ describe('Client `call` method', () => {
   it('should return body as payload with list methods', async () => {
     const payload = { result: ['done'] }
 
-    nock(TEST_URI)
-      .get(`/${Method.CRM_DEAL_LIST}`)
-      .reply(RESPONSE_200, payload)
+    nock(TEST_URI).get(`/${Method.CRM_DEAL_LIST}`).reply(RESPONSE_200, payload)
 
     expect(await call(Method.CRM_DEAL_LIST, {})).toEqual(payload)
   })
@@ -163,9 +152,7 @@ describe('Client `call` method', () => {
   it('should throw when getting errors in payload', () => {
     const payload = { result: ['done'], error: 'Expected error for `getList`' }
 
-    nock(TEST_URI)
-      .get(`/${Method.CRM_DEAL_LIST}`)
-      .reply(RESPONSE_200, payload)
+    nock(TEST_URI).get(`/${Method.CRM_DEAL_LIST}`).reply(RESPONSE_200, payload)
 
     return expect(call(Method.CRM_DEAL_LIST, {})).rejects.toMatchSnapshot()
   })
@@ -182,9 +169,7 @@ describe('Client `call` method', () => {
       time: { start: 1, finish: 1, duration: 1, processing: 1, date_start: 'date', date_finish: 'date' }
     }
 
-    nock(TEST_URI)
-      .get(`/${Method.BATCH}`)
-      .reply(RESPONSE_200, payload)
+    nock(TEST_URI).get(`/${Method.BATCH}`).reply(RESPONSE_200, payload)
 
     return expect(call(Method.BATCH, {})).rejects.toMatchSnapshot()
   })

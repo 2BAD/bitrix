@@ -1,7 +1,7 @@
 import { Method } from '../../methods.js'
-import { GetPayload, ListPayload } from '../../payloads.js'
-import { Fields } from '../common.js'
-import { Status } from './entities.js'
+import type { GetPayload, ListPayload } from '../../payloads.js'
+import type { Fields } from '../common.js'
+import type { Status } from './entities.js'
 
 export type StatusesMethods = {
   // https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_fields.php
@@ -30,7 +30,6 @@ export type StatusesMethods = {
         readonly FORCED?: 'Y' | 'N'
       }
     }
-
   }
 
   // https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_get.php

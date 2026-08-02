@@ -1,9 +1,9 @@
 import range from 'lodash.range'
-import { Command } from '../../commands.js'
-import { ListableMethod, MethodParams, MethodPayloadType } from '../../methods.js'
-import { BatchPayload, ListPayload } from '../../payloads.js'
-import { Batch } from './batch.js'
-import { Call } from './call.js'
+import type { Command } from '../../commands.js'
+import type { ListableMethod, MethodParams, MethodPayloadType } from '../../methods.js'
+import type { BatchPayload, ListPayload } from '../../payloads.js'
+import type { Batch } from './batch.js'
+import type { Call } from './call.js'
 
 const MAX_ENTRIES_PER_COMMAND = 50
 
@@ -15,11 +15,13 @@ export const fillWithCommands = <C extends Command>(
   start: number,
   toProcess: number,
   entriesPerCommand: number
-): ReadonlyArray<{ readonly method: C['method'], readonly params?: C['params'] }> => {
+): ReadonlyArray<{ readonly method: C['method']; readonly params?: C['params'] }> => {
   const requiresCommands = Math.ceil((toProcess - start) / entriesPerCommand)
 
-  return range(0, requiresCommands)
-    .map((i) => ({ method, params: { ...params, start: start + (entriesPerCommand * i) } }))
+  return range(0, requiresCommands).map((i) => ({
+    method,
+    params: { ...params, start: start + entriesPerCommand * i }
+  }))
 }
 
 /**
@@ -29,26 +31,33 @@ export const highest = (
   input: ReadonlyArray<number | undefined> | Record<string, number | undefined>
 ): number | undefined =>
   Object.values(input).reduce(
-    (a, b) => a !== undefined && b !== undefined
-      ? a > b ? a : b
-      : a !== undefined && b === undefined
-        ? a
-        : a === undefined && b !== undefined
-          ? b
-          : undefined
-    , undefined)
+    (a, b) =>
+      a !== undefined && b !== undefined
+        ? a > b
+          ? a
+          : b
+        : a !== undefined && b === undefined
+          ? a
+          : a === undefined && b !== undefined
+            ? b
+            : undefined,
+    undefined
+  )
 
 /**
  * Converts batch payload to a list payload
  */
 export const batchToListPayload = <P>(payload: BatchPayload<Record<string, P> | readonly P[]>): ListPayload<P> => {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  const { result: { result, result_total, result_error, result_next }, time } = payload
+  const {
+    result: { result, result_total, result_error, result_next },
+    time
+  } = payload
 
   const flattenResult = Object.entries(result).reduce<readonly P[]>(
     // @ts-expect-error ignore this for now
-    (flatten, [_key, r]) => !r ? flatten : [...flatten, ...r]
-    , [])
+    (flatten, [_key, r]) => (!r ? flatten : [...flatten, ...r]),
+    []
+  )
 
   return {
     error: Object.values(result_error).join('\n'),

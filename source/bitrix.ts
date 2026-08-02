@@ -1,4 +1,4 @@
-import { ExtendOptions } from 'got'
+import type { ExtendOptions } from 'got'
 import Client from './client/index.js'
 import CompaniesService from './services/companies/index.js'
 import ContactsService from './services/contacts/index.js'

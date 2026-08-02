@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest'
 import Bitrix from '../../bitrix.js'
 
-// @ts-ignore this should be improved in a future but it works for now
+// @ts-expect-error this should be improved in a future but it works for now
 const isSortedAsc = (arr: ReadonlyArray<string>) => arr.slice(1).every((v, i) => arr[i] <= v)
-// @ts-ignore this should be improved in a future but it works for now
+// @ts-expect-error this should be improved in a future but it works for now
 const isSortedDesc = (arr: ReadonlyArray<string>) => arr.slice(1).every((v, i) => arr[i] >= v)
 
 const WEBHOOK_URL = process.env['WEBHOOK_URL']

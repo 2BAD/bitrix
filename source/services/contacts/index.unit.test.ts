@@ -19,11 +19,14 @@ describe('Contacts', () => {
 
   describe('`create`', () => {
     it('should invoke `call`', async () => {
-      await contacts.create({
-        COMMENTS: 'Some comment'
-      }, {
-        REGISTER_SONET_EVENT: 'Y'
-      })
+      await contacts.create(
+        {
+          COMMENTS: 'Some comment'
+        },
+        {
+          REGISTER_SONET_EVENT: 'Y'
+        }
+      )
       expect(mockCall.mock.calls).toMatchSnapshot()
     })
 
@@ -61,11 +64,15 @@ describe('Contacts', () => {
 
   describe('`update`', () => {
     it('should invoke `call`', async () => {
-      await contacts.update(ID, {
-        COMMENTS: 'Some comment'
-      }, {
-        REGISTER_SONET_EVENT: 'Y'
-      })
+      await contacts.update(
+        ID,
+        {
+          COMMENTS: 'Some comment'
+        },
+        {
+          REGISTER_SONET_EVENT: 'Y'
+        }
+      )
       expect(mockCall.mock.calls).toMatchSnapshot()
     })
 

@@ -1,14 +1,15 @@
 {
   "extends": "@2bad/tsconfig",
+  "include": ["source/**/*", "vitest.config.ts"],
   "compilerOptions": {
     "outDir": "build",
-    "baseUrl": "source",
+    "types": ["node"],
     "declaration": true,
     "emitDeclarationOnly": true,
     "allowImportingTsExtensions": true,
     "exactOptionalPropertyTypes": false,
     "paths": {
-      "~/*": ["./*"]
+      "~/*": ["./source/*"]
     }
   }
 }

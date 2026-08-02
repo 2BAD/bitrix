@@ -1,6 +1,6 @@
-import { Call } from '../../client/methods/call.js'
-import { List } from '../../client/methods/list.js'
-import { Method, MethodParams } from '../../methods.js'
+import type { Call } from '../../client/methods/call.js'
+import type { List } from '../../client/methods/list.js'
+import { Method, type MethodParams } from '../../methods.js'
 
 type Dependencies = {
   readonly call: Call
@@ -8,18 +8,18 @@ type Dependencies = {
 }
 
 export default ({ call, list }: Dependencies) => ({
-  fields: () =>
-    call(Method.CRM_CONTACT_FIELDS, {}),
+  fields: () => call(Method.CRM_CONTACT_FIELDS, {}),
 
-  create: <D extends MethodParams<Method.CRM_CONTACT_ADD>>(fields: D['fields'], params?: D['params']) =>
+  create: <D extends MethodParams<typeof Method.CRM_CONTACT_ADD>>(fields: D['fields'], params?: D['params']) =>
     call(Method.CRM_CONTACT_ADD, { fields, params }),
 
-  get: (id: string) =>
-    call(Method.CRM_CONTACT_GET, { id }),
+  get: (id: string) => call(Method.CRM_CONTACT_GET, { id }),
 
-  list: (params: MethodParams<Method.CRM_CONTACT_LIST> = {}) =>
-    list(Method.CRM_CONTACT_LIST, params),
+  list: (params: MethodParams<typeof Method.CRM_CONTACT_LIST> = {}) => list(Method.CRM_CONTACT_LIST, params),
 
-  update: <D extends MethodParams<Method.CRM_CONTACT_UPDATE>>(id: string, fields: D['fields'], params?: D['params']) =>
-    call(Method.CRM_CONTACT_UPDATE, { id, fields, params })
+  update: <D extends MethodParams<typeof Method.CRM_CONTACT_UPDATE>>(
+    id: string,
+    fields: D['fields'],
+    params?: D['params']
+  ) => call(Method.CRM_CONTACT_UPDATE, { id, fields, params })
 })

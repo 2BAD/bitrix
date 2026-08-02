@@ -189,19 +189,20 @@ const bitrix = Bitrix('https://PORTAL_NAME.bitrix24.ru/rest', 'ACCESS_TOKEN', {h
 
 ### Development
 
-- `npm test` — run all tests and collect full coverage report
-- `npm run test:unit` — run unit tests and collect coverage report
-- `npm run test:integration` — run integration tests and collect coverage report
-- `npm run test:watch` — watch for changes and run all tests
-- `npm run test:unit:watch` — watch for changes and run unit tests
-- `npm run test:integration:watch` — watch for changes and run integration tests
-- `npm run build` — build the library for the release
+- `pnpm test` — run all tests
+- `pnpm test:unit` — run unit tests and collect coverage report
+- `pnpm test:integration` — run integration tests and collect coverage report
+- `pnpm check` — lint, format and type check the source
+- `pnpm fix` — apply lint and format fixes
+- `pnpm build` — build the library for the release
+
+Integration tests talk to a live portal and require the `WEBHOOK_URL` environment variable to be set.
 
 #### Adding new methods
 
 Proper method parameters and payload types handling requires some routine when adding any new method. Hopefully, we can do it better in future, but for now follow those steps:
 
-1. Add new method into the [`Method`](source/methods.ts) enum.
+1. Add new method into the [`Method`](source/methods.ts) map.
 2. Add it into the [`LISTABLE_METHODS`](source/methods.ts) array if it is listable \(paginated\). Not everything that lists is listable, so check it.
 3. Add or update related [service](source/services/):
    1. Put exposed by the service public methods into the `index.ts` file. Ensure that you're properly mapping service method arguments to `call` or `list` params.

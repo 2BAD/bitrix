@@ -106,21 +106,24 @@ describe('Client `batchToListPayload` method', () => {
         result_error: ['Expected error 1', 'Expected error 2'],
         result_total: [4, 4],
         result_next: [2, 4],
-        result_time: [{
-          start: 1567196891.008149,
-          finish: 1567196891.022234,
-          duration: 0.014085054397583008,
-          processing: 0.013998985290527344,
-          date_start: '2019-08-30T23:28:11+03:00',
-          date_finish: '2019-08-30T23:28:11+03:00'
-        }, {
-          start: 1567196891.022316,
-          finish: 1567196891.03225,
-          duration: 0.009933948516845703,
-          processing: 0.009846210479736328,
-          date_start: '2019-08-30T23:28:11+03:00',
-          date_finish: '2019-08-30T23:28:11+03:00'
-        }]
+        result_time: [
+          {
+            start: 1567196891.008149,
+            finish: 1567196891.022234,
+            duration: 0.014085054397583008,
+            processing: 0.013998985290527344,
+            date_start: '2019-08-30T23:28:11+03:00',
+            date_finish: '2019-08-30T23:28:11+03:00'
+          },
+          {
+            start: 1567196891.022316,
+            finish: 1567196891.03225,
+            duration: 0.009933948516845703,
+            processing: 0.009846210479736328,
+            date_start: '2019-08-30T23:28:11+03:00',
+            date_finish: '2019-08-30T23:28:11+03:00'
+          }
+        ]
       },
       time: {
         start: 1567196890.959017,
@@ -142,21 +145,24 @@ describe('Client `batchToListPayload` method', () => {
         result_error: [] as any,
         result_total: [] as any,
         result_next: [] as any,
-        result_time: [{
-          start: 1567196891.008149,
-          finish: 1567196891.022234,
-          duration: 0.014085054397583008,
-          processing: 0.013998985290527344,
-          date_start: '2019-08-30T23:28:11+03:00',
-          date_finish: '2019-08-30T23:28:11+03:00'
-        }, {
-          start: 1567196891.022316,
-          finish: 1567196891.03225,
-          duration: 0.009933948516845703,
-          processing: 0.009846210479736328,
-          date_start: '2019-08-30T23:28:11+03:00',
-          date_finish: '2019-08-30T23:28:11+03:00'
-        }]
+        result_time: [
+          {
+            start: 1567196891.008149,
+            finish: 1567196891.022234,
+            duration: 0.014085054397583008,
+            processing: 0.013998985290527344,
+            date_start: '2019-08-30T23:28:11+03:00',
+            date_finish: '2019-08-30T23:28:11+03:00'
+          },
+          {
+            start: 1567196891.022316,
+            finish: 1567196891.03225,
+            duration: 0.009933948516845703,
+            processing: 0.009846210479736328,
+            date_start: '2019-08-30T23:28:11+03:00',
+            date_finish: '2019-08-30T23:28:11+03:00'
+          }
+        ]
       },
       time: {
         start: 1567196890.959017,
@@ -186,16 +192,19 @@ describe('Client `list` method', () => {
 
   it('should make multiple requests when entries can not be fetched in one go', async () => {
     const callMock = vi.fn(() => Promise.resolve({ next: 2, total: 120 }) as any)
-    const batchMock = vi.fn(() => Promise.resolve({
-      result: {
-        result: ['done'],
-        result_error: [],
-        result_next: [],
-        result_time: [],
-        result_total: []
-      },
-      time: {}
-    }) as any)
+    const batchMock = vi.fn(
+      () =>
+        Promise.resolve({
+          result: {
+            result: ['done'],
+            result_error: [],
+            result_next: [],
+            result_time: [],
+            result_total: []
+          },
+          time: {}
+        }) as any
+    )
     const list = List({ call: callMock, batch: batchMock })
 
     await list(Method.CRM_DEAL_LIST, {})
@@ -244,16 +253,19 @@ describe('Client `list` method', () => {
 
   it('should default start to 0', async () => {
     const callMock = vi.fn(() => Promise.resolve({ next: 2, total: 20 }) as any)
-    const batchMock = vi.fn(() => Promise.resolve({
-      result: {
-        result: ['done'],
-        result_error: [],
-        result_next: [],
-        result_time: [],
-        result_total: []
-      },
-      time: {}
-    }) as any)
+    const batchMock = vi.fn(
+      () =>
+        Promise.resolve({
+          result: {
+            result: ['done'],
+            result_error: [],
+            result_next: [],
+            result_time: [],
+            result_total: []
+          },
+          time: {}
+        }) as any
+    )
     const list = List({ call: callMock, batch: batchMock })
 
     await list(Method.CRM_DEAL_LIST, {})
@@ -264,16 +276,19 @@ describe('Client `list` method', () => {
 
   it('should properly take into account start', async () => {
     const callMock = vi.fn(() => Promise.resolve({ next: 2, total: 120 }) as any)
-    const batchMock = vi.fn(() => Promise.resolve({
-      result: {
-        result: ['done'],
-        result_error: [],
-        result_next: [],
-        result_time: [],
-        result_total: []
-      },
-      time: {}
-    }) as any)
+    const batchMock = vi.fn(
+      () =>
+        Promise.resolve({
+          result: {
+            result: ['done'],
+            result_error: [],
+            result_next: [],
+            result_time: [],
+            result_total: []
+          },
+          time: {}
+        }) as any
+    )
     const list = List({ call: callMock, batch: batchMock })
 
     await list(Method.CRM_DEAL_LIST, { start: 27 })

@@ -23,7 +23,7 @@ describe('Client', () => {
   it('should extend `Got` instance with a specified parameters', () => {
     const spiedGotExtend = vi.spyOn(got, 'extend')
 
-    Client('https://test.com', 'test_token', {https: { rejectUnauthorized: false }})
+    Client('https://test.com', 'test_token', { https: { rejectUnauthorized: false } })
     expect(spiedGotExtend.mock.calls).toMatchSnapshot()
   })
 
@@ -37,10 +37,7 @@ describe('Client', () => {
       const payload = {}
       const method = Method.CRM_DEAL_LIST
 
-      nock(TEST_URI)
-        .get(`/${method}?access_token=${TEST_ACCESS_TOKEN}`)
-        .twice()
-        .reply(RESPONSE_200, payload)
+      nock(TEST_URI).get(`/${method}?access_token=${TEST_ACCESS_TOKEN}`).twice().reply(RESPONSE_200, payload)
 
       await client.call(method, {})
       await client.call(method, {})
@@ -59,10 +56,7 @@ describe('Client', () => {
         }
       }
 
-      const commands = [
-        { method: Method.CRM_DEAL_GET },
-        { method: Method.CRM_DEAL_LIST }
-      ] as const
+      const commands = [{ method: Method.CRM_DEAL_GET }, { method: Method.CRM_DEAL_LIST }] as const
 
       nock(TEST_URI)
         // @todo We'd want to use `query` object here as it is much more readable, but nock for some reason

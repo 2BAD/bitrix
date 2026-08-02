@@ -44,7 +44,7 @@ bitrix.call('some.new.method' as any, { newParam: true } as any)
 
 **Arguments**
 
-* `method: Method` — any Bitrix method. Be sure to use `Method` enum here.
+* `method: Method` — any Bitrix method. Be sure to use the `Method` map here.
 * `params: MethodParams<M>` — params to be passed with an API request.
 
 **Rejects**
@@ -75,7 +75,7 @@ bitrix.list(Method.CRM_DEAL_LIST, { start: 774 })
 
 **Arguments**
 
-* `method: ListableMethod` — any method that retrieves multiple entries, like `crm.deal.list`. Be sure to use `Method` enum here.
+* `method: ListableMethod` — any method that retrieves multiple entries, like `crm.deal.list`. Be sure to use the `Method` map here.
 
   The method will disallow to specify any Bitrix method which returns non-list payload. However, if you need to use something new or unsupported, consult Bitrix REST API documentation to figure out does Bitrix method in question returns payload of type `ListPayload<P>`.
 

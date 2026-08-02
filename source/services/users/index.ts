@@ -1,4 +1,4 @@
-import { Call } from '../../client/methods/call.js'
+import type { Call } from '../../client/methods/call.js'
 import { Method } from '../../methods.js'
 
 type Dependencies = {

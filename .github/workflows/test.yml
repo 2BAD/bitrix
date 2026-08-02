@@ -10,52 +10,52 @@ on:
 
 jobs:
   test:
-    name: test on ${{ matrix.os-release }} node@${{ matrix.node-version }}
+    name: test on ${{ matrix.os-release }}
     runs-on: ${{ matrix.os-release }}
 
     strategy:
       matrix:
-        node-version:
-          - 20
-          - 21
-          # - 22
         os-release:
-          - ubuntu-latest
-          - windows-latest
+          - blacksmith-4vcpu-ubuntu-2404
+          - blacksmith-4vcpu-windows-2025
 
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+      - uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version-file: package.json
+          cache: pnpm
 
-      - run: npm ci
-      - run: npm run test:unit
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test:unit
 
   coverage:
     name: collect coverage
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2404
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+      - uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version-file: package.json
+          cache: pnpm
 
-      - run: npm ci
+      - run: pnpm install --frozen-lockfile
 
-      - run: npm run test:unit
-      - uses: codecov/codecov-action@b9fd7d16f6d7d1b5d2bec1a2887e65ceed900238 # v4.6.0
+      - run: pnpm test:unit
+      - uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: unit
 
       # - run: rm -rf coverage
 
-      # - run: npm run test:integration
+      # - run: pnpm test:integration
       # - uses: codecov/codecov-action@eaaf4bedf32dbdc6b720b63067d99c4d77d6047d # v3
       #   with:
       #     token: ${{ secrets.CODECOV_TOKEN }}

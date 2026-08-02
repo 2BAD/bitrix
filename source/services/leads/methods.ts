@@ -1,7 +1,7 @@
-import { ListParams, Method } from '../../methods.js'
-import { GetPayload, ListPayload } from '../../payloads.js'
-import { Fields } from '../common.js'
-import { Lead } from './entities.js'
+import { type ListParams, Method } from '../../methods.js'
+import type { GetPayload, ListPayload } from '../../payloads.js'
+import type { Fields } from '../common.js'
+import type { Lead } from './entities.js'
 
 export type LeadsMethods = {
   readonly [Method.CRM_LEAD_FIELDS]: {

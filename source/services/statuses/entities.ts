@@ -1,4 +1,4 @@
-import { BoolString, NumberString } from '../common.js'
+import type { BoolString, NumberString } from '../common.js'
 
 export type Extra = {
   readonly SEMANTICS: string

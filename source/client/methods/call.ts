@@ -1,7 +1,7 @@
 import got from 'got'
 import { stringify as toQuery } from 'qs'
-import { Method, MethodParams, MethodPayload } from '../../methods.js'
-import { BatchPayload, ListPayload, Payload } from '../../payloads.js'
+import { Method, type MethodParams, type MethodPayload } from '../../methods.js'
+import type { BatchPayload, ListPayload, Payload } from '../../payloads.js'
 import isArray from '../../utils/isArray.js'
 
 /**
@@ -10,9 +10,7 @@ import isArray from '../../utils/isArray.js'
  */
 export const handlePayload = <P extends Payload<unknown>>(payload: P): P => {
   if ((payload as ListPayload<unknown>).error) {
-    throw new Error(
-      `[call] failed to get the resource: ${(payload as ListPayload<unknown>).error ?? ''}.`
-    )
+    throw new Error(`[call] failed to get the resource: ${(payload as ListPayload<unknown>).error ?? ''}.`)
   }
 
   if ((payload as BatchPayload<unknown>).result && (payload as BatchPayload<unknown>).result.result_error) {
@@ -38,9 +36,10 @@ type Dependencies = {
  * Dispatches a request with specified method and params. Will fill figure out payload type based on the Method
  */
 export default ({ get }: Dependencies): Call => {
-  const call: Call = <M extends Method>(method: M, params: MethodParams<M>): Promise<MethodPayload<M>> =>
-    get<MethodPayload<M>>(method, { searchParams: toQuery(params) })
-      .then(({ body }) => handlePayload(body))
+  const call: Call = async <M extends Method>(method: M, params: MethodParams<M>): Promise<MethodPayload<M>> => {
+    const { body } = await get<MethodPayload<M>>(method, { searchParams: toQuery(params) })
+    return handlePayload(body)
+  }
 
   return call
 }
