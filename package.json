@@ -66,7 +66,7 @@
   "devDependencies": {
     "@2bad/tsconfig": "3.0.2",
     "@swc/cli": "0.8.1",
-    "@swc/core": "1.15.46",
+    "@swc/core": "1.15.47",
     "@types/node": "20.19.43",
     "@typescript-eslint/eslint-plugin": "4.33.0",
     "@vitest/coverage-v8": "2.1.9",
@@ -85,12 +85,12 @@
     "vite-tsconfig-paths": "4.3.2",
     "vitest": "2.1.9"
   },
-  "packageManager": "npm@10.9.8",
+  "packageManager": "npm@10.9.9",
   "engines": {
     "node": ">=20"
   },
   "volta": {
-    "node": "22.23.1",
-    "npm": "10.9.8"
+    "node": "22.23.2",
+    "npm": "10.9.9"
   }
 }
