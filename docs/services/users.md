@@ -1,11 +1,13 @@
 # Users service
 
+A dash in the enum column means this Bitrix endpoint is not represented by a `Method` member in the current package. See [Methods](../methods.md) for the generic `call` escape hatch.
+
 | Bitrix method | Enum method | API |
 | :--- | :--- | :--- |
 | `user.fields` | `Method.USER_FIELDS` |  |
-| `user.current` | `Method.USER_CURRENT` |  |
-| `user.add` | `Method.USER_ADD` |  |
-| `user.update` | `Method.USER_UPDATE` |  |
+| `user.current` | — |  |
+| `user.add` | — |  |
+| `user.update` | — |  |
 | `user.get` | `Method.USER_GET` |  |
-| `user.search` | `Method.USER_SEARCH` |  |
+| `user.search` | — |  |
 

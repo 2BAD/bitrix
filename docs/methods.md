@@ -19,20 +19,20 @@ import Bitrix, { Method } from '@2bad/bitrix'
 
 // ...init client...
 
-bitrix.call(Method.GET_DEAL, { ID: '77' }) // returns GetPayload<Deal>
+bitrix.call(Method.CRM_DEAL_GET, { id: '77' }) // returns GetPayload<Deal>
 
-bitrix.call(Method.CREATE_DEAL, {
+bitrix.call(Method.CRM_DEAL_ADD, {
   fields: { TITLE: 'New deal' },
   params: { REGISTER_SONET_EVENT: 'Y' }
 }) // returns GetPayload<number>
 
-bitrix.call(Method.UPDATE_DEAL, {
-  id: 77,
+bitrix.call(Method.CRM_DEAL_UPDATE, {
+  id: '77',
   fields: { TITLE: 'New deal title' }
 }) // returns GetPayload<boolean>
 
-bitrix.call(Method.LIST_DEALS, {}) // returns ListPayload<Deal>
-bitrix.getList<Deal>(Method.LIST_DEALS, { start: 774 }) // returns ListPayload<Deal>
+bitrix.call(Method.CRM_DEAL_LIST, {}) // returns ListPayload<Deal>
+bitrix.list(Method.CRM_DEAL_LIST, { start: 774 }) // returns ListPayload<Deal>
 ```
 
 In rare cases you might want to invoke not yet supported by this library method. Use casting and `any` as an escape hatch:
@@ -70,7 +70,7 @@ import Bitrix, { Method, Deal } from '@2bad/bitrix'
 
 // ...init client...
 
-bitrix.list(Method.LIST_DEALS, { start: 774 })
+bitrix.list(Method.CRM_DEAL_LIST, { start: 774 })
 ```
 
 **Arguments**
@@ -103,23 +103,23 @@ import Bitrix, { Method, Deal } from '@2bad/bitrix'
 
 // ...init client...
 
-// With an `const` of named commands
+// With a `const` of named commands
 bitrix.batch({
- deals: { method. Method.LIST_DEALS, params: {} },
- deal: { method. Method.GET_DEAL, params: { ID: '77' } }
+  deals: { method: Method.CRM_DEAL_LIST, params: {} },
+  deal: { method: Method.CRM_DEAL_GET, params: { id: '77' } }
 } as const) // returns { deals: ListPayload<Deal>, deal: Deal }
 
-// With an `const` of array of commands
+// With a `const` array of commands
 bitrix.batch([
- { method. Method.LIST_DEALS, params: {} },
- { method. Method.GET_DEAL, params: { ID: '77' } }
- ] as const) // returns [ListPayload<Deal>, Deal]
+  { method: Method.CRM_DEAL_LIST, params: {} },
+  { method: Method.CRM_DEAL_GET, params: { id: '77' } }
+] as const) // returns [ListPayload<Deal>, Deal]
 
 // With an array of commands
- bitrix.batch([
- { method. Method.LIST_DEALS, params: {} },
- { method. Method.GET_DEAL, params: { ID: '77' } }
- ]) // ReadonlyArray<ListPayload<Deal> | Deal>
+bitrix.batch([
+  { method: Method.CRM_DEAL_LIST, params: {} },
+  { method: Method.CRM_DEAL_GET, params: { id: '77' } }
+]) // ReadonlyArray<ListPayload<Deal> | Deal>
 ```
 
 **Arguments**
@@ -128,13 +128,13 @@ bitrix.batch([
 
   ```typescript
     const arrayOfCommands = [
-      { method: Method.GET_DEAL },
-      { method: Method.GET_LEAD }
+      { method: Method.CRM_DEAL_GET, params: { id: '77' } },
+      { method: Method.CRM_LEAD_GET, params: { id: '77' } }
     ] as const
 
     const namedCommands = {
-      one: { method: Method.GET_DEAL },
-      two: { method: Method.GET_LEAD }
+      one: { method: Method.CRM_DEAL_GET, params: { id: '77' } },
+      two: { method: Method.CRM_LEAD_GET, params: { id: '77' } }
      } as const
   ```
 

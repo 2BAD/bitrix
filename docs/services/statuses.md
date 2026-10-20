@@ -1,10 +1,12 @@
 # Statuses service
 
+A dash in the enum column means this Bitrix endpoint is not represented by a `Method` member in the current package. See [Methods](../methods.md) for the generic `call` escape hatch.
+
 | API | Enum method | Bitrix method |
 | :--- | :--- | :--- |
 | [`bitrix.statuses.fields()`](statuses.md#bitrixstatusesfields) | `Method.CRM_STATUS_FIELDS` | [`crm.status.fields`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_fields.php) |
-|  | `Method.CRM_STATUS_ENTITY_TYPES` | [`crm.status.entity.types`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_entity_types.php) |
-|  | `Method.CRM_STATUS_ENTITY_ITEMS` | [`crm.status.entity.items`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_entity_items.php) |
+|  | — | [`crm.status.entity.types`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_entity_types.php) |
+|  | — | [`crm.status.entity.items`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_entity_items.php) |
 | [`bitrix.statuses.create()`](statuses.md#bitrixstatusescreate) | `Method.CRM_STATUS_ADD` | [`crm.status.add`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_add.php) |
 | [`bitrix.statuses.delete()`](statuses.md#bitrixstatusesdelete) | `Method.CRM_STATUS_DELETE` | [`crm.status.delete`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_delete.php) |
 | [`bitrix.statuses.get()`](statuses.md#bitrixstatusesget) | `Method.CRM_STATUS_GET` | [`crm.status.get`](https://dev.1c-bitrix.ru/rest_help/crm/auxiliary/status/crm_status_get.php) |
