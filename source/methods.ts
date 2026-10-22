@@ -1,117 +1,155 @@
-import type { Commands } from './commands.js'
-import type { BatchPayload } from './payloads.js'
-import type { CompaniesMethods } from './services/companies/methods.js'
-import type { ContactsMethods } from './services/contacts/methods.js'
-import type { DealsMethods } from './services/deals/methods.js'
-import type { LeadsMethods } from './services/leads/methods.js'
-import type { StatusesMethods } from './services/statuses/methods.js'
-import type { UsersMethods } from './services/users/methods.js'
-import type { Diff } from './utils/Diff.js'
-import type { ExtractValue } from './utils/ExtractValue.js'
+import type { Product, ProductField } from './entities/catalog.js'
+import type {
+  Activity,
+  BoolString,
+  Company,
+  Contact,
+  Deal,
+  Fields,
+  Id,
+  Input,
+  Lead,
+  ProductRow,
+  Status
+} from './entities/crm.js'
+import type { User } from './entities/user.js'
 
-export const Method = {
-  BATCH: 'batch',
+type Empty = Readonly<Record<string, never>>
 
-  CRM_COMPANY_FIELDS: 'crm.company.fields',
-  CRM_COMPANY_ADD: 'crm.company.add',
-  CRM_COMPANY_UPDATE: 'crm.company.update',
-  CRM_COMPANY_GET: 'crm.company.get',
-  CRM_COMPANY_LIST: 'crm.company.list',
+export type FilterValue = string | number | boolean | null | ReadonlyArray<string | number>
+export type Filter = Readonly<Record<string, FilterValue>>
+export type Order = 'ASC' | 'DESC' | 'asc' | 'desc'
 
-  CRM_CONTACT_FIELDS: 'crm.contact.fields',
-  CRM_CONTACT_ADD: 'crm.contact.add',
-  CRM_CONTACT_UPDATE: 'crm.contact.update',
-  CRM_CONTACT_GET: 'crm.contact.get',
-  CRM_CONTACT_LIST: 'crm.contact.list',
-
-  CRM_DEAL_FIELDS: 'crm.deal.fields',
-  CRM_DEAL_ADD: 'crm.deal.add',
-  CRM_DEAL_UPDATE: 'crm.deal.update',
-  CRM_DEAL_GET: 'crm.deal.get',
-  CRM_DEAL_LIST: 'crm.deal.list',
-
-  CRM_LEAD_FIELDS: 'crm.lead.fields',
-  CRM_LEAD_ADD: 'crm.lead.add',
-  CRM_LEAD_UPDATE: 'crm.lead.update',
-  CRM_LEAD_GET: 'crm.lead.get',
-  CRM_LEAD_LIST: 'crm.lead.list',
-
-  CRM_STATUS_FIELDS: 'crm.status.fields',
-  CRM_STATUS_ADD: 'crm.status.add',
-  CRM_STATUS_DELETE: 'crm.status.delete',
-  CRM_STATUS_GET: 'crm.status.get',
-  CRM_STATUS_LIST: 'crm.status.list',
-  CRM_STATUS_UPDATE: 'crm.status.update',
-
-  USER_FIELDS: 'user.fields',
-  USER_GET: 'user.get'
-} as const
-
-export type Method = (typeof Method)[keyof typeof Method]
-
-const LISTABLE_METHODS = [
-  Method.CRM_COMPANY_LIST,
-  Method.CRM_CONTACT_LIST,
-  Method.CRM_DEAL_LIST,
-  Method.CRM_LEAD_LIST
-] as const
-
-export type ListableMethod = (typeof LISTABLE_METHODS)[number]
-export type GettableMethod = Diff<Method, ListableMethod>
-
-type MethodsMap = {
-  readonly [key: string]: {
-    readonly type: unknown
-    readonly payload: unknown
-    readonly params: Record<string, unknown>
-  }
-}
-
-// @todo Figure out full list of possible values
-export type ListParams = {
+export type ListParams<E> = {
+  readonly select?: ReadonlyArray<(keyof E & string) | '*' | 'UF_*' | 'PHONE' | 'EMAIL' | 'WEB' | 'IM'>
+  readonly filter?: Filter
+  readonly order?: { readonly [K in keyof E & string]?: Order }
   readonly start?: number
-  readonly order?: { readonly [key: string]: string } // 'ASC' | 'DESC'
-  readonly filter?: { readonly [key: string]: string | number }
-  readonly select?: readonly string[]
+}
+
+type SonetParams = { readonly params?: { readonly REGISTER_SONET_EVENT?: BoolString } }
+
+type CrmMethods<Name extends string, E> = Record<`crm.${Name}.fields`, { params: Empty; result: Fields }> &
+  Record<`crm.${Name}.get`, { params: { readonly id: Id }; result: E }> &
+  Record<`crm.${Name}.list`, { params: ListParams<E>; result: E[] }> &
+  Record<`crm.${Name}.add`, { params: { readonly fields: Input<E> } & SonetParams; result: number }> &
+  Record<
+    `crm.${Name}.update`,
+    { params: { readonly id: Id; readonly fields: Input<E> } & SonetParams; result: boolean }
+  > &
+  Record<`crm.${Name}.delete`, { params: { readonly id: Id }; result: boolean }>
+
+type ProductRowMethods<Name extends string> = Record<
+  `crm.${Name}.productrows.get`,
+  { params: { readonly id: Id }; result: ProductRow[] }
+> &
+  Record<
+    `crm.${Name}.productrows.set`,
+    { params: { readonly id: Id; readonly rows: ReadonlyArray<Input<ProductRow>> }; result: boolean }
+  >
+
+type ProductFilter = Filter & { readonly iblockId: number }
+type ProductInput = Input<Product> & { readonly iblockId: number; readonly name: string }
+
+/**
+ * Registry of typed REST methods. Augment it to type methods the client does not cover:
+ * ```ts
+ * declare module '@2bad/bitrix' {
+ *   interface Methods {
+ *     'tasks.task.get': { params: { taskId: number }; result: { task: Task } }
+ *   }
+ * }
+ * ```
+ */
+export interface Methods
+  extends
+    CrmMethods<'deal', Deal>,
+    CrmMethods<'lead', Lead>,
+    CrmMethods<'contact', Contact>,
+    CrmMethods<'company', Company>,
+    CrmMethods<'activity', Activity>,
+    ProductRowMethods<'deal'>,
+    ProductRowMethods<'lead'> {
+  'crm.status.fields': { params: Empty; result: Fields }
+  'crm.status.get': { params: { readonly id: Id }; result: Status }
+  'crm.status.list': {
+    params: Pick<ListParams<Status>, 'filter' | 'order'>
+    result: Status[]
+  }
+  'crm.status.add': { params: { readonly fields: Input<Status> }; result: number }
+  'crm.status.update': { params: { readonly id: Id; readonly fields: Input<Status> }; result: boolean }
+  'crm.status.delete': {
+    params: { readonly id: Id; readonly params?: { readonly FORCED?: BoolString } }
+    result: boolean
+  }
+
+  'user.fields': { params: Empty; result: Record<string, string> }
+  'user.current': { params: Empty; result: User }
+  'user.get': {
+    params: {
+      readonly ID?: Id
+      readonly filter?: Filter
+      readonly sort?: keyof User & string
+      readonly order?: Order
+      readonly start?: number
+      readonly ADMIN_MODE?: boolean
+    }
+    result: User[]
+  }
+
+  'catalog.product.getFieldsByFilter': {
+    params: { readonly filter: ProductFilter }
+    result: { product: Record<string, ProductField> }
+  }
+  'catalog.product.get': { params: { readonly id: Id }; result: { product: Product } }
+  'catalog.product.list': {
+    params: {
+      readonly select?: ReadonlyArray<keyof Product & string>
+      readonly filter: ProductFilter
+      readonly order?: { readonly [K in keyof Product & string]?: Order }
+      readonly start?: number
+    }
+    result: { products: Product[] }
+  }
+  'catalog.product.add': { params: { readonly fields: ProductInput }; result: { element: Product } }
+  'catalog.product.update': {
+    params: { readonly id: Id; readonly fields: Input<Product> }
+    result: { element: Product }
+  }
+  'catalog.product.delete': { params: { readonly id: Id }; result: boolean }
 }
 
 /**
- * A mega map of all supported Bitrix methods to their parameters. Used to resolve
- * low-level client method required params and payload types.
- * - `type` — a type that method associated with
- * - `payload` — a payload that method returns
- * - `params` — params that method accepts
+ * Any method name. Known ones autocomplete and get typed params and results, the rest fall back to loose types
  */
-export type Methods = MethodsMap &
-  CompaniesMethods &
-  ContactsMethods &
-  DealsMethods &
-  LeadsMethods &
-  StatusesMethods &
-  UsersMethods & {
-    readonly [Method.BATCH]: {
-      readonly type: unknown
-      readonly payload: BatchPayload<unknown>
-      readonly params: Commands
-    }
-  }
+export type Method = keyof Methods | (string & Record<never, never>)
+
+export type Params<M extends string> = M extends keyof Methods
+  ? Methods[M] extends { params: infer P }
+    ? P
+    : never
+  : Readonly<Record<string, unknown>>
+
+export type Result<M extends string> = M extends keyof Methods
+  ? Methods[M] extends { result: infer R }
+    ? R
+    : never
+  : unknown
 
 /**
- * Retrieve specified method data
+ * Row type of a list method: the array itself, or the single array a catalog style result wraps it in
  */
-export type MethodData<M extends Method> = ExtractValue<Methods, M>
+export type Item<M extends string> =
+  Result<M> extends readonly (infer I)[]
+    ? I
+    : Result<M> extends Readonly<Record<string, readonly (infer I)[]>>
+      ? I
+      : unknown
 
 /**
- * Retrieve associated with specified method type
+ * Positional arguments after the method name: params are optional when the method requires none
  */
-export type MethodPayloadType<M extends Method> = MethodData<M>['type']
-
-/**
- * Retrieve specified method payload type
- */
-export type MethodPayload<M extends Method> = MethodData<M>['payload']
-
-/**
- * Retrieve specified method params
- */
-export type MethodParams<M extends Method> = MethodData<M>['params']
+export type Args<M extends string, O> =
+  Readonly<Record<string, never>> extends Params<M>
+    ? [params?: Params<M>, options?: O]
+    : [params: Params<M>, options?: O]

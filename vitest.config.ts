@@ -1,22 +1,29 @@
 import { coverageConfigDefaults, defineConfig } from 'vitest/config'
 
 export default defineConfig({
-  resolve: {
-    tsconfigPaths: true
-  },
   test: {
     exclude: ['build', 'node_modules'],
+    typecheck: {
+      enabled: true,
+      include: ['source/**/*.test-d.ts']
+    },
     coverage: {
-      include: ['source/**/*.{ts,tsx}'],
-      exclude: ['build', ...coverageConfigDefaults.exclude],
+      include: ['source/**/*.ts'],
+      exclude: [
+        'source/__fixtures__/**',
+        'source/**/*.test-d.ts',
+        'source/index.ts',
+        'source/entities/**',
+        ...coverageConfigDefaults.exclude
+      ],
       provider: 'v8',
       thresholds: {
-        branches: 80,
-        functions: 80,
-        lines: 80,
-        statements: 80
+        branches: 95,
+        functions: 100,
+        lines: 100,
+        statements: 100
       }
     },
-    testTimeout: 30000
+    testTimeout: 30_000
   }
 })
