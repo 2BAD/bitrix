@@ -9,9 +9,11 @@ export default defineConfig({
   },
   overrides: [
     {
-      files: ['**/*.test.ts'],
+      files: ['**/*.test.ts', '**/*.test-d.ts', '**/__fixtures__/**'],
       rules: {
-        'typescript/no-explicit-any': 'off'
+        'typescript/no-explicit-any': 'off',
+        'promise/prefer-await-to-then': 'off',
+        'promise/prefer-await-to-callbacks': 'off'
       }
     }
   ]

@@ -1,6 +1,6 @@
 {
   "name": "@2bad/bitrix",
-  "version": "3.0.0-beta.0",
+  "version": "3.0.0-beta.1",
   "description": "Bitrix24 REST API client that doesn't suck",
   "keywords": [
     "api",
@@ -27,8 +27,8 @@
   "exports": {
     ".": {
       "import": {
-        "types": "./build/bitrix.d.ts",
-        "default": "./build/bitrix.js"
+        "types": "./build/index.d.ts",
+        "default": "./build/index.js"
       }
     }
   },
@@ -50,17 +50,9 @@
     "test:integration": "vitest run integration --coverage",
     "test:unit": "vitest run unit --coverage"
   },
-  "dependencies": {
-    "@types/lodash.chunk": "4.2.9",
-    "@types/lodash.frompairs": "4.0.9",
-    "@types/lodash.range": "3.2.9",
-    "@types/qs": "6.15.1",
-    "got": "14.6.6",
-    "lodash.chunk": "4.2.0",
-    "lodash.frompairs": "4.0.1",
-    "lodash.range": "3.2.0",
-    "p-queue": "8.1.1",
-    "qs": "6.15.3"
+  "volta": {
+    "node": "26.11.1",
+    "pnpm": "12.10.1"
   },
   "devDependencies": {
     "@2bad/axiom": "2.1.0",
@@ -68,7 +60,6 @@
     "@arethetypeswrong/cli": "0.18.5",
     "@types/node": "26.6.4",
     "@vitest/coverage-v8": "5.0.3",
-    "nock": "13.5.6",
     "npm-run-all2": "9.0.3",
     "oxfmt": "0.72.0",
     "oxlint": "1.87.0",
@@ -80,9 +71,5 @@
   "packageManager": "pnpm@12.10.1",
   "engines": {
     "node": ">=26"
-  },
-  "volta": {
-    "node": "26.11.1",
-    "pnpm": "12.10.1"
   }
 }
