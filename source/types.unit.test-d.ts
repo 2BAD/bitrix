@@ -8,12 +8,20 @@ import {
   type Envelope,
   type PaginateProgress,
   type Product,
-  type User
+  type User,
+  type UserFieldFile,
+  type UserFieldFileInput
 } from './index.js'
 
 declare module './index.js' {
   interface Methods {
     'tasks.task.get': { params: { readonly taskId: number }; result: { task: { id: string } } }
+  }
+  interface DealUserFields {
+    readonly UF_CRM_STAGE: '45' | '47' | null
+    readonly UF_CRM_TAGS: ReadonlyArray<633 | 691> | false
+    readonly UF_CRM_FILE: UserFieldFile | null
+    readonly UF_CRM_FILES: ReadonlyArray<UserFieldFile> | false
   }
 }
 
@@ -117,6 +125,22 @@ describe('types', () => {
     void client.deals.changedSince(new Date(), {}, { onProgress })
     void client.users.list({}, { onProgress })
     expectTypeOf(client.products.paginate({ filter: { iblockId: 23 } }, { onProgress })).toBeObject()
+  })
+
+  it('picks up generated user field types', async () => {
+    const deal = await client.deals.get(1)
+    expectTypeOf(deal.UF_CRM_STAGE).toEqualTypeOf<'45' | '47' | null>()
+    expectTypeOf(deal.UF_CRM_TAGS).toEqualTypeOf<ReadonlyArray<633 | 691> | false>()
+
+    const [row] = await client.deals.list({ select: ['ID', 'UF_CRM_STAGE'] })
+    expectTypeOf(row?.UF_CRM_STAGE).toEqualTypeOf<'45' | '47' | null | undefined>()
+
+    type DealInput = Parameters<typeof client.deals.update>[1]
+    expectTypeOf<DealInput['UF_CRM_STAGE']>().toEqualTypeOf<'45' | '47' | null | number | undefined>()
+    expectTypeOf<DealInput['UF_CRM_FILE']>().toEqualTypeOf<UserFieldFileInput | null | undefined>()
+    expectTypeOf<DealInput['UF_CRM_FILES']>().toEqualTypeOf<readonly UserFieldFileInput[] | undefined>()
+    // @ts-expect-error not an item id
+    void client.deals.update(1, { UF_CRM_STAGE: '1' })
   })
 
   it('requires since for the modified mode', () => {

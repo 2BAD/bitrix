@@ -125,7 +125,7 @@ export const createTransport = (options: TransportOptions, limiter: Limiter): Tr
   const { auth, onAuthExpired, retry = {} } = options
   const fetcher = options.fetch ?? ((input, init) => globalThis.fetch(input, init))
   const { retries = 3, delay = 1000 } = retry
-  const base = options.url.endsWith('/') ? options.url : `${options.url}/`
+  const base = new URL(options.url.endsWith('/') ? options.url : `${options.url}/`)
   const operatingResetAt = new Map<string, number>()
   let refreshing: Promise<void> | undefined
 

@@ -198,7 +198,34 @@ declare module '@2bad/bitrix' {
 const { task } = await bitrix.call('tasks.task.get', { taskId: 1 })
 ```
 
-User fields (`UF_*`) are part of every CRM entity type as `unknown`, so read them with a type check or a cast.
+### User field types
+
+User fields (`UF_*`) differ per portal, so out of the box they are typed as `unknown`. The package ships a `bitrix-types` command that reads the user fields of deals, leads, contacts and companies from your portal and writes a declaration file for them:
+
+```shell
+BITRIX_URL=https://PORTAL_NAME.bitrix24.com/rest/1/WEBHOOK_TOKEN pnpm exec bitrix-types --out src/bitrix-user-fields.d.ts
+```
+
+The generated file adds every field with the type of the values Bitrix returns and its label as a comment:
+
+```typescript
+declare module '@2bad/bitrix' {
+  interface DealUserFields {
+    /**
+     * Payment terms
+     * - 45: Prepaid
+     * - 47: 50% and 50%
+     */
+    readonly UF_CRM_1565877516: '45' | '47' | null
+    /** Contract */
+    readonly UF_CRM_1640162732: UserFieldFile | null
+  }
+}
+```
+
+After that `deal.UF_CRM_1565877516` is typed in `get`, `list`, `select` and in the fields of `create` and `update`, which also accept file uploads as `{ fileData: [name, base64] }`. Single fields can be `null`, multiple fields are arrays or `false` when empty, and enumeration items are ids: strings in single fields and numbers in multiple ones. Field types from apps are `unknown`.
+
+Run the command again after changing fields in the portal. Options: `--url` instead of `BITRIX_URL`, `--entities deal,lead` to limit the entities, no `--out` to print to stdout. For an OAuth application set `BITRIX_TOKEN` to an access token. The file only contains the portal address, never the token.
 
 ### Errors
 
@@ -281,4 +308,4 @@ const bitrix = createClient({ url, fetch: (input, init) => fetch(input, { ...ini
 - `pnpm test:integration` runs integration tests against a live portal, set `WEBHOOK_URL` first. They only read data
 - `pnpm check` lints, checks formatting and types
 - `pnpm fix` applies lint and format fixes
-- `pnpm build` builds the library
+- `pnpm build` builds the library and the `bitrix-types` command

@@ -32,6 +32,9 @@
       }
     }
   },
+  "bin": {
+    "bitrix-types": "./build/bin.js"
+  },
   "files": [
     "build"
   ],
