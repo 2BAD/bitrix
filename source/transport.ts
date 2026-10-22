@@ -24,6 +24,22 @@ export type RetryOptions = {
   readonly delay?: number
 }
 
+export type RequestEvent = {
+  readonly method: string
+  readonly params: Readonly<Record<string, unknown>>
+  /** Zero based number of the request within one call, retries and token refreshes included */
+  readonly attempt: number
+}
+
+export type ResponseEvent = {
+  readonly method: string
+  readonly attempt: number
+  /** Milliseconds from sending the request to parsing the response */
+  readonly duration: number
+  readonly time?: Time
+  readonly error?: unknown
+}
+
 export type TransportOptions = {
   readonly url: string
   readonly auth?: string | (() => string | Promise<string>)
@@ -31,6 +47,10 @@ export type TransportOptions = {
   readonly fetch?: typeof fetch
   readonly retry?: RetryOptions
   readonly signal?: AbortSignal
+  /** Called right before every HTTP request, after the rate limiter let it through */
+  readonly onRequest?: (event: RequestEvent) => void
+  /** Called after every HTTP request, with `error` set when it failed */
+  readonly onResponse?: (event: ResponseEvent) => void
 }
 
 export type Transport = (
@@ -120,8 +140,11 @@ export const createTransport = (options: TransportOptions, limiter: Limiter): Tr
     await refreshing
   }
 
-  const send = async (method: string, params: Readonly<Record<string, unknown>>, signal: AbortSignal | undefined) => {
-    await limiter.acquire(signal)
+  const request = async (
+    method: string,
+    params: Readonly<Record<string, unknown>>,
+    signal: AbortSignal | undefined
+  ) => {
     const token = typeof auth === 'function' ? await auth() : auth
     const response = await fetcher(new URL(method, base), {
       method: 'POST',
@@ -129,7 +152,31 @@ export const createTransport = (options: TransportOptions, limiter: Limiter): Tr
       body: JSON.stringify(token === undefined ? params : { ...params, auth: token }),
       ...(signal && { signal })
     })
-    const envelope = await parse(response, method)
+    return parse(response, method)
+  }
+
+  const send = async (
+    method: string,
+    params: Readonly<Record<string, unknown>>,
+    signal: AbortSignal | undefined,
+    attempt: number
+  ) => {
+    await limiter.acquire(signal)
+    options.onRequest?.({ method, params, attempt })
+    const started = Date.now()
+    let envelope: Envelope<unknown>
+    try {
+      envelope = await request(method, params, signal)
+    } catch (error) {
+      options.onResponse?.({ method, attempt, duration: Date.now() - started, error })
+      throw error
+    }
+    options.onResponse?.({
+      method,
+      attempt,
+      duration: Date.now() - started,
+      ...(envelope.time && { time: envelope.time })
+    })
     if (envelope.time?.operating_reset_at !== undefined) {
       operatingResetAt.set(method, envelope.time.operating_reset_at * 1000)
     }
@@ -151,10 +198,11 @@ export const createTransport = (options: TransportOptions, limiter: Limiter): Tr
     const signals = [options.signal, callSignal].filter((signal) => signal !== undefined)
     const signal = signals.length > 1 ? AbortSignal.any(signals) : signals[0]
     let refreshed = false
+    let sent = 0
 
     for (let attempt = 0; ; attempt++) {
       try {
-        return await send(method, params, signal)
+        return await send(method, params, signal, sent++)
       } catch (error) {
         if (signal?.aborted) throw signal.reason
         if (error instanceof BitrixError && error.code === 'expired_token' && onAuthExpired && !refreshed) {

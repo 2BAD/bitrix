@@ -234,3 +234,70 @@ describe('paginate operating time limit', () => {
     })
   })
 })
+
+describe('paginate modified mode', () => {
+  const BASE = Date.parse('2026-01-01T00:00:00.000Z')
+  const at = (seconds: number) => new Date(BASE + seconds * 1000).toISOString()
+  const changed = (rows: ReadonlyArray<Record<string, string>>, since: string) =>
+    rows
+      .filter((row) => (row['DATE_MODIFY'] as string) >= since)
+      .toSorted(
+        (a, b) =>
+          (a['DATE_MODIFY'] as string).localeCompare(b['DATE_MODIFY'] as string) || Number(a['ID']) - Number(b['ID'])
+      )
+
+  it.each([0, 1, 50, 51, 175])('returns %i rows in the order they changed', async (count) => {
+    const list = fakeList({ count, modified: (index) => at((index * 7) % 13) })
+    const { paginate } = setup(list.handler)
+    const rows = await collect(paginate('crm.deal.list', {}, { mode: 'modified', since: at(0) }))
+    expect(rows).toEqual(changed(list.rows, at(0)))
+  })
+
+  it('reads more than a page of rows sharing one modification time', async () => {
+    const list = fakeList({ count: 300, modified: (index) => at(index < 20 ? index : index < 260 ? 100 : index) })
+    const { paginate, requests } = setup(list.handler)
+
+    const rows = await collect(paginate('crm.deal.list', { select: ['ID'] }, { mode: 'modified', since: at(5) }))
+
+    expect(rows).toEqual(changed(list.rows, at(5)))
+    expect(new Set(rows.map((row) => row['ID'])).size).toBe(rows.length)
+    expect(requests[0]?.body).toEqual({
+      select: ['ID', 'DATE_MODIFY'],
+      filter: { '>=DATE_MODIFY': at(5) },
+      order: { DATE_MODIFY: 'ASC', ID: 'ASC' },
+      start: -1
+    })
+    expect(requests[1]?.body.filter).toEqual({ '=DATE_MODIFY': at(100), '>ID': '110' })
+  })
+
+  it('only returns rows changed at or after since', async () => {
+    const list = fakeList({ count: 120, modified: (index) => at(index) })
+    const { paginate } = setup(list.handler)
+    const rows = await collect(paginate('crm.deal.list', {}, { mode: 'modified', since: at(100) }))
+    expect(rows.map((row) => row['DATE_MODIFY'])).toEqual(Array.from({ length: 20 }, (_, index) => at(100 + index)))
+  })
+
+  it('accepts a Date and a custom field, keeping the caller filter and select', async () => {
+    const { paginate, requests } = setup(() => ok([]))
+    await collect(
+      paginate(
+        'crm.activity.list',
+        { select: ['SUBJECT'], filter: { COMPLETED: 'N' }, order: { LAST_UPDATED: 'ASC' }, start: 10 },
+        { mode: 'modified', since: new Date(BASE), modifiedField: 'LAST_UPDATED' }
+      )
+    )
+    expect(requests[0]?.body).toEqual({
+      select: ['SUBJECT', 'ID', 'LAST_UPDATED'],
+      filter: { COMPLETED: 'N', '>=LAST_UPDATED': at(0) },
+      order: { LAST_UPDATED: 'ASC', ID: 'ASC' },
+      start: -1
+    })
+  })
+
+  it('rejects an order by another field', async () => {
+    const { paginate } = setup(() => ok([]))
+    await expect(
+      collect(paginate('crm.deal.list', { order: { TITLE: 'ASC' } }, { mode: 'modified', since: at(0) }))
+    ).rejects.toThrow('modified pagination orders by DATE_MODIFY and ID')
+  })
+})

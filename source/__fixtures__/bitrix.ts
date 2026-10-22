@@ -69,6 +69,36 @@ type ListOptions = {
   readonly count: number
   readonly idField?: string
   readonly wrap?: string
+  readonly modified?: (index: number) => string
+}
+
+const compare = (left: unknown, right: unknown) => {
+  const [a, b] = [String(left), String(right)]
+  if (/^-?\d+$/.test(a) && /^-?\d+$/.test(b)) return Number(a) - Number(b)
+  return a < b ? -1 : a > b ? 1 : 0
+}
+
+const OPERATORS: Record<string, (difference: number) => boolean> = {
+  '>=': (difference) => difference >= 0,
+  '>': (difference) => difference > 0,
+  '<=': (difference) => difference <= 0,
+  '<': (difference) => difference < 0,
+  '=': (difference) => difference === 0,
+  '': (difference) => difference === 0
+}
+
+const matches = (row: Record<string, unknown>, filter: Record<string, unknown>) =>
+  Object.entries(filter).every(([key, value]) => {
+    const [, operator = '', field = ''] = /^(>=|<=|>|<|=)?(.+)$/.exec(key) ?? []
+    return !(field in row) || (OPERATORS[operator] as (difference: number) => boolean)(compare(row[field], value))
+  })
+
+const sortBy = (order: Record<string, string>) => (left: Record<string, unknown>, right: Record<string, unknown>) => {
+  for (const [field, direction] of Object.entries(order)) {
+    const difference = compare(left[field], right[field])
+    if (difference !== 0) return direction.toUpperCase() === 'DESC' ? -difference : difference
+  }
+  return 0
 }
 
 /**
@@ -77,13 +107,16 @@ type ListOptions = {
  * @param options.count number of rows
  * @param options.idField name of the id field, `ID` by default
  * @param options.wrap key that wraps rows in catalog style results
+ * @param options.modified builds the `DATE_MODIFY` of a row from its index
  */
-export const fakeList = ({ count, idField = 'ID', wrap }: ListOptions) => {
-  const rows = Array.from({ length: count }, (_, index) => ({ [idField]: String((index + 1) * 2) }))
+export const fakeList = ({ count, idField = 'ID', wrap, modified }: ListOptions) => {
+  const rows: Array<Record<string, string>> = Array.from({ length: count }, (_, index) => ({
+    [idField]: String((index + 1) * 2),
+    ...(modified && { DATE_MODIFY: modified(index) })
+  }))
 
   const list = (params: any) => {
-    const after = params.filter?.[`>${idField}`]
-    const matching = after === undefined ? rows : rows.filter((row) => Number(row[idField]) > Number(after))
+    const matching = rows.filter((row) => matches(row, params.filter ?? {})).toSorted(sortBy(params.order ?? {}))
     const start = Number(params.start ?? 0)
     const page = matching.slice(Math.max(start, 0), Math.max(start, 0) + 50)
     const result = wrap ? { [wrap]: page } : page

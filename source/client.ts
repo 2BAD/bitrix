@@ -2,7 +2,7 @@ import { type Batch, createBatch } from './batch.js'
 import { createLimiter, type LimiterOptions } from './limiter.js'
 import type { Args, Item, Method, Params, Result } from './methods.js'
 import { createPaginate, type Paginate, type PaginateOptions } from './paginate.js'
-import { createCrmService, createProductRows } from './services/crm.js'
+import { createCrmService, createCrmServiceWithProductRows } from './services/crm.js'
 import { createProductsService } from './services/products.js'
 import { createStatusesService } from './services/statuses.js'
 import { createUsersService } from './services/users.js'
@@ -69,8 +69,8 @@ export const createClient = (options: ClientOptions) => {
     activities: createCrmService(core, 'activity'),
     companies: createCrmService(core, 'company'),
     contacts: createCrmService(core, 'contact'),
-    deals: { ...createCrmService(core, 'deal'), productRows: createProductRows(core, 'deal') },
-    leads: { ...createCrmService(core, 'lead'), productRows: createProductRows(core, 'lead') },
+    deals: createCrmServiceWithProductRows(core, 'deal'),
+    leads: createCrmServiceWithProductRows(core, 'lead'),
     products: createProductsService(core),
     statuses: createStatusesService(core),
     users: createUsersService(core)

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { BitrixError, createClient } from './index.js'
+import { BitrixError, createClient, type CrmService } from './index.js'
 
 const WEBHOOK_URL = process.env['WEBHOOK_URL']
 
@@ -21,7 +21,7 @@ const take = async <T>(iterable: AsyncIterable<T>, count: number) => {
 const ids = (rows: ReadonlyArray<{ readonly ID: string }>) => rows.map((row) => Number(row.ID))
 
 describe.each(['activities', 'companies', 'contacts', 'deals', 'leads'] as const)('%s', (name) => {
-  const service = client[name]
+  const service: CrmService<any> = client[name]
 
   it('gets fields', async () => {
     const fields = await service.fields()
@@ -128,5 +128,26 @@ describe('products', () => {
     if (!first) return
     await expect(client.products.get(first.id)).resolves.toMatchObject({ id: first.id, iblockId: catalog.iblockId })
     await expect(client.products.fields(catalog.iblockId)).resolves.toHaveProperty('id')
+  })
+})
+
+describe('changedSince', () => {
+  it('returns the same deals as a filtered list, oldest change first', async () => {
+    const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+    const changed = []
+    for await (const deal of client.deals.changedSince(since, { select: ['ID', 'DATE_MODIFY'] })) changed.push(deal)
+    const filtered = await client.deals.list({ select: ['ID'], filter: { '>=DATE_MODIFY': since.toISOString() } })
+
+    const times = changed.map((deal) => Date.parse(deal.DATE_MODIFY))
+    expect(times).toEqual(times.toSorted((a, b) => a - b))
+    expect(ids(changed).toSorted((a, b) => a - b)).toEqual(ids(filtered))
+  })
+
+  it('reads activities by LAST_UPDATED', async () => {
+    const since = new Date(Date.now() - 24 * 60 * 60 * 1000)
+    const activities = await take(client.activities.changedSince(since, { select: ['ID', 'LAST_UPDATED'] }), 120)
+    for (const activity of activities) {
+      expect(Date.parse(activity.LAST_UPDATED)).toBeGreaterThanOrEqual(since.getTime() - 1000)
+    }
   })
 })
