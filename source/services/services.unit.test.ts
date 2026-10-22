@@ -304,3 +304,105 @@ describe('products service', () => {
     expect(requests[0]?.body.select).toEqual(['id', 'xmlId', 'iblockId'])
   })
 })
+
+describe.each([
+  ['deal', 'contact', 'CONTACT_ID'],
+  ['lead', 'contact', 'CONTACT_ID'],
+  ['company', 'contact', 'CONTACT_ID'],
+  ['contact', 'company', 'COMPANY_ID']
+] as const)('crm.%s.%s links', (owner, linked, key) => {
+  it('maps every method', async () => {
+    const { client, requests } = setup()
+    const links = {
+      deal: client.deals.contacts,
+      lead: client.leads.contacts,
+      company: client.companies.contacts,
+      contact: client.contacts.companies
+    }[owner] as any
+
+    await links.get(3)
+    await links.set(3, [{ [key]: 5, IS_PRIMARY: 'Y' }, { [key]: 6 }])
+    await links.add(3, { [key]: 7, SORT: 30 })
+    await expect(links.delete(3, 7)).resolves.toBe(true)
+    await links.clear(3)
+
+    const method = `crm.${owner}.${linked}`
+    expect(requests.map(({ method, body }) => [method, body])).toEqual([
+      [`${method}.items.get`, { id: 3 }],
+      [`${method}.items.set`, { id: 3, items: [{ [key]: 5, IS_PRIMARY: 'Y' }, { [key]: 6 }] }],
+      [`${method}.add`, { id: 3, fields: { [key]: 7, SORT: 30 } }],
+      [`${method}.delete`, { id: 3, fields: { [key]: 7 } }],
+      [`${method}.items.delete`, { id: 3 }]
+    ])
+  })
+})
+
+describe('items service', () => {
+  it('unwraps single item results and passes the entity type', async () => {
+    const { client, requests } = setup((method) =>
+      method === 'crm.item.fields'
+        ? ok({ fields: { id: { type: 'integer' } } })
+        : method === 'crm.item.delete'
+          ? ok([])
+          : ok({ item: { id: 5 } })
+    )
+    const items = client.items(1032)
+
+    await expect(items.fields()).resolves.toEqual({ id: { type: 'integer' } })
+    await expect(items.get(5)).resolves.toEqual({ id: 5 })
+    await expect(items.create({ title: 'Pump' })).resolves.toEqual({ id: 5 })
+    await expect(items.update(5, { stageId: 'DT1032_8:SUCCESS' })).resolves.toEqual({ id: 5 })
+    await expect(items.delete(5)).resolves.toBeUndefined()
+
+    expect(requests.map(({ method, body }) => [method, body])).toEqual([
+      ['crm.item.fields', { entityTypeId: 1032 }],
+      ['crm.item.get', { entityTypeId: 1032, id: 5 }],
+      ['crm.item.add', { entityTypeId: 1032, fields: { title: 'Pump' } }],
+      ['crm.item.update', { entityTypeId: 1032, id: 5, fields: { stageId: 'DT1032_8:SUCCESS' } }],
+      ['crm.item.delete', { entityTypeId: 1032, id: 5 }]
+    ])
+  })
+
+  it('lists items by id across batches', async () => {
+    const { rows, handler } = fakeList({ count: 120, idField: 'id', wrap: 'items' })
+    const { client, requests } = setup(handler)
+
+    await expect(client.items(2).list({ select: ['title'], filter: { categoryId: 0 } })).resolves.toEqual(rows)
+    expect(requests[0]?.body).toEqual({
+      entityTypeId: 2,
+      select: ['title', 'id'],
+      filter: { categoryId: 0 },
+      order: { id: 'ASC' },
+      start: -1
+    })
+    expect(decodeURIComponent(requests[1]?.body.cmd[0])).toContain('entityTypeId=2')
+  })
+
+  it('paginates by offset', async () => {
+    const { rows, handler } = fakeList({ count: 60, idField: 'id', wrap: 'items' })
+    const { client } = setup(handler)
+
+    const paginated = []
+    for await (const row of client.items(2).paginate({}, { mode: 'offset' })) paginated.push(row)
+    expect(paginated).toEqual(rows)
+  })
+
+  it('reads changes by updatedTime', async () => {
+    const { client, requests } = setup(() => ok({ items: [{ id: 1 }] }))
+    const since = '2026-01-01T00:00:00+03:00'
+
+    const rows = []
+    for await (const row of client.items(2).changedSince(since, { select: ['id'] })) rows.push(row)
+
+    expect(rows).toEqual([{ id: 1 }])
+    expect(requests[0]).toMatchObject({
+      method: 'crm.item.list',
+      body: {
+        entityTypeId: 2,
+        select: ['id', 'updatedTime'],
+        filter: { '>=updatedTime': since },
+        order: { updatedTime: 'ASC', id: 'ASC' }
+      }
+    })
+  })
+})

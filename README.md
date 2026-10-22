@@ -45,7 +45,7 @@ const open = await bitrix.deals.list({ filter: { CLOSED: 'N' }, select: ['ID', '
 ## Examples
 
 - [Connecting](examples/connecting.md): webhooks, OAuth, rate limits, logging and custom `fetch`
-- [Services](examples/services.md): deals, leads, contacts, companies, activities, products, statuses, currencies and users
+- [Services](examples/services.md): deals, leads, contacts, companies, activities, smart processes, linked contacts, products, statuses, currencies and users
 - [Lists](examples/lists.md): pagination modes, changes since the last sync and progress
 - [Batch and bulk writes](examples/batch.md): many commands per request, `createMany`, `updateMany`, `deleteMany`
 - [Types](examples/types.md): user field types from your portal and typing other methods
@@ -64,11 +64,12 @@ type Client = {
   batch(commands, options?: { halt?; signal? }): Promise<{ results; errors }>
 
   activities: CrmService<Activity>
-  companies: CrmService<Company>
-  contacts: CrmService<Contact>
+  companies: CrmService<Company> & { contacts: Links }
+  contacts: CrmService<Contact> & { companies: Links }
   currencies: CurrenciesService
-  deals: CrmService<Deal> & { productRows: ProductRows }
-  leads: CrmService<Lead> & { productRows: ProductRows }
+  deals: CrmService<Deal> & { productRows: ProductRows; contacts: Links }
+  items(entityTypeId): ItemsService // smart processes and other crm.item.* types
+  leads: CrmService<Lead> & { productRows: ProductRows; contacts: Links }
   products: ProductsService
   statuses: StatusesService
   users: UsersService
@@ -89,6 +90,8 @@ type CrmService<Entity> = {
 }
 
 type ProductRows = { get(id): Promise<ProductRow[]>; set(id, rows): Promise<boolean> }
+type Links = { get(id); set(id, links); add(id, link); delete(id, linkedId); clear(id) }
+type ItemsService = { fields(); get(id); list(params?); paginate(params?); changedSince(since, params?); create(fields); update(id, fields); delete(id) }
 type ProductsService = { fields(iblockId); get(id); list(params); paginate(params); create(fields); update(id, fields); delete(id) }
 type StatusesService = { fields(); get(id); list(params?); create(fields); update(id, fields); delete(id, { forced? }) }
 type CurrenciesService = { fields(); get(code); list(params?); create(fields); update(code, fields); delete(code); base(); setBase(code) }

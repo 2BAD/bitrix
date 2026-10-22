@@ -360,6 +360,68 @@ export type ProductRow = {
 }
 
 /**
+ * Binding between CRM entities, like a contact of a deal under `CONTACT_ID`
+ */
+export type Link<K extends string> = { readonly [P in K]: number } & {
+  readonly SORT: number
+  readonly ROLE_ID: number
+  readonly IS_PRIMARY: BoolString
+}
+
+export type LinkInput<K extends string> = { readonly [P in K]: Id } & {
+  readonly SORT?: number
+  readonly IS_PRIMARY?: BoolString
+}
+
+/**
+ * Item of `crm.item.*`, which covers smart processes and every other CRM type. Fields are camelCase with native
+ * numbers, the set depends on the type, and user fields come as `ufCrm<type>_<id>`
+ */
+export type CrmItem = {
+  readonly [field: `ufCrm${string}`]: unknown
+  readonly id: number
+  readonly entityTypeId?: number
+  readonly xmlId?: string | null
+  readonly title?: string | null
+  readonly createdBy?: number
+  readonly updatedBy?: number
+  readonly movedBy?: number | null
+  readonly createdTime?: ISODate
+  readonly updatedTime?: ISODate
+  readonly movedTime?: ISODate | null
+  readonly categoryId?: number
+  readonly typeId?: string | null
+  readonly opened?: BoolString
+  readonly closed?: BoolString
+  readonly stageId?: string
+  readonly previousStageId?: string | null
+  readonly stageSemanticId?: string
+  readonly begindate?: ISODate
+  readonly closedate?: ISODate
+  readonly leadId?: number | null
+  readonly quoteId?: number | null
+  readonly companyId?: number | null
+  readonly contactId?: number | null
+  readonly contactIds?: readonly number[]
+  readonly mycompanyId?: number | null
+  readonly opportunity?: number
+  readonly isManualOpportunity?: BoolString
+  readonly probability?: number | null
+  readonly taxValue?: number | null
+  readonly currencyId?: string
+  readonly comments?: string | null
+  readonly sourceId?: string | null
+  readonly sourceDescription?: string | null
+  readonly originatorId?: string | null
+  readonly originId?: string | null
+  readonly webformId?: number | null
+  readonly assignedById?: number
+  readonly observers?: readonly number[]
+  readonly lastActivityTime?: ISODate | null
+  readonly lastActivityBy?: number | null
+}
+
+/**
  * Shape accepted when creating or updating an entity: every field optional, ids as numbers or strings
  */
 type Present<T> = Exclude<T, null | undefined | false>

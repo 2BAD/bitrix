@@ -11,14 +11,16 @@ await bitrix.contacts.delete(id)
 
 Services resolve with the `result` of the Bitrix response: `get` with the entity, `create` with the new id, `update` and `delete` with `true`. Ids can be numbers or strings.
 
-| Service                                                 | Methods                                                                                                                     |
-| ------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `activities`, `companies`, `contacts`, `deals`, `leads` | `fields`, `get`, `list`, `paginate`, `changedSince`, `create`, `update`, `delete`, `createMany`, `updateMany`, `deleteMany` |
-| `deals.productRows`, `leads.productRows`                | `get`, `set`                                                                                                                |
-| `products`                                              | `fields`, `get`, `list`, `paginate`, `create`, `update`, `delete`                                                           |
-| `statuses`                                              | `fields`, `get`, `list`, `create`, `update`, `delete`                                                                       |
-| `currencies`                                            | `fields`, `get`, `list`, `create`, `update`, `delete`, `base`, `setBase`                                                    |
-| `users`                                                 | `fields`, `current`, `get`, `list`, `paginate`                                                                              |
+| Service                                                                        | Methods                                                                                                                     |
+| ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| `activities`, `companies`, `contacts`, `deals`, `leads`                        | `fields`, `get`, `list`, `paginate`, `changedSince`, `create`, `update`, `delete`, `createMany`, `updateMany`, `deleteMany` |
+| `deals.productRows`, `leads.productRows`                                       | `get`, `set`                                                                                                                |
+| `deals.contacts`, `leads.contacts`, `companies.contacts`, `contacts.companies` | `get`, `set`, `add`, `delete`, `clear`                                                                                      |
+| `items(entityTypeId)`                                                          | `fields`, `get`, `list`, `paginate`, `changedSince`, `create`, `update`, `delete`                                           |
+| `products`                                                                     | `fields`, `get`, `list`, `paginate`, `create`, `update`, `delete`                                                           |
+| `statuses`                                                                     | `fields`, `get`, `list`, `create`, `update`, `delete`                                                                       |
+| `currencies`                                                                   | `fields`, `get`, `list`, `create`, `update`, `delete`, `base`, `setBase`                                                    |
+| `users`                                                                        | `fields`, `current`, `get`, `list`, `paginate`                                                                              |
 
 Lists, `changedSince` and progress are in [Lists](lists.md), `createMany`, `updateMany` and `deleteMany` in [Batch and bulk writes](batch.md).
 
@@ -52,6 +54,32 @@ await bitrix.deals.productRows.set(77, [{ PRODUCT_ID: 79595, PRICE: 1200, QUANTI
 ```
 
 `set` replaces every row of the deal or lead.
+
+## Linked contacts and companies
+
+```ts
+const links = await bitrix.deals.contacts.get(77) // [{ CONTACT_ID: 55, SORT: 10, ROLE_ID: 0, IS_PRIMARY: 'Y' }]
+await bitrix.deals.contacts.set(77, [{ CONTACT_ID: 55 }, { CONTACT_ID: 56, IS_PRIMARY: 'Y' }])
+await bitrix.deals.contacts.add(77, { CONTACT_ID: 57 })
+await bitrix.deals.contacts.delete(77, 57)
+await bitrix.contacts.companies.get(55) // [{ COMPANY_ID: 9, ... }]
+```
+
+`set` replaces every link and makes the first one primary unless another has `IS_PRIMARY: 'Y'`. `delete` unlinks one entity and resolves with `false` when it was not linked, `clear` unlinks all of them. `deals.contacts.get` throws for a missing deal, the others resolve with an empty array.
+
+## Smart processes
+
+```ts
+const orders = bitrix.items(1032)
+
+const item = await orders.get(5)
+const open = await orders.list({ filter: { stageId: 'DT1032_8:NEW' }, select: ['id', 'title', 'stageId'] })
+const created = await orders.create({ title: 'Pump', ufCrm5_1700000000: 'red' })
+await orders.update(created.id, { stageId: 'DT1032_8:SUCCESS' })
+await orders.delete(created.id)
+```
+
+`items` uses `crm.item.*`, which works for smart processes and every other CRM type by `entityTypeId`: 1 for leads, 2 for deals, 3 for contacts, 4 for companies, others from `crm.type.list`. Fields are camelCase with native numbers and user fields come as `ufCrm<type>_<id>`. `create` and `update` resolve with the item, `delete` with nothing. Lists read by `id` like CRM lists, and `changedSince` reads by `updatedTime`.
 
 ## Products
 

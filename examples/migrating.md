@@ -42,4 +42,4 @@ Methods resolve with the `result` instead of the whole payload. `call(method, pa
 | plain `Error`                          | `BitrixError`, see [Errors](errors.md)                |
 | `UF_*` fields typed as `string`        | `unknown`, or generated types, see [Types](types.md)  |
 
-New in 3.x: `activities`, `currencies`, `products`, `deals.productRows` and `leads.productRows` services, `delete`, `changedSince` and bulk writes for CRM entities, `paginate`, `onProgress`, request hooks and the `bitrix-types` command.
+New in 3.x: `activities`, `currencies`, `items`, `products`, product rows and linked contacts services, `delete`, `changedSince` and bulk writes for CRM entities, `paginate`, `onProgress`, request hooks and the `bitrix-types` command.

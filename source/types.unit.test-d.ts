@@ -2,8 +2,10 @@ import { describe, expectTypeOf, it } from 'vitest'
 import {
   type BitrixError,
   type BulkResult,
+  type Link,
   type Contact,
   createClient,
+  type CrmItem,
   type Deal,
   type Envelope,
   type PaginateProgress,
@@ -81,6 +83,21 @@ describe('types', () => {
     expectTypeOf(client.products.get(1)).resolves.toEqualTypeOf<Product>()
     // @ts-expect-error catalog lists need an iblockId filter
     void client.products.list({ filter: {} })
+  })
+
+  it('types items and links', async () => {
+    const items = client.items(1032)
+    expectTypeOf(items.get(1)).resolves.toEqualTypeOf<CrmItem>()
+    expectTypeOf(items.list()).resolves.toEqualTypeOf<CrmItem[]>()
+    expectTypeOf(items.list({ select: ['id', 'title'] })).resolves.toEqualTypeOf<Array<Pick<CrmItem, 'id' | 'title'>>>()
+    expectTypeOf(items.delete(1)).resolves.toBeVoid()
+    // @ts-expect-error unknown select field
+    void items.list({ select: ['TITLE'] })
+
+    expectTypeOf(client.contacts.companies.get(1)).resolves.toEqualTypeOf<Link<'COMPANY_ID'>[]>()
+    void client.deals.contacts.set(1, [{ CONTACT_ID: 5, IS_PRIMARY: 'Y' }, { CONTACT_ID: '6' }])
+    // @ts-expect-error deals link contacts, not companies
+    void client.deals.contacts.add(1, { COMPANY_ID: 5 })
   })
 
   it('narrows rows to the selected fields', async () => {

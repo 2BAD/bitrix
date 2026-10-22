@@ -10,7 +10,10 @@ import type {
   Fields,
   Id,
   Input,
+  CrmItem,
   Lead,
+  Link,
+  LinkInput,
   ProductRow,
   Status
 } from './entities/crm.js'
@@ -70,6 +73,27 @@ type ProductRowMethods<Name extends string> = Record<
     { params: { readonly id: Id; readonly rows: ReadonlyArray<Input<ProductRow>> }; result: boolean }
   >
 
+type LinkMethods<Owner extends string, Linked extends string, K extends string> = Record<
+  `crm.${Owner}.${Linked}.fields`,
+  { params: Empty; result: Fields }
+> &
+  Record<`crm.${Owner}.${Linked}.items.get`, { params: { readonly id: Id }; result: Link<K>[] }> &
+  Record<
+    `crm.${Owner}.${Linked}.items.set`,
+    { params: { readonly id: Id; readonly items: ReadonlyArray<LinkInput<K>> }; result: boolean }
+  > &
+  Record<`crm.${Owner}.${Linked}.items.delete`, { params: { readonly id: Id }; result: boolean }> &
+  Record<
+    `crm.${Owner}.${Linked}.add`,
+    { params: { readonly id: Id; readonly fields: LinkInput<K> }; result: boolean }
+  > &
+  Record<
+    `crm.${Owner}.${Linked}.delete`,
+    { params: { readonly id: Id; readonly fields: { readonly [P in K]: Id } }; result: boolean }
+  >
+
+type EntityType = { readonly entityTypeId: number }
+
 type CurrencyInput = Input<Omit<Currency, 'LANG'>> & {
   readonly LANG?: Readonly<Record<string, Input<CurrencyLocalization>>>
 }
@@ -95,7 +119,11 @@ export interface Methods
     CrmMethods<'company', Company>,
     CrmMethods<'activity', Activity>,
     ProductRowMethods<'deal'>,
-    ProductRowMethods<'lead'> {
+    ProductRowMethods<'lead'>,
+    LinkMethods<'deal', 'contact', 'CONTACT_ID'>,
+    LinkMethods<'lead', 'contact', 'CONTACT_ID'>,
+    LinkMethods<'company', 'contact', 'CONTACT_ID'>,
+    LinkMethods<'contact', 'company', 'COMPANY_ID'> {
   'crm.status.fields': { params: Empty; result: Fields }
   'crm.status.get': { params: { readonly id: Id }; result: Status }
   'crm.status.list': {
@@ -117,6 +145,24 @@ export interface Methods
   'crm.currency.delete': { params: { readonly id: string }; result: boolean }
   'crm.currency.base.get': { params: Empty; result: string }
   'crm.currency.base.set': { params: { readonly id: string }; result: boolean }
+
+  'crm.item.fields': { params: EntityType; result: { fields: Fields } }
+  'crm.item.get': { params: EntityType & { readonly id: Id }; result: { item: CrmItem } }
+  'crm.item.list': {
+    params: EntityType & {
+      readonly select?: ReadonlyArray<(keyof CrmItem & string) | '*'>
+      readonly filter?: Filter
+      readonly order?: { readonly [K in keyof CrmItem & string]?: Order }
+      readonly start?: number
+    }
+    result: { items: CrmItem[] }
+  }
+  'crm.item.add': { params: EntityType & { readonly fields: Input<CrmItem> }; result: { item: CrmItem } }
+  'crm.item.update': {
+    params: EntityType & { readonly id: Id; readonly fields: Input<CrmItem> }
+    result: { item: CrmItem }
+  }
+  'crm.item.delete': { params: EntityType & { readonly id: Id }; result: readonly [] }
 
   'user.fields': { params: Empty; result: Record<string, string> }
   'user.current': { params: Empty; result: User }

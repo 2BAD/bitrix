@@ -23,6 +23,7 @@ describe('createClient', () => {
       'contacts',
       'currencies',
       'deals',
+      'items',
       'leads',
       'list',
       'paginate',

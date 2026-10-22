@@ -2,8 +2,9 @@ import { type Batch, createBatch } from './batch.js'
 import { createLimiter, type LimiterOptions } from './limiter.js'
 import type { Args, Item, Method, Params, Result } from './methods.js'
 import { createPaginate, type Paginate, type PaginateOptions } from './paginate.js'
-import { createCrmService, createCrmServiceWithProductRows } from './services/crm.js'
+import { createCrmService, createLinks, createProductRows } from './services/crm.js'
 import { createCurrenciesService } from './services/currencies.js'
+import { createItemsService } from './services/items.js'
 import { createProductsService } from './services/products.js'
 import { createStatusesService } from './services/statuses.js'
 import { createUsersService } from './services/users.js'
@@ -70,11 +71,20 @@ export const createClient = (options: ClientOptions) => {
   return {
     ...core,
     activities: createCrmService(core, 'activity'),
-    companies: createCrmService(core, 'company'),
-    contacts: createCrmService(core, 'contact'),
+    companies: { ...createCrmService(core, 'company'), contacts: createLinks(core, 'company', 'contact') },
+    contacts: { ...createCrmService(core, 'contact'), companies: createLinks(core, 'contact', 'company') },
     currencies: createCurrenciesService(core),
-    deals: createCrmServiceWithProductRows(core, 'deal'),
-    leads: createCrmServiceWithProductRows(core, 'lead'),
+    deals: {
+      ...createCrmService(core, 'deal'),
+      productRows: createProductRows(core, 'deal'),
+      contacts: createLinks(core, 'deal', 'contact')
+    },
+    items: (entityTypeId: number) => createItemsService(core, entityTypeId),
+    leads: {
+      ...createCrmService(core, 'lead'),
+      productRows: createProductRows(core, 'lead'),
+      contacts: createLinks(core, 'lead', 'contact')
+    },
     products: createProductsService(core),
     statuses: createStatusesService(core),
     users: createUsersService(core)

@@ -9,6 +9,8 @@ import type {
   Id,
   Input,
   Lead,
+  Link,
+  LinkInput,
   ProductRow
 } from '../entities/crm.js'
 import type { BitrixError } from '../errors.js'
@@ -114,20 +116,47 @@ export type ProductRows = {
   readonly set: (id: Id, rows: ReadonlyArray<Input<ProductRow>>) => Promise<boolean>
 }
 
-export type CrmServiceWithProductRows<E> = CrmService<E> & { readonly productRows: ProductRows }
-
 /**
- * Deals and leads also have product rows
+ * Product rows of a deal or lead
  * @param core client methods the service is built on
+ * @param core.call calls a single REST method
  * @param name entity name in the method names
  */
-export const createCrmServiceWithProductRows = <N extends 'deal' | 'lead'>(
-  core: Core,
-  name: N
-): CrmServiceWithProductRows<Entities[N]> => ({
-  ...createCrmService(core, name),
-  productRows: {
-    get: (id) => core.call(`crm.${name as 'deal' | 'lead'}.productrows.get`, { id }),
-    set: (id, rows) => core.call(`crm.${name as 'deal' | 'lead'}.productrows.set`, { id, rows })
-  }
+export const createProductRows = ({ call }: Core, name: 'deal' | 'lead'): ProductRows => ({
+  get: (id) => call(`crm.${name}.productrows.get`, { id }),
+  set: (id, rows) => call(`crm.${name}.productrows.set`, { id, rows })
 })
+
+export type Links<K extends string> = {
+  readonly get: (id: Id) => Promise<Link<K>[]>
+  /** Replaces every link, the first one becomes primary unless another sets `IS_PRIMARY` */
+  readonly set: (id: Id, links: ReadonlyArray<LinkInput<K>>) => Promise<boolean>
+  readonly add: (id: Id, link: LinkInput<K>) => Promise<boolean>
+  /** Resolves with `false` when the entities were not linked */
+  readonly delete: (id: Id, linkedId: Id) => Promise<boolean>
+  readonly clear: (id: Id) => Promise<boolean>
+}
+
+/**
+ * Links between CRM entities through `crm.<owner>.<linked>.*`, like the contacts of a deal
+ * @param core client methods the service is built on
+ * @param core.call calls a single REST method
+ * @param owner entity the links belong to
+ * @param linked entity that is linked
+ */
+export const createLinks = <L extends 'contact' | 'company'>(
+  { call }: Core,
+  owner: 'deal' | 'lead' | 'company' | 'contact',
+  linked: L
+): Links<`${Uppercase<L>}_ID`> => {
+  const send = call as (method: string, params: Untyped) => Promise<never>
+  const method = `crm.${owner}.${linked}`
+  const key = `${linked.toUpperCase()}_ID`
+  return {
+    get: (id) => send(`${method}.items.get`, { id }),
+    set: (id, links) => send(`${method}.items.set`, { id, items: links }),
+    add: (id, link) => send(`${method}.add`, { id, fields: link }),
+    delete: (id, linkedId) => send(`${method}.delete`, { id, fields: { [key]: linkedId } }),
+    clear: (id) => send(`${method}.items.delete`, { id })
+  }
+}

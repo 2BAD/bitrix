@@ -92,6 +92,47 @@ describe('deal product rows', () => {
   })
 })
 
+describe('links', () => {
+  it('gets the contacts of a deal with its CONTACT_ID as primary', async () => {
+    const [deal] = await take(client.deals.paginate({ select: ['ID', 'CONTACT_ID'], filter: { '>CONTACT_ID': 0 } }), 1)
+    if (!deal) return
+    const links = await client.deals.contacts.get(deal.ID)
+    const primary = links.filter((link) => link.IS_PRIMARY === 'Y')
+    expect(primary.map((link) => link.CONTACT_ID)).toEqual([Number(deal.CONTACT_ID)])
+  })
+
+  it('gets the companies of a contact', async () => {
+    const [contact] = await take(client.contacts.paginate({ select: ['ID'], filter: { '>COMPANY_ID': 0 } }), 1)
+    if (!contact) return
+    const links = await client.contacts.companies.get(contact.ID)
+    expect(links.length).toBeGreaterThan(0)
+    expect(links[0]).toMatchObject({ COMPANY_ID: expect.any(Number), SORT: expect.any(Number) })
+  })
+})
+
+describe('items', () => {
+  const deals = client.items(2)
+
+  it('paginates deals by id the same way as crm.deal.list', async () => {
+    const items = await take(deals.paginate({ select: ['id', 'title'] }), 120)
+    const rows = await take(client.deals.paginate({ select: ['ID'] }), 120)
+    expect(items.map((item) => item.id)).toEqual(ids(rows))
+
+    const [first] = items
+    if (!first) return
+    await expect(deals.get(first.id)).resolves.toMatchObject({ id: first.id, title: first.title })
+    await expect(deals.fields()).resolves.toHaveProperty('stageId')
+  })
+
+  it('reads changes by updatedTime, oldest change first', async () => {
+    const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+    const changed = await take(deals.changedSince(since, { select: ['id', 'updatedTime'] }), 120)
+    const times = changed.map((item) => Date.parse(item.updatedTime ?? ''))
+    expect(times).toEqual(times.toSorted((a, b) => a - b))
+    expect(times.every((time) => time >= since.getTime() - 1000)).toBe(true)
+  })
+})
+
 describe('statuses', () => {
   it('lists every status and gets one by id', async () => {
     const statuses = await client.statuses.list()

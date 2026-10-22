@@ -21,6 +21,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Added `BitrixError` with `code`, `description`, `method`, `status` and `command`
 - Added the `activities`, `currencies` and `products` services
 - Added `deals.productRows` and `leads.productRows` to read and replace product rows
+- Added the `items` service for smart processes and other `crm.item.*` types
+- Added `contacts` links to deals, leads and companies, and `companies` links to contacts
 - Added `delete` to the deals, leads, contacts and companies services
 - Added `createMany`, `updateMany` and `deleteMany` bulk writes to CRM services
 - Added `changedSince` to CRM services to read entities changed after a point in time
