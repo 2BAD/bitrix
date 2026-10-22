@@ -65,10 +65,10 @@ const toCommand = ({ method, params }: Command) => {
  * reference results of other commands with `$result`
  * @param transport sends the `batch` requests
  * @param retry how often and how long to wait before sending limited commands again
- * @param retry.retries attempts after the first one, 3 by default
- * @param retry.delay base backoff delay in milliseconds, 1000 by default
+ * @param retry.retries attempts after the first one
+ * @param retry.delay base backoff delay in milliseconds
  */
-export const createBatch = (transport: Transport, { retries = 3, delay = 1000 }: RetryOptions = {}): Batch => {
+export const createBatch = (transport: Transport, { retries, delay }: Required<RetryOptions>): Batch => {
   const send = async (entries: Entries, { halt = false, signal }: BatchOptions): Promise<Response> => {
     const cmd = Object.fromEntries(entries.map(([key, command]) => [key, toCommand(command)]))
     const { result, time } = (await transport('batch', { halt: halt ? 1 : 0, cmd }, signal)) as Envelope<BatchEnvelope>

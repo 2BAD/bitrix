@@ -7,10 +7,11 @@ import { createCurrenciesService } from './services/currencies.js'
 import { createProductsService } from './services/products.js'
 import { createStatusesService } from './services/statuses.js'
 import { createUsersService } from './services/users.js'
-import { createTransport, type Envelope, type TransportOptions } from './transport.js'
+import { createTransport, type Envelope, type RetryOptions, type TransportOptions } from './transport.js'
 
 export type ClientOptions = TransportOptions & {
   readonly limiter?: LimiterOptions
+  readonly retry?: RetryOptions
 }
 
 export type CallOptions = {
@@ -43,7 +44,8 @@ export type Core = {
  * const deal = await bitrix.deals.get(77)
  */
 export const createClient = (options: ClientOptions) => {
-  const transport = createTransport(options, createLimiter(options.limiter))
+  const retry = { retries: 3, delay: 1000, ...options.retry }
+  const transport = createTransport(options, createLimiter(options.limiter), retry)
 
   const call = (async (
     method: string,
@@ -54,7 +56,7 @@ export const createClient = (options: ClientOptions) => {
     return raw ? envelope : envelope.result
   }) as Call
 
-  const batch = createBatch(transport, options.retry)
+  const batch = createBatch(transport, retry)
   const paginate = createPaginate(transport, batch)
 
   const list = (async (method: string, params?: Readonly<Record<string, unknown>>, listOptions?: PaginateOptions) => {

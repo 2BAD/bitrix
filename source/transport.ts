@@ -45,7 +45,6 @@ export type TransportOptions = {
   readonly auth?: string | (() => string | Promise<string>)
   readonly onAuthExpired?: () => void | Promise<void>
   readonly fetch?: typeof fetch
-  readonly retry?: RetryOptions
   readonly signal?: AbortSignal
   /** Called right before every HTTP request, after the rate limiter let it through */
   readonly onRequest?: (event: RequestEvent) => void
@@ -118,13 +117,19 @@ const parse = async (response: Response, method: string): Promise<Envelope<unkno
 
 /**
  * Sends a single REST method call as a JSON POST, applying auth, rate limiting and retries
- * @param options endpoint, auth, fetch and retry settings
+ * @param options endpoint, auth, fetch and hook settings
  * @param limiter rate limiter every request waits for
+ * @param retry how often and how long to wait before retrying
+ * @param retry.retries attempts after the first one
+ * @param retry.delay base backoff delay in milliseconds
  */
-export const createTransport = (options: TransportOptions, limiter: Limiter): Transport => {
-  const { auth, onAuthExpired, retry = {} } = options
+export const createTransport = (
+  options: TransportOptions,
+  limiter: Limiter,
+  { retries, delay }: Required<RetryOptions>
+): Transport => {
+  const { auth, onAuthExpired } = options
   const fetcher = options.fetch ?? ((input, init) => globalThis.fetch(input, init))
-  const { retries = 3, delay = 1000 } = retry
   const base = new URL(options.url.endsWith('/') ? options.url : `${options.url}/`)
   const operatingResetAt = new Map<string, number>()
   let refreshing: Promise<void> | undefined

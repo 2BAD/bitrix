@@ -1,3 +1,5 @@
+import { sleep } from './transport.js'
+
 export type LimiterOptions = {
   readonly burst?: number
   readonly refillPerSecond?: number
@@ -8,14 +10,9 @@ export type Limiter = {
   readonly exhaust: () => void
 }
 
-type Waiter = {
-  readonly resolve: () => void
-  readonly signal: AbortSignal | undefined
-  readonly onAbort: () => void
-}
-
 /**
- * Leaky bucket matching the Bitrix request limit: up to `burst` requests at once, then `refillPerSecond`
+ * Leaky bucket matching the Bitrix request limit: up to `burst` requests at once, then `refillPerSecond`.
+ * Requests over the limit reserve a token in advance and wait until it refills
  * @param options bucket size and refill rate
  * @param options.burst requests allowed at once, 50 by default
  * @param options.refillPerSecond requests added back every second, 2 by default
@@ -23,8 +20,6 @@ type Waiter = {
 export const createLimiter = ({ burst = 50, refillPerSecond = 2 }: LimiterOptions = {}): Limiter => {
   let tokens = burst
   let updatedAt = Date.now()
-  let timer: ReturnType<typeof setTimeout> | undefined
-  const waiters: Waiter[] = []
 
   const refill = () => {
     const now = Date.now()
@@ -32,42 +27,22 @@ export const createLimiter = ({ burst = 50, refillPerSecond = 2 }: LimiterOption
     updatedAt = now
   }
 
-  const release = () => {
-    timer = undefined
+  const acquire = async (signal?: AbortSignal) => {
+    signal?.throwIfAborted()
     refill()
-    while (waiters.length > 0 && tokens >= 1) {
-      tokens -= 1
-      const waiter = waiters.shift() as Waiter
-      waiter.signal?.removeEventListener('abort', waiter.onAbort)
-      waiter.resolve()
-    }
-    if (waiters.length > 0) {
-      timer = setTimeout(release, Math.ceil(((1 - tokens) / refillPerSecond) * 1000))
+    tokens -= 1
+    if (tokens >= 0) return
+    try {
+      await sleep(Math.ceil((-tokens / refillPerSecond) * 1000), signal)
+    } catch (error) {
+      tokens += 1
+      throw error
     }
   }
 
-  const acquire = (signal?: AbortSignal) =>
-    new Promise<void>((resolve, reject) => {
-      if (signal?.aborted) {
-        reject(signal.reason)
-        return
-      }
-      const waiter: Waiter = {
-        resolve,
-        signal,
-        onAbort: () => {
-          waiters.splice(waiters.indexOf(waiter), 1)
-          reject(signal?.reason)
-        }
-      }
-      signal?.addEventListener('abort', waiter.onAbort, { once: true })
-      waiters.push(waiter)
-      if (timer === undefined) release()
-    })
-
   const exhaust = () => {
     refill()
-    tokens = 0
+    tokens = Math.min(tokens, 0)
   }
 
   return { acquire, exhaust }

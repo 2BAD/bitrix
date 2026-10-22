@@ -8,9 +8,10 @@ const setup = (handler: Parameters<typeof fakeFetch>[0], retry?: RetryOptions) =
   const fake = fakeFetch(handler)
   const transport = createTransport(
     { url: 'https://portal.bitrix24.com/rest/1/token', fetch: fake.fetch },
-    { acquire: () => Promise.resolve(), exhaust: () => {} }
+    { acquire: () => Promise.resolve(), exhaust: () => {} },
+    { retries: 3, delay: 1000 }
   )
-  return { ...fake, batch: createBatch(transport, retry) }
+  return { ...fake, batch: createBatch(transport, { retries: 3, delay: 1000, ...retry }) }
 }
 
 const batchReply = (result: unknown, resultError: unknown = []) =>

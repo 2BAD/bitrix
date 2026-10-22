@@ -8,9 +8,10 @@ const setup = (handler: Handler, retry: RetryOptions = {}) => {
   const fake = fakeFetch(handler)
   const transport = createTransport(
     { url: 'https://portal.bitrix24.com/rest/1/token', fetch: fake.fetch },
-    { acquire: () => Promise.resolve(), exhaust: () => {} }
+    { acquire: () => Promise.resolve(), exhaust: () => {} },
+    { retries: 3, delay: 1000 }
   )
-  return { ...fake, paginate: createPaginate(transport, createBatch(transport, retry)) }
+  return { ...fake, paginate: createPaginate(transport, createBatch(transport, { retries: 3, delay: 1000, ...retry })) }
 }
 
 const collect = async <T>(iterable: AsyncIterable<T>) => {

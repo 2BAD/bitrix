@@ -65,16 +65,28 @@ describe('createLimiter', () => {
     await expect(limiter.acquire(AbortSignal.abort(new Error('stop')))).rejects.toThrow('stop')
   })
 
-  it('removes an aborted waiter from the queue', async () => {
+  it('gives the token of an aborted waiter back', async () => {
     const limiter = createLimiter({ burst: 1, refillPerSecond: 1 })
     const controller = new AbortController()
     await limiter.acquire()
     const aborted = limiter.acquire(controller.signal)
-    const next = limiter.acquire()
     controller.abort(new Error('cancelled'))
     await expect(aborted).rejects.toThrow('cancelled')
 
+    const next = limiter.acquire()
     await vi.advanceTimersByTimeAsync(1000)
     expect(await settled([next])).toEqual([true])
+  })
+
+  it('keeps reservations made before exhaust', async () => {
+    const limiter = createLimiter({ burst: 1, refillPerSecond: 1 })
+    await limiter.acquire()
+    const waiting = limiter.acquire()
+    limiter.exhaust()
+    const next = limiter.acquire()
+    await vi.advanceTimersByTimeAsync(1000)
+    expect(await settled([waiting, next])).toEqual([true, false])
+    await vi.advanceTimersByTimeAsync(1000)
+    expect(await settled([waiting, next])).toEqual([true, true])
   })
 })

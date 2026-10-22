@@ -2,19 +2,27 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { fail, fakeFetch, ok, TIME } from './__fixtures__/bitrix.js'
 import { BitrixError } from './errors.js'
 import { createLimiter, type Limiter } from './limiter.js'
-import { createTransport, type RequestEvent, type ResponseEvent, type TransportOptions } from './transport.js'
+import {
+  createTransport,
+  type RequestEvent,
+  type ResponseEvent,
+  type RetryOptions,
+  type TransportOptions
+} from './transport.js'
 
 const URL_BASE = 'https://portal.bitrix24.com/rest/1/token'
 
 const unlimited: Limiter = { acquire: () => Promise.resolve(), exhaust: vi.fn<() => void>() }
 
+const RETRY = { retries: 3, delay: 10 }
+
 const setup = (
   handler: Parameters<typeof fakeFetch>[0],
-  options: Partial<TransportOptions> = {},
+  { retry, ...options }: Partial<TransportOptions> & { readonly retry?: RetryOptions } = {},
   limiter: Limiter = unlimited
 ) => {
   const fake = fakeFetch(handler)
-  const transport = createTransport({ url: URL_BASE, fetch: fake.fetch, retry: { delay: 10 }, ...options }, limiter)
+  const transport = createTransport({ url: URL_BASE, fetch: fake.fetch, ...options }, limiter, { ...RETRY, ...retry })
   return { ...fake, transport }
 }
 
@@ -50,7 +58,7 @@ describe('createTransport', () => {
     const fake = fakeFetch(() => ok(1))
     vi.stubGlobal('fetch', fake.fetch)
     try {
-      await expect(createTransport({ url: URL_BASE }, unlimited)('a.b')).resolves.toMatchObject({ result: 1 })
+      await expect(createTransport({ url: URL_BASE }, unlimited, RETRY)('a.b')).resolves.toMatchObject({ result: 1 })
     } finally {
       vi.unstubAllGlobals()
     }
@@ -143,7 +151,8 @@ describe('createTransport', () => {
             throw new RangeError('boom')
           }
         },
-        unlimited
+        unlimited,
+        RETRY
       )
       await expect(transport('a.b')).rejects.toThrow(RangeError)
     })
@@ -173,7 +182,7 @@ describe('createTransport', () => {
         if (attempts === 1) throw new TypeError('fetch failed')
         return Response.json({ result: 1, time: TIME })
       })
-      const transport = createTransport({ url: URL_BASE, fetch, retry: { delay: 0 } }, unlimited)
+      const transport = createTransport({ url: URL_BASE, fetch }, unlimited, { ...RETRY, delay: 0 })
       const result = transport('a.b')
       await vi.runAllTimersAsync()
       await expect(result).resolves.toMatchObject({ result: 1 })
@@ -373,7 +382,7 @@ describe('createTransport', () => {
         controller.abort(new Error('stop'))
         throw new DOMException('aborted', 'AbortError')
       })
-      const transport = createTransport({ url: URL_BASE, fetch }, unlimited)
+      const transport = createTransport({ url: URL_BASE, fetch }, unlimited, RETRY)
       await expect(transport('a.b', {}, controller.signal)).rejects.toThrow('stop')
     })
 
@@ -387,7 +396,7 @@ describe('createTransport', () => {
         acquire: () => Promise.resolve(),
         exhaust: () => {}
       }
-      const transport = createTransport({ url: URL_BASE, fetch, retry: { delay: 10 } }, limiter)
+      const transport = createTransport({ url: URL_BASE, fetch }, limiter, RETRY)
       const result = transport('a.b', {}, controller.signal).catch((error: unknown) => error)
       controller.abort(new Error('early'))
       await vi.runAllTimersAsync()
