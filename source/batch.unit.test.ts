@@ -1,27 +1,20 @@
-import { describe, expect, it, vi } from 'vitest'
-import { fakeFetch, ok } from './__fixtures__/bitrix.js'
-import { chunk, createBatch } from './batch.js'
+import { afterEach, describe, expect, it, vi } from 'vitest'
+import { fakeFetch, ok, TIME } from './__fixtures__/bitrix.js'
+import { createBatch } from './batch.js'
 import { BitrixError } from './errors.js'
-import { createTransport } from './transport.js'
+import { createTransport, type RetryOptions } from './transport.js'
 
-const setup = (handler: Parameters<typeof fakeFetch>[0]) => {
+const setup = (handler: Parameters<typeof fakeFetch>[0], retry?: RetryOptions) => {
   const fake = fakeFetch(handler)
   const transport = createTransport(
     { url: 'https://portal.bitrix24.com/rest/1/token', fetch: fake.fetch },
     { acquire: () => Promise.resolve(), exhaust: () => {} }
   )
-  return { ...fake, batch: createBatch(transport) }
+  return { ...fake, batch: createBatch(transport, retry) }
 }
 
 const batchReply = (result: unknown, resultError: unknown = []) =>
   ok({ result, result_error: resultError, result_total: [], result_next: [], result_time: [] })
-
-describe('chunk', () => {
-  it('splits items into groups of the given size', () => {
-    expect(chunk([1, 2, 3, 4, 5], 2)).toEqual([[1, 2], [3, 4], [5]])
-    expect(chunk([], 2)).toEqual([])
-  })
-})
 
 describe('createBatch', () => {
   it('sends keyed commands as encoded query strings', async () => {
@@ -133,5 +126,100 @@ describe('createBatch', () => {
     const { batch, requests } = setup(() => batchReply({}))
     await batch({ a: { method: 'crm.deal.fields' } }, { signal: controller.signal })
     expect(requests[0]?.init.signal).toBe(controller.signal)
+  })
+})
+
+describe('createBatch operating time limit', () => {
+  const LIMITED = { error: 'OPERATION_TIME_LIMIT', error_description: 'Method is blocked due to operation time limit.' }
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  it('sends commands that hit the limit again once it resets', async () => {
+    vi.useFakeTimers({ now: 1_000_000_000 })
+    const replies = [
+      {
+        body: {
+          result: { result: { a: 1 }, result_error: { b: LIMITED } },
+          time: { ...TIME, operating_reset_at: 1_000_005 }
+        }
+      },
+      batchReply({ b: 2 })
+    ]
+    const { batch, requests } = setup(() => replies.shift() as never)
+
+    const pending = batch({
+      a: { method: 'crm.deal.get', params: { id: 1 } },
+      b: { method: 'crm.deal.get', params: { id: 2 } }
+    })
+    await vi.advanceTimersByTimeAsync(4999)
+    expect(requests).toHaveLength(1)
+    await vi.advanceTimersByTimeAsync(1)
+
+    await expect(pending).resolves.toEqual({ results: { a: 1, b: 2 }, errors: {} })
+    expect(requests[1]?.body.cmd).toEqual({ b: 'crm.deal.get?id=2' })
+  })
+
+  it('falls back to exponential backoff without a reset time', async () => {
+    vi.useFakeTimers()
+    const replies = [
+      { body: { result: { result: {}, result_error: { a: LIMITED } } } },
+      batchReply({}, { a: LIMITED }),
+      batchReply({ a: 1 })
+    ]
+    const { batch, requests } = setup(() => replies.shift() as never, { delay: 10 })
+
+    const pending = batch({ a: { method: 'crm.deal.fields' } })
+    await vi.advanceTimersByTimeAsync(10)
+    expect(requests).toHaveLength(2)
+    await vi.advanceTimersByTimeAsync(19)
+    expect(requests).toHaveLength(2)
+    await vi.advanceTimersByTimeAsync(1)
+    await expect(pending).resolves.toEqual({ results: { a: 1 }, errors: {} })
+  })
+
+  it('gives up after the configured number of retries', async () => {
+    const { batch, requests } = setup(() => batchReply({}, { a: LIMITED }), { retries: 2, delay: 0 })
+    const { errors } = await batch({ a: { method: 'crm.deal.fields' } })
+    expect(errors.a).toMatchObject({ code: 'OPERATION_TIME_LIMIT', method: 'crm.deal.fields' })
+    expect(requests).toHaveLength(3)
+  })
+
+  it('does not send commands with $result references again', async () => {
+    const { batch, requests } = setup(() => batchReply({ a: [] }, { b: LIMITED }), { delay: 0 })
+    const { errors } = await batch({
+      a: { method: 'crm.deal.list' },
+      b: { method: 'crm.deal.get', params: { id: '$result[a][0][ID]' } }
+    })
+    expect(errors.b).toMatchObject({ code: 'OPERATION_TIME_LIMIT' })
+    expect(requests).toHaveLength(1)
+  })
+
+  it('does not send commands that failed for other reasons again', async () => {
+    const { batch, requests } = setup(() => batchReply({}, { a: LIMITED, b: { error: 'NOT_FOUND' } }), {
+      retries: 1,
+      delay: 0
+    })
+    const { errors } = await batch({
+      a: { method: 'crm.deal.fields' },
+      b: { method: 'crm.deal.get', params: { id: 0 } }
+    })
+    expect(requests[1]?.body.cmd).toEqual({ a: 'crm.deal.fields' })
+    expect(errors.b).toMatchObject({ code: 'NOT_FOUND' })
+  })
+
+  it('also sends commands skipped by halt again', async () => {
+    const replies = [batchReply({ a: 1 }, { b: LIMITED }), batchReply({ b: 2, c: 3 })]
+    const { batch, requests } = setup(() => replies.shift() as never, { delay: 0 })
+
+    const { results, errors } = await batch(
+      { a: { method: 'crm.deal.fields' }, b: { method: 'crm.lead.fields' }, c: { method: 'crm.contact.fields' } },
+      { halt: true }
+    )
+
+    expect(requests[1]?.body).toEqual({ halt: 1, cmd: { b: 'crm.lead.fields', c: 'crm.contact.fields' } })
+    expect(results).toEqual({ a: 1, b: 2, c: 3 })
+    expect(errors).toEqual({})
   })
 })
