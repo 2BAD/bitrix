@@ -27,7 +27,7 @@ We did that work so you don't have to. This client takes whatever Bitrix throws 
 npm install @2bad/bitrix
 ```
 
-ESM only. The `bitrix-types` command needs Node.js 26 or later.
+ESM only. Requires Node.js 26 or later.
 
 ## Quick start
 
