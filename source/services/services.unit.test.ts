@@ -186,6 +186,38 @@ describe('statuses service', () => {
   })
 })
 
+describe('currencies service', () => {
+  it('maps every method', async () => {
+    const { client, requests } = setup()
+    const { currencies } = client
+
+    await currencies.fields()
+    await currencies.get('USD')
+    await currencies.list()
+    await currencies.list({ order: { SORT: 'ASC' } })
+    await currencies.create({ CURRENCY: 'XAU', AMOUNT_CNT: 1, AMOUNT: 2400, LANG: { en: { FULL_NAME: 'Gold' } } })
+    await currencies.update('XAU', { AMOUNT: 2500 })
+    await currencies.delete('XAU')
+    await currencies.base()
+    await currencies.setBase('EUR')
+
+    expect(requests.map(({ method, body }) => [method, body])).toEqual([
+      ['crm.currency.fields', {}],
+      ['crm.currency.get', { id: 'USD' }],
+      ['crm.currency.list', {}],
+      ['crm.currency.list', { order: { SORT: 'ASC' } }],
+      [
+        'crm.currency.add',
+        { fields: { CURRENCY: 'XAU', AMOUNT_CNT: 1, AMOUNT: 2400, LANG: { en: { FULL_NAME: 'Gold' } } } }
+      ],
+      ['crm.currency.update', { id: 'XAU', fields: { AMOUNT: 2500 } }],
+      ['crm.currency.delete', { id: 'XAU' }],
+      ['crm.currency.base.get', {}],
+      ['crm.currency.base.set', { id: 'EUR' }]
+    ])
+  })
+})
+
 describe('users service', () => {
   it('gets fields and the current user', async () => {
     const { client, requests } = setup(() => ok({ ID: '1' }))

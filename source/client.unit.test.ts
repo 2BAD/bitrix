@@ -21,6 +21,7 @@ describe('createClient', () => {
       'call',
       'companies',
       'contacts',
+      'currencies',
       'deals',
       'leads',
       'list',

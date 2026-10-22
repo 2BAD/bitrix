@@ -40,7 +40,6 @@ Methods resolve with the `result` instead of the whole payload. `call(method, pa
 | `users.get(id)` resolves with an array | resolves with a single user                           |
 | `statuses.delete(id, { FORCED: 'Y' })` | `statuses.delete(id, { forced: true })`               |
 | plain `Error`                          | `BitrixError`, see [Errors](errors.md)                |
-| `Currency` type                        | removed                                               |
 | `UF_*` fields typed as `string`        | `unknown`, or generated types, see [Types](types.md)  |
 
-New in 3.x: `activities`, `products`, `deals.productRows` and `leads.productRows` services, `delete`, `changedSince` and bulk writes for CRM entities, `paginate`, `onProgress`, request hooks and the `bitrix-types` command.
+New in 3.x: `activities`, `currencies`, `products`, `deals.productRows` and `leads.productRows` services, `delete`, `changedSince` and bulk writes for CRM entities, `paginate`, `onProgress`, request hooks and the `bitrix-types` command.

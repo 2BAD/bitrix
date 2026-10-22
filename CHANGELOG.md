@@ -19,7 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Added OAuth token refresh with the `onAuthExpired` option
 - Added `onRequest` and `onResponse` hooks for logging and metrics
 - Added `BitrixError` with `code`, `description`, `method`, `status` and `command`
-- Added the `activities` and `products` services
+- Added the `activities`, `currencies` and `products` services
 - Added `deals.productRows` and `leads.productRows` to read and replace product rows
 - Added `delete` to the deals, leads, contacts and companies services
 - Added `createMany`, `updateMany` and `deleteMany` bulk writes to CRM services
@@ -51,7 +51,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Removed the default export; use `createClient` instead
 - Removed `got` options; pass a custom `fetch` instead
 - Removed `users.get()` without an id; use `users.list()` instead
-- Removed the `Currency` type
 
 ## [3.0.0-beta.0] - 2024-07-18
 

@@ -3,6 +3,7 @@ import { createLimiter, type LimiterOptions } from './limiter.js'
 import type { Args, Item, Method, Params, Result } from './methods.js'
 import { createPaginate, type Paginate, type PaginateOptions } from './paginate.js'
 import { createCrmService, createCrmServiceWithProductRows } from './services/crm.js'
+import { createCurrenciesService } from './services/currencies.js'
 import { createProductsService } from './services/products.js'
 import { createStatusesService } from './services/statuses.js'
 import { createUsersService } from './services/users.js'
@@ -69,6 +70,7 @@ export const createClient = (options: ClientOptions) => {
     activities: createCrmService(core, 'activity'),
     companies: createCrmService(core, 'company'),
     contacts: createCrmService(core, 'contact'),
+    currencies: createCurrenciesService(core),
     deals: createCrmServiceWithProductRows(core, 'deal'),
     leads: createCrmServiceWithProductRows(core, 'lead'),
     products: createProductsService(core),

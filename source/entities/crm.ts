@@ -306,6 +306,27 @@ export type Status = {
   readonly EXTRA?: { readonly SEMANTICS?: string; readonly COLOR?: string; readonly [key: string]: unknown }
 }
 
+export type CurrencyLocalization = {
+  readonly FULL_NAME: string
+  readonly FORMAT_STRING: string
+  readonly DEC_POINT: string
+  readonly THOUSANDS_SEP: string | null
+  readonly THOUSANDS_VARIANT?: string | null
+  readonly DECIMALS: NumberString
+  readonly HIDE_ZERO?: BoolString
+}
+
+export type Currency = CurrencyLocalization & {
+  readonly CURRENCY: string
+  readonly AMOUNT_CNT: NumberString
+  readonly AMOUNT: NumberString
+  readonly SORT: NumberString
+  readonly BASE: BoolString
+  readonly LID: string
+  readonly DATE_UPDATE: ISODate
+  readonly LANG?: Readonly<Record<string, CurrencyLocalization>>
+}
+
 export type ProductRow = {
   readonly ID: NumberString
   readonly OWNER_ID: NumberString

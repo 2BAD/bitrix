@@ -4,6 +4,8 @@ import type {
   BoolString,
   Company,
   Contact,
+  Currency,
+  CurrencyLocalization,
   Deal,
   Fields,
   Id,
@@ -68,6 +70,10 @@ type ProductRowMethods<Name extends string> = Record<
     { params: { readonly id: Id; readonly rows: ReadonlyArray<Input<ProductRow>> }; result: boolean }
   >
 
+type CurrencyInput = Input<Omit<Currency, 'LANG'>> & {
+  readonly LANG?: Readonly<Record<string, Input<CurrencyLocalization>>>
+}
+
 type ProductFilter = Filter & { readonly iblockId: number }
 type ProductInput = Input<Product> & { readonly iblockId: number; readonly name: string }
 
@@ -102,6 +108,15 @@ export interface Methods
     params: { readonly id: Id; readonly params?: { readonly FORCED?: BoolString } }
     result: boolean
   }
+
+  'crm.currency.fields': { params: Empty; result: Fields }
+  'crm.currency.get': { params: { readonly id: string }; result: Currency }
+  'crm.currency.list': { params: Pick<ListParams<Currency>, 'order'>; result: Currency[] }
+  'crm.currency.add': { params: { readonly fields: CurrencyInput & { readonly CURRENCY: string } }; result: string }
+  'crm.currency.update': { params: { readonly id: string; readonly fields: CurrencyInput }; result: boolean }
+  'crm.currency.delete': { params: { readonly id: string }; result: boolean }
+  'crm.currency.base.get': { params: Empty; result: string }
+  'crm.currency.base.set': { params: { readonly id: string }; result: boolean }
 
   'user.fields': { params: Empty; result: Record<string, string> }
   'user.current': { params: Empty; result: User }

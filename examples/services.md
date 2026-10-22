@@ -17,6 +17,7 @@ Services resolve with the `result` of the Bitrix response: `get` with the entity
 | `deals.productRows`, `leads.productRows`                | `get`, `set`                                                                                                                |
 | `products`                                              | `fields`, `get`, `list`, `paginate`, `create`, `update`, `delete`                                                           |
 | `statuses`                                              | `fields`, `get`, `list`, `create`, `update`, `delete`                                                                       |
+| `currencies`                                            | `fields`, `get`, `list`, `create`, `update`, `delete`, `base`, `setBase`                                                    |
 | `users`                                                 | `fields`, `current`, `get`, `list`, `paginate`                                                                              |
 
 Lists, `changedSince` and progress are in [Lists](lists.md), `createMany`, `updateMany` and `deleteMany` in [Batch and bulk writes](batch.md).
@@ -73,6 +74,18 @@ await bitrix.statuses.delete(117, { forced: true })
 ```
 
 `crm.status.list` returns every status at once, so there is no `paginate`.
+
+## Currencies
+
+```ts
+const currencies = await bitrix.currencies.list({ order: { SORT: 'ASC' } })
+const base = await bitrix.currencies.base() // EUR
+
+await bitrix.currencies.create({ CURRENCY: 'PLN', AMOUNT_CNT: 1, AMOUNT: 0.23, LANG: { en: { FULL_NAME: 'Zloty' } } })
+await bitrix.currencies.setBase('PLN')
+```
+
+Currencies are identified by their code. `crm.currency.list` returns every currency at once, so there is no `paginate`. `LANG` holds the name and number format per language.
 
 ## Users
 
