@@ -41,6 +41,43 @@ type UserFields = {
   readonly [field: `UF_${string}`]: unknown
 }
 
+/**
+ * Typed user fields of each CRM entity, empty until augmented. `bitrix-types` generates the augmentation
+ * from a portal:
+ * ```ts
+ * declare module '@2bad/bitrix' {
+ *   interface DealUserFields {
+ *     readonly UF_CRM_1568211173: '45' | '47' | null
+ *   }
+ * }
+ * ```
+ */
+// oxlint-disable-next-line typescript/no-empty-object-type
+export interface DealUserFields {}
+// oxlint-disable-next-line typescript/no-empty-object-type
+export interface LeadUserFields {}
+// oxlint-disable-next-line typescript/no-empty-object-type
+export interface ContactUserFields {}
+// oxlint-disable-next-line typescript/no-empty-object-type
+export interface CompanyUserFields {}
+
+/**
+ * Value of a file user field
+ */
+export type UserFieldFile = {
+  readonly id: number
+  readonly showUrl: string
+  readonly downloadUrl: string
+}
+
+/**
+ * Accepted for a file user field on create and update: a new file as its name and base64 content,
+ * or an existing file by id
+ */
+export type UserFieldFileInput =
+  | { readonly fileData: readonly [name: string, base64: string] }
+  | { readonly id: number }
+
 type Utm = {
   readonly UTM_SOURCE: string | null
   readonly UTM_MEDIUM: string | null
@@ -80,7 +117,8 @@ type Tracking = {
   readonly LAST_COMMUNICATION_TIME: string | null
 }
 
-export type Deal = UserFields &
+export type Deal = DealUserFields &
+  UserFields &
   Utm &
   Tracking & {
     readonly ID: NumberString
@@ -117,7 +155,8 @@ export type Deal = UserFields &
     readonly LOCATION_ID: string | null
   }
 
-export type Lead = UserFields &
+export type Lead = LeadUserFields &
+  UserFields &
   Utm &
   Tracking &
   Communications &
@@ -149,7 +188,8 @@ export type Lead = UserFields &
     readonly DATE_CLOSED: ISODate
   }
 
-export type Contact = UserFields &
+export type Contact = ContactUserFields &
+  UserFields &
   Utm &
   Tracking &
   Communications &
@@ -173,7 +213,8 @@ export type Contact = UserFields &
     readonly ORIGIN_VERSION: string | null
   }
 
-export type Company = UserFields &
+export type Company = CompanyUserFields &
+  UserFields &
   Utm &
   Tracking &
   Communications &
@@ -300,10 +341,16 @@ export type ProductRow = {
 /**
  * Shape accepted when creating or updating an entity: every field optional, ids as numbers or strings
  */
+type Present<T> = Exclude<T, null | undefined | false>
+
 export type Input<E> = {
-  readonly [K in keyof E]?: NonNullable<E[K]> extends readonly MultiField[]
+  readonly [K in keyof E]?: Present<E[K]> extends readonly MultiField[]
     ? readonly MultiFieldInput[]
-    : NonNullable<E[K]> extends string
-      ? E[K] | number
-      : E[K]
+    : Present<E[K]> extends UserFieldFile
+      ? UserFieldFileInput | null
+      : Present<E[K]> extends readonly UserFieldFile[]
+        ? readonly UserFieldFileInput[]
+        : Present<E[K]> extends string
+          ? E[K] | number
+          : E[K]
 }

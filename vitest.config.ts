@@ -13,6 +13,7 @@ export default defineConfig({
         'source/__fixtures__/**',
         'source/**/*.test-d.ts',
         'source/index.ts',
+        'source/bin.ts',
         'source/entities/**',
         ...coverageConfigDefaults.exclude
       ],

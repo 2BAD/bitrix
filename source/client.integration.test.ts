@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { run } from './cli.js'
 import { BitrixError, createClient, type CrmService, type PaginateProgress } from './index.js'
 
 const WEBHOOK_URL = process.env['WEBHOOK_URL']
@@ -158,5 +159,17 @@ describe('progress', () => {
     const companies = await client.companies.list({ select: ['ID'] }, { onProgress: (event) => events.push(event) })
     expect(events.at(-1)).toEqual({ read: companies.length, total: companies.length })
     expect(events.map((event) => event.read)).toEqual(events.map((event) => event.read).toSorted((a, b) => a - b))
+  })
+})
+
+describe('bitrix-types', () => {
+  it('generates declarations for the portal user fields', async () => {
+    let output = ''
+    const io = { stdout: (text: string) => (output += text), stderr: () => {}, writeFile: async () => {} }
+    await expect(run(['--url', WEBHOOK_URL], {}, io)).resolves.toBe(0)
+    for (const name of ['DealUserFields', 'LeadUserFields', 'ContactUserFields', 'CompanyUserFields']) {
+      expect(output).toContain(`interface ${name}`)
+    }
+    expect(output).not.toContain(new URL(WEBHOOK_URL).pathname)
   })
 })
