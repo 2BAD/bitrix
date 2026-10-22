@@ -1,20 +1,22 @@
 # Leads service
 
+A dash in the enum column means this Bitrix endpoint is not represented by a `Method` member in the current package. See [Methods](../methods.md) for the generic `call` escape hatch.
+
 | Bitrix method | Enum method | API |
 | :--- | :--- | :--- |
 | `crm.lead.add` | `Method.CRM_LEAD_ADD` | [`bitrix.leads.create()`](leads.md#create-lead---bitrixleadscreate) |
-| `crm.lead.delete` | `Method.CRM_LEAD_DELETE` |  |
+| `crm.lead.delete` | — |  |
 | `crm.lead.fields` | `Method.CRM_LEAD_FIELDS` |  |
 | `crm.lead.get` | `Method.CRM_LEAD_GET` | [`bitrix.leads.get()`](leads.md#get-lead---bitrixleadsget) |
 | `crm.lead.list` | `Method.CRM_LEAD_LIST` | [`bitrix.leads.list()`](leads.md#list-leads---bitrixleadslist) |
-| `crm.lead.productrows.get` | `Method.CRM_LEAD.PRODUCTROWS_GET` |  |
-| `crm.lead.productrows.set` | `Method.CRM_LEAD.PRODUCTROWS_SET` |  |
+| `crm.lead.productrows.get` | — |  |
+| `crm.lead.productrows.set` | — |  |
 | `crm.lead.update` | `Method.CRM_LEAD_UPDATE` | [`bitrix.leads.update()`](leads.md#update-lead---bitrixleadsupdate) |
-| `crm.lead.userfield.add` | `Method.CRM_LEAD_USERFIELD_ADD` |  |
-| `crm.lead.userfield.delete` | `Method.CRM_LEAD_USERFIELD_DELETE` |  |
-| `crm.lead.userfield.get` | `Method.CRM_LEAD_USERFIELD_GET` |  |
-| `crm.lead.userfield.list` | `Method.CRM_LEAD_USERFIELD_LIST` |  |
-| `crm.lead.userfield.update` | `Method.CRM_LEAD_USERFIELD_UPDATE` |  |
+| `crm.lead.userfield.add` | — |  |
+| `crm.lead.userfield.delete` | — |  |
+| `crm.lead.userfield.get` | — |  |
+| `crm.lead.userfield.list` | — |  |
+| `crm.lead.userfield.update` | — |  |
 
 ## Create lead - `bitrix.leads.create()`
 

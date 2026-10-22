@@ -1,33 +1,35 @@
 # Deals service
 
+A dash in the enum column means this Bitrix endpoint is not represented by a `Method` member in the current package. See [Methods](../methods.md) for the generic `call` escape hatch.
+
 | Bitrix method | Enum method | API |
 | :--- | :--- | :--- |
 | `crm.deal.add` | `Method.CRM_DEAL_ADD` | [`bitrix.deals.create()`](deals.md#create-deal---bitrixdealscreate) |
-| `crm.deal.contact.add` | `Method.CRM_DEAL_CONTACT_ADD` |  |
-| `crm.deal.contact.delete` | `Method.CRM_DEAL_CONTACT_DELETE` |  |
-| `crm.deal.contact.fields` | `Method.CRM_DEAL_CONTACT_FIELDS` |  |
-| `crm.deal.contact.items.delete` | `Method.CRM_DEAL_CONTACT_ITEMS_DELETE` |  |
-| `crm.deal.contact.items.get` | `Method.CRM_DEAL_CONTACT_ITEMS_GET` |  |
-| `crm.deal.contact.items.set` | `Method.CRM_DEAL_CONTACT_ITEMS_SET` |  |
-| `crm.deal.delete` | `Method.CRM_DEAL_DELETE` |  |
+| `crm.deal.contact.add` | — |  |
+| `crm.deal.contact.delete` | — |  |
+| `crm.deal.contact.fields` | — |  |
+| `crm.deal.contact.items.delete` | — |  |
+| `crm.deal.contact.items.get` | — |  |
+| `crm.deal.contact.items.set` | — |  |
+| `crm.deal.delete` | — |  |
 | `crm.deal.fields` | `Method.CRM_DEAL_FIELDS` |  |
 | `crm.deal.get` | `Method.CRM_DEAL_GET` | [`bitrix.deals.get()`](deals.md#get-deal---bitrixdealsget) |
 | `crm.deal.list` | `Method.CRM_DEAL_LIST` | [`bitrix.deals.list()`](deals.md#list-deals---bitrixdealslist) |
-| `crm.deal.productrows.get` | `Method.CRM_DEAL_PRODUCTROWS_GET` |  |
-| `crm.deal.productrows.set` | `Method.CRM_DEAL_PRODUCTROWS_SET` |  |
-| `crm.deal.recurring.add` | `Method.CRM_DEAL_RECURRING_ADD` |  |
-| `crm.deal.recurring.delete` | `Method.CRM_DEAL_RECURRING_DELETE` |  |
-| `crm.deal.recurring.expose` | `Method.CRM_DEAL_RECURRING_EXPOSE` |  |
-| `crm.deal.recurring.fields` | `Method.CRM_DEAL_RECURRING_FIELDS` |  |
-| `crm.deal.recurring.get` | `Method.CRM_DEAL_RECURRING_GET` |  |
-| `crm.deal.recurring.list` | `Method.CRM_DEAL_RECURRING_LIST` |  |
-| `crm.deal.recurring.update` | `Method.CRM_DEAL_RECURRING_UPDATE` |  |
+| `crm.deal.productrows.get` | — |  |
+| `crm.deal.productrows.set` | — |  |
+| `crm.deal.recurring.add` | — |  |
+| `crm.deal.recurring.delete` | — |  |
+| `crm.deal.recurring.expose` | — |  |
+| `crm.deal.recurring.fields` | — |  |
+| `crm.deal.recurring.get` | — |  |
+| `crm.deal.recurring.list` | — |  |
+| `crm.deal.recurring.update` | — |  |
 | `crm.deal.update` | `Method.CRM_DEAL_UPDATE` | [`bitrix.deals.update()`](deals.md#update-deal---bitrixdealsupdate) |
-| `crm.deal.userfield.add` | `Method.CRM_DEAL_USERFIELD_ADD` |  |
-| `crm.deal.userfield.delete` | `Method.CRM_DEAL_USERFIELD_DELETE` |  |
-| `crm.deal.userfield.get` | `Method.CRM_DEAL_USERFIELD_GET` |  |
-| `crm.deal.userfield.list` | `Method.CRM_DEAL_USERFIELD_LIST` |  |
-| `crm.deal.userfield.update` | `Method.CRM_DEAL_USERFIELD_UPDATE` |  |
+| `crm.deal.userfield.add` | — |  |
+| `crm.deal.userfield.delete` | — |  |
+| `crm.deal.userfield.get` | — |  |
+| `crm.deal.userfield.list` | — |  |
+| `crm.deal.userfield.update` | — |  |
 
 ## Create deal - `bitrix.deals.create()`
 
