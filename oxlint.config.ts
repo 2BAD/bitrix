@@ -4,7 +4,8 @@ import { defineConfig } from 'oxlint'
 export default defineConfig({
   extends: [axiom],
   rules: {
-    'import/no-default-export': 'off'
+    'import/no-default-export': 'off',
+    'eslint/no-redeclare': 'off'
   },
   overrides: [
     {

@@ -18,8 +18,9 @@ node_modules
 ## Build
 build
 
-## Coverage reports
+## Test reports
 coverage
+.vitest
 
 ## API keys and secrets
 .env
