@@ -34,6 +34,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Changed
 
+- Node.js 26 or later is now required
 - Methods now resolve with the `result` instead of the whole response
 - `list` now resolves with an array of rows instead of the list response
 - `list` now pages by id by default and rejects other `order` values; use `{ mode: 'offset' }` to keep them
