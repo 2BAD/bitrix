@@ -1,4 +1,4 @@
-import { type Batch, chunk, MAX_COMMANDS_PER_BATCH } from './batch.js'
+import { type Batch, MAX_COMMANDS_PER_BATCH } from './batch.js'
 import type { Args, Item, Method } from './methods.js'
 import type { Transport } from './transport.js'
 
@@ -39,17 +39,25 @@ const unwrap = (method: string, result: unknown): { rows: readonly Row[]; key: s
   throw new TypeError(`${method} did not return a list`)
 }
 
+/**
+ * Batches start with one page and double up to 50, so a consumer that stops early wastes few requests
+ */
+const grow = (size: number) => Math.min(size * 2, MAX_COMMANDS_PER_BATCH)
+
 export const createPaginate = (transport: Transport, batch: Batch): Paginate => {
   const runBatch = async function* (
     method: string,
     pages: ReadonlyArray<Readonly<Record<string, unknown>>>,
-    signal: AbortSignal | undefined
+    signal: AbortSignal | undefined,
+    resumable: boolean
   ): AsyncGenerator<readonly Row[], void, undefined> {
     const { results, errors } = await batch(
       pages.map((params) => ({ method, params })),
       signal && { signal }
     )
     for (const [index, error] of errors.entries()) {
+      // Chained pages are not retried by `batch`, the cursor resumes from the last page it got instead
+      if (error && resumable && index > 0 && error.code === 'OPERATION_TIME_LIMIT') return
       if (error) throw error
       yield unwrap(method, results[index]).rows
     }
@@ -76,15 +84,15 @@ export const createPaginate = (transport: Transport, batch: Batch): Paginate => 
     let { rows, key } = unwrap(method, first.result)
     yield* rows
 
-    while (rows.length === PAGE_SIZE) {
+    for (let size = 1; rows.length === PAGE_SIZE; size = grow(size)) {
       const lastId = (rows.at(-1) as Row)[idField]
-      const pages = Array.from({ length: MAX_COMMANDS_PER_BATCH }, (_, index) =>
+      const pages = Array.from({ length: size }, (_, index) =>
         page({
           [`>${idField}`]:
             index === 0 ? lastId : `$result[${index - 1}]${key ? `[${key}]` : ''}[${PAGE_SIZE - 1}][${idField}]`
         })
       )
-      for await (rows of runBatch(method, pages, signal)) {
+      for await (rows of runBatch(method, pages, signal, true)) {
         yield* rows
         // A short page ends the list. Bitrix drops a filter whose reference is missing, so later pages are invalid
         if (rows.length < PAGE_SIZE) return
@@ -99,14 +107,9 @@ export const createPaginate = (transport: Transport, batch: Batch): Paginate => 
 
     const starts = []
     for (let start = first.next; start < (first.total ?? 0); start += PAGE_SIZE) starts.push(start)
-    for (const group of chunk(starts, MAX_COMMANDS_PER_BATCH)) {
-      for await (const rows of runBatch(
-        method,
-        group.map((start) => ({ ...params, start })),
-        signal
-      )) {
-        yield* rows
-      }
+    for (let index = 0, size = 1; index < starts.length; index += size, size = grow(size)) {
+      const pages = starts.slice(index, index + size).map((start) => ({ ...params, start }))
+      for await (const rows of runBatch(method, pages, signal, false)) yield* rows
     }
   }
 

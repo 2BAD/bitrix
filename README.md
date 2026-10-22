@@ -104,9 +104,9 @@ for await (const activity of bitrix.paginate('crm.activity.list', { filter: { CO
 }
 ```
 
-By default both walk the list by ascending id (`filter: { '>ID': last }` with `start: -1`), the approach Bitrix recommends for large data sets. It skips the row count, does not slow down with depth and does not skip or repeat rows when records change during the read. Each request is a `batch` of 50 chained pages, so a single request reads up to 2500 rows.
+By default both walk the list by ascending id (`filter: { '>ID': last }` with `start: -1`), the approach Bitrix recommends for large data sets. It skips the row count, does not slow down with depth and does not skip or repeat rows when records change during the read. Each request is a `batch` of chained pages. Batches start with one page and double up to 50 pages, so a loop that stops early costs few requests and a long read gets up to 2500 rows per request.
 
-The id mode always orders by id. For a custom order use `{ mode: 'offset' }`, which pages with `start` and also reads 2500 rows per request:
+The id mode always orders by id. For a custom order use `{ mode: 'offset' }`, which pages with `start` and batches pages the same way:
 
 ```typescript
 const latest = await bitrix.list('crm.deal.list', { order: { DATE_CREATE: 'DESC' } }, { mode: 'offset' })
@@ -172,7 +172,7 @@ try {
 
 Bitrix allows a burst of 50 requests and then 2 requests per second. The client queues requests to stay inside that limit and adjusts to it when Bitrix still answers with `QUERY_LIMIT_EXCEEDED`. Enterprise plans allow more, so the limits are configurable.
 
-Server errors, network errors, `QUERY_LIMIT_EXCEEDED` and `OPERATION_TIME_LIMIT` are retried with exponential backoff. For `OPERATION_TIME_LIMIT` the client waits until the method limit resets, using `operating_reset_at` from earlier responses.
+Server errors, network errors, `QUERY_LIMIT_EXCEEDED` and `OPERATION_TIME_LIMIT` are retried with exponential backoff. For `OPERATION_TIME_LIMIT` the client waits until the method limit resets, using `operating_reset_at` from earlier responses. This also applies to single commands of a `batch`: the ones that hit the limit are sent again in a new batch, except commands that reference other results with `$result`, since those references only work inside the original batch. When a chained page of `paginate` hits the limit, the read continues from the last page it got.
 
 ```typescript
 const bitrix = createClient({

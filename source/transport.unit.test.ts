@@ -217,13 +217,15 @@ describe('createTransport', () => {
       await expect(result).resolves.toMatchObject({ result: 2 })
     })
 
-    it('does not wait when operating_reset_at already passed', async () => {
+    it('falls back to backoff when operating_reset_at already passed', async () => {
       vi.setSystemTime(2_000_000_000)
       const replies = [ok(1), fail(503, 'OPERATION_TIME_LIMIT'), ok(2)]
-      const { transport } = setup(() => replies.shift() as never)
+      const { transport, requests } = setup(() => replies.shift() as never)
       await transport('a.b')
       const result = transport('a.b')
-      await vi.advanceTimersByTimeAsync(0)
+      await vi.advanceTimersByTimeAsync(9)
+      expect(requests).toHaveLength(2)
+      await vi.advanceTimersByTimeAsync(1)
       await expect(result).resolves.toMatchObject({ result: 2 })
     })
 

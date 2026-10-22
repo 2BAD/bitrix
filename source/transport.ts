@@ -41,7 +41,7 @@ export type Transport = (
 
 const RETRYABLE_CODES = new Set(['QUERY_LIMIT_EXCEEDED', 'OPERATION_TIME_LIMIT', 'INTERNAL_SERVER_ERROR'])
 
-const sleep = (ms: number, signal: AbortSignal | undefined) =>
+export const sleep = (ms: number, signal: AbortSignal | undefined) =>
   new Promise<void>((resolve, reject) => {
     const onAbort = () => {
       clearTimeout(timer)
@@ -53,6 +53,13 @@ const sleep = (ms: number, signal: AbortSignal | undefined) =>
     }, ms)
     signal?.addEventListener('abort', onAbort, { once: true })
   })
+
+/**
+ * Time to wait before retrying an operating time limit error: until the limit resets when Bitrix said when,
+ * exponential backoff otherwise
+ */
+export const operatingDelay = (resetAt: number | undefined, delay: number, attempt: number) =>
+  resetAt !== undefined && resetAt > Date.now() ? resetAt - Date.now() : delay * 2 ** attempt
 
 const isRetryable = (error: unknown) =>
   error instanceof BitrixError
@@ -129,9 +136,8 @@ export const createTransport = (options: TransportOptions, limiter: Limiter): Tr
       limiter.exhaust()
       return 0
     }
-    const resetAt = operatingResetAt.get(method)
-    if (error instanceof BitrixError && error.code === 'OPERATION_TIME_LIMIT' && resetAt !== undefined) {
-      return Math.max(resetAt - Date.now(), 0)
+    if (error instanceof BitrixError && error.code === 'OPERATION_TIME_LIMIT') {
+      return operatingDelay(operatingResetAt.get(method), delay, attempt)
     }
     return delay * 2 ** attempt
   }

@@ -2,15 +2,15 @@ import { describe, expect, it } from 'vitest'
 import { fakeFetch, fakeList, ok, type Handler } from './__fixtures__/bitrix.js'
 import { createBatch } from './batch.js'
 import { createPaginate } from './paginate.js'
-import { createTransport } from './transport.js'
+import { createTransport, type RetryOptions } from './transport.js'
 
-const setup = (handler: Handler) => {
+const setup = (handler: Handler, retry: RetryOptions = {}) => {
   const fake = fakeFetch(handler)
   const transport = createTransport(
     { url: 'https://portal.bitrix24.com/rest/1/token', fetch: fake.fetch },
     { acquire: () => Promise.resolve(), exhaust: () => {} }
   )
-  return { ...fake, paginate: createPaginate(transport, createBatch(transport)) }
+  return { ...fake, paginate: createPaginate(transport, createBatch(transport, retry)) }
 }
 
 const collect = async <T>(iterable: AsyncIterable<T>) => {
@@ -29,26 +29,26 @@ describe('paginate', () => {
       await expect(collect(paginate('crm.deal.list'))).resolves.toEqual(rows)
     })
 
-    it('requests the first page without a count, then chained batches of 50 pages', async () => {
+    it('requests the first page without a count, then chained batches that double up to 50 pages', async () => {
       const { handler } = fakeList({ count: 2551 })
       const { paginate, requests } = setup(handler)
 
       await collect(paginate('crm.deal.list', { select: ['ID', 'TITLE'] }))
 
-      expect(requests.map((request) => request.method)).toEqual(['crm.deal.list', 'batch', 'batch'])
-      expect(requests.map((request) => commandCount(request.body))).toEqual([1, 50, 50])
+      expect(requests.map((request) => request.method)).toEqual(['crm.deal.list', ...Array(6).fill('batch')])
+      expect(requests.map((request) => commandCount(request.body))).toEqual([1, 1, 2, 4, 8, 16, 32])
       expect(requests[0]?.body).toEqual({ select: ['ID', 'TITLE'], filter: {}, order: { ID: 'ASC' }, start: -1 })
       expect(decodeURIComponent(requests[1]?.body.cmd[0])).toBe(
         'crm.deal.list?select[0]=ID&select[1]=TITLE&filter[>ID]=100&order[ID]=ASC&start=-1'
       )
-      expect(decodeURIComponent(requests[1]?.body.cmd[1])).toContain('filter[>ID]=$result[0][49][ID]')
+      expect(decodeURIComponent(requests[2]?.body.cmd[1])).toContain('filter[>ID]=$result[0][49][ID]')
     })
 
-    it('probes once more when the last page is full', async () => {
+    it('stops at the first short page after a full one', async () => {
       const { rows, handler } = fakeList({ count: 100 })
       const { paginate, requests } = setup(handler)
       await expect(collect(paginate('crm.deal.list'))).resolves.toEqual(rows)
-      expect(requests.map((request) => commandCount(request.body))).toEqual([1, 50])
+      expect(requests.map((request) => commandCount(request.body))).toEqual([1, 1, 2])
     })
 
     it('picks up rows added while paginating', async () => {
@@ -117,7 +117,7 @@ describe('paginate', () => {
       )
 
       expect(result).toEqual(rows)
-      expect(decodeURIComponent(requests[1]?.body.cmd[1])).toContain('filter[>id]=$result[0][products][49][id]')
+      expect(decodeURIComponent(requests[2]?.body.cmd[1])).toContain('filter[>id]=$result[0][products][49][id]')
     })
 
     it('stops requesting when the consumer breaks early', async () => {
@@ -165,16 +165,16 @@ describe('paginate', () => {
       await expect(collect(paginate('crm.deal.list', {}, { mode: 'offset' }))).resolves.toEqual(rows)
     })
 
-    it('fetches the remaining pages in batches of offsets', async () => {
+    it('fetches the remaining pages in batches of offsets that double up to 50 pages', async () => {
       const { handler } = fakeList({ count: 2600 })
       const { paginate, requests } = setup(handler)
 
       await collect(paginate('crm.deal.list', { order: { TITLE: 'DESC' } }, { mode: 'offset' }))
 
-      expect(requests.map((request) => commandCount(request.body))).toEqual([1, 50, 1])
+      expect(requests.map((request) => commandCount(request.body))).toEqual([1, 1, 2, 4, 8, 16, 20])
       expect(requests[0]?.body).toEqual({ order: { TITLE: 'DESC' }, start: 0 })
       expect(decodeURIComponent(requests[1]?.body.cmd[0])).toBe('crm.deal.list?order[TITLE]=DESC&start=50')
-      expect(decodeURIComponent(requests[2]?.body.cmd[0])).toBe('crm.deal.list?order[TITLE]=DESC&start=2550')
+      expect(decodeURIComponent(requests[6]?.body.cmd[19])).toBe('crm.deal.list?order[TITLE]=DESC&start=2550')
     })
 
     it('starts from the given offset', async () => {
@@ -188,6 +188,49 @@ describe('paginate', () => {
     it('handles a list without a total', async () => {
       const { paginate } = setup(() => ok([{ ID: '1' }], { next: 50 }))
       await expect(collect(paginate('crm.deal.list', {}, { mode: 'offset' }))).resolves.toEqual([{ ID: '1' }])
+    })
+  })
+})
+
+describe('paginate operating time limit', () => {
+  const LIMITED = { error: 'OPERATION_TIME_LIMIT' }
+
+  const limitCommand = (list: ReturnType<typeof fakeList>, request: number, command: string) => {
+    let calls = 0
+    return (async (method, body) => {
+      calls += 1
+      const reply: any = await list.handler(method, body)
+      if (calls === request || (request === Infinity && method === 'batch')) {
+        const results = Object.fromEntries(Object.entries(reply.body.result.result).filter(([key]) => key !== command))
+        reply.body.result = { ...reply.body.result, result: results, result_error: { [command]: LIMITED } }
+      }
+      return reply
+    }) satisfies Handler
+  }
+
+  it('resumes the cursor after a chained page hits the limit', async () => {
+    const list = fakeList({ count: 400 })
+    const { paginate, requests } = setup(limitCommand(list, 4, '2'), { delay: 0 })
+
+    await expect(collect(paginate('crm.deal.list'))).resolves.toEqual(list.rows)
+    expect(requests.map((request) => commandCount(request.body))).toEqual([1, 1, 2, 4, 8])
+  })
+
+  it('throws when the first page of a batch keeps hitting the limit', async () => {
+    const list = fakeList({ count: 200 })
+    const { paginate, requests } = setup(limitCommand(list, Infinity, '0'), { retries: 1, delay: 0 })
+
+    await expect(collect(paginate('crm.deal.list'))).rejects.toMatchObject({ code: 'OPERATION_TIME_LIMIT' })
+    expect(requests).toHaveLength(3)
+  })
+
+  it('throws in offset mode when a page still hits the limit after retries', async () => {
+    const list = fakeList({ count: 300 })
+    const { paginate } = setup(limitCommand(list, Infinity, '1'), { retries: 0 })
+
+    await expect(collect(paginate('crm.deal.list', {}, { mode: 'offset' }))).rejects.toMatchObject({
+      code: 'OPERATION_TIME_LIMIT',
+      command: '1'
     })
   })
 })

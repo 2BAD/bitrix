@@ -1,9 +1,11 @@
 import { encode } from './encode.js'
 import { BitrixError } from './errors.js'
 import type { Method, Params, Result } from './methods.js'
-import type { Transport } from './transport.js'
+import { type Envelope, operatingDelay, type RetryOptions, sleep, type Transport } from './transport.js'
 
 export const MAX_COMMANDS_PER_BATCH = 50
+
+const OPERATION_TIME_LIMIT = 'OPERATION_TIME_LIMIT'
 
 export type Command<M extends Method = Method> = {
   readonly method: M
@@ -40,7 +42,15 @@ type BatchEnvelope = {
   readonly result_error: Readonly<Record<string, RawError>> | readonly RawError[]
 }
 
-export const chunk = <T>(items: readonly T[], size: number): T[][] =>
+type Entries = ReadonlyArray<readonly [string, Command]>
+
+type Response = {
+  readonly results: Readonly<Record<string, unknown>>
+  readonly errors: Readonly<Record<string, BitrixError>>
+  readonly resetAt: number | undefined
+}
+
+const chunk = <T>(items: readonly T[], size: number): T[][] =>
   Array.from({ length: Math.ceil(items.length / size) }, (_, index) => items.slice(index * size, (index + 1) * size))
 
 const toCommand = ({ method, params }: Command) => {
@@ -50,15 +60,14 @@ const toCommand = ({ method, params }: Command) => {
 
 /**
  * Runs any number of commands through `batch`, 50 per request. Keyed commands give keyed results,
- * arrays give arrays. A failed command lands in `errors` and does not reject the whole call
+ * arrays give arrays. A failed command lands in `errors` and does not reject the whole call.
+ * Commands that hit the operating time limit are sent again once the limit resets, unless they
+ * reference results of other commands with `$result`
  */
-export const createBatch = (transport: Transport): Batch => {
-  const send = async (
-    entries: ReadonlyArray<readonly [string, Command]>,
-    { halt = false, signal }: BatchOptions
-  ): Promise<{ results: Record<string, unknown>; errors: Record<string, BitrixError> }> => {
+export const createBatch = (transport: Transport, { retries = 3, delay = 1000 }: RetryOptions = {}): Batch => {
+  const send = async (entries: Entries, { halt = false, signal }: BatchOptions): Promise<Response> => {
     const cmd = Object.fromEntries(entries.map(([key, command]) => [key, toCommand(command)]))
-    const { result } = (await transport('batch', { halt: halt ? 1 : 0, cmd }, signal)) as { result: BatchEnvelope }
+    const { result, time } = (await transport('batch', { halt: halt ? 1 : 0, cmd }, signal)) as Envelope<BatchEnvelope>
     const methods = new Map(entries.map(([key, command]) => [key, command.method]))
     const errors = Object.fromEntries(
       Object.entries(result.result_error).map(([key, raw]) => [
@@ -71,7 +80,35 @@ export const createBatch = (transport: Transport): Batch => {
         })
       ])
     )
-    return { results: result.result as Record<string, unknown>, errors }
+    const resetAt = time?.operating_reset_at === undefined ? undefined : time.operating_reset_at * 1000
+    return { results: { ...result.result }, errors, resetAt }
+  }
+
+  const retryable = (entries: Entries, { results, errors }: Response, halt: boolean) => {
+    const limited = entries.filter(([key]) => errors[key]?.code === OPERATION_TIME_LIMIT)
+    if (limited.length === 0) return []
+    const skipped = halt ? entries.filter(([key]) => !(key in results) && !(key in errors)) : []
+    return [...limited, ...skipped].filter(([, command]) => !JSON.stringify(command.params ?? {}).includes('$result'))
+  }
+
+  const run = async (entries: Entries, options: BatchOptions): Promise<Response> => {
+    let response = await send(entries, options)
+    for (let attempt = 0; attempt < retries; attempt++) {
+      const again = retryable(entries, response, options.halt ?? false)
+      if (again.length === 0) break
+      await sleep(operatingDelay(response.resetAt, delay, attempt), options.signal)
+      const retried = await send(again, options)
+      const keys = new Set(again.map(([key]) => key))
+      response = {
+        results: { ...response.results, ...retried.results },
+        errors: {
+          ...Object.fromEntries(Object.entries(response.errors).filter(([key]) => !keys.has(key))),
+          ...retried.errors
+        },
+        resetAt: retried.resetAt
+      }
+    }
+    return response
   }
 
   return (async (commands: Commands, options: BatchOptions = {}) => {
@@ -81,12 +118,12 @@ export const createBatch = (transport: Transport): Batch => {
     const responses = []
     if (options.halt) {
       for (const group of chunks) {
-        const response = await send(group, options)
+        const response = await run(group, options)
         responses.push(response)
         if (Object.keys(response.errors).length > 0) break
       }
     } else {
-      responses.push(...(await Promise.all(chunks.map((group) => send(group, options)))))
+      responses.push(...(await Promise.all(chunks.map((group) => run(group, options)))))
     }
 
     const results = Object.assign({}, ...responses.map((response) => response.results))

@@ -52,7 +52,7 @@ export const createClient = (options: ClientOptions) => {
     return raw ? envelope : envelope.result
   }) as Call
 
-  const batch = createBatch(transport)
+  const batch = createBatch(transport, options.retry)
   const paginate = createPaginate(transport, batch)
 
   const list = (async (method: string, params?: Readonly<Record<string, unknown>>, listOptions?: PaginateOptions) => {
