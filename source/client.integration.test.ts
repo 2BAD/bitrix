@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { BitrixError, createClient, type CrmService } from './index.js'
+import { BitrixError, createClient, type CrmService, type PaginateProgress } from './index.js'
 
 const WEBHOOK_URL = process.env['WEBHOOK_URL']
 
@@ -149,5 +149,14 @@ describe('changedSince', () => {
     for (const activity of activities) {
       expect(Date.parse(activity.LAST_UPDATED)).toBeGreaterThanOrEqual(since.getTime() - 1000)
     }
+  })
+})
+
+describe('progress', () => {
+  it('reports the companies read against the counted total', async () => {
+    const events: PaginateProgress[] = []
+    const companies = await client.companies.list({ select: ['ID'] }, { onProgress: (event) => events.push(event) })
+    expect(events.at(-1)).toEqual({ read: companies.length, total: companies.length })
+    expect(events.map((event) => event.read)).toEqual(events.map((event) => event.read).toSorted((a, b) => a - b))
   })
 })

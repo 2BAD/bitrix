@@ -48,7 +48,7 @@ export type CrmService<E> = {
   readonly changedSince: <const S extends readonly SelectField<E>[] = []>(
     since: Date | string,
     params?: ListParams<E, S>,
-    options?: { readonly signal?: AbortSignal }
+    options?: Pick<PaginateOptions, 'signal' | 'onProgress'>
   ) => AsyncGenerator<Selected<E, S>, void, undefined>
   readonly create: (fields: Input<E>, params?: SonetParams) => Promise<number>
   readonly update: (id: Id, fields: Input<E>, params?: SonetParams) => Promise<boolean>

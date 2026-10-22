@@ -2,12 +2,13 @@ import type { Core } from '../client.js'
 import type { Product } from '../entities/catalog.js'
 import type { Id, Input } from '../entities/crm.js'
 import type { Params } from '../methods.js'
+import type { PaginateOptions } from '../paginate.js'
 
 type ProductField = keyof Product & string
 type ProductListParams<S extends readonly ProductField[]> = Omit<Params<'catalog.product.list'>, 'select'> & {
   readonly select?: S
 }
-type ProductPaginateOptions = { readonly mode?: 'cursor' | 'offset'; readonly signal?: AbortSignal }
+type ProductPaginateOptions = Pick<PaginateOptions, 'signal' | 'onProgress'> & { readonly mode?: 'cursor' | 'offset' }
 type Picked<S extends readonly ProductField[]> = Pick<Product, S[number] | 'id' | 'iblockId'>
 
 /**

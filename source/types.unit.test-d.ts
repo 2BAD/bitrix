@@ -6,6 +6,7 @@ import {
   createClient,
   type Deal,
   type Envelope,
+  type PaginateProgress,
   type Product,
   type User
 } from './index.js'
@@ -108,6 +109,14 @@ describe('types', () => {
       BulkResult<boolean>
     >()
     expectTypeOf(client.leads.deleteMany([1, '2'])).resolves.toEqualTypeOf<BulkResult<boolean>>()
+  })
+
+  it('accepts a progress callback on every read', () => {
+    const onProgress = (progress: PaginateProgress) => expectTypeOf(progress.total).toEqualTypeOf<number | undefined>()
+    void client.deals.list({}, { onProgress })
+    void client.deals.changedSince(new Date(), {}, { onProgress })
+    void client.users.list({}, { onProgress })
+    expectTypeOf(client.products.paginate({ filter: { iblockId: 23 } }, { onProgress })).toBeObject()
   })
 
   it('requires since for the modified mode', () => {

@@ -4,10 +4,22 @@ import type { Transport } from './transport.js'
 
 export const PAGE_SIZE = 50
 
+export type PaginateProgress = {
+  /** Rows read so far */
+  readonly read: number
+  /** Rows matching the list when the read started, so it can drift when rows change during the read */
+  readonly total?: number
+}
+
 type CommonOptions = {
   /** Id field: `ID` for CRM methods, `id` for catalog style methods */
   readonly idField?: string
   readonly signal?: AbortSignal
+  /**
+   * Called after every page. In `cursor` and `modified` modes setting it makes the first request count the rows,
+   * which Bitrix skips otherwise, so it costs one slower request on large lists
+   */
+  readonly onProgress?: (progress: PaginateProgress) => void
 }
 
 export type PaginateOptions = CommonOptions &
@@ -43,6 +55,7 @@ type ListParams = {
   readonly order?: Readonly<Record<string, unknown>>
   readonly start?: number
 }
+type Page = { readonly rows: readonly Row[]; readonly total?: number | undefined }
 
 /**
  * Finds the rows in a list result: either the result itself or the single array a catalog style result wraps
@@ -77,7 +90,7 @@ export const createPaginate = (transport: Transport, batch: Batch): Paginate => 
     pages: ReadonlyArray<Readonly<Record<string, unknown>>>,
     signal: AbortSignal | undefined,
     resumable: boolean
-  ): AsyncGenerator<readonly Row[], void, undefined> {
+  ): AsyncGenerator<Page, void, undefined> {
     const { results, errors } = await batch(
       pages.map((params) => ({ method, params })),
       signal && { signal }
@@ -86,11 +99,17 @@ export const createPaginate = (transport: Transport, batch: Batch): Paginate => 
       // Chained pages are not retried by `batch`, the cursor resumes from the last page it got instead
       if (error && resumable && index > 0 && error.code === 'OPERATION_TIME_LIMIT') return
       if (error) throw error
-      yield unwrap(method, results[index]).rows
+      yield { rows: unwrap(method, results[index]).rows }
     }
   }
 
-  const cursor = async function* (method: string, params: ListParams, idField: string, signal?: AbortSignal) {
+  const cursor = async function* (
+    method: string,
+    params: ListParams,
+    idField: string,
+    count: boolean,
+    signal?: AbortSignal
+  ): AsyncGenerator<Page, void, undefined> {
     if (Object.keys(params.order ?? {}).some((field) => field !== idField)) {
       throw new TypeError(`cursor pagination orders by ${idField}, use { mode: 'offset' } for a custom order`)
     }
@@ -104,9 +123,10 @@ export const createPaginate = (transport: Transport, batch: Batch): Paginate => 
       start: -1
     })
 
-    const first = await transport(method, page({}), signal)
+    const { start: _counted, ...counted } = page({})
+    const first = await transport(method, count ? counted : page({}), signal)
     let { rows, key } = unwrap(method, first.result)
-    yield* rows
+    yield { rows, total: count ? first.total : undefined }
 
     for (let size = 1; rows.length === PAGE_SIZE; size = grow(size)) {
       const lastId = (rows.at(-1) as Row)[idField]
@@ -116,8 +136,8 @@ export const createPaginate = (transport: Transport, batch: Batch): Paginate => 
             index === 0 ? lastId : `$result[${index - 1}]${key ? `[${key}]` : ''}[${PAGE_SIZE - 1}][${idField}]`
         })
       )
-      for await (rows of runBatch(method, pages, signal, true)) {
-        yield* rows
+      for await ({ rows } of runBatch(method, pages, signal, true)) {
+        yield { rows }
         // A short page ends the list. Bitrix drops a filter whose reference is missing, so later pages are invalid
         if (rows.length < PAGE_SIZE) return
       }
@@ -130,8 +150,9 @@ export const createPaginate = (transport: Transport, batch: Batch): Paginate => 
     idField: string,
     modifiedField: string,
     since: Date | string,
+    count: boolean,
     signal?: AbortSignal
-  ) {
+  ): AsyncGenerator<Page, void, undefined> {
     if (Object.keys(params.order ?? {}).some((field) => field !== modifiedField && field !== idField)) {
       throw new TypeError(`modified pagination orders by ${modifiedField} and ${idField}`)
     }
@@ -141,7 +162,7 @@ export const createPaginate = (transport: Transport, batch: Batch): Paginate => 
       [`>=${modifiedField}`]: since instanceof Date ? since.toISOString() : since
     }
 
-    for (;;) {
+    for (let counting = count; ; counting = false) {
       const page = await transport(
         method,
         {
@@ -149,12 +170,12 @@ export const createPaginate = (transport: Transport, batch: Batch): Paginate => 
           ...(select && { select }),
           filter: { ...rest.filter, ...after },
           order: { [modifiedField]: 'ASC', [idField]: 'ASC' },
-          start: -1
+          ...(!counting && { start: -1 })
         },
         signal
       )
       const { rows } = unwrap(method, page.result)
-      yield* rows
+      yield { rows, total: counting ? page.total : undefined }
       if (rows.length < PAGE_SIZE) return
 
       // Rows sharing the last modification time can continue past this page, read those by id before moving on
@@ -167,33 +188,47 @@ export const createPaginate = (transport: Transport, batch: Batch): Paginate => 
           filter: { ...rest.filter, [`=${modifiedField}`]: last[modifiedField], [`>${idField}`]: last[idField] }
         },
         idField,
+        false,
         signal
       )
       after = { [`>${modifiedField}`]: last[modifiedField] }
     }
   }
 
-  const offset = async function* (method: string, params: ListParams, signal?: AbortSignal) {
+  const offset = async function* (
+    method: string,
+    params: ListParams,
+    signal?: AbortSignal
+  ): AsyncGenerator<Page, void, undefined> {
     const first = await transport(method, { ...params, start: params.start ?? 0 }, signal)
-    yield* unwrap(method, first.result).rows
+    yield { rows: unwrap(method, first.result).rows, total: first.total }
     if (first.next === undefined) return
 
     const starts = []
     for (let start = first.next; start < (first.total ?? 0); start += PAGE_SIZE) starts.push(start)
     for (let index = 0, size = 1; index < starts.length; index += size, size = grow(size)) {
       const pages = starts.slice(index, index + size).map((start) => ({ ...params, start }))
-      for await (const rows of runBatch(method, pages, signal, false)) yield* rows
+      yield* runBatch(method, pages, signal, false)
     }
   }
 
-  return async function* (method: string, params: ListParams = {}, options: PaginateOptions = {}) {
-    const { idField = 'ID', signal } = options
+  const pages = (method: string, params: ListParams, options: PaginateOptions) => {
+    const { idField = 'ID', signal, onProgress } = options
+    const count = onProgress !== undefined
     if (options.mode === 'modified') {
-      yield* modified(method, params, idField, options.modifiedField ?? 'DATE_MODIFY', options.since, signal)
-    } else if (options.mode === 'offset') {
-      yield* offset(method, params, signal)
-    } else {
-      yield* cursor(method, params, idField, signal)
+      return modified(method, params, idField, options.modifiedField ?? 'DATE_MODIFY', options.since, count, signal)
+    }
+    return options.mode === 'offset' ? offset(method, params, signal) : cursor(method, params, idField, count, signal)
+  }
+
+  return async function* (method: string, params: ListParams = {}, options: PaginateOptions = {}) {
+    let read = 0
+    let total: number | undefined
+    for await (const page of pages(method, params, options)) {
+      read += page.rows.length
+      total ??= page.total
+      options.onProgress?.({ read, ...(total !== undefined && { total }) })
+      yield* page.rows
     }
   } as Paginate
 }

@@ -155,6 +155,19 @@ Catalog style methods name their id `id` and wrap rows in an object like `{ prod
 bitrix.paginate('catalog.product.list', { filter: { iblockId: 23 }, select: ['id', 'iblockId'] }, { idField: 'id' })
 ```
 
+#### Progress
+
+Pass `onProgress` to `list`, `paginate` or `changedSince` to follow long reads. It is called after every page with the rows read so far and the total when Bitrix reports one:
+
+```typescript
+const activities = await bitrix.activities.list(
+  { filter: { COMPLETED: 'N' } },
+  { onProgress: ({ read, total }) => console.log(`${read} of ${total ?? '?'}`) }
+)
+```
+
+The id and modification time modes skip counting rows to stay fast on large lists. With `onProgress` set, their first request counts the rows instead, which is one slower request: on a portal with 370 thousand activities it takes several seconds. The total is the count at the start of the read, so rows created or changed during the read can make `read` end above it.
+
 #### `batch`
 
 Runs any number of commands, 50 per request. Keyed commands give keyed results, arrays give arrays. A failed command does not reject the call, its error is in `errors` under the same key:
