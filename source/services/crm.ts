@@ -38,6 +38,11 @@ type Untyped = Readonly<Record<string, unknown>>
 
 /**
  * CRM entities share one set of `crm.<entity>.*` methods, so their services only differ by name
+ * @param core client methods the service is built on
+ * @param core.call calls a single REST method
+ * @param core.list reads every page of a list method
+ * @param core.paginate iterates over every page of a list method
+ * @param name entity name in the method names, like `deal` in `crm.deal.get`
  */
 export const createCrmService = <N extends keyof Entities>(
   { call, list, paginate }: Core,

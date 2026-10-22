@@ -9,6 +9,7 @@ type ProductPaginateOptions = Omit<PaginateOptions, 'idField'>
 
 /**
  * `catalog.product.list` rejects requests that do not select `id` and `iblockId`
+ * @param params list params from the caller
  */
 const withRequiredSelect = (params: ProductListParams): ProductListParams => ({
   ...params,

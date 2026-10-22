@@ -57,6 +57,9 @@ export const sleep = (ms: number, signal: AbortSignal | undefined) =>
 /**
  * Time to wait before retrying an operating time limit error: until the limit resets when Bitrix said when,
  * exponential backoff otherwise
+ * @param resetAt when the limit resets, in milliseconds since the epoch
+ * @param delay base backoff delay in milliseconds
+ * @param attempt zero based retry attempt
  */
 export const operatingDelay = (resetAt: number | undefined, delay: number, attempt: number) =>
   resetAt !== undefined && resetAt > Date.now() ? resetAt - Date.now() : delay * 2 ** attempt
@@ -95,6 +98,8 @@ const parse = async (response: Response, method: string): Promise<Envelope<unkno
 
 /**
  * Sends a single REST method call as a JSON POST, applying auth, rate limiting and retries
+ * @param options endpoint, auth, fetch and retry settings
+ * @param limiter rate limiter every request waits for
  */
 export const createTransport = (options: TransportOptions, limiter: Limiter): Transport => {
   const { auth, onAuthExpired, retry = {} } = options

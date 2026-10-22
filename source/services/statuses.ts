@@ -4,6 +4,8 @@ import type { Params } from '../methods.js'
 
 /**
  * `crm.status.list` returns every status at once, so there is no pagination here
+ * @param core client methods the service is built on
+ * @param core.call calls a single REST method
  */
 export const createStatusesService = ({ call }: Core) => ({
   fields: () => call('crm.status.fields'),

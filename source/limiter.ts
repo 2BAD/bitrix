@@ -16,6 +16,9 @@ type Waiter = {
 
 /**
  * Leaky bucket matching the Bitrix request limit: up to `burst` requests at once, then `refillPerSecond`
+ * @param options bucket size and refill rate
+ * @param options.burst requests allowed at once, 50 by default
+ * @param options.refillPerSecond requests added back every second, 2 by default
  */
 export const createLimiter = ({ burst = 50, refillPerSecond = 2 }: LimiterOptions = {}): Limiter => {
   let tokens = burst

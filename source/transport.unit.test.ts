@@ -6,7 +6,7 @@ import { createTransport, type TransportOptions } from './transport.js'
 
 const URL_BASE = 'https://portal.bitrix24.com/rest/1/token'
 
-const unlimited: Limiter = { acquire: () => Promise.resolve(), exhaust: vi.fn() }
+const unlimited: Limiter = { acquire: () => Promise.resolve(), exhaust: vi.fn<() => void>() }
 
 const setup = (
   handler: Parameters<typeof fakeFetch>[0],
@@ -81,7 +81,7 @@ describe('createTransport', () => {
   })
 
   it('asks an auth provider for the token on every request', async () => {
-    const auth = vi.fn().mockResolvedValueOnce('one').mockResolvedValueOnce('two')
+    const auth = vi.fn<() => Promise<string>>().mockResolvedValueOnce('one').mockResolvedValueOnce('two')
     const { transport, requests } = setup(() => ok(1), { auth })
     await transport('a.b')
     await transport('a.b')
@@ -168,7 +168,7 @@ describe('createTransport', () => {
 
     it('retries network errors', async () => {
       let attempts = 0
-      const fetch = vi.fn(async () => {
+      const fetch = vi.fn<typeof globalThis.fetch>(async () => {
         attempts += 1
         if (attempts === 1) throw new TypeError('fetch failed')
         return Response.json({ result: 1, time: TIME })
@@ -190,7 +190,10 @@ describe('createTransport', () => {
 
     it('empties the limiter and retries right away on QUERY_LIMIT_EXCEEDED', async () => {
       const replies = [fail(503, 'QUERY_LIMIT_EXCEEDED', 'Too many requests'), ok(1)]
-      const limiter: Limiter = { acquire: vi.fn(() => Promise.resolve()), exhaust: vi.fn() }
+      const limiter: Limiter = {
+        acquire: vi.fn<() => Promise<void>>(() => Promise.resolve()),
+        exhaust: vi.fn<() => void>()
+      }
       const { transport } = setup(() => replies.shift() as never, {}, limiter)
 
       const result = transport('a.b')
@@ -243,7 +246,7 @@ describe('createTransport', () => {
   describe('expired tokens', () => {
     it('calls onAuthExpired once and retries with a fresh token', async () => {
       let token = 'old'
-      const onAuthExpired = vi.fn(() => {
+      const onAuthExpired = vi.fn<() => void>(() => {
         token = 'new'
       })
       const { transport, requests } = setup(
@@ -260,7 +263,7 @@ describe('createTransport', () => {
     })
 
     it('throws when the token is still expired after a refresh', async () => {
-      const onAuthExpired = vi.fn()
+      const onAuthExpired = vi.fn<() => void>()
       const { transport, requests } = setup(() => fail(401, 'expired_token'), { auth: 'old', onAuthExpired })
       await expect(transport('a.b')).rejects.toMatchObject({ code: 'expired_token' })
       expect(onAuthExpired).toHaveBeenCalledOnce()
@@ -274,7 +277,7 @@ describe('createTransport', () => {
 
     it('shares one refresh between concurrent requests', async () => {
       let token = 'old'
-      const onAuthExpired = vi.fn(async () => {
+      const onAuthExpired = vi.fn<() => Promise<void>>(async () => {
         await Promise.resolve()
         token = 'new'
       })
@@ -318,7 +321,7 @@ describe('createTransport', () => {
 
     it('rethrows the abort reason instead of the fetch error', async () => {
       const controller = new AbortController()
-      const fetch = vi.fn(async () => {
+      const fetch = vi.fn<typeof globalThis.fetch>(async () => {
         controller.abort(new Error('stop'))
         throw new DOMException('aborted', 'AbortError')
       })
@@ -328,7 +331,7 @@ describe('createTransport', () => {
 
     it('rejects a retry delay when the signal aborts before it starts', async () => {
       const controller = new AbortController()
-      const fetch = vi.fn(async () => {
+      const fetch = vi.fn<typeof globalThis.fetch>(async () => {
         const response = Response.json({ error: 'INTERNAL_SERVER_ERROR' }, { status: 500 })
         return response
       })
