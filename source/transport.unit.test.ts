@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { fail, fakeFetch, ok, TIME } from './__fixtures__/bitrix.js'
 import { BitrixError } from './errors.js'
 import { createLimiter, type Limiter } from './limiter.js'
-import { createTransport, type TransportOptions } from './transport.js'
+import { createTransport, type RequestEvent, type ResponseEvent, type TransportOptions } from './transport.js'
 
 const URL_BASE = 'https://portal.bitrix24.com/rest/1/token'
 
@@ -287,6 +287,54 @@ describe('createTransport', () => {
       })
       await Promise.all([transport('a.b'), transport('a.b')])
       expect(onAuthExpired).toHaveBeenCalledOnce()
+    })
+  })
+
+  describe('hooks', () => {
+    it('reports every request and response without the auth token', async () => {
+      const onRequest = vi.fn<(event: RequestEvent) => void>()
+      const onResponse = vi.fn<(event: ResponseEvent) => void>()
+      const { transport } = setup(
+        async () => {
+          await vi.advanceTimersByTimeAsync(25)
+          return ok(1)
+        },
+        { auth: 'secret', onRequest, onResponse }
+      )
+
+      await transport('crm.deal.get', { id: 1 })
+
+      expect(onRequest.mock.calls).toEqual([[{ method: 'crm.deal.get', params: { id: 1 }, attempt: 0 }]])
+      expect(onResponse.mock.calls).toEqual([[{ method: 'crm.deal.get', attempt: 0, duration: 25, time: TIME }]])
+    })
+
+    it('reports failed attempts with the error and counts retries', async () => {
+      const replies = [fail(500, 'INTERNAL_SERVER_ERROR'), { body: { result: 1 } }]
+      const onRequest = vi.fn<(event: RequestEvent) => void>()
+      const onResponse = vi.fn<(event: ResponseEvent) => void>()
+      const { transport } = setup(() => replies.shift() as never, { onRequest, onResponse })
+
+      const result = transport('a.b')
+      await vi.runAllTimersAsync()
+      await result
+
+      expect(onRequest.mock.calls.map(([event]) => event.attempt)).toEqual([0, 1])
+      expect(onResponse.mock.calls[0]?.[0].error).toMatchObject({ code: 'INTERNAL_SERVER_ERROR' })
+      expect(onResponse.mock.calls[1]?.[0]).toEqual({ method: 'a.b', attempt: 1, duration: 0 })
+    })
+
+    it('counts the request repeated after a token refresh', async () => {
+      let token = 'old'
+      const onRequest = vi.fn<(event: RequestEvent) => void>()
+      const { transport } = setup((_method, body) => (body.auth === 'old' ? fail(401, 'expired_token') : ok(1)), {
+        auth: () => token,
+        onAuthExpired: () => {
+          token = 'new'
+        },
+        onRequest
+      })
+      await transport('a.b')
+      expect(onRequest.mock.calls.map(([event]) => event.attempt)).toEqual([0, 1])
     })
   })
 

@@ -1,5 +1,14 @@
 import { describe, expectTypeOf, it } from 'vitest'
-import { type BitrixError, createClient, type Deal, type Envelope, type Product, type User } from './index.js'
+import {
+  type BitrixError,
+  type BulkResult,
+  type Contact,
+  createClient,
+  type Deal,
+  type Envelope,
+  type Product,
+  type User
+} from './index.js'
 
 declare module './index.js' {
   interface Methods {
@@ -63,5 +72,49 @@ describe('types', () => {
     expectTypeOf(client.products.get(1)).resolves.toEqualTypeOf<Product>()
     // @ts-expect-error catalog lists need an iblockId filter
     void client.products.list({ filter: {} })
+  })
+
+  it('narrows rows to the selected fields', async () => {
+    const picked = await client.deals.list({ select: ['ID', 'TITLE', 'UF_CRM_1'] })
+    expectTypeOf(picked).toEqualTypeOf<Array<Pick<Deal, 'ID' | 'TITLE' | 'UF_CRM_1'>>>()
+    // @ts-expect-error STAGE_ID was not selected
+    void picked[0]?.STAGE_ID
+
+    const standard = await client.deals.list()
+    expectTypeOf(standard[0]?.STAGE_ID).toEqualTypeOf<string | undefined>()
+    // @ts-expect-error user fields need UF_* in the select
+    void standard[0]?.['UF_CRM_1']
+
+    const all = await client.contacts.list({ select: ['*', 'UF_*', 'PHONE'] })
+    expectTypeOf(all[0]?.['UF_CRM_1']).toEqualTypeOf<unknown>()
+    expectTypeOf(all[0]?.PHONE).toEqualTypeOf<Contact['PHONE'] | undefined>()
+
+    for await (const deal of client.deals.paginate({ select: ['ID'] })) {
+      expectTypeOf(deal).toEqualTypeOf<Pick<Deal, 'ID'>>()
+    }
+    for await (const deal of client.deals.changedSince(new Date(), { select: ['ID', 'DATE_MODIFY'] })) {
+      expectTypeOf(deal).toEqualTypeOf<Pick<Deal, 'ID' | 'DATE_MODIFY'>>()
+    }
+
+    const products = await client.products.list({ filter: { iblockId: 23 }, select: ['xmlId'] })
+    expectTypeOf(products).toEqualTypeOf<Array<Pick<Product, 'xmlId' | 'id' | 'iblockId'>>>()
+    const named = await client.products.list({ filter: { iblockId: 23 } })
+    expectTypeOf(named).toEqualTypeOf<Array<Pick<Product, 'name' | 'id' | 'iblockId'>>>()
+  })
+
+  it('types bulk writes', () => {
+    expectTypeOf(client.leads.createMany([{ TITLE: 'x' }])).resolves.toEqualTypeOf<BulkResult<number>>()
+    expectTypeOf(client.leads.updateMany([{ id: 1, fields: { TITLE: 'x' } }])).resolves.toEqualTypeOf<
+      BulkResult<boolean>
+    >()
+    expectTypeOf(client.leads.deleteMany([1, '2'])).resolves.toEqualTypeOf<BulkResult<boolean>>()
+  })
+
+  it('requires since for the modified mode', () => {
+    expectTypeOf(client.paginate('crm.deal.list', {}, { mode: 'modified', since: '2026-01-01' })).toEqualTypeOf<
+      AsyncGenerator<Deal, void, undefined>
+    >()
+    // @ts-expect-error since is required
+    void client.paginate('crm.deal.list', {}, { mode: 'modified' })
   })
 })

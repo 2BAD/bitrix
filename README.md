@@ -62,13 +62,13 @@ There are two ways to authenticate:
 
 Every service returns the `result` of the Bitrix response, so `deals.get` resolves with a deal and `deals.create` resolves with the new id. Ids can be passed as numbers or strings.
 
-| Service                                                                      | Methods                                                                |
-| ---------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| `activities`, `companies`, `contacts`, `deals`, `leads`                      | `fields`, `get`, `list`, `paginate`, `create`, `update`, `delete`      |
-| `deals.productRows`, `leads.productRows`                                     | `get`, `set`                                                           |
-| `products` (`catalog.product.*`, the filter needs an `iblockId`)              | `fields`, `get`, `list`, `paginate`, `create`, `update`, `delete`      |
-| `statuses`                                                                   | `fields`, `get`, `list`, `create`, `update`, `delete`                  |
-| `users`                                                                      | `fields`, `current`, `get`, `list`, `paginate`                         |
+| Service                                                          | Methods                                                                                                                         |
+| ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `activities`, `companies`, `contacts`, `deals`, `leads`          | `fields`, `get`, `list`, `paginate`, `changedSince`, `create`, `update`, `delete`, `createMany`, `updateMany`, `deleteMany` |
+| `deals.productRows`, `leads.productRows`                         | `get`, `set`                                                                                                                    |
+| `products` (`catalog.product.*`, the filter needs an `iblockId`) | `fields`, `get`, `list`, `paginate`, `create`, `update`, `delete`                                                               |
+| `statuses`                                                       | `fields`, `get`, `list`, `create`, `update`, `delete`                                                                           |
+| `users`                                                          | `fields`, `current`, `get`, `list`, `paginate`                                                                                  |
 
 ```typescript
 const id = await bitrix.contacts.create({ NAME: 'Jane', PHONE: [{ VALUE: '+10000000000', VALUE_TYPE: 'WORK' }] })
@@ -78,6 +78,41 @@ const rows = await bitrix.deals.productRows.get(77)
 
 const products = await bitrix.products.list({ filter: { iblockId: 23 }, select: ['id', 'name', 'xmlId'] })
 ```
+
+#### Selected fields
+
+Service lists are typed by their `select`. Named fields give rows with just those fields, `*` or no select give the standard fields, and `UF_*` adds user fields. Bitrix leaves out user fields and multi fields like `PHONE` unless they are selected, so the types do too:
+
+```typescript
+const deals = await bitrix.deals.list({ select: ['ID', 'TITLE'] })
+deals[0]?.TITLE // string | null
+deals[0]?.STAGE_ID // type error, not selected
+```
+
+#### Bulk writes
+
+`createMany`, `updateMany` and `deleteMany` send the writes through `batch`, 50 per request. They resolve with a result and an error per item, in the order of the input, and do not reject when some items fail:
+
+```typescript
+const { results, errors } = await bitrix.leads.createMany(rows.map((row) => ({ TITLE: row.title, NAME: row.name })))
+errors.forEach((error, index) => error && console.error(rows[index], error.description))
+
+await bitrix.deals.updateMany([{ id: 77, fields: { STAGE_ID: 'WON' } }])
+await bitrix.deals.deleteMany([78, 79])
+```
+
+#### Changes since a point in time
+
+`changedSince` reads the entities created or changed at or after a date, oldest change first. It pages by modification time and id, so it does not skip rows that share the same time. Store the modification time of the last row you processed and pass it on the next run:
+
+```typescript
+for await (const deal of bitrix.deals.changedSince(lastSync, { select: ['ID', 'TITLE', 'DATE_MODIFY'] })) {
+  await save(deal)
+  lastSync = deal.DATE_MODIFY
+}
+```
+
+A row that changes again during the read is returned again with its new values. Activities use `LAST_UPDATED`, the other entities `DATE_MODIFY`.
 
 ### Generic methods
 
@@ -111,6 +146,8 @@ The id mode always orders by id. For a custom order use `{ mode: 'offset' }`, wh
 ```typescript
 const latest = await bitrix.list('crm.deal.list', { order: { DATE_CREATE: 'DESC' } }, { mode: 'offset' })
 ```
+
+`{ mode: 'modified', since }` reads rows changed at or after `since` by `DATE_MODIFY`, which is what `changedSince` uses. Set `modifiedField` for methods that name it differently.
 
 Catalog style methods name their id `id` and wrap rows in an object like `{ products: [...] }`. The rows are found automatically, the id field is set with `idField`:
 
@@ -182,7 +219,23 @@ const bitrix = createClient({
 })
 ```
 
+Retries of server and network errors can repeat a write that Bitrix already applied before the error, for example create a deal twice. Rate limit errors are safe to retry, Bitrix rejects those requests before running them. Set `retry: { retries: 0 }` on a client used for writes that must not repeat.
+
 `call`, `list`, `paginate` and `batch` accept a `signal` in their options to cancel a call, and `createClient` accepts one to cancel everything.
+
+### Logging and metrics
+
+`onRequest` runs before every HTTP request and `onResponse` after it, retries included. The events carry the method, its params (without the auth token), the attempt number, the duration and Bitrix timing info, so they fit structured logs and metrics:
+
+```typescript
+const bitrix = createClient({
+  url,
+  onResponse: ({ method, attempt, duration, time, error }) =>
+    console.log(JSON.stringify({ method, attempt, duration, operating: time?.operating, error: error && String(error) }))
+})
+```
+
+A hook that throws fails the call, so keep them simple.
 
 ### Custom fetch
 

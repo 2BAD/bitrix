@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { fakeFetch, fakeList, type Handler, ok } from '../__fixtures__/bitrix.js'
 import { createClient } from '../client.js'
 import { BitrixError } from '../errors.js'
+import type { CrmService } from './crm.js'
 
 const setup = (handler: Handler = () => ok(true)) => {
   const fake = fakeFetch(handler)
@@ -14,7 +15,7 @@ const setup = (handler: Handler = () => ok(true)) => {
 }
 
 describe.each(['activity', 'company', 'contact', 'deal', 'lead'] as const)('crm.%s service', (name) => {
-  const service = (client: ReturnType<typeof setup>['client']) =>
+  const service = (client: ReturnType<typeof setup>['client']): CrmService<any> =>
     ({
       activity: client.activities,
       company: client.companies,
@@ -73,6 +74,73 @@ describe.each(['activity', 'company', 'contact', 'deal', 'lead'] as const)('crm.
     for await (const row of service(client).paginate({}, { mode: 'offset' })) paginated.push(row)
     expect(paginated).toEqual(rows)
     expect(requests.every((request) => request.method === `crm.${name}.list` || request.method === 'batch')).toBe(true)
+  })
+
+  it('reads changes by modification time', async () => {
+    const { client, requests } = setup(() => ok([{ ID: '1' }]))
+    const since = '2026-01-01T00:00:00+03:00'
+    const field = name === 'activity' ? 'LAST_UPDATED' : 'DATE_MODIFY'
+
+    const rows = []
+    for await (const row of service(client).changedSince(since, { select: ['ID'] })) rows.push(row)
+
+    expect(rows).toEqual([{ ID: '1' }])
+    expect(requests[0]).toMatchObject({
+      method: `crm.${name}.list`,
+      body: { select: ['ID', field], filter: { [`>=${field}`]: since }, order: { [field]: 'ASC', ID: 'ASC' } }
+    })
+  })
+
+  describe('bulk writes', () => {
+    const batchHandler: Handler = (_method, body) =>
+      ok({
+        result: Object.fromEntries(
+          Object.keys(body.cmd)
+            .filter((key) => key !== '1')
+            .map((key) => [key, Number(key) + 100])
+        ),
+        result_error: { '1': { error: 'ERROR_CORE', error_description: 'bad' } },
+        result_total: [],
+        result_next: []
+      })
+
+    it('creates many entities in one batch', async () => {
+      const { client, requests } = setup(batchHandler)
+      const { results, errors } = await service(client).createMany([{ TITLE: 'a' }, { TITLE: 'b' }, { TITLE: 'c' }], {
+        REGISTER_SONET_EVENT: 'N'
+      })
+
+      expect(results).toEqual([100, undefined, 102])
+      expect(errors[1]).toMatchObject({ code: 'ERROR_CORE', method: `crm.${name}.add`, command: '1' })
+      expect(decodeURIComponent(requests[0]?.body.cmd[0])).toBe(
+        `crm.${name}.add?fields[TITLE]=a&params[REGISTER_SONET_EVENT]=N`
+      )
+    })
+
+    it('updates many entities', async () => {
+      const { client, requests } = setup(batchHandler)
+      await service(client).updateMany([{ id: 1, fields: { TITLE: 'a' } }])
+      await service(client).updateMany([{ id: 2, fields: { TITLE: 'b' } }], { REGISTER_SONET_EVENT: 'Y' })
+      expect(requests.map((request) => decodeURIComponent(request.body.cmd[0]))).toEqual([
+        `crm.${name}.update?id=1&fields[TITLE]=a`,
+        `crm.${name}.update?id=2&fields[TITLE]=b&params[REGISTER_SONET_EVENT]=Y`
+      ])
+    })
+
+    it('deletes many entities, splitting more than 50', async () => {
+      const { client, requests } = setup(batchHandler)
+      const ids = Array.from({ length: 60 }, (_, index) => index + 1)
+      const { results } = await service(client).deleteMany(ids)
+      expect(results).toHaveLength(60)
+      expect(requests.map((request) => Object.keys(request.body.cmd).length)).toEqual([50, 10])
+      expect(requests[0]?.body.cmd[0]).toBe(`crm.${name}.delete?id=1`)
+    })
+
+    it('creates nothing for an empty list', async () => {
+      const { client, fetch } = setup(batchHandler)
+      await expect(service(client).createMany([])).resolves.toEqual({ results: [], errors: [] })
+      expect(fetch).not.toHaveBeenCalled()
+    })
   })
 })
 

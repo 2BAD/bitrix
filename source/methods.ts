@@ -20,12 +20,32 @@ export type FilterValue = string | number | boolean | null | ReadonlyArray<strin
 export type Filter = Readonly<Record<string, FilterValue>>
 export type Order = 'ASC' | 'DESC' | 'asc' | 'desc'
 
-export type ListParams<E> = {
-  readonly select?: ReadonlyArray<(keyof E & string) | '*' | 'UF_*' | 'PHONE' | 'EMAIL' | 'WEB' | 'IM'>
+type MultiFields = 'PHONE' | 'EMAIL' | 'WEB' | 'IM' | 'LINK'
+
+export type SelectField<E> = (keyof E & string) | '*' | 'UF_*' | MultiFields
+
+export type ListParams<E, S extends readonly SelectField<E>[] = readonly SelectField<E>[]> = {
+  readonly select?: S
   readonly filter?: Filter
   readonly order?: { readonly [K in keyof E & string]?: Order }
   readonly start?: number
 }
+
+type Standard<E> = Omit<E, `UF_${string}` | MultiFields>
+type Nothing = Record<never, never>
+type Flatten<T> = { [K in keyof T]: T[K] }
+
+/**
+ * Row type of a CRM list for a given `select`: `*` and no select give the standard fields, `UF_*` adds
+ * user fields, named fields are picked as they are
+ */
+export type Selected<E, S extends readonly string[]> = Flatten<
+  S extends readonly []
+    ? Standard<E>
+    : ('*' extends S[number] ? Standard<E> : Nothing) &
+        ('UF_*' extends S[number] ? Pick<E, keyof E & `UF_${string}`> : Nothing) &
+        Pick<E, S[number] & keyof E>
+>
 
 type SonetParams = { readonly params?: { readonly REGISTER_SONET_EVENT?: BoolString } }
 

@@ -4,16 +4,32 @@ import type { Transport } from './transport.js'
 
 export const PAGE_SIZE = 50
 
-export type PaginateOptions = {
-  /**
-   * `cursor` (default) walks the list by ascending id, which stays fast and consistent on large portals.
-   * `offset` uses `start` and allows any `order`
-   */
-  readonly mode?: 'cursor' | 'offset'
-  /** Id field used by `cursor` mode: `ID` for CRM methods, `id` for catalog style methods */
+type CommonOptions = {
+  /** Id field: `ID` for CRM methods, `id` for catalog style methods */
   readonly idField?: string
   readonly signal?: AbortSignal
 }
+
+export type PaginateOptions = CommonOptions &
+  (
+    | {
+        /**
+         * `cursor` (default) walks the list by ascending id, which stays fast and consistent on large portals.
+         * `offset` uses `start` and allows any `order`
+         */
+        readonly mode?: 'cursor' | 'offset'
+      }
+    | {
+        /**
+         * `modified` walks the rows changed at or after `since`, in the order they changed. A row that changes
+         * again during the read is returned again
+         */
+        readonly mode: 'modified'
+        readonly since: Date | string
+        /** Modification time field: `DATE_MODIFY` by default, `LAST_UPDATED` for activities */
+        readonly modifiedField?: string
+      }
+  )
 
 export type Paginate = <M extends Method>(
   method: M,
@@ -47,6 +63,14 @@ const unwrap = (method: string, result: unknown): { rows: readonly Row[]; key: s
  */
 const grow = (size: number) => Math.min(size * 2, MAX_COMMANDS_PER_BATCH)
 
+/**
+ * Adds the fields pagination relies on to an explicit select. Wildcards and no select already include them
+ * @param select select of the caller
+ * @param fields fields to add
+ */
+const withFields = (select: readonly string[] | undefined, fields: readonly string[]) =>
+  select && !select.includes('*') ? [...new Set([...select, ...fields])] : select
+
 export const createPaginate = (transport: Transport, batch: Batch): Paginate => {
   const runBatch = async function* (
     method: string,
@@ -71,10 +95,7 @@ export const createPaginate = (transport: Transport, batch: Batch): Paginate => 
       throw new TypeError(`cursor pagination orders by ${idField}, use { mode: 'offset' } for a custom order`)
     }
     const { start: _start, ...rest } = params
-    const select =
-      rest.select && !rest.select.includes('*') && !rest.select.includes(idField)
-        ? [...rest.select, idField]
-        : rest.select
+    const select = withFields(rest.select, [idField])
     const page = (filter: Readonly<Record<string, unknown>>) => ({
       ...rest,
       ...(select && { select }),
@@ -103,6 +124,55 @@ export const createPaginate = (transport: Transport, batch: Batch): Paginate => 
     }
   }
 
+  const modified = async function* (
+    method: string,
+    params: ListParams,
+    idField: string,
+    modifiedField: string,
+    since: Date | string,
+    signal?: AbortSignal
+  ) {
+    if (Object.keys(params.order ?? {}).some((field) => field !== modifiedField && field !== idField)) {
+      throw new TypeError(`modified pagination orders by ${modifiedField} and ${idField}`)
+    }
+    const { start: _start, order: _order, ...rest } = params
+    const select = withFields(rest.select, [idField, modifiedField])
+    let after: Readonly<Record<string, unknown>> = {
+      [`>=${modifiedField}`]: since instanceof Date ? since.toISOString() : since
+    }
+
+    for (;;) {
+      const page = await transport(
+        method,
+        {
+          ...rest,
+          ...(select && { select }),
+          filter: { ...rest.filter, ...after },
+          order: { [modifiedField]: 'ASC', [idField]: 'ASC' },
+          start: -1
+        },
+        signal
+      )
+      const { rows } = unwrap(method, page.result)
+      yield* rows
+      if (rows.length < PAGE_SIZE) return
+
+      // Rows sharing the last modification time can continue past this page, read those by id before moving on
+      const last = rows.at(-1) as Row
+      yield* cursor(
+        method,
+        {
+          ...rest,
+          ...(select && { select }),
+          filter: { ...rest.filter, [`=${modifiedField}`]: last[modifiedField], [`>${idField}`]: last[idField] }
+        },
+        idField,
+        signal
+      )
+      after = { [`>${modifiedField}`]: last[modifiedField] }
+    }
+  }
+
   const offset = async function* (method: string, params: ListParams, signal?: AbortSignal) {
     const first = await transport(method, { ...params, start: params.start ?? 0 }, signal)
     yield* unwrap(method, first.result).rows
@@ -117,7 +187,13 @@ export const createPaginate = (transport: Transport, batch: Batch): Paginate => 
   }
 
   return async function* (method: string, params: ListParams = {}, options: PaginateOptions = {}) {
-    const { mode = 'cursor', idField = 'ID', signal } = options
-    yield* mode === 'cursor' ? cursor(method, params, idField, signal) : offset(method, params, signal)
+    const { idField = 'ID', signal } = options
+    if (options.mode === 'modified') {
+      yield* modified(method, params, idField, options.modifiedField ?? 'DATE_MODIFY', options.since, signal)
+    } else if (options.mode === 'offset') {
+      yield* offset(method, params, signal)
+    } else {
+      yield* cursor(method, params, idField, signal)
+    }
   } as Paginate
 }
