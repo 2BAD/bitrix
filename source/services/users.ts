@@ -9,6 +9,10 @@ type UserPaginateOptions = Omit<PaginateOptions, 'mode' | 'idField'>
 
 /**
  * `user.get` takes `sort` and `order` as plain strings instead of an order map, so users paginate by offset
+ * @param core client methods the service is built on
+ * @param core.call calls a single REST method
+ * @param core.list reads every page of a list method
+ * @param core.paginate iterates over every page of a list method
  */
 export const createUsersService = ({ call, list, paginate }: Core) => ({
   fields: () => call('user.fields'),

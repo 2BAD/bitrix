@@ -30,6 +30,8 @@ type ListParams = {
 
 /**
  * Finds the rows in a list result: either the result itself or the single array a catalog style result wraps
+ * @param method method name used in the error message
+ * @param result result of a list method
  */
 const unwrap = (method: string, result: unknown): { rows: readonly Row[]; key: string | undefined } => {
   if (Array.isArray(result)) return { rows: result, key: undefined }
@@ -41,6 +43,7 @@ const unwrap = (method: string, result: unknown): { rows: readonly Row[]; key: s
 
 /**
  * Batches start with one page and double up to 50, so a consumer that stops early wastes few requests
+ * @param size pages in the previous batch
  */
 const grow = (size: number) => Math.min(size * 2, MAX_COMMANDS_PER_BATCH)
 

@@ -18,6 +18,7 @@ const pairs = (key: string, value: unknown): string[] => {
 /**
  * Serializes params into a PHP style query string (`filter[>ID]=5&select[0]=ID`), the format Bitrix expects
  * for commands inside a `batch` call
+ * @param params params of a single command
  */
 export const encode = (params: Readonly<Record<string, unknown>>): string =>
   Object.entries(params)

@@ -26,10 +26,11 @@ export const fail = (status: number, error: string, description = ''): Reply => 
 
 /**
  * A `fetch` replacement that records requests and answers through `handler`
+ * @param handler builds the reply for a method and its JSON body
  */
 export const fakeFetch = (handler: Handler) => {
   const requests: Request[] = []
-  const fetch = vi.fn(async (input: string | URL | globalThis.Request, init: RequestInit = {}) => {
+  const fetch = vi.fn<typeof globalThis.fetch>(async (input, init = {}) => {
     const method = new URL(String(input)).pathname.split('/').at(-1) as string
     const body = JSON.parse(String(init.body))
     requests.push({ method, body, init })
@@ -38,7 +39,7 @@ export const fakeFetch = (handler: Handler) => {
       status: reply.status ?? 200
     })
   })
-  return { fetch: fetch as typeof globalThis.fetch, requests }
+  return { fetch, requests }
 }
 
 const decode = (query: string): any => {
@@ -72,6 +73,10 @@ type ListOptions = {
 
 /**
  * Simulates a Bitrix list method plus `batch`, including how Bitrix drops a filter whose `$result` reference is missing
+ * @param options size and shape of the simulated list
+ * @param options.count number of rows
+ * @param options.idField name of the id field, `ID` by default
+ * @param options.wrap key that wraps rows in catalog style results
  */
 export const fakeList = ({ count, idField = 'ID', wrap }: ListOptions) => {
   const rows = Array.from({ length: count }, (_, index) => ({ [idField]: String((index + 1) * 2) }))

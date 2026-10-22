@@ -63,6 +63,10 @@ const toCommand = ({ method, params }: Command) => {
  * arrays give arrays. A failed command lands in `errors` and does not reject the whole call.
  * Commands that hit the operating time limit are sent again once the limit resets, unless they
  * reference results of other commands with `$result`
+ * @param transport sends the `batch` requests
+ * @param retry how often and how long to wait before sending limited commands again
+ * @param retry.retries attempts after the first one, 3 by default
+ * @param retry.delay base backoff delay in milliseconds, 1000 by default
  */
 export const createBatch = (transport: Transport, { retries = 3, delay = 1000 }: RetryOptions = {}): Batch => {
   const send = async (entries: Entries, { halt = false, signal }: BatchOptions): Promise<Response> => {

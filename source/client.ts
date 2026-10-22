@@ -36,6 +36,7 @@ export type Core = {
 
 /**
  * Creates a Bitrix24 REST client
+ * @param options endpoint, auth, limiter and retry settings
  * @example
  * const bitrix = createClient({ url: 'https://portal.bitrix24.com/rest/1/WEBHOOK_TOKEN' })
  * const deal = await bitrix.deals.get(77)
