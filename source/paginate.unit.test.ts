@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { fakeFetch, fakeList, ok, type Handler } from './__fixtures__/bitrix.js'
 import { createBatch } from './batch.js'
-import { createPaginate } from './paginate.js'
+import { createPaginate, type PaginateProgress } from './paginate.js'
 import { createTransport, type RetryOptions } from './transport.js'
 
 const setup = (handler: Handler, retry: RetryOptions = {}) => {
@@ -299,5 +299,70 @@ describe('paginate modified mode', () => {
     await expect(
       collect(paginate('crm.deal.list', { order: { TITLE: 'ASC' } }, { mode: 'modified', since: at(0) }))
     ).rejects.toThrow('modified pagination orders by DATE_MODIFY and ID')
+  })
+})
+
+describe('paginate progress', () => {
+  const progressOf = async (iterable: AsyncIterable<unknown>, events: PaginateProgress[]) => {
+    await collect(iterable)
+    return events
+  }
+
+  it('counts the rows on the first cursor request and reports every page', async () => {
+    const { handler } = fakeList({ count: 120 })
+    const { paginate, requests } = setup(handler)
+    const events: PaginateProgress[] = []
+
+    await progressOf(paginate('crm.deal.list', {}, { onProgress: (event) => events.push(event) }), events)
+
+    expect(requests[0]?.body).toEqual({ filter: {}, order: { ID: 'ASC' } })
+    expect(decodeURIComponent(requests[1]?.body.cmd[0])).toContain('start=-1')
+    expect(events).toEqual([
+      { read: 50, total: 120 },
+      { read: 100, total: 120 },
+      { read: 120, total: 120 }
+    ])
+  })
+
+  it('reports the total of offset reads', async () => {
+    const { handler } = fakeList({ count: 75 })
+    const { paginate } = setup(handler)
+    const events: PaginateProgress[] = []
+    await progressOf(
+      paginate('crm.deal.list', {}, { mode: 'offset', onProgress: (event) => events.push(event) }),
+      events
+    )
+    expect(events).toEqual([
+      { read: 50, total: 75 },
+      { read: 75, total: 75 }
+    ])
+  })
+
+  it('counts only the first request of a modified read', async () => {
+    const BASE = Date.parse('2026-01-01T00:00:00.000Z')
+    const { handler } = fakeList({ count: 130, modified: (index) => new Date(BASE + (index % 3) * 1000).toISOString() })
+    const { paginate, requests } = setup(handler)
+    const events: PaginateProgress[] = []
+
+    const rows = await collect(
+      paginate(
+        'crm.deal.list',
+        {},
+        { mode: 'modified', since: new Date(BASE), onProgress: (event) => events.push(event) }
+      )
+    )
+
+    expect(rows).toHaveLength(130)
+    expect(requests[0]?.body).not.toHaveProperty('start')
+    expect(requests.slice(1).every((request) => request.body.start === -1 || request.body.cmd)).toBe(true)
+    expect(events.at(-1)).toEqual({ read: 130, total: 130 })
+    expect(events.every((event) => event.total === 130)).toBe(true)
+  })
+
+  it('leaves the total out when Bitrix does not report one', async () => {
+    const { paginate } = setup(() => ok([{ ID: '1' }]))
+    const events: PaginateProgress[] = []
+    await progressOf(paginate('custom.list', {}, { onProgress: (event) => events.push(event) }), events)
+    expect(events).toEqual([{ read: 1 }])
   })
 })
