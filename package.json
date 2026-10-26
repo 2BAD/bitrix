@@ -54,24 +54,24 @@
     "test:unit": "vitest run unit --coverage"
   },
   "volta": {
-    "node": "26.11.1",
-    "pnpm": "12.10.1"
+    "node": "26.12.1",
+    "pnpm": "12.15.0"
   },
   "devDependencies": {
     "@2bad/axiom": "2.1.0",
     "@2bad/tsconfig": "4.0.0",
     "@arethetypeswrong/cli": "0.18.5",
-    "@types/node": "26.6.4",
-    "@vitest/coverage-v8": "5.0.3",
-    "npm-run-all2": "9.0.3",
-    "oxfmt": "0.72.0",
-    "oxlint": "1.87.0",
+    "@types/node": "26.6.5",
+    "@vitest/coverage-v8": "5.0.5",
+    "npm-run-all2": "9.0.4",
+    "oxfmt": "0.74.0",
+    "oxlint": "1.89.0",
     "publint": "0.3.25",
-    "tsdown": "0.23.0",
+    "tsdown": "0.23.1",
     "typescript": "7.0.2",
-    "vitest": "5.0.3"
+    "vitest": "5.0.5"
   },
-  "packageManager": "pnpm@12.10.1",
+  "packageManager": "pnpm@12.15.0",
   "engines": {
     "node": ">=26"
   }
