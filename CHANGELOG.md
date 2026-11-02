@@ -7,6 +7,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [3.0.0] - 2026-11-02
+
 ### Highlights
 
 - **New client:** rewritten with zero runtime dependencies on top of `fetch`. See
@@ -68,5 +70,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Fixed requests failing with 401 when using an OAuth access token ([#55](https://github.com/2BAD/bitrix/issues/55))
 
-[Unreleased]: https://github.com/2BAD/bitrix/compare/v3.0.0-beta.0...HEAD
+[Unreleased]: https://github.com/2BAD/bitrix/compare/v3.0.0...HEAD
+[3.0.0]: https://github.com/2BAD/bitrix/compare/v3.0.0-beta.0...v3.0.0
 [3.0.0-beta.0]: https://github.com/2BAD/bitrix/compare/v2.5.1...v3.0.0-beta.0
